@@ -6,9 +6,9 @@ const DB = "mongodb+srv://allforone:2022sem2itp4llforone@all-for-one.p09tmlv.mon
 
 // connect to the DB
 mongoose.connect(DB, {
-  useNewUrlParser: true,
+  //useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  //useCreateIndex: true,
   dbName: "foodie-eats",
 });
 
