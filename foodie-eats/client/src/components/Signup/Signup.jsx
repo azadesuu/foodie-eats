@@ -1,94 +1,94 @@
-import React, { Component } from 'react';
-import "bootstrap/dist/css/bootstrap.min.css"
-import axios from 'axios' // send to backend
+import React, { useState } from "react";
+import { signupUser } from "../Signup/index";
 
-class App extends Component {
-    constructor(){
-        super()
-        this.state = {
-            email:'',
-            username:'',
-            password:''
-        }
-        this.changeEmail = this.changeEmail.bind(this)
-        this.changeUsername = this.changeUsername.bind(this)
-        this.changePassword = this.changePassword.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
-    }
+function Signup() {
+    localStorage.removeItem("token");
+    window.localStorage.removeItem("currentOrder");
 
-    changeEmail(event){
-        this.setState({
-            email:event.target.value
-        })
-    }
-    changeUsername(event){
-        this.setState({
-            username:event.target.value
-        })
-    }
-    changePassword(event){
-        this.setState({
-            password:event.target.value
-        })
-    }
-    onSubmit(event){
-        event.preventDefault()
-
-        const registered = {
-            fullName: this.state.fullName,
-            username: this.state.username,
-            email: this.state.email,
-            password: this.state.password
-        }
-
-        axios.post('http:localhost:4000/app/signup', registered) // POST registered (holds all data) to backend address
-            .then(response => console.log(response.data))
-
-        this.setState({
-            fullName:'',
-            username:'',
-            email:'',
-            password:''
-        }) // window.location = '/home' (if have window to send after log in)
-    }
-
-    render() {
-        return (
-            <div>
-                <div className='container'>
-                    <div className='form-div'>
-                        <form onSubmit={this.onSubmit}>
-                            <input type='text'
-                            placeholder='E-mail'
-                            onChange={this.changeEmail}
-                            value={this.state.email}
-                            className='form-control form-group'
-                            />
-
-                            <input type='text'
-                            placeholder='Username'
-                            onChange={this.changeUsername}
-                            value={this.state.username}
-                            className='form-control form-group'
-                            />
-
-                            <input type='password'
-                            placeholder='Password'
-                            onChange={this.changePassword}
-                            value={this.state.password}
-                            className='form-control form-group'
-                            />
-
-                            <input type='submit'
-                            className='btn btn-danger btn-block' 
-                            value='Submit'
-                            />
-                        </form>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    return (
+        <div className="signup">
+            <SignupForm signupUser={signupUser}/>
+        </div>
+    );
 }
 
-export default App;
+function SignupForm({ signupUser, error}) {
+    const [details, setDetails] = useState({
+        email: "",
+        username: "",
+        password: ""
+    });
+    const history = useHistory();
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            await signupUser(details);
+
+            const token = localStorage.getItem("token");
+            token ? history.push("/profile") : history.push("/signup"); // After signup go to profile page
+            document.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    return (
+        <>
+            <div>
+                <form onSubmit={submitHandler}>
+                    <div>
+                        {error !== "" ? <div className="error">{error}</div> : ""}
+                        <div className="form-group">
+                        <label htmlFor="email">Login ID (Email address)</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            onChange={(e) =>
+                            setDetails((prevDetails) => ({
+                                ...prevDetails,
+                                email: e.target.value,
+                            }))
+                            }
+                            value={details.email}
+                        />
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="username"
+                            name="username"
+                            id="username"
+                            onChange={(e) => {
+                            setDetails((prevDetails) => ({
+                                ...prevDetails,
+                                username: e.target.value,
+                            }));
+                            }}
+                            value={details.username}
+                        />
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="Password">Password (min. 8 characters, 1 letter, 1 numerical digit)</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            onChange={(e) => {
+                            setDetails((prevDetails) => ({
+                                ...prevDetails,
+                                password: e.target.value,
+                            }));
+                            }}
+                            value={details.password}
+                        />
+                        </div>
+                        <input type="submit" value="SIGN UP" />
+                    </div>
+                </form>
+          </div>
+        </>
+    );
+}
+
+export default Signup;
