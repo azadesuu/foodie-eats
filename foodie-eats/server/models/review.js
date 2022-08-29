@@ -15,26 +15,40 @@ const reviewSchema = new mongoose.Schema({
   },
   dateVisited: {
     type: Date,
+    required: true
   },
   restaurantName: {
     type: String
   },
+  price_range:{
+    type: Number,
+      min: 1,
+      max: 4,
+      default:1,
+      required:true
+  },
   rating: {
-    value: {
       type: Number,
       min: 0,
       max: 5,
-    },
-    comment: String,
+      default:0,
+      required:true
+  },  
+  description: {
+    type:String,
   },
   images:{
     type: [String]
   },
   address:{
-    type: String
+    type: String,
+    default: "",
+    required:true
   },
   public:{
-    type: Boolean
+    type: Boolean,
+    default: false,
+    required: true
   }
   ,
   tags: {
@@ -50,7 +64,18 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     required: true
+  },
+  flagged: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  flagCount: {
+    type: Int,
+    default:0,
+    requireD: true
   }
+
 });
 
 // compile the Schema into a Model
