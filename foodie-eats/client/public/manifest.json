@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "foodie_eats_192x192.svg",
-      "type": "image/svg",
+      "src": "logo192.png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "foodie_eats_512x512.svg",
-      "type": "image/svg",
+      "src": "logo512.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],

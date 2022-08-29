@@ -1,23 +1,18 @@
-import logo from './assets/logo192.png'
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+} from "react-router-dom"
+import Community from "./components/community/community"
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <li><a href= "/community">Community</a></li>
+            <Routes>
+                <Route path='/community' element= {<Community />} />
+            </Routes>
+        </Router>
+    )
 }
 
-export default App
+export default App;
