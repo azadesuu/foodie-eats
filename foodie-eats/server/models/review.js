@@ -26,7 +26,7 @@ const reviewSchema = new mongoose.Schema({
       max: 4,
       default:1,
       required:true
-  }
+  },
   rating: {
       type: Number,
       min: 0,

@@ -102,8 +102,8 @@ const updateReview = async (req, res, next) => {
 const getMyReviews = async (req, res, next) => {
     try {
       // look for all reviews from user
-      const myReviews = await Order.find({
-        userId: req.params.id,
+      const myReviews = await Review.find({
+        userId: req.params.userId,
       }).lean();
       // if there are no reviews, then respond with an error
       if (!myReviews) {
@@ -120,10 +120,10 @@ const getMyReviews = async (req, res, next) => {
   };
 
 
-//   const getReviewPostcode = async (req, res, next) => {
+//   const getReviewsPostcode = async (req, res, next) => {
 //     try {
-//       // look for all orders with status outstanding
-//       const order = await Order.findById(req.params.id);
+//       // look for review with postcode
+//       const order = await Review.findById(req.params.address.postcode);
 //       // if there are no orders, then respond with an error
 //       if (!order) {
 //         next({ name: "CastError" });
@@ -139,9 +139,57 @@ const getMyReviews = async (req, res, next) => {
 //     }
 //   };
 
+// // tbd include if tags in list
+
+  // const getReviewsTags = async (req, res, next) => {
+  //   try {
+  //     // look for review with postcode
+  //     const order = await Review.findById(req.params.tags);
+  //     // if there are no orders, then respond with an error
+  //     if (!order) {
+  //       next({ name: "CastError" });
+  //       return;
+  //     } else {
+  //       res.status(200).json({
+  //         success: true,
+  //         data: order,
+  //       });
+  //     }
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // };
+
+
+const getOneReview = async (req, res, next) => {
+  try {
+    // look for all reviews from user
+    const oneReview = await Review.findOne({
+      reviewId: req.params.reviewId,
+    }).lean();
+    // if there are no reviews, then respond with an error
+    if (!oneReview) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: myReviews,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+getReviewBookmarks
+
 module.exports = {
     createReview,
     updateReview,
     getMyReviews,
+    getReviewFilter,
+    getReviewTags,
+    getOneReview,
     // getReviewPostcode,
 }
