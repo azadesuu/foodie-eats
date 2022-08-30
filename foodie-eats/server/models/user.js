@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // const bcrypt = require("bcrypt-nodejs");
 
 const userSchema = new mongoose.Schema({
-  userId: {
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
   },
   username: {
@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
   admin: {
     type: Boolean,
     default: false
+  },
+  bio: {
+    type: String,
+    default: "none"
   }
 });
 
