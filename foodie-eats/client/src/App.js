@@ -1,4 +1,4 @@
-import logo from './assets/logo192.png'
+import logo from "./assets/logo192.png";
 function App() {
   return (
     <div className="App">
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

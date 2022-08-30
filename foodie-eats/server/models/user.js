@@ -1,6 +1,5 @@
-// model for the snack collection defined here
 const mongoose = require("mongoose");
-// const bcrypt = require("bcrypt-nodejs");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
   userId: {
@@ -21,23 +20,23 @@ const userSchema = new mongoose.Schema({
   },
   profile_image: {
     type: String,
-    default: "none"
+    default: "none",
   },
-  theme : {
+  theme: {
     type: String,
-    enum: ["honeydew","shokupan","boring","blueberry","dragonfruit"],
+    enum: ["honeydew", "shokupan", "boring", "blueberry", "dragonfruit"],
     default: "honeydew",
-    required: true
+    required: true,
   },
   bookmarks: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Review",
-      required: true
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Review",
+    required: true,
   },
   admin: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 // // method for generating a hash; used for password hashing

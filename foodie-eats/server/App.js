@@ -23,8 +23,10 @@ app.use(express.json());
 
 const userRoutes = require("./routes/routes");
 app.use("/user", userRoutes);
+app.use("/login", userRoutes);
+app.use("/password-reset", userRoutes);
 
 module.exports = {
   app,
-  server
+  server,
 };
