@@ -23,4 +23,4 @@ reviewRouter.get("/:rating?/:price_range?", reviewController.getReviewFilter);
 // // orderRouter.get("/community/:postcode", reviewController.getReviewPostcode);
 
 
-module.exports = orderRouter
+module.exports = reviewRouter

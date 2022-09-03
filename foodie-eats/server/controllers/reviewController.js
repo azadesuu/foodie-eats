@@ -189,7 +189,7 @@ module.exports = {
     updateReview,
     getMyReviews,
     getReviewFilter,
-    getReviewTags,
+    // getReviewTags,
     getOneReview,
     // getReviewPostcode,
 }

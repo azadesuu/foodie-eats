@@ -7,4 +7,4 @@ const reviewRouter = express.Router();
 reviewRouter.patch("/update/:id", reviewController.updateReview);
 
 
-module.exports = orderRouter
+module.exports = reviewRouter
