@@ -78,7 +78,68 @@ function ForgetPassword() {
     </div>
   )
 }
-
+function SignUpEmail() {
+    return(
+        <div className='form-control'>
+        <label>Email </label>
+        <input 
+            type="text" 
+            placeholder="enter your email here" 
+            name="email" 
+            id="email" 
+            // value="{{email}}"
+            required
+        />
+        </div>
+    )
+}
+function SignUpUsername() {
+    return(
+        <div className='form-control'>
+        <label>Username </label>
+        <input 
+            type="text" 
+            placeholder="enter your username here" 
+            name="username" 
+            id="username" 
+            // value="{{username}}"
+            required
+        />
+        </div>
+    )
+}
+function SignUpPw() {
+    return(
+        <div className='form-control'>
+        <label>Password </label>
+        <input 
+            type="text" 
+            placeholder="enter your password here" 
+            name="password" 
+            id="password" 
+            // value="{{password}}"
+            required
+        />
+        </div>
+    )
+}
+function SignUpPwCon() {
+    return(
+        <div className='form-control-signup-pw-con'>
+        <div className='form-control'>
+            <label>Confirm Password </label>
+            <input 
+            type="text" 
+            placeholder="enter your password again" 
+            name="password" 
+            id="password" 
+            // value="{{password}}"
+            required
+            />
+        </div>
+        </div>
+    )
+}
 const theme = createTheme({
   palette: {
     background: {
@@ -283,7 +344,7 @@ function Nav() {
   );
 }
 
-function Login() {
+function Register() {
   return (
     <div className='content'>
       <Nav />
@@ -298,7 +359,15 @@ function Login() {
         <p>OR</p>
         <div className='line'></div>
       </div>
-      <a className='signup' href='#'>SIGN UP</a>
+      <form action="#" method="post" class="form" id="form">
+        <SignUpEmail />
+        <SignUpUsername />
+        <SignUpPw />
+        <SignUpPwCon />
+      </form>
+      <div className='signup-done'>
+        <a className='done' href='#'>DONE</a> 
+      </div>
       <div className='footer'>
         <p>copyright © 2022 All-for-one</p>
       </div>
@@ -306,4 +375,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
