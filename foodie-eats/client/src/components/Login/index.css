@@ -4,80 +4,70 @@ span.bigScreen {
 span.smallScreen {
     display: none;
 }
-@media screen and (max-width: 1023px) { 
+@media screen and (min-width: 700px) {
+    #form-control-pw {
+        margin-right: -62px;
+        width: 483px;
+    }
+    .form-control input {
+        width: 399px;  
+    }
+    .forgetpw a{
+        margin-left: -107px;
+    }
+    .line {
+        width: 318px;
+    }
+}
+@media screen and (max-width: 700px) { 
     span.bigScreen {
         display: none;
     }
     span.smallScreen {
         display: inline;
     }
+    .form-control {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-control label {
+        margin-left: -240px;
+    }
+    .forgetpw a{
+        margin-left: -170px;
+    }
+    .line {
+        width: 250px;
+    }
+}
+@media screen and (max-width: 600px) { 
+    .line {
+        width: 170px;
+    }
 }
 :root {
     box-sizing: border-box;
 }
-.nav {
-    background-color: #BEE5B0;
-    position: fixed;
-    top: 20px;
-    left: 40px;
-    right: 40px;
-    height: 100px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-}
-.navbar a:hover {
-    border-bottom: 2px solid #000000;
-    padding-bottom: 29px;
-}
-.navbar a:active {
-    border-bottom: 2px solid #000000;
-    padding-bottom: 29px;
-}
-.nav img {
-    display: block;
-    width: 70px;
-    margin-left: 40px;
-    margin-top: -4px;
-}
-/* .loginLine {
-    border-bottom: 2px solid #000000;
-    padding-bottom: 29px;
-} */
-.navbar {
-    display: flex;
-    height: 100px;
-    align-items: center;
-}
-.nav li {
-    list-style-type: none;
-    font-size: 20px;
-}
-.navbar li:first-child {
-    margin-left: 40px;
-}
-#loginNav {
-    position: absolute;
-    right: 40px;
-}
-.dropdwn {
-    display: none;
-    background-color: #ECE7E5;
-    position: fixed;
-    height: 100%;
-    bottom: 0;
-    width: 50%;
-    left: 0;
-}
 .dropdwn-content {
-    display: grid;
-    margin-top: 40px;
-    margin-left: 30px;
-    gap: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
 }
-.dropdwn img {
-    width: 107px;
+.dropdwn-link {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-left: -30px;
+    margin-top: 20px;
+    gap: 4px;
 }
+.dropdwn-back {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 body {
     margin-top: 230px;
     background-color: #FFFEEC;
@@ -85,6 +75,7 @@ body {
     font-family: "Martel Sans";
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 .content {
     margin-top: -90px;
@@ -100,7 +91,16 @@ body {
 .row {
     display: flex;
     gap: 6px;
-    width: 100%;
+    background-color: #D9D9D9;
+    max-width: 346px;
+    border-radius: 10px;
+}
+form {
+    max-width: 505px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0 auto;
 }
 .form-control {
     margin-bottom: 40px;
@@ -109,6 +109,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    max-width: 483px;
 }
 .form-control label {
     font-size: 20px;
@@ -119,16 +120,12 @@ body {
     background: #D9D9D9;
     border-radius: 10px;
     display: block;
-    width: 399px;
+    width: 330px;
     height: 40px;
     padding: 8px;
     font-size: 20px;
 }
-#form-control-pw {
-    margin-right: -62px;
-}
 .forgetpw {
-    margin-left: 182px;
     font-size: 15px;
     text-decoration: underline;
 }
@@ -139,7 +136,6 @@ body {
 }
 .line {
     border-top: 1px solid #000000;
-    width: 318px;
     margin-top: 28px;
 }
 .signup {

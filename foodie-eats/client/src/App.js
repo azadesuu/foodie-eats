@@ -6,11 +6,11 @@ function App() {
   return (
     <>
     <div>
-        <Routes>
-            <Route path= "/" element={<Login/>} >
-          </Route>
-        </Routes>
-      </div>
+      <Routes>
+          <Route path= "/" element={ <Login/> } >
+        </Route>
+      </Routes>
+    </div>
     </>
   )
 }
