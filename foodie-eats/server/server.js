@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: false })) // replaces body-parser
 app.use(express.static('public'))	
 //routes
 const userRoutes = require("./routes/passport/userRoutes");
-const reviewRoutes = require("./routes/review/reviewRoutes");
+const reviewRoutes = require("./routes/user/reviewRoutes");
 
 // const userRoutes = require("./routes/passport/userRoutes");
 // const customerRoutes = require("./routes/customer/customerRoutes");
@@ -74,6 +74,7 @@ app.use(express.json());
 
 //app functions
 app.use("/", userRoutes);
+app.use("/review", reviewRoutes);
 
 module.exports = {
   app,

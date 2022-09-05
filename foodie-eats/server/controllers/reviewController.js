@@ -4,10 +4,9 @@ const User = require("../models/user");
 // get express-validator, to validate user data in forms
 const expressValidator = require('express-validator')
 
-
 const createReview = async (req, res, next) => {
     const {
-        userId,
+        username,
         dateVisited,
         restaurantName,
         rating,
@@ -18,7 +17,7 @@ const createReview = async (req, res, next) => {
         tags
       } = req.body;
     try {
-      const userExists = await User.exists({ _id: userId });
+      const userExists = await User.exists({ username:username });
       if (!userExists) {
         next({ name: "CastError" });
         return;
@@ -26,10 +25,11 @@ const createReview = async (req, res, next) => {
   
       // create new  object
       const newReview = new Review({
-        userId,
+        username,
         dateVisited,
         restaurantName,
         rating,
+        address,
         description,
         images,
         address,

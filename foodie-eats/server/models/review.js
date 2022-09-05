@@ -17,6 +17,10 @@ const addressSchema = new mongoose.Schema({
     type:String,
     default: "Victoria"
   },
+  suburb:{
+    type: String,
+    default:"Melbourne"
+  },
   country: {
     type: String,
     default: "Australia"
@@ -26,7 +30,7 @@ const reviewSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    // required: true,
   },
   dateReviewed: {
     type: Date,
@@ -40,6 +44,7 @@ const reviewSchema = new mongoose.Schema({
   restaurantName: {
     type: String
   },
+  address: addressSchema,
   price_range:{
     type: Number,
       min: 1,
@@ -60,7 +65,6 @@ const reviewSchema = new mongoose.Schema({
   images:{
     type: [String]
   },
-  address: addressSchema,
   public:{
     type: Boolean,
     default: false,

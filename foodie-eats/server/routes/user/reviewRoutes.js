@@ -3,13 +3,13 @@ const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
 
 // create review
-reviewRouter.post("/", reviewController.createReview);
+reviewRouter.post("/new-review", reviewController.createReview);
 
 // get all user reviews
 reviewRouter.get("/:userId", reviewController.getMyReviews);
 
 // get reviews based on rating and price range  (either is optional)
-reviewRouter.get("/:rating?/:price_range?", reviewController.getReviewFilter);
+// reviewRouter.get("/:rating?/:price_range?", reviewController.getReviewFilter);
 
 // // get reviews based on bookmarked
 // reviewRouter.get("/:bookmarks", reviewController.getReviewBookmarks);
