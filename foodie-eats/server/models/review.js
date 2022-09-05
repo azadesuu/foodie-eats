@@ -2,6 +2,26 @@
 const mongoose = require("mongoose");
 
 
+const addressSchema = new mongoose.Schema({
+  street_address: {
+    type: String,
+    required: true
+  },
+  postcode: {
+    type:Number,
+    min:3000,
+    max:3999,
+    default:3000
+  },
+  state: {
+    type:String,
+    default: "Victoria"
+  },
+  country: {
+    type: String,
+    default: "Australia"
+  }
+})
 const reviewSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,26 +35,36 @@ const reviewSchema = new mongoose.Schema({
   },
   dateVisited: {
     type: Date,
+    required: true
   },
   restaurantName: {
     type: String
   },
+  price_range:{
+    type: Number,
+      min: 1,
+      max: 4,
+      default:1,
+      required:true
+  },
   rating: {
-    value: {
       type: Number,
       min: 0,
       max: 5,
-    },
-    comment: String,
+      default:0,
+      required:true
+  },  
+  description: {
+    type:String,
   },
   images:{
     type: [String]
   },
-  address:{
-    type: String
-  },
+  address: addressSchema,
   public:{
-    type: Boolean
+    type: Boolean,
+    default: false,
+    required: true
   }
   ,
   tags: {
@@ -50,10 +80,22 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     required: true
+  },
+  flagged: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  flagCount: {
+    type: Number,
+    default:0,
+    requireD: true
   }
+
 });
 
 // compile the Schema into a Model
-const Order = mongoose.model("review", reviewSchema);
+const Review = mongoose.model("review", reviewSchema);
+const Address = mongoose.model("address", addressSchema);
 
 module.exports = Review;

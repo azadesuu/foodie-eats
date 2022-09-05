@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const Joi = require("joi");
+// const Joi = require("joi");
+const bcrypt = require('bcrypt-nodejs')
+
 
 const userSchema = new mongoose.Schema({
   userId: {
@@ -8,6 +10,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true
   },
   email: {
     type: String,
@@ -22,7 +25,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "none",
   },
-  theme: {
+  bio : {
+    type: String,
+    default: "This person loves food too much to think of a bio right now!"
+  }
+  ,theme: {
     type: String,
     enum: ["honeydew", "shokupan", "boring", "blueberry", "dragonfruit"],
     default: "honeydew",
@@ -31,23 +38,27 @@ const userSchema = new mongoose.Schema({
   bookmarks: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Review",
-    required: true,
+    default: []
   },
   admin: {
     type: Boolean,
-    default: false,
+    default: false
   },
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-// // method for generating a hash; used for password hashing
-// userSchema.methods.generateHash = function (password) {
-//   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-// };
+// method for generating a hash; used for password hashing
+userSchema.methods.generateHash = function (password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
 
-// // checks if password is valid
-// userSchema.methods.validPassword = function (password) {
-//   return bcrypt.compareSync(password, this.password);
-// };
+// checks if password is valid
+userSchema.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 // compile the Schema into a Model
 const User = mongoose.model("users", userSchema);

@@ -1,23 +1,45 @@
-import logo from "./assets/logo192.png";
+// import logo from "./assets/logo192.png";
+// import { useDispatch } from 'react-redux';
+// import { useEffect }, React from 'react';
+// import { getReviews } from './actions/reviews'
+//dispatch an action
+// import { createReview } from './actions/reviews'
+
+// const App = () => {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getReviews());}, [dispatch]);
+  // use actions from server
+
+  // // const handleSubmit = () => {
+  //     e.preventDefault()
+  //     dispatch(createReview(reviewData))
+  // }
+  //
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Community from './components/Community';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+// import ForgotPassword from './components/ForgotPassword';
+// import MyProfile from './components/MyProfile';
+
+import './App.css';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <div>
+        <Routes>
+            <Route index path= "/" element={<Community/>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp/>} />
+            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+            {/* <Route path="/my-profile" element={<MyProfile/>} /> */}
+        </Routes>
+
+      </div>
+    </>
+  )
 }
 
 export default App;

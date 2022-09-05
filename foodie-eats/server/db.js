@@ -1,16 +1,18 @@
+  
 // set up db connection
 require("dotenv").config();
 const mongoose = require("mongoose");
 
 const DB =
-  "mongodb+srv://allforone:2022sem2itp4llforone@all-for-one.p09tmlv.mongodb.net/?retryWrites=true&w=majority" ||
+   process.env.DATABASE_ACCESS ||
   "mongodb://localhost:27017/foodie-eats";
 
 // connect to the DB
 mongoose.connect(DB, {
-  //useNewUrlParser: true,
+  // useCreateIndex: true,
+  useNewUrlParser: true,
   useUnifiedTopology: true,
-  //useCreateIndex: true,
+  // useFindAndModify: false,
   dbName: "foodie-eats",
 });
 

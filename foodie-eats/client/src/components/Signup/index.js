@@ -1,41 +1,68 @@
-import axios from "axios";
+import {useRef, useState, useEffect, useContext} from 'react';
+import { GoogleLogin, googleLogout  } from '@react-oauth/google';
+import React from "react";
+import { useHistory } from "react-router";
+import { signupUser } from "../../api";
+import { Navigate } from "react-router-dom";
 
-const BASE_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:4000";
 
-export async function signupUser(user) {
-  localStorage.removeItem("token");
+/*
+  Generate a signup form
+*/
+function SignUp() {
+  
+  // state hook functions   
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const { email, username, password } = user;
+    function onSubmit() {
+        signupUser({
+            username:username,
+            email:email,
+            password:password
+        });
 
-  if (!email || !username || !Password) {
-    alert("Please provide valid email, username, and password.");
-    return;
-  }
-
-  const endpoint = BASE_URL + "/user/signup";
-  let data = await axios({
-    url: endpoint,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify(
-      {
-        email,
-        username,
-        password,
-      },
-      { withCredentials: true }
-    ),
-  })
-    .then((res) => res.data)
-    .catch(() => {
-      return;
-    });
-
-  if (data.message) {
-    alert(data.message);
-  } else {
-    localStorage.setItem("token", data);
-  }
+        // redirect to login
+        const state = { redirect: "/login" };
+        return <Navigate to={state.redirect} />
+    }
+  return (
+      <div>
+          <form>
+              <input
+                  type="text"
+                  name="username"
+                  id="username"                
+                  value={username}
+                  placeholder="username"  
+                  onChange={event => {
+                    setUsername(event.target.value);
+                  }}                  
+              />
+              <input
+                  type="text"
+                  name="email"
+                  id="email"                
+                  value={email}
+                  onChange={event => {
+                    setEmail(event.target.value);
+                  }}                      
+              />
+              <input
+                  type="password"
+                  name="password"
+                  id="password"                
+                  value={password}
+                  onChange={event => {
+                    setPassword(event.target.value);
+                  }}                      
+              />
+              <input type="button" value="Sign Up" onClick={onSubmit}/>
+          </form>
+      </div>
+      
+  );
 }
+
+export default SignUp;

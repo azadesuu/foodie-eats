@@ -1,32 +1,32 @@
-require("./db");
-const http = require("http");
-const express = require("express");
-const cors = require("cors");
-const socketio = require("socket.io");
-const app = express();
+// require("./db");
+// const http = require("http");
+// const express = require("express");
+// const cors = require("cors");
+// const socketio = require("socket.io");
+// const app = express();
 
-app.use(cors());
-const port = process.env.PORT || 4000;
-const server = http.createServer(app);
-const io = socketio(server, {
-  cors: {
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
+// //routes
+// const userRoutes = require("./routes/passport/userRoutes");
 
-server.listen(port, () => {
-  console.log(`The server is listening on port ${port}!`);
-});
+// app.use(cors());
+// const port = process.env.PORT || 4000;
+// const server = http.createServer(app);
+// const io = socketio(server, {
+//   cors: {
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+// });
 
-app.use(express.json());
+// server.listen(port, () => {
+//   console.log(`The server is listening on port ${port}!`);
+// });
 
-const userRoutes = require("./routes/routes");
-app.use("/user", userRoutes);
-app.use("/login", userRoutes);
-app.use("/password-reset", userRoutes);
+// app.use(express.json());
 
-module.exports = {
-  app,
-  server,
-};
+// app.use("/", userRoutes);
+
+// module.exports = {
+//   app,
+//   server,
+// };
