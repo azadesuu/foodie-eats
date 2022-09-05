@@ -8,11 +8,11 @@ function Community() {
   const [listOfReviewsByLikes, setListOfReviewsByLikes] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/getReviewsByRecent").then((response) => {
+    Axios.get("http://localhost:5000/review/getReviewsByRecent").then((response) => {
       setListOfReviews(response.data)
     });
 
-    Axios.get("http://localhost:5000/getReviewsByLikes").then((response) => {
+    Axios.get("http://localhost:5000/review/getReviewsByLikes").then((response) => {
       setListOfReviewsByLikes(response.data)
     });
 

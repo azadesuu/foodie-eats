@@ -19,7 +19,7 @@ require('./config/passport')(passport);
 // IMPORTANT to enable CORS -- see  Week 7 lectures
 app.use(cors({
 credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-origin: "http://localhost:3002" // or your heroku url
+origin: "http://localhost:5000" // or your heroku url
 }));
 
 
@@ -47,7 +47,9 @@ app.use(express.urlencoded({ extended: false })) // replaces body-parser
 app.use(express.static('public'))	
 //routes
 const userRoutes = require("./routes/passport/userRoutes");
-const reviewRoutes = require("./routes/user/reviewRoutes");
+const reviewRoutes = require("./routes/user/reviewRoutes");  
+const accountRoutes = require("./routes/user/accountRoutes");  
+  
 
 // const userRoutes = require("./routes/passport/userRoutes");
 // const customerRoutes = require("./routes/customer/customerRoutes");
@@ -74,6 +76,7 @@ app.use(express.json());
 
 //app functions
 app.use("/", userRoutes);
+app.use("/account", accountRoutes);
 app.use("/review", reviewRoutes);
 
 module.exports = {

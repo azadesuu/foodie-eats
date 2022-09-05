@@ -20,6 +20,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Community from './components/Community';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import MyProfile from './components/MyProfile';
 // import ForgotPassword from './components/ForgotPassword';
 // import MyProfile from './components/MyProfile';
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path='/community' element= {<Community />} />
+            <Route path='/my-profile' element= {<MyProfile />} />
             {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             {/* <Route path="/my-profile" element={<MyProfile/>} /> */}
         </Routes>

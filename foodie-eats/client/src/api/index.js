@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.BASE_URL || "http:/localhost:5000"
+const BASE_URL = "http:/localhost:5000"
 
 axios.interceptors.request.use(
     config => {
@@ -27,27 +27,31 @@ export async function loginUser(user) {
     }
   
     const endpoint = BASE_URL + `/login`;
-  
+    console.log(endpoint)
     // POST the email and password to API to
     // authenticate user and receive the token explicitly
-    let data = await axios({
-      url: endpoint,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify(
-        {
-          username: username,
-          password: password,
-        },
-        { withCredentials: true }
-      ),
+    // let data = await axios({
+    //   url: endpoint,
+    //   method: "POST",
+    //   // headers: {
+    //   //   "Content-Type": "application/json",
+    //   // },
+    //   data: JSON.stringify(
+    //     {
+    //       username: username,
+    //       password: password,
+    //     }
+    //     // { withCredentials: true }
+    //   ),
+    // })
+    //   .then((res) => res.data)
+    //   .catch(() => {
+    //     alert("Email not found or password doesn't match.");
+    //   });
+    let data = await axios.post("http://localhost:5000"+'/login', {
+      username: username, "password":password
     })
-      .then((res) => res.data)
-      .catch(() => {
-        alert("Email not found or password doesn't match.");
-      });
+
   
     if (data) {
       // store token locally
@@ -111,8 +115,6 @@ export const getUser = (jwt) => {
       localStorage.setItem("token", data);
     }
   }
-
-
 
 export const fetchReviews = () => axios.get(BASE_URL)
 export const createReview = (newReview) => axios.post(BASE_URL, newReview)
