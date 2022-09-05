@@ -2,11 +2,8 @@ import React from 'react'; // required
 import './index.css';
 
 import "@fontsource/martel-sans";
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginIcon from '@mui/icons-material/Login';
 
-import { WebLogo } from '../../assets/images/foodie_eats_192x192.svg';
-import { IconButton } from '@mui/material';
+// import { WebLogo } from '../../assets/images/foodie_eats_192x192.svg';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
@@ -167,7 +164,7 @@ function Nav() {
                             }}
                           >
                             <div className="dropdwn-content">
-                              <img src={ WebLogo } width="107px"/>
+                              {/* <img src={ WebLogo } width="107px"/> */}
                               <div className="dropdwn-link">
                                 <MenuItem onClick={handleClose}><a href="#">community</a></MenuItem>
                                 <MenuItem onClick={handleClose}><a href="#">login</a></MenuItem>
@@ -230,7 +227,7 @@ function Nav() {
               }}>
               <Toolbar>
                 <Link href='#' style={{ textDecoration: 'none' }}>
-                  <Button color="inherit"><img src={ WebLogo } width="70px"/></Button>
+                  {/* <Button color="inherit"><img src={ WebLogo } width="70px"/></Button> */}
                 </Link>
                 <Grid container justifyContent="space-between">
                   <Box sx={{ alignItems: 'center', display: 'flex' }}>
