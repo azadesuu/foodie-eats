@@ -2,14 +2,14 @@ import axios from "axios";
 
 const SERVER_URL = "http:/localhost:5000"; //server url
 
+// add token to every request made to API
 axios.interceptors.request.use(
   (config) => {
     const { origin } = new URL(config.url);
-    const allowedOrigins = [SERVER_URL];
-    const token = localStorage.getItem("token"); // get the token
-
+    const allowedOrigins = [BASE_URL];
+    const token = localStorage.getItem("token");
     if (allowedOrigins.includes(origin)) {
-      config.headers.authorization = `Bearer ${token}`; // we put our token in the header
+      config.headers.authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -98,8 +98,11 @@ export async function signupUser(user) {
   }
 }
 
-export async function forgotPassword(userEmail) {
-  const { email } = email;
+export async function forgotPassword(email) {
+  return axios
+    .post(`${SERVER_URL}/forgotPassword`, email)
+    .then((res) => res?.data?.data)
+    .catch((err) => console.log(err));
 }
 //-------------------------------------------------
 // community page
@@ -220,7 +223,7 @@ export const getBookmarks = (userId) => {
 // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
 export const getBookmarksSearch = (searchValue) => {
   return axios
-    .get(`${SERVER_URL}/review?search=${searchValue}`)
+    .get(`${SERVER_URL}/review/mybookmarks?search=${searchValue}`)
     .then((res) => res?.data?.data)
     .catch((err) => console.log(err));
 };
@@ -230,7 +233,7 @@ export const getBookmarksSearch = (searchValue) => {
 // If we need to work with numbers, and convert query statements from text to number, we can simply add a plus sign in front of statement.
 export const getBookmarksFilter = (rating, priceRange) => {
   return axios
-    .get(`${SERVER_URL}/review?rt=${rating}&$pr=${priceRange}`)
+    .get(`${SERVER_URL}/review/mybookmarks?rt=${rating}&$pr=${priceRange}`)
     .then((res) => res?.data?.data)
     .catch((err) => console.log(err));
 };
@@ -250,6 +253,7 @@ export const getMyProfile = (userId) => {
     .catch((err) => console.log(err));
 };
 
+//--- My Reviews
 export const getMyReviews = (userId) => {
   return axios
     .get(`${SERVER_URL}/account/myReviews/${userId}`)
@@ -257,7 +261,27 @@ export const getMyReviews = (userId) => {
     .catch((err) => console.log(err));
 };
 
-export const editMyProfile = (edits) => {
+
+// use req.query.search
+// https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
+// https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
+export const getMyReviewsSearch = (search) => {
+  return axios
+    .get(`${SERVER_URL}/account/myReviews/search?=${tagValue}`)
+    .then((res) => res?.data?.data)
+    .catch((err) => console.log(err));
+};
+
+export const getMyReviewsTag = (tagValue) => {
+  return axios
+    .get(`${SERVER_URL}/account/myReviews/search?=${tagValue}`)
+    .then((res) => res?.data?.data)
+    .catch((err) => console.log(err));
+};
+
+//--- Profile Edits
+
+export const editMyProfile = (profile) => {
   const { username, profile_image, bio } = profile;
 
   return axios
@@ -266,9 +290,11 @@ export const editMyProfile = (edits) => {
     .catch((err) => console.log(err));
 };
 
-export const changePassword = (password) => {
+export const changePassword = (oldPassword, newPassword) => {
+
+  const passwords= { oldPassword, newPassword };
   return axios
-    .patch(`${SERVER_URL}/account/changePassword/${userId}`, password)
+    .patch(`${SERVER_URL}/account/changePassword/${userId}`, passwords)
     .then((res) => res?.data?.data)
     .catch((err) => console.log(err));
 };

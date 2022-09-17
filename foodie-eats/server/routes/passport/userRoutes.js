@@ -9,7 +9,6 @@
 
 // userRouter.get("/", userController.getUsers);
 
-
 // // Forgot password
 // userRouter.post("/forgot-password", userController.forgotPassword);
 
@@ -84,7 +83,7 @@ userRouter.post("/signup", async (req, res, next) => {
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
 
-        const { _id, username, email} = user;
+        const { _id, username, email } = user;
         const body = { _id, username, email };
 
         // sign the JWT token and populate the payload with the user details
@@ -107,11 +106,6 @@ userRouter.post("/signup", async (req, res, next) => {
   })(req, res, next);
 });
 
-// GET login form
-// userRouter.get("/", (req, res) => {
-//   res.send({ login: "required" });
-// });
-
 // GET user details associated with stored token
 userRouter.get("/findTokenUser", async (req, res) => {
   try {
@@ -127,8 +121,5 @@ userRouter.get("/findTokenUser", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-module.exports = userRouter;
-
 
 module.exports = userRouter;
