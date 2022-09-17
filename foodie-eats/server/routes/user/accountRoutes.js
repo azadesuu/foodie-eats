@@ -2,6 +2,9 @@ const express = require("express");
 const accountRouter = express.Router();
 const User = require("../../models/user");
 
+const reviewController = require("../../controllers/accountController");
+
+// finds the newest user
 accountRouter.get("/getUsers", (req, res) => {
     User.find({}, (err, result) => {
         if (err) {

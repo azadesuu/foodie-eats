@@ -108,12 +108,12 @@ userRouter.post("/signup", async (req, res, next) => {
 });
 
 // GET login form
-userRouter.get("/", (req, res) => {
-  res.send({ login: "required" });
-});
+// userRouter.get("/", (req, res) => {
+//   res.send({ login: "required" });
+// });
 
 // GET user details associated with stored token
-userRouter.get("/find", async (req, res) => {
+userRouter.get("/findTokenUser", async (req, res) => {
   try {
     const token = req.headers["x-auth-token"];
     if (!token) return res.json(false);

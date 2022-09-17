@@ -30,6 +30,12 @@ reviewRouter.post("/new-review", reviewController.createReview);
 // get all user reviews
 reviewRouter.get("/:userId", reviewController.getMyReviews);
 
+// get all user reviews
+reviewRouter.get("/:reviewId", reviewController.getOneReview);
+ 
+// get all user reviews
+reviewRouter.get("/:reviewId", reviewController.updateReview);
+
 // get reviews based on rating and price range  (either is optional)
 // reviewRouter.get("/:rating?/:price_range?", reviewController.getReviewFilter);
 

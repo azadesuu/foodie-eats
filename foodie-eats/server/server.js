@@ -19,7 +19,7 @@ require('./config/passport')(passport);
 // IMPORTANT to enable CORS -- see  Week 7 lectures
 app.use(cors({
 credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-origin: "http://localhost:5000" // or your heroku url
+origin: "http://localhost:3000" // or your heroku url
 }));
 
 

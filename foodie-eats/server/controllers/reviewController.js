@@ -6,6 +6,7 @@ const expressValidator = require('express-validator')
 
 const createReview = async (req, res, next) => {
     const {
+        user_id,
         username,
         dateVisited,
         restaurantName,
@@ -13,11 +14,11 @@ const createReview = async (req, res, next) => {
         description,
         images,
         address,
-        public,
+        publicBool,
         tags
       } = req.body;
     try {
-      const userExists = await User.exists({ username:username });
+      const userExists = await User.exists({ _id:user_id });
       if (!userExists) {
         next({ name: "CastError" });
         return;
@@ -25,6 +26,7 @@ const createReview = async (req, res, next) => {
   
       // create new  object
       const newReview = new Review({
+        user_id,
         username,
         dateVisited,
         restaurantName,
@@ -33,7 +35,7 @@ const createReview = async (req, res, next) => {
         description,
         images,
         address,
-        public,
+        publicBool,
         tags
       });
       // adds new review to the collection
@@ -100,7 +102,7 @@ const updateReview = async (req, res, next) => {
           },
           }
       );
-      const newReview = await Review.findById(req.params.id);
+      const newReview = await Review.findById(req.params.reviewId);
       // if this review doesn't exist, send a 400 error
       if (!newReview) {
           next({ name: "CastError" });
