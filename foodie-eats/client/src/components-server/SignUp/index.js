@@ -44,6 +44,7 @@ function SignUp() {
                   name="email"
                   id="email"                
                   value={email}
+                  placeholder="email"  
                   onChange={event => {
                     setEmail(event.target.value);
                   }}                      
@@ -51,7 +52,8 @@ function SignUp() {
               <input
                   type="password"
                   name="password"
-                  id="password"                
+                  id="password"    
+                  placeholder="password"              
                   value={password}
                   onChange={event => {
                     setPassword(event.target.value);

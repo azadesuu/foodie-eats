@@ -2,7 +2,7 @@ const express = require("express");
 const accountRouter = express.Router();
 const User = require("../../models/user");
 
-const reviewController = require("../../controllers/accountController");
+const accountController = require("../../controllers/accountController");
 
 // finds the newest user
 accountRouter.get("/getUsers", (req, res) => {

@@ -1,9 +1,9 @@
 {
-    "name": "prettier-config-example",
-    "scripts": {
-        "format": "prettier --write 'foodie-eats/server/**/*.js' 'foodie-eats/client/src/**/*.js'"
-    },
-    "devDependencies": {
-        "prettier": "1.19.1"
-    }
+  "name": "prettier-config-example",
+  "scripts": {
+    "format": "prettier --write 'foodie-eats/server/**/*.js' 'foodie-eats/client/src/**/*.{js,css}'"
+  },
+  "devDependencies": {
+    "prettier": "1.19.1"
+  }
 }

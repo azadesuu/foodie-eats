@@ -3,19 +3,6 @@
 // const userRouter = express.Router();
 
 // // Login
-// userRouter.post("/login", userController.loginUser);
-// // Signup
-// userRouter.post("/signup", userController.signUpUser);
-
-// userRouter.get("/", userController.getUsers);
-
-// // Forgot password
-// userRouter.post("/forgot-password", userController.forgotPassword);
-
-// userRouter.post("/:userId/:token", userController.resetPassword);
-
-// Based on Week 9 demo files (FoodBuddy API)
-
 require("dotenv").config();
 const express = require("express");
 
@@ -26,37 +13,44 @@ const passport = require("passport");
 require("../../config/passport")(passport);
 
 const userRouter = express.Router();
+const Joi = require("joi");
+const sendEmail = require("../../sendEmail.js");
+const crypto = require("crypto");
+const User = require("../../models/user");
+const Token = require("../../models/token");
 
 // POST login -- using JWT
 userRouter.post("/login", async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err) {
+        // 500 error
         const error = new Error("An Error occurred");
         return next(error);
-      }
-      if (!user) {
-        const error = new Error("No user was found with the given username");
+      } else if (!user) {
+        const error = new Error("No user was found with the given email");
         return next(error);
-      }
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
+      } else {
+        req.logIn(user, { session: false }, async error => {
+          if (error) return next(error);
 
-        const { _id, username, email } = user;
-        const body = { _id, username, email };
+          const { _id, email, username } = user;
+          const body = { _id, email, username };
 
-        // sign the JWT token and populate the payload with the user details
-        const token = jwt.sign({ body }, process.env.PASSPORT_KEY);
-        res.status(200);
+          // sign the JWT token and populate the payload with the user details
+          const token = jwt.sign({ body }, process.env.PASSPORT_KEY);
 
-        res.cookie("jwt", token, {
-          httpOnly: false,
-          sameSite: false,
-          secure: true,
-          domain: process.env.BASE_URL,
+          return res
+            .status(200)
+            .cookie("jwt", token, {
+              httpOnly: false,
+              sameSite: false,
+              secure: true,
+              domain: process.env.SERVER_URL
+            })
+            .json(token);
         });
-        return res.json(token);
-      });
+      }
     } catch (error) {
       return next(error);
     }
@@ -79,26 +73,8 @@ userRouter.post("/signup", async (req, res, next) => {
       if (user.message) {
         return res.json(user);
       }
-      // otherwise login the new user
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const { _id, username, email } = user;
-        const body = { _id, username, email };
-
-        // sign the JWT token and populate the payload with the user details
-        const token = jwt.sign({ body }, process.env.PASSPORT_KEY);
-
-        res.status(200);
-
-        res.cookie("jwt", token, {
-          httpOnly: false,
-          sameSite: false,
-          secure: true,
-          domain: process.env.BASE_URL,
-        });
-
-        return res.json(token);
+      res.status(200).json({
+        success: true
       });
     } catch (error) {
       return next(error);
@@ -115,10 +91,69 @@ userRouter.get("/findTokenUser", async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: decoded,
+      data: decoded
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+userRouter.post("/password-reset/:userId/:token", async (req, res) => {
+  try {
+    const schema = Joi.object({ password: Joi.string().required() });
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(400).send("invalid link or expired");
+
+    const token = await Token.findOne({
+      userId: user._id,
+      token: req.params.token
+    });
+    if (!token) return res.status(400).send("Invalid link or expired");
+
+    user.password = req.body.password;
+    await user.save();
+    await token.delete();
+
+    res.send("password reset sucessfully.");
+  } catch (error) {
+    res.send("An error occured");
+    console.log(error);
+  }
+});
+
+userRouter.post("/forgotPassword", async (req, res) => {
+  try {
+    const schema = Joi.object({
+      email: Joi.string()
+        .email()
+        .required()
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findOne({ email: req.body.email });
+    if (!user)
+      return res.status(400).send("user with given email doesn't exist");
+
+    let token = await Token.findOne({ userId: user._id });
+    if (!token) {
+      token = await new Token({
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex")
+      }).save();
+    }
+
+    const link = `${process.env.SERVER_URL}/password-reset/${user._id}/${token.token}`;
+    await sendEmail(user.email, "Password reset", link);
+
+    res.send("password reset link sent to your email account");
+  } catch (error) {
+    res.send("An error occured");
+    console.log(error);
   }
 });
 

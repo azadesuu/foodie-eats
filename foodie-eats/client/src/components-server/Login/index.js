@@ -7,7 +7,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
   // state hook functions
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -15,10 +15,6 @@ function Login() {
   function Logout() {
     // remove token from the local storage
     localStorage.removeItem("token");
-    console.log("removed");
-
-    // open the homepage --- example of how to redirect
-    // another example
     navigate("/");
   }
   /*
@@ -26,19 +22,18 @@ function Login() {
 */
 
   // submit form
-  function onSubmit() {
+  const submitHandler = async (e) => {
     try {
-      console.log("test");
       // using API function to submit data to FoodBuddy API
-      loginUser({
-        username: username,
+      await loginUser({
+        email: email,
         password: password,
       });
       // if token exists login is successful
 
-      const token = localStorage.getItem("token");
+      var token = JSON.parse(localStorage.getItem("token"));
       console.log(token);
-      // token ? navigate("/") : navigate("/login");
+      token ? navigate("/") : navigate("/login");
       // document.location.reload();
     } catch (err) {
       console.log(err);
@@ -50,12 +45,12 @@ function Login() {
       <form>
         <input
           type="text"
-          name="username"
-          id="username"
-          value={username}
-          placeholder="username"
+          name="email"
+          id="email"
+          value={email}
+          placeholder="email"
           onChange={(event) => {
-            setUsername(event.target.value);
+            setEmail(event.target.value);
           }}
         />
         <input
@@ -67,7 +62,7 @@ function Login() {
             setPassword(event.target.value);
           }}
         />
-        <input type="button" value="Login" onClick={onSubmit} />
+        <input type="button" value="Login" onClick={submitHandler} />
       </form>
       <button onClick={Logout}>Logout</button>
     </div>
