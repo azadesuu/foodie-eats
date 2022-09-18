@@ -1,21 +1,3 @@
-// import logo from "./assets/logo192.png";
-// import { useDispatch } from 'react-redux';
-// import { useEffect }, React from 'react';
-// import { getReviews } from './actions/reviews'
-//dispatch an action
-// import { createReview } from './actions/reviews'
-
-// const App = () => {
-// const dispatch = useDispatch();
-// useEffect(() => {
-//   dispatch(getReviews());}, [dispatch]);
-// use actions from server
-
-// // const handleSubmit = () => {
-//     e.preventDefault()
-//     dispatch(createReview(reviewData))
-// }
-
 // temporary comment for server testing
 // import { Route, Routes, BrowserRouter } from 'react-router-dom';
 // import Community from './components/Community';
@@ -41,6 +23,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/community" element={<Community />} />
           <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/my-bookmarks" element={<MyProfile />} />
           {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
           {/* <Route path="/my-profile" element={<MyProfile/>} /> */}
         </Routes>
