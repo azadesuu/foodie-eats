@@ -28,14 +28,14 @@ userRouter.post("/login", async (req, res, next) => {
         const error = new Error("An Error occurred");
         return next(error);
       } else if (!user) {
-        const error = new Error("No user was found with the given email");
+        const error = new Error("No user was found with the given user/email");
         return next(error);
       } else {
         req.logIn(user, { session: false }, async error => {
           if (error) return next(error);
 
-          const { _id, email, username } = user;
-          const body = { _id, email, username };
+          const { _id, email, username, bio, theme, profileImage } = user;
+          const body = { _id, email, username, bio, theme, profileImage };
 
           // sign the JWT token and populate the payload with the user details
           const token = jwt.sign({ body }, process.env.PASSPORT_KEY);

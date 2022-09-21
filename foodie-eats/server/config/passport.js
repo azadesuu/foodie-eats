@@ -73,39 +73,43 @@ module.exports = function(passport) {
       },
       function(req, email, password, done) {
         process.nextTick(function() {
-          User.findOne({ email: email }, function(err, existingUser) {
-            // search a user by the username (email in our case)
-            if (err) {
-              console.log(err);
-              return done(err);
-            }
-            // if password isn't strong or email is already taken, return
-            // message describing the issue
-            if (!password.match(strongPassword)) {
-              return done(null, {
-                message: "Your password isn't strong enough."
-              });
-            }
-            if (existingUser) {
-              return done(null, {
-                message: "That email is already taken."
-              });
-            } else {
-              // otherwise create a new user
-              var newUser = new User();
-              newUser.username = username;
-              newUser.email = email;
-              newUser.password = newUser.generateHash(password);
+          User.findOne(
+            {
+              $or: [{ username: username }, { email: email }]
+            },
+            function(err, existingUser) {
+              if (err) {
+                console.log(err);
+                return done(err);
+              }
+              // if password isn't strong or email is already taken, return
+              // message describing the issue
+              if (!password.match(strongPassword)) {
+                return done(null, {
+                  message: "Your password isn't strong enough."
+                });
+              }
+              if (existingUser) {
+                return done(null, {
+                  message: "That username/email is already taken."
+                });
+              } else {
+                // otherwise create a new user
+                var newUser = new User();
+                newUser.username = username;
+                newUser.email = email;
+                newUser.password = newUser.generateHash(password);
 
-              // and save the user
-              newUser.save(function(err) {
-                if (err) throw err;
+                // and save the user
+                newUser.save(function(err) {
+                  if (err) throw err;
 
-                return done(null, newUser);
-              });
-              req.session.email = email;
+                  return done(null, newUser);
+                });
+                req.session.email = email;
+              }
             }
-          });
+          );
         });
       }
     )
@@ -148,19 +152,25 @@ module.exports = function(passport) {
       async (email, password, done) => {
         try {
           // find the user associated with the email provided
-          await User.findOne({ email: email }, function(err, user) {
-            // if user is not found or there are other errors
-            if (err) return done(err);
-            if (!user) return done(null, false, { message: "No user found." });
-            // user is found but the password doesn't match
-            if (!user.validPassword(password)) {
-              return done(null, false, { message: "Oops! Wrong password." });
+          await User.findOne(
+            {
+              $or: [{ username: email }, { email: email }]
+            },
+            function(err, user) {
+              // if user is not found or there are other errors
+              if (err) return done(err);
+              if (!user)
+                return done(null, false, { message: "No user found." });
+              // user is found but the password doesn't match
+              if (!user.validPassword(password)) {
+                return done(null, false, { message: "Oops! Wrong password." });
+              }
+              // otherwise, provide user instance to passport
+              else {
+                return done(null, user, { message: "Login successful" });
+              }
             }
-            // otherwise, provide user instance to passport
-            else {
-              return done(null, user, { message: "Login successful" });
-            }
-          }).clone();
+          ).clone();
         } catch (error) {
           console.log(error);
 

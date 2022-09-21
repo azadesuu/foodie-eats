@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
-  street_address: {
+  streetAddress: {
     type: String,
-    required: true
+    default: ""
   },
   postcode: {
     type: Number,
@@ -26,46 +26,48 @@ const addressSchema = new mongoose.Schema({
 });
 const reviewSchema = new mongoose.Schema({
   userId: {
-    type: String,
-    //type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-    // required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
   },
   username: {
     type: String
   },
   dateReviewed: {
     type: Date,
-    default: Date.now,
-    required: true
+    default: Date.now
   },
   dateVisited: {
-    type: Date
+    type: Date,
+    default: Date.now
   },
   restaurantName: {
     type: String
   },
   address: addressSchema,
-  price_range: {
+  priceRange: {
     type: Number,
     min: 1,
     max: 4,
-    default: 1,
-    required: true
+    default: 1
   },
   rating: {
-    value: {
-      type: Number,
-      min: 0,
-      max: 5
-    },
-    comment: String
+    type: Number,
+    min: 1,
+    max: 5,
+    default: 1
+  },
+  description: {
+    type: String,
+    default: ""
   },
   images: {
-    type: [String]
+    type: [String],
+    default: []
   },
   public: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   tags: {
     type: [String],
@@ -74,16 +76,16 @@ const reviewSchema = new mongoose.Schema({
   userLikes: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User",
-    required: true
+    default: []
   },
   likeCount: {
     type: Number,
-    default: 0,
-    required: true
+    default: 0
   },
   flagged: {
-    type: Boolean,
-    default: false
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    default: []
   },
   flagCount: {
     type: Number,

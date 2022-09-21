@@ -3,105 +3,112 @@ import axios from "axios";
 const SERVER_URL = "http://localhost:5000"; //server url
 
 // add token to every request made to API
-axios.interceptors.request.use(
-    config => {
-        const { origin } = new URL(config.url);
-        const allowedOrigins = [SERVER_URL];
-        const token = localStorage.getItem("token");
-        if (allowedOrigins.includes(origin)) {
-            config.headers.authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
+// axios.interceptors.request.use(
+//     config => {
+//         const { origin } = new URL(config.url);
+//         const allowedOrigins = [SERVER_URL];
+//         const token = localStorage.getItem("token");
+//         if (allowedOrigins.includes(origin)) {
+//             config.headers.authorization = `Bearer ${token}`;
+//         }
+//         return config;
+//     },
+//     error => {
+//         return Promise.reject(error);
+//     }
+// );
+
+export const setAuthToken = token => {
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else delete axios.defaults.headers.common["Authorization"];
+};
+
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export async function loginUser(user) {
-    const { email, password } = user;
+  const { email, password } = user;
 
-    if (!email || !password) {
-        alert("Must provide email and a password");
-        return;
-    }
+  if (!email || !password) {
+    alert("Must provide email and a password");
+    return;
+  }
 
-    const endpoint = SERVER_URL + "/login";
-    let data = await axios
-        .post(
-            endpoint,
-            {
-                email: email,
-                password: password
-            },
-            { withCredentials: true }
-        )
-        .then(res => res.data)
-        .catch(err => {
-            alert("email not found or password does not match.");
-        });
-    if (data) {
-        // store token locally
-        await localStorage.setItem("token", JSON.stringify(data));
-        if (!localStorage.hasOwnProperty("token")){
-            alert("token not set");
-        }
+  const endpoint = SERVER_URL + "/login";
+  let data = await axios
+    .post(
+      endpoint,
+      {
+        email: email,
+        password: password
+      },
+      { withCredentials: true }
+    )
+    .then(res => res.data)
+    .catch(err => {
+      alert("email not found or password does not match.");
+    });
+  if (data) {
+    // store token locally
+    await localStorage.setItem("token", data);
+    if (!localStorage.hasOwnProperty("token")) {
+      alert("token not set");
     }
+  }
 }
 
 // Get user associated with stored token
 export const getUser = jwt => {
-    const headers = {
-        headers: { "x-auth-token": jwt }
-    };
-    return axios
-        .get(`${SERVER_URL}/findTokenUser`, headers)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
+  const headers = {
+    headers: { "x-auth-token": jwt }
+  };
+  return axios
+    .get(`${SERVER_URL}/findTokenUser`, headers)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
 };
 
 // Authenticate user signup
 export async function signupUser(user) {
-    localStorage.removeItem("token");
+  localStorage.removeItem("token");
 
-    const { username, email, password } = user;
+  const { username, email, password } = user;
 
-    if (!username || !password || !email) {
-        alert("must provide an email, a password, and a username");
-        return;
-    }
+  if (!username || !password || !email) {
+    alert("must provide an email, a password, and a username");
+    return;
+  }
 
-    const endpoint = SERVER_URL + "/signup";
+  const endpoint = SERVER_URL + "/signup";
 
-    // POST the email and password to API to
-    // signup user and receive the token explicitly
-    let data = await axios
-        .post(endpoint, {
-            username,
-            email,
-            password
-        })
-        .then(res => res.data)
-        .catch(() => {
-            return;
-        });
-    if (!data) {
-        alert("Please try again with a different email or stronger password.");
-    } else if (data.message) {
-        // show error message
-        alert(data.message);
-    } else {
-        // store token locally
-        localStorage.setItem("token", data);
-    }
+  // POST the email and password to API to
+  // signup user and receive the token explicitly
+  let data = await axios
+    .post(endpoint, {
+      username,
+      email,
+      password
+    })
+    .then(res => res.data)
+    .catch(() => {
+      return;
+    });
+  if (!data) {
+    alert("Please try again with a different email or stronger password.");
+  } else if (data.message) {
+    // show error message
+    alert(data.message);
+  } else {
+    // store token locally
+    localStorage.setItem("token", data);
+  }
 }
 
 export async function forgotPassword(email) {
-    const user_email = { email: email };
-    return axios
-        .post(`${SERVER_URL}/forgotPassword`, user_email)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
+  const user_email = { email: email };
+  return axios
+    .post(`${SERVER_URL}/forgotPassword`, user_email)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
 }
 //-------------------------------------------------
 // community page
@@ -113,6 +120,19 @@ export async function forgotPassword(email) {
 //         .catch(err => console.log(err));
 // };
 
+export const getCommunityRecent = async () => {
+  return axios
+    .get("http://localhost:5000/review/getReviewsByRecent")
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
+
+export const getCommunityMostLiked = async () => {
+  return axios
+    .get(`http://localhost:5000/review/getReviewsByLikes`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 // // use req.query.search
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
 // // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
@@ -132,20 +152,6 @@ export async function forgotPassword(email) {
 //         .then(res => res?.data?.data)
 //         .catch(err => console.log(err));
 // }
-
-export const getCommunityRecent = async () => {
-    return axios
-        .get("http://localhost:5000/review/getReviewsByRecent")
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getCommunityMostLiked = () => {
-    return axios
-        .get(`http://localhost:5000/review/getReviewsByLikes`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
 
 // //------------------------ Review APIs (Create, ViewOne, Edit)
 
@@ -197,9 +203,33 @@ export const getCommunityMostLiked = () => {
 //         .catch(err => console.log(err));
 // };
 
-// export const bookmarkReview = (userId, reviewId) => {
+//add to user object
+// export const toggleBookmark = (userId, reviewId) => {
 //     return axios
-//         .get(`${SERVER_URL}/review/bookmark/${reviewId}`, userId)
+//         .patch(`${SERVER_URL}/review/bookmark/${reviewId}`, userId)
+//         .then(res => res?.data?.data)
+//         .catch(err => console.log(err));
+// };
+
+//add to review object
+// export const toggleLike = (userId, reviewId) => {
+//     return axios
+//         .patch(`${SERVER_URL}/review/like/${userId}`, reviewId)
+//         .then(res => res?.data?.data)
+//         .catch(err => console.log(err));
+// };
+
+//change boolean
+// export const togglePublic = (userId, reviewId) => {
+//     return axios
+//         .patch(`${SERVER_URL}/review/togglePublic/${userId}`, reviewId)
+//         .then(res => res?.data?.data)
+//         .catch(err => console.log(err));
+// };
+
+// export const deleteReview = (userId, reviewId) => {
+//     return axios
+//         .patch(`${SERVER_URL}/review/unlike/${userId}`, reviewId)
 //         .then(res => res?.data?.data)
 //         .catch(err => console.log(err));
 // };
@@ -238,27 +268,28 @@ export const getCommunityMostLiked = () => {
 // };
 
 // // ------ Profiles
-// export const getProfile = userId => {
-//     return axios
-//         .get(`${SERVER_URL}/account/${userId}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
 
-// export const getMyProfile = userId => {
-//     return axios
-//         .get(`${SERVER_URL}/account/my-profile/${userId}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getProfile = async username => {
+  return await axios
+    .get(`${SERVER_URL}/account/profile/${username}`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
-// //--- My Reviews
-// export const getMyReviews = userId => {
-//     return axios
-//         .get(`${SERVER_URL}/account/myReviews/${userId}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getMyProfile = async username => {
+  return await axios
+    .get(`${SERVER_URL}/account/my-profile/${username}`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
+
+//--- My Reviews
+export const getMyReviews = async userId => {
+  return await axios
+    .get(`${SERVER_URL}/account/myReviews/${userId}`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
 // // use req.query.search
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
@@ -279,14 +310,14 @@ export const getCommunityMostLiked = () => {
 
 // //--- Profile Edits
 
-// export const editMyProfile = profile => {
-//     const { username, profile_image, bio } = profile;
+export const updateUser = async profile => {
+  const { userId, username, email, bio, image } = profile;
 
-//     return axios
-//         .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+  return await axios
+    .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
 // export const changePassword = (oldPassword, newPassword) => {
 //     const passwords = { oldPassword, newPassword };
@@ -296,9 +327,11 @@ export const getCommunityMostLiked = () => {
 //         .catch(err => console.log(err));
 // };
 
-// export const changeTheme = theme => {
-//     return axios
-//         .patch(`${SERVER_URL}/account/changeTheme/${userId}`, theme)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const changeTheme = async data => {
+  const { userId, newTheme } = data;
+
+  return await axios
+    .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};

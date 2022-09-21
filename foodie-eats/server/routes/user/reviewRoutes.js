@@ -2,8 +2,10 @@ const express = require("express");
 const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
 const Review = require("../../models/review");
+const User = require("../../models/user");
 
 // limit the amount of searches
+// community routes
 reviewRouter.get("/getReviewsByRecent", async (req, res, next) => {
   try {
     const reviews = await Review.find({})
@@ -15,7 +17,6 @@ reviewRouter.get("/getReviewsByRecent", async (req, res, next) => {
       next({ name: "CastError" });
       return;
     }
-    console.log(reviews);
     res.status(200).json({
       success: true,
       data: reviews
@@ -45,16 +46,6 @@ reviewRouter.get("/getReviewsByLikes", async (req, res, next) => {
   }
 });
 
-// create review
-reviewRouter.post("/new-review", reviewController.createReview);
-
-// get all user reviews
-reviewRouter.get("/:userId", reviewController.getMyReviews);
-
-// get all user reviews
-reviewRouter.get("/:reviewId", reviewController.getOneReview);
-
-// get all user reviews
-reviewRouter.get("/:reviewId", reviewController.updateReview)
+// User Review APIs
 
 module.exports = reviewRouter;
