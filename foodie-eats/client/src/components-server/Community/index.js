@@ -2,6 +2,7 @@ import "./index.css";
 import { useQuery, useMutation } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getCommunityRecent, getCommunityMostLiked } from "../../api";
+import ReviewPeek from "../ReviewPeek";
 
 function Community() {
   const reviewQueryRecent = useQuery("listOfReviews", () =>
@@ -22,14 +23,7 @@ function Community() {
       {listReviews ? (
         <div>
           {listReviews.map(review => {
-            return (
-              <div>
-                <h1>RestaurantName: {review.restaurantName}</h1>
-                <h1>Name : {review.userID}</h1>
-                <h1>Rating : {review.rating}</h1>
-                <h1>Likes: {review.likeCount}</h1>
-              </div>
-            );
+            return <ReviewPeek data={review} />;
           })}
         </div>
       ) : (

@@ -65,7 +65,7 @@ const reviewSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
-  public: {
+  isPublic: {
     type: Boolean,
     default: false
   },

@@ -46,6 +46,43 @@ reviewRouter.get("/getReviewsByLikes", async (req, res, next) => {
   }
 });
 
+reviewRouter.patch("/like/:userId/:reviewId", async (req, res, next) => {
+  try {
+      const queryReviewId = req.params.reviewId;
+      const updatedreview = Review.findByIdAndUpdate(queryReviewId,
+        { likeCount: likeCount + 1,
+         $addtoSet: { userLikes: queryReviewId } }
+      );
+    res.status(200).json({
+      success: true,
+      data: updatedreview
+    });
+  } catch (err) {
+    next(err);
+  }
+);
+
+reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
+  try {
+    const queryReviewId = req.params.reviewId;
+    const review = await Review.findOne({
+      reviewId: queryReviewId
+    });
+      const updatedreview = Review.updateOne(
+        { likeCount: likeCount - 1 },
+        { $pull: { userLikes: queryReviewId } }
+      );
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// toggleBookmark, toggleFlag
+
 // User Review APIs
 
 module.exports = reviewRouter;
