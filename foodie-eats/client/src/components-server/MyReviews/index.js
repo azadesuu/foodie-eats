@@ -1,5 +1,4 @@
-import "./index.css";
-import { useQuery, useMutation } from "react-query";
+import { useContext, useQuery, useMutation } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { UserContext } from "../../actions/UserContext";
 import { getMyReviews } from "../../api";

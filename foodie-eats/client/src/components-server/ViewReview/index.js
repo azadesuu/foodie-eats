@@ -1,10 +1,13 @@
-import { updateReview } from "../../../../server/controllers/reviewController";
 import { getReview } from "../../api";
+import { useContext, useEffect, useState, useParams } from "react";
+import { UserContext } from "../../actions/UserContext";
+import { useQuery } from "react-query";
 
 export default function ViewReview(props) {
   const user = useContext(UserContext);
 
   const { reviewId } = useParams();
+  const review = undefined;
   try {
     const review = getReview(reviewId);
   } catch (err) {
@@ -26,16 +29,15 @@ export default function ViewReview(props) {
   }
 
   async function toggleFlag() {
-    setFlag(!flagged);
+    setFlagged(!flagged);
   }
 
   async function togglePublic() {
-    setPublic(!publicBool);
+    setPublicBool(!publicBool);
   }
 
-  async function updateReview(){
+  async function updateReview() {
     
-
   }
 
   return (
@@ -48,13 +50,17 @@ export default function ViewReview(props) {
             <h1>Rating : {review.rating}</h1>
             <h1>Likes: {review.likeCount}</h1>
             <br />
-            <button onClick={toggleLike}>{liked ? UnLike : Like}</button>
-            <button onClick={toggleFlag}>{flagged ? Unflag : Flag}</button>
-            <button onClick={toggleBookmark}>
-              {bookmarked ? UnBookmark : Bookmark}
+            <button onClick={toggleLike}>
+              {liked ? <h1>UnLike</h1> : <h1>Like</h1>}
+            </button>
+            <button onClick={toggleFlag}>
+              {flagged ? <h1>Unflag</h1> : <h1>Flag</h1>}
             </button>
             <button onClick={toggleBookmark}>
-              {publicBool ? Private : Public}
+              {bookmarked ? <h1>UnBookmark</h1> : <h1>Bookmark</h1>}
+            </button>
+            <button onClick={toggleBookmark}>
+              {publicBool ? <h1>Private</h1> : <h1>Public</h1>}
             </button>
           </div>
         </div>

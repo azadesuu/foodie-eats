@@ -1,6 +1,6 @@
 import { toggleLike } from "../../api";
 
-export const ReviewPeek = review => {
+const ReviewPeek = review => {
   <div>
     <div>
       <h1>RestaurantName: {review.restaurantName}</h1>
@@ -10,3 +10,5 @@ export const ReviewPeek = review => {
     </div>
   </div>;
 };
+
+export default ReviewPeek;

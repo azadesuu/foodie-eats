@@ -175,12 +175,12 @@ export const getCommunityMostLiked = async () => {
 //         .catch(err => console.log(err));
 // };
 
-// export const getOneReview = reviewId => {
-//     return axios
-//         .get(`${SERVER_URL}/review/${reviewId}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getReview = async reviewId => {
+  return await axios
+    .get(`${SERVER_URL}/review/${reviewId}`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
 // // not all fields will be filled in
 // export const editOneReview = reviewEdit => {

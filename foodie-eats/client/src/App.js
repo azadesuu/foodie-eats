@@ -9,10 +9,10 @@ import Login from "./components-server/Login";
 import Logout from "./components-server/Logout";
 import SignUp from "./components-server/SignUp";
 import Profile from "./components-server/Profile";
-// import ProfileReviews from "./components-server/ProfileReviews";
+import ProfileReviews from "./components-server/ProfileReviews";
 import ViewReview from "./components-server/ViewReview";
 import MyProfile from "./components-server/MyProfile";
-// import MyReviews from "./components-server/MyReviews";
+import MyReviews from "./components-server/MyReviews";
 import MyBookmarks from "./components-server/MyBookmarks";
 import Theme from "./components-server/Theme";
 // import ChangePassword from "./components-server/ChangePassword";
@@ -55,7 +55,7 @@ function App() {
               path="/profile/:username/reviews"
               element={<ProfileReviews />}
             />
-            <Route path="/review/:reviewId" element={<ViewReview />} />
+            {/* <Route path="/review/:reviewId" element={<ViewReview />} /> */}
             <Route path="/logout" element={<Logout />} />
 
             <Route path="/login" element={<Login />} />

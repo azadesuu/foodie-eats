@@ -16,10 +16,10 @@ function MyProfile() {
   const [bio, setBio] = useState();
   const [profileImage, setProfileImage] = useState();
   const [userId, setUserId] = useState();
+  console.log(user1);
   useEffect(() => {
     if (user1 && !username) {
       initializeFields();
-      console.log(user1);
     }
   }, [user1]);
 
