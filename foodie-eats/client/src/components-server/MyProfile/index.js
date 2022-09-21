@@ -2,14 +2,14 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
 import { navigate, useNavigate } from "react";
-import { getMyProfile } from "../../api";
+import { getProfile } from "../../api";
 import { useQuery, useMutation } from "react-query";
 import Axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { usePreviousNonNullish } from "../../hooks";
 import EditProfile from "../EditProfile";
 function MyProfile() {
-  // getting logged in user
+  // // getting logged in user
   const [user1, setUser1] = useContext(UserContext);
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
@@ -17,25 +17,37 @@ function MyProfile() {
   const [profileImage, setProfileImage] = useState();
   const [userId, setUserId] = useState();
   console.log(user1);
-  useEffect(() => {
-    if (user1 && !username) {
-      initializeFields();
-    }
-  }, [user1]);
 
-  const initializeFields = () => {
-    setUsername(user1.username);
-    setEmail(user1.email);
-    setBio(user1.bio);
-    setUserId(user1._id);
-    setProfileImage(user1.profileImage);
-  };
+  // useEffect(() => {
+  //   if (user1 && !username) {
+  //     initializeFields();
+  //   }
+  // }, [user1]);
 
-  const [editButton, setEditButton] = useState(false);
+  // const initializeFields = () => {
+  //   setUsername(user1.username);
+  //   setEmail(user1.email);
+  //   setBio(user1.bio);
+  //   setUserId(user1._id);
+  //   setProfileImage(user1.profileImage);
+  // };
 
-  const updateUser = () => {
-    setEditButton(!editButton);
-  };
+  // const [editButton, setEditButton] = useState(false);
+
+  // const updateUser = () => {
+  //   setEditButton(!editButton);
+  // };
+
+  const userQueryProfile = useQuery("my-profile", () => getProfile(user1?._id));
+  const { data: userProfile, isLoading } = userQueryProfile;
+
+  if (userProfile) {
+    setUsername(userProfile.username);
+    setEmail(userProfile.email);
+    setBio(userProfile.bio);
+    setUserId(userProfile._id);
+    setProfileImage(userProfile.profileImage);
+  }
 
   return (
     <div>
@@ -44,8 +56,8 @@ function MyProfile() {
       </button>
       {!editButton ? (
         <div>
-          {!username && <CircularProgress className="spinner" />}
-          {username ? (
+          {!userProfile && <CircularProgress className="spinner" />}
+          {userProfile ? (
             <div>
               <div>{username}</div>
               <div>{email}</div>

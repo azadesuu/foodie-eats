@@ -240,12 +240,12 @@ export const getReview = async reviewId => {
 // // export const createReview = (newReview) => axios.post(SERVER_URL, newReview);
 
 // //
-// export const getBookmarks = userId => {
-//     return axios
-//         .get(`${SERVER_URL}/review/mybookmarks/${userId}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getBookmarks = bookmarks => {
+  return axios
+    .get(`${SERVER_URL}/account/my-bookmarks`, bookmarks)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
 // // use req.query.search
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application

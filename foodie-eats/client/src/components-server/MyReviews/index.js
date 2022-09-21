@@ -7,7 +7,7 @@ function MyReviews() {
   const [user, setUser] = useContext(UserContext);
 
   const reviewQueryRecent = useQuery("listOfReviews", () =>
-    getMyReviews(user._id)
+    getMyReviews(user?._id)
   );
   const { data: listReviews, isLoading } = reviewQueryRecent;
 

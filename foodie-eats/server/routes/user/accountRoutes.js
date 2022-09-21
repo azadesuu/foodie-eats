@@ -18,24 +18,8 @@ accountRouter.get("/myReviews/:userId", async (req, res) => {
     .clone();
 });
 
-accountRouter.get("/profile/:username", async (req, res) => {
-  await User.find({ username: req.params.username }, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      console.log("info found");
-      res.status(200).json({
-        success: true,
-        data: result
-      });
-    }
-  })
-    .limit(1)
-    .lean()
-    .clone();
-});
-
-accountRouter.get("/my-profile/:username", async (req, res, next) => {
+//get profile by username
+accountRouter.get("/profile/:username", async (req, res, next) => {
   try {
     const userInfo = await User.findOne({
       username: req.params.username
@@ -110,6 +94,42 @@ accountRouter.patch("/changeTheme/:userId", async (req, res) => {
     });
   } catch (err) {
     res.json(err);
+  }
+});
+
+accountRouter.patch("/changeTheme/:userId", async (req, res) => {
+  console.log(req.body);
+  const _id = req.params.userId;
+  const newTheme = req.body.newTheme;
+
+  try {
+    await User.findByIdAndUpdate(_id, { theme: newTheme }, (err, result) => {
+      console.log("result");
+
+      console.log(result);
+      console.log("result-end");
+    });
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+accountRouter.patch("/my-bookmarks", async (req, res) => {
+  const { bookmarks } = req.body.bookmarks;
+
+  try {
+    await Review.find({ _id: { $in: bookmarks } }, function(err, result, next) {
+      if (err) {
+        console.log("bookmarks not found");
+      } else {
+        res.status(200).json({
+          success: true,
+          data: result
+        });
+      }
+    });
+  } catch (err) {
+    next(err);
   }
 });
 
