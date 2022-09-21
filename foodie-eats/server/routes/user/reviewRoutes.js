@@ -1,5 +1,5 @@
 const express = require("express");
-const reviewController = require("../../controllers/reviewController");
+// const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
 const Review = require("../../models/review");
 const User = require("../../models/user");
@@ -46,13 +46,16 @@ reviewRouter.get("/getReviewsByLikes", async (req, res, next) => {
   }
 });
 
-reviewRouter.patch("/like/:userId/:reviewId", async (req, res, next) => {
+reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
   try {
-      const queryReviewId = req.params.reviewId;
-      const updatedreview = Review.findByIdAndUpdate(queryReviewId,
-        { likeCount: likeCount + 1,
-         $addtoSet: { userLikes: queryReviewId } }
-      );
+    const queryReviewId = req.params.reviewId;
+    const review = await Review.findOne({
+      reviewId: queryReviewId
+    });
+    const updatedreview = Review.updateOne(
+      { likeCount: likeCount + 1 },
+      { $addToSet: { userLikes: queryReviewId } }
+    );
     res.status(200).json({
       success: true,
       data: updatedreview
@@ -60,21 +63,19 @@ reviewRouter.patch("/like/:userId/:reviewId", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-);
+});
 
 reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
   try {
     const queryReviewId = req.params.reviewId;
-    const review = await Review.findOne({
-      reviewId: queryReviewId
-    });
-      const updatedreview = Review.updateOne(
-        { likeCount: likeCount - 1 },
-        { $pull: { userLikes: queryReviewId } }
-      );
+    const review = await Review.findByIdAndUpdate(
+      queryReviewId,
+      { likeCount: likeCount - 1 },
+      { $pull: { userLikes: queryReviewId } }
+    );
     res.status(200).json({
       success: true,
-      data: reviews
+      data: updatedreview
     });
   } catch (err) {
     next(err);
