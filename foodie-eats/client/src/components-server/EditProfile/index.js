@@ -4,7 +4,6 @@ import { updateUser } from "../../api";
 
 const EditProfile = data => {
   const { _id, username, email, bio, profileImage } = data;
-  console.log(data);
   // getting logged in user
   const [usernameEdit, setUsernameEdit] = useState(username);
   const [emailEdit, setEmailEdit] = useState(email);

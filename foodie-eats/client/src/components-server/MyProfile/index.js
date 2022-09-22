@@ -11,43 +11,23 @@ import EditProfile from "../EditProfile";
 function MyProfile() {
   // // getting logged in user
   const [user1, setUser1] = useContext(UserContext);
+  // console.log(user1);
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [bio, setBio] = useState();
   const [profileImage, setProfileImage] = useState();
   const [userId, setUserId] = useState();
-  console.log(user1);
 
-  // useEffect(() => {
-  //   if (user1 && !username) {
-  //     initializeFields();
-  //   }
-  // }, [user1]);
+  const [editButton, setEditButton] = useState(false);
+  const updateUser = () => {
+    setEditButton(!editButton);
+  };
 
-  // const initializeFields = () => {
-  //   setUsername(user1.username);
-  //   setEmail(user1.email);
-  //   setBio(user1.bio);
-  //   setUserId(user1._id);
-  //   setProfileImage(user1.profileImage);
-  // };
-
-  // const [editButton, setEditButton] = useState(false);
-
-  // const updateUser = () => {
-  //   setEditButton(!editButton);
-  // };
-
-  const userQueryProfile = useQuery("my-profile", () => getProfile(user1?._id));
-  const { data: userProfile, isLoading } = userQueryProfile;
-
-  if (userProfile) {
-    setUsername(userProfile.username);
-    setEmail(userProfile.email);
-    setBio(userProfile.bio);
-    setUserId(userProfile._id);
-    setProfileImage(userProfile.profileImage);
-  }
+  const { data: userProfile, isLoading } = useQuery(
+    "my-profile",
+    () => getProfile(user1?.username),
+    { enabled: !!user1?.username }
+  );
 
   return (
     <div>
@@ -59,10 +39,10 @@ function MyProfile() {
           {!userProfile && <CircularProgress className="spinner" />}
           {userProfile ? (
             <div>
-              <div>{username}</div>
-              <div>{email}</div>
-              <div>{bio}</div>
-              <div>{profileImage}</div>
+              <div>{userProfile.username}</div>
+              <div>{userProfile.email}</div>
+              <div>{userProfile.bio}</div>
+              <div>{userProfile.profileImage}</div>
             </div>
           ) : (
             <div>Error</div>
@@ -71,11 +51,11 @@ function MyProfile() {
       ) : (
         <>
           <EditProfile
-            _id={userId}
-            username={username}
-            email={email}
-            bio={bio}
-            profileImage={profileImage}
+            _id={userProfile._id}
+            username={userProfile.username}
+            email={userProfile.email}
+            bio={userProfile.bio}
+            profileImage={userProfile.profileImage}
           />
         </>
       )}

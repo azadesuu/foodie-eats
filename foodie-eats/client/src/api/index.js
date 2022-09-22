@@ -121,14 +121,14 @@ export async function forgotPassword(email) {
 // };
 
 export const getCommunityRecent = async () => {
-  return axios
+  return await axios
     .get("http://localhost:5000/review/getReviewsByRecent")
     .then(res => res?.data?.data)
     .catch(err => console.log(err));
 };
 
 export const getCommunityMostLiked = async () => {
-  return axios
+  return await axios
     .get(`http://localhost:5000/review/getReviewsByLikes`)
     .then(res => res?.data?.data)
     .catch(err => console.log(err));
@@ -268,6 +268,12 @@ export const getBookmarks = bookmarks => {
 // };
 
 // // ------ Profiles
+export const getUserById = async userId => {
+  return await axios
+    .get(`${SERVER_URL}/account/${userId}`)
+    .then(res => res?.data?.data)
+    .catch(err => console.log(err));
+};
 
 export const getProfile = async username => {
   return await axios

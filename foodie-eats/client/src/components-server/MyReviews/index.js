@@ -1,15 +1,17 @@
-import { useContext, useQuery, useMutation } from "react-query";
+import { useContext } from "react";
+import { useQuery, useMutation } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { UserContext } from "../../actions/UserContext";
 import { getMyReviews } from "../../api";
+import ReviewPeek from "../ReviewPeek";
 
 function MyReviews() {
   const [user, setUser] = useContext(UserContext);
-
-  const reviewQueryRecent = useQuery("listOfReviews", () =>
-    getMyReviews(user?._id)
+  const { data: listReviews, isLoading } = useQuery(
+    "my-reviews",
+    () => getMyReviews(user?._id),
+    { enabled: !!user }
   );
-  const { data: listReviews, isLoading } = reviewQueryRecent;
 
   return (
     <div>
@@ -19,20 +21,20 @@ function MyReviews() {
       {isLoading && <CircularProgress className="spinner" />}
       {listReviews ? (
         <div>
-          {listReviews.map(review => {
-            return (
-              <div>
-                <h1>RestaurantName: {review.restaurantName}</h1>
-                <h1>Name : {review.username}</h1>
-                <h1>Rating : {review.rating}</h1>
-                <h1>Likes: {review.likeCount}</h1>
-              </div>
-            );
-          })}
+          {listReviews.length > 0 ? (
+            <div>
+              <h1>{user?.username}'s Reviews</h1>
+              {listReviews.map(review => {
+                return <ReviewPeek reviewData={review} />;
+              })}
+            </div>
+          ) : (
+            // If the info can't be loaded, then display a message
+            <h2>User has not posted</h2>
+          )}
         </div>
       ) : (
-        // If the info can't be loaded, then display a message
-        !isLoading && <h2>Found no reviews</h2>
+        <h2>Found no reviews</h2>
       )}
     </div>
   );

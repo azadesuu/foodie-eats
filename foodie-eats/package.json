@@ -1,9 +1,14 @@
 {
   "name": "prettier-config-example",
   "scripts": {
-    "format": "prettier --write 'foodie-eats/server/**/*.js' 'foodie-eats/client/src/**/*.{js,css}'"
+    "test": "jest --forceExit",
+    "format": "prettier --write 'foodie-eats/server/**/*.js' 'foodie-eats/client/src/**/*.{js,css}'",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run client\" \"npm run server\" "
   },
   "devDependencies": {
+    "concurrently": "^1.0.0",
     "prettier": "1.19.1"
   }
 }

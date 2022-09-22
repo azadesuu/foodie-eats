@@ -5,44 +5,53 @@ import { getCommunityRecent, getCommunityMostLiked } from "../../api";
 import ReviewPeek from "../ReviewPeek";
 
 function Community() {
-  const reviewQueryRecent = useQuery("listOfReviews", () =>
-    getCommunityRecent()
+  // need to post  postcode
+  const { data: listReviewsRecent, isLoading } = useQuery(
+    "listReviewsRecent",
+    () => getCommunityRecent()
   );
-  const { data: listReviews, isLoading } = reviewQueryRecent;
-  const reviewQueryLikes = useQuery("listOfReviewsByLikes", () =>
+  const { data: listLikes, isLoading2 } = useQuery("listOfReviewsByLikes", () =>
     getCommunityMostLiked()
   );
-  const { data: listLikes, isLoading2 } = reviewQueryLikes;
 
   return (
     <div>
-      <h1>
-        <h1>Most Recent</h1>
-      </h1>
+      <h1>Click on a review to View details</h1>
       {isLoading && <CircularProgress className="spinner" />}
-      {listReviews ? (
+      {listReviewsRecent ? (
         <div>
-          {listReviews.map(review => {
-            return <ReviewPeek data={review} />;
+          <h1>
+            <h1>Most Recent</h1>
+          </h1>
+          {/* review parameter contains the whole review document */}
+          {listReviewsRecent.map(review => {
+            return (
+              <div>
+                {/* <h1></h1>
+                <h1>RestaurantName: {review.restaurantName}</h1>
+                <h1>Name : {review.userID}</h1>
+                <h1>Rating : {review.rating}</h1>
+                <h1>Likes: {review.likeCount}</h1>
+                <br /> */}
+                <ReviewPeek reviewData={review} />
+              </div>
+            );
           })}
         </div>
       ) : (
         // If the info can't be loaded, then display a message
         !isLoading && <h2>Found no orders</h2>
       )}
-      <h1>
-        <h1>Most Liked</h1>
-      </h1>
       {isLoading2 && <CircularProgress className="spinner" />}
       {listLikes ? (
         <div>
+          <h1>
+            <h1>Most Liked</h1>
+          </h1>
           {listLikes.map(review => {
             return (
               <div>
-                <h1>RestaurantName: {review.restaurantName}</h1>
-                <h1>Name : {review.userID}</h1>
-                <h1>Rating : {review.rating}</h1>
-                <h1>Likes: {review.likeCount}</h1>
+                <ReviewPeek reviewData={review} />
               </div>
             );
           })}
@@ -54,36 +63,5 @@ function Community() {
     </div>
   );
 }
-
-// return (
-//   <div className="Community">
-//     <div className="reviewsDisplay">
-//       <h1><h1>Most Recent</h1></h1>
-//       {listOfReviews.map((review) => {
-//         return (
-//         <div>
-//            <h1>RestaurantName : {review.restaurantName}</h1>
-//            <h1>Name : {review.userID}</h1>
-//            <h1>Rating : {review.rating}</h1>
-//            <h1>Likes: {review.likeCount}</h1>
-//         </div>
-//         );
-//       })}
-//       <h1><h1>Most Liked</h1></h1>
-//       {listOfReviewsByLikes.map((review) => {
-//         return (
-//         <div>
-//            <h1>RestaurantName : {review.restaurantName}</h1>
-//            <h1>Name : {review.userID}</h1>
-//            <h1>Rating : {review.rating}</h1>
-//            <h1>Likes: {review.likeCount}</h1>
-//         </div>
-//         );
-//       })}
-
-//     </div>
-//   </div>
-// );
-// }
 
 export default Community;

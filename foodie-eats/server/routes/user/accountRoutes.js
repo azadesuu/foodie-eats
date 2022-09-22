@@ -1,8 +1,29 @@
 const express = require("express");
 const accountRouter = express.Router();
 const User = require("../../models/user");
+const Review = require("../../models/review");
 
 const accountController = require("../../controllers/accountController");
+
+//get User by Id
+accountRouter.get("/:userId", async (req, res, next) => {
+  try {
+    const userInfo = await User.findOne({
+      _id: req.params.userId
+    }).lean();
+
+    if (!userInfo) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: { username: userInfo.username }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 // My Reviews
 accountRouter.get("/myReviews/:userId", async (req, res) => {
@@ -10,8 +31,10 @@ accountRouter.get("/myReviews/:userId", async (req, res) => {
     if (err) {
       res.json(err);
     } else {
-      console.log("info found");
-      res.json(result);
+      res.status(200).json({
+        success: true,
+        data: result
+      });
     }
   })
     .lean()
@@ -103,12 +126,20 @@ accountRouter.patch("/changeTheme/:userId", async (req, res) => {
   const newTheme = req.body.newTheme;
 
   try {
-    await User.findByIdAndUpdate(_id, { theme: newTheme }, (err, result) => {
-      console.log("result");
-
-      console.log(result);
-      console.log("result-end");
-    });
+    await User.findByIdAndUpdate(
+      _id,
+      { theme: newTheme },
+      async (err, result, next) => {
+        if (err) {
+          next(err);
+        } else {
+          res.status(200).json({
+            success: true,
+            data: result
+          });
+        }
+      }
+    );
   } catch (err) {
     res.json(err);
   }
@@ -132,5 +163,7 @@ accountRouter.patch("/my-bookmarks", async (req, res) => {
     next(err);
   }
 });
+
+//changepassword
 
 module.exports = accountRouter;

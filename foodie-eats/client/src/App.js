@@ -55,7 +55,7 @@ function App() {
               path="/profile/:username/reviews"
               element={<ProfileReviews />}
             />
-            {/* <Route path="/review/:reviewId" element={<ViewReview />} /> */}
+            <Route path="/review/:reviewId" element={<ViewReview />} />
             <Route path="/logout" element={<Logout />} />
 
             <Route path="/login" element={<Login />} />
@@ -63,12 +63,11 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
 
             {/* private routes */}
-
-            {/* <Route path="/my-reviews" element={<Login />} /> */}
             {/* <Route path="/change-password" element={<ChangePassword />} /> */}
             <Route path="/my-theme" element={<Theme />} />
             <Route path="/my-bookmarks" element={<MyBookmarks />} />
             <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/my-reviews" element={<MyReviews />} />
           </Routes>
         </div>
       </UserContext.Provider>

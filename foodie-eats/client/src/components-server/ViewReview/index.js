@@ -1,18 +1,18 @@
 import { getReview } from "../../api";
-import { useContext, useEffect, useState, useParams } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 import { useQuery } from "react-query";
 
-export default function ViewReview(props) {
+export default function ViewReview() {
   const user = useContext(UserContext);
 
   const { reviewId } = useParams();
-  const review = undefined;
-  try {
-    const review = getReview(reviewId);
-  } catch (err) {
-    alert("error occured");
-  }
+  const { data: review, isLoading } = useQuery(
+    "view-review",
+    () => getReview(reviewId),
+    { enabled: !!reviewId && !!user }
+  );
   const [liked, setLiked] = useState(review?.userLikes.includes(user?._id));
   const [flagged, setFlagged] = useState(review?.flagged.includes(user?._id));
   const [bookmarked, setBookmarked] = useState(
@@ -36,9 +36,7 @@ export default function ViewReview(props) {
     setPublicBool(!publicBool);
   }
 
-  async function updateReview() {
-    
-  }
+  async function updateReview() {}
 
   return (
     <div>

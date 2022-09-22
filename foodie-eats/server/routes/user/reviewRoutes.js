@@ -10,8 +10,9 @@ reviewRouter.get("/getReviewsByRecent", async (req, res, next) => {
   try {
     const reviews = await Review.find({})
       .lean()
-      .sort({ $natural: -1 })
-      .limit(6);
+      .limit(10)
+      .sort({ $natural: -1 });
+      console.log(reviews);
 
     if (!reviews) {
       next({ name: "CastError" });
@@ -30,8 +31,8 @@ reviewRouter.get("/getReviewsByLikes", async (req, res, next) => {
   try {
     const reviews = await Review.find({})
       .lean()
-      .sort({ likeCount: -1 })
-      .limit(6);
+      .limit(10)
+      .sort({ likeCount: -1 });
 
     if (!reviews) {
       next({ name: "CastError" });
@@ -46,41 +47,58 @@ reviewRouter.get("/getReviewsByLikes", async (req, res, next) => {
   }
 });
 
-reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
+reviewRouter.get("/getReview/:reviewId", async (req, res, next) => {
   try {
-    const queryReviewId = req.params.reviewId;
-    const review = await Review.findOne({
-      reviewId: queryReviewId
-    });
-    const updatedreview = Review.updateOne(
-      { likeCount: likeCount + 1 },
-      { $addToSet: { userLikes: queryReviewId } }
-    );
+    const review = await Review.find({ _id: req.params.reviewId }).lean();
+
+    if (!review) {
+      next({ name: "CastError" });
+      return;
+    }
     res.status(200).json({
       success: true,
-      data: updatedreview
+      data: review
     });
   } catch (err) {
     next(err);
   }
 });
 
-reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
-  try {
-    const queryReviewId = req.params.reviewId;
-    const review = await Review.findByIdAndUpdate(
-      queryReviewId,
-      { likeCount: likeCount - 1 },
-      { $pull: { userLikes: queryReviewId } }
-    );
-    res.status(200).json({
-      success: true,
-      data: updatedreview
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+// reviewRouter.patch("/like/:userId/:reviewId", async (req, res, next) => {
+//   try {
+//     const queryReviewId = req.params.reviewId;
+//     const review = await Review.findOne({
+//       reviewId: queryReviewId
+//     });
+//     const updatedreview = Review.updateOne(
+//       { likeCount: likeCount + 1 },
+//       { $addToSet: { userLikes: queryReviewId } }
+//     );
+//     res.status(200).json({
+//       success: true,
+//       data: updatedreview
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+// reviewRouter.patch("/unlike/:userId/:reviewId", async (req, res, next) => {
+//   try {
+//     const queryReviewId = req.params.reviewId;
+//     const review = await Review.findByIdAndUpdate(
+//       queryReviewId,
+//       { likeCount: likeCount - 1 },
+//       { $pull: { userLikes: queryReviewId } }
+//     );
+//     res.status(200).json({
+//       success: true,
+//       data: updatedreview
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 // toggleBookmark, toggleFlag
 
