@@ -107,14 +107,6 @@ input:focus {
     display: flex;
     justify-content: center;
 }
-.line3 {
-    border-top: 1px solid #000000;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 95%;
-    display: flex;
-    justify-content: center;
-}
 .reviews {
     display: flex;
     justify-content: flex-start;
