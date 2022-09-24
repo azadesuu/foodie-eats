@@ -3,8 +3,6 @@ import "./index.css";
 
 import "@fontsource/martel-sans";
 
-import Nav from '../NavBar';
-
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
