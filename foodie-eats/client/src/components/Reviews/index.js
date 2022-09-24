@@ -3,7 +3,7 @@ import "./index.css";
 
 import "@fontsource/martel-sans";
 
-import NavLoggedIn from '../LoggedInNavBar';
+import NavLoggedIn from "../LoggedInNavBar";
 
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -21,7 +21,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 function Title() {
     return (
         <div>
-            <h1>BOOKMARKS</h1>
+            <h1>MY REVIEWS</h1>
         </div>
     );
 }
@@ -125,7 +125,7 @@ function Reviews() {
                                         display="inline"
                                         fontSize="10px"
                                         fontFamily="Martel Sans">
-                                        By xyz789
+                                        By abcd123
                                     </Typography>
                                 </div>
                                 <div className="line2"></div>
@@ -136,7 +136,7 @@ function Reviews() {
                                         fontFamily="Martel Sans"
                                         display="inline"
                                         >
-                                        Piccolina Gelateria
+                                        Calia
                                     </Typography>
                                     <div className="like">
                                         <ThumbUpIcon sx={{ fontSize: 15 }}/>
@@ -147,7 +147,7 @@ function Reviews() {
                                             display="inline"
                                             mt="1px"
                                             >
-                                            7k
+                                            10k
                                         </Typography> 
                                     </div> 
                                 </div>  
@@ -155,13 +155,14 @@ function Reviews() {
                         }
                         secondary={
                             <React.Fragment>
-                                <Rating name="read-only" value="3" size="small" readOnly />
+                                <Rating name="read-only" value="4" size="small" readOnly />
                                 <Typography
                                     variant="body2"
                                     fontSize="10px"
                                     fontFamily="Martel Sans"
                                     >
-                                    Recommended for ice cream lovers!
+                                    So delicious! I will definitely visit again, Lorem ipsum dolor sit amet,
+                                    consectetur adipiscing...
                                     <a href="#" id="link">Read More</a>
                                 </Typography>
                                 <Typography
@@ -171,7 +172,7 @@ function Reviews() {
                                     display="flex"
                                     justifyContent="flex-end"
                                     >
-                                    
+                                    +2 images
                                 </Typography>
                             </React.Fragment>
                         }
@@ -184,9 +185,7 @@ function Reviews() {
         <div className="reviews">
             <div className="reviews-content">
                 <ThemeProvider theme={theme}>
-                    <List sx={{
-                        width: '100%',
-                        overflowY: 'auto',
+                    <List sx={{overflowY: 'auto',
                         flexDirection: "column",
                         "&::-webkit-scrollbar": {
                             width: '0.3em',
@@ -206,7 +205,7 @@ function Reviews() {
 
 }
 
-function Bookmarks() {
+function MyReviews() {
     return (
         <div className="content">
             <NavLoggedIn />
@@ -222,4 +221,4 @@ function Bookmarks() {
     )
 }
 
-export default Bookmarks;
+export default MyReviews;

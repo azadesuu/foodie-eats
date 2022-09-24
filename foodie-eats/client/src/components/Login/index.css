@@ -4,7 +4,7 @@ span.bigScreen {
 span.smallScreen {
     display: none;
 }
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 550px) {
     #form-control-pw {
         margin-right: -62px;
         width: 483px;
@@ -19,7 +19,7 @@ span.smallScreen {
         width: 318px;
     }
 }
-@media screen and (max-width: 700px) { 
+@media screen and (max-width: 550px) { 
     span.bigScreen {
         display: none;
     }
@@ -40,7 +40,7 @@ span.smallScreen {
         width: 250px;
     }
 }
-@media screen and (max-width: 600px) { 
+@media screen and (max-width: 450px) { 
     .line {
         width: 170px;
     }
@@ -124,6 +124,9 @@ form {
     height: 40px;
     padding: 8px;
     font-size: 20px;
+}
+input:focus {
+    outline: none;
 }
 .forgetpw {
     font-size: 15px;

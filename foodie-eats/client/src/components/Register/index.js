@@ -3,7 +3,7 @@ import './index.css';
 
 import "@fontsource/martel-sans";
 
-// import { WebLogo } from '../../assets/images/foodie_eats_192x192.svg';
+import WebLogo from '../../assets/images/foodie_eats_192x192.svg';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
@@ -225,10 +225,10 @@ function Nav() {
                             }}
                           >
                             <div className="dropdwn-content">
-                              {/* <img src={ WebLogo } width="107px"/> */}
+                              <img src={ WebLogo } width="107px"/>
                               <div className="dropdwn-link">
-                                <MenuItem onClick={handleClose}><a href="#">community</a></MenuItem>
-                                <MenuItem onClick={handleClose}><a href="#">login</a></MenuItem>
+                                <MenuItem onClick={handleClose}><a href="community">community</a></MenuItem>
+                                <MenuItem onClick={handleClose}><a href="login">login</a></MenuItem>
                               </div>
                               <div className='dropdwn-back'>
                                 <ArrowBackIosNewIcon 
@@ -247,7 +247,7 @@ function Nav() {
                     )}
                   </Box>
                   <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                    <Link href='#' style={{ textDecoration: 'none' }}>
+                    <Link href='login' style={{ textDecoration: 'none' }}>
                       <Button color="text"
                         style={{ 
                           fontSize: '20px', 
@@ -287,12 +287,12 @@ function Nav() {
                 width: ['85%', '90%', '95%', '95%', '95%']
               }}>
               <Toolbar>
-                <Link href='#' style={{ textDecoration: 'none' }}>
-                  {/* <Button color="inherit"><img src={ WebLogo } width="70px"/></Button> */}
+                <Link href='community' style={{ textDecoration: 'none' }}>
+                  <Button color="inherit"><img src={ WebLogo } width="70px"/></Button>
                 </Link>
                 <Grid container justifyContent="space-between">
                   <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                    <Link href='#' style={{ textDecoration: 'none' }}>
+                    <Link href='community' style={{ textDecoration: 'none' }}>
                       <Button color="text" 
                         style={{ 
                           fontSize: '20px', 
@@ -313,7 +313,7 @@ function Nav() {
                     </Link>
                   </Box>
                   <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                    <Link href='#' style={{ textDecoration: 'none' }}>
+                    <Link href='login' style={{ textDecoration: 'none' }}>
                       <Button color="text" 
                         style={{ 
                           fontSize: '20px', 
@@ -363,7 +363,7 @@ function Register() {
         <SignUpPwCon />
       </form>
       <div className='signup-done'>
-        <a className='done' href='#'>DONE</a> 
+        <a className='done' href='login'>DONE</a> 
       </div>
       <div className='footer'>
         <p>copyright © 2022 All-for-one</p>

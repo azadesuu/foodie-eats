@@ -1,197 +1,675 @@
-import React from 'react'; // required
-import './index.css';
+import React from "react"; // required
+import "./index.css";
 
 import "@fontsource/martel-sans";
 
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginIcon from '@mui/icons-material/Login';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Nav from '../NavBar';
 
-function Nav() {
-    // code partially adapted from https://mui.com/material-ui/react-app-bar/
-    const [auth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-  
-    const handleMenu = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-  
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    
-    const [checked] = React.useState(false);
-  
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import NavLoggedIn from "../LoggedInNavBar";
+
+function Title() {
     return (
-        <div className='nav'>
-            <span className='smallScreen'>
-            <ThemeProvider theme={ theme }>
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex' }, justifyContent: 'space-around' }}>
-                <AppBar position="fixed"
-                    sx={{ 
-                    bgcolor: 'background.green',
-                    borderRadius: 3,
-                    boxShadow: 7,
-                    top: 20,
-                    justifyContent: 'space-around',
-                    height: 100,
-                    left: 35,
-                    width: ['85%', '90%', '95%', '95%', '95%']
-                    }}>
-                    <Toolbar>
-                    <Grid container justifyContent="space-between">
-                        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                        {auth && (
-                            <div>
-                            <IconButton
-                                edge="start"
-                                color="img"
-                                aria-label="menu"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"  
-                                sx={{ mr: 2 }}
-                                onClick={handleMenu}
-                            >
-                                <MenuIcon sx={{ fontSize:"40px" }} />
-                            </IconButton>
-                            <Collapse orientation="horizontal" in={checked}>
-                                <Menu
-                                className="menu-dropdwn"
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                                PaperProps={{
-                                    style: {
-                                    width: "50%",
-                                    height: "100%",
-                                    backgroundColor: "#ECE7E5",
-                                    marginLeft: "-50px",
-                                    marginTop: "-16px",
-                                    }
-                                }}
-                                >
-                                <div className="dropdwn-content">
-                                    {/* <img src={ WebLogo } width="107px"/> */}
-                                    <div className="dropdwn-link">
-                                    <MenuItem onClick={handleClose}><a href="#">community</a></MenuItem>
-                                    <MenuItem onClick={handleClose}><a href="#">login</a></MenuItem>
-                                    </div>
-                                    <div className='dropdwn-back'>
-                                    <ArrowBackIosNewIcon 
-                                        sx={{ 
-                                        color: "white", 
-                                        bgcolor: "#514F4E", 
-                                        height: "61px",
-                                        width: "17px",
-                                        borderRadius: "10px 0px 0px 10px",
-                                        }}/>
-                                    </div>
-                                </div>
-                                </Menu> 
-                            </Collapse>
-                            </div>
-                        )}
-                        </Box>
-                        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                        <Link href='#' style={{ textDecoration: 'none' }}>
-                            <Button color="text"
-                            style={{ 
-                                fontSize: '20px', 
-                                textTransform: 'none', 
-                                fontFamily: 'Martel Sans' }}
-                            sx={{
-                                borderBottom: 2, 
-                                color: 'text.main', 
-                                height: 100, 
-                                alignItems: 'center', 
-                                display: 'flex',
-                            }}
-                            onClick>
-                                login
-                            </Button>
-                        </Link>
-                        </Box>
-                    </Grid>
-                    </Toolbar>
-                </AppBar>
-                </Box>
-            </ThemeProvider>
-            </span>
-    
-            <span className='bigScreen'>
-            <ThemeProvider theme={ theme }>
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex' }, justifyContent: 'space-around' }}>
-                <AppBar position="fixed"
-                    sx={{ 
-                    bgcolor: 'background.green',
-                    borderRadius: 3,
-                    boxShadow: 7,
-                    top: 20,
-                    justifyContent: 'space-around',
-                    height: 100,
-                    left: 35,
-                    width: ['85%', '90%', '95%', '95%', '95%']
-                    }}>
-                    <Toolbar>
-                    <Link href='#' style={{ textDecoration: 'none' }}>
-                        {/* <Button color="inherit"><img src={ WebLogo } width="70px"/></Button> */}
-                    </Link>
-                    <Grid container justifyContent="space-between">
-                        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                        <Link href='#' style={{ textDecoration: 'none' }}>
-                            <Button color="text" 
-                            style={{ 
-                                fontSize: '20px', 
-                                textTransform: 'none', 
-                                fontFamily: 'Martel Sans' }}
-                            sx={{
-                                "&:hover": {
-                                borderBottom: 2, 
-                                color: 'text.main', 
-                                height: 100, 
-                                alignItems: 'center', 
-                                display: 'flex',
-                                },
-                            }}
-                            onClick>
-                                community
-                            </Button>
-                        </Link>
-                        </Box>
-                        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-                        <Link href='#' style={{ textDecoration: 'none' }}>
-                            <Button color="text" 
-                            style={{ 
-                                fontSize: '20px', 
-                                textTransform: 'none', 
-                                fontFamily: 'Martel Sans' }}
-                            sx={{
-                                borderBottom: 2, 
-                                color: 'text.main', 
-                                height: 100, 
-                                alignItems: 'center', 
-                                display: 'flex',
-                            }}
-                            onClick>
-                                login
-                            </Button>
-                        </Link>
-                        </Box>
-                    </Grid>
-                    </Toolbar>
-                </AppBar>
-                </Box>
-            </ThemeProvider>
-            </span>
+        <div>
+            <h1>COMMUNITY</h1>
         </div>
     );
 }
+
+function Location() {
+    return (
+        <div className="location">
+            <LocationOnIcon />
+            <input
+                type="text"
+                placeholder="Select your postcode here"
+                name="location"
+                id="location"
+                // value="3000 Melbourne, Australia"
+                required
+            />
+        </div>
+    )
+}
+
+function SearchBar() {
+    const data = [{"Name": "Calia", "Author": "abcd123"}, {"Name": "David's Hotpot", "Author": "xyz789"}]
+    return (
+        <div className="searchbar">
+            <div className="searchrow">
+                <SearchIcon />
+                <input
+                    type="text"
+                    placeholder="Search"
+                    name="search"
+                    id="search"
+                    // value="{{search}}"
+                    required
+                />
+                <FilterAltIcon />
+            </div>
+            <div className="searchResult">
+
+            </div>
+        </div>
+    )
+}
+
+const theme = createTheme({
+    palette: {
+        background: {
+            green: "#BEE5B0",
+            grey: "#ECE7E5",
+            white: "#FFFCFB"
+        },
+        text: {
+            main: "#000000"
+        },
+        img: {
+            main: "#000000"
+        }
+    }
+});
+
+function TopRecom() {
+    const filter_fields = ['rating', 'price range'];
+
+    return (
+        <div className="toprecom">
+            <h2>TOP RECOMMENDATIONS</h2>
+            <span className="smallScreen">
+                <div className="toprecom-content">
+                    <ThemeProvider theme={theme}>   
+                        <List sx={{ 
+                                width: '100%', 
+                                display: 'flex', 
+                                justifyContent: 'center', 
+                                overflowY: 'auto',
+                                maxHeight: "200px", 
+                                flexDirection: "column",
+                                "&::-webkit-scrollbar": {
+                                    width: '0.3em',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: '#FFFEEC',
+                                    borderRadius: '10px',
+                                    maxHeight: '4px',
+                                }
+                        }}>
+                            {/* // loop here */}
+                            <ListItemButton 
+                                href="#"
+                                alignItems="flex-start" 
+                                sx={{ 
+                                    width: '95%', 
+                                    marginTop: '40px',
+                                    bgcolor: 'background.white', 
+                                    borderRadius: '10px',
+                                    "&:hover": { bgcolor: 'white'}
+                                }}>
+                                <ListItemText sx={{ margin: '-7px' }}
+                                    primary={
+                                        <React.Fragment>
+                                            <div className="t1">
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    Date visited: 01/01/22
+                                                </Typography>
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    By abcd123
+                                                </Typography>
+                                            </div>
+                                            <div className="line2"></div>
+                                            <div className="t2">
+                                                <Typography 
+                                                    variant="h5"
+                                                    fontSize="15px"
+                                                    fontFamily="Martel Sans"
+                                                    display="inline"
+                                                    >
+                                                    Calia
+                                                </Typography>
+                                                <div className="like">
+                                                    <ThumbUpIcon sx={{ fontSize: 15 }}/>
+                                                    <Typography
+                                                        variant="body2"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans"
+                                                        display="inline"
+                                                        mt="1px"
+                                                        >
+                                                        10k
+                                                    </Typography> 
+                                                </div> 
+                                            </div>  
+                                        </React.Fragment>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Rating name="read-only" value="4" size="small" readOnly />
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                >
+                                                So delicious! I will definitely visit again, Lorem ipsum dolor sit amet,
+                                                consectetur adipiscing...
+                                                <a href="#" id="link">Read More</a>
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                display="flex"
+                                                justifyContent="flex-end"
+                                                >
+                                                +2 images
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItemButton>
+                            <div className="line3"></div>
+                            <ListItemButton 
+                                href="#"
+                                alignItems="flex-start" 
+                                sx={{ 
+                                    width: '95%', 
+                                    bgcolor: 'background.white', 
+                                    borderRadius: '10px',
+                                    "&:hover": { bgcolor: 'white'},
+                                    "&::-webkit-scrollbar": {
+                                        width: '0.3em',
+                                    },
+                                    "&::-webkit-scrollbar-thumb": {
+                                        backgroundColor: '#FFFEEC',
+                                        borderRadius: '10px',
+                                        maxHeight: '4px',
+                                    }
+                                }}>
+                                <ListItemText sx={{ margin: '-7px' }}
+                                    primary={
+                                        <React.Fragment>
+                                            <div className="t1">
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    Date visited: 01/01/22
+                                                </Typography>
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    By abcd123
+                                                </Typography>
+                                            </div>
+                                            <div className="line2"></div>
+                                            <div className="t2">
+                                                <Typography 
+                                                    variant="h5"
+                                                    fontSize="15px"
+                                                    fontFamily="Martel Sans"
+                                                    display="inline"
+                                                    >
+                                                    Calia
+                                                </Typography>
+                                                <div className="like">
+                                                    <ThumbUpIcon sx={{ fontSize: 15 }}/>
+                                                    <Typography
+                                                        variant="body2"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans"
+                                                        display="inline"
+                                                        mt="1px"
+                                                        >
+                                                        10k
+                                                    </Typography> 
+                                                </div> 
+                                            </div>  
+                                        </React.Fragment>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Rating name="read-only" value="4" size="small" readOnly />
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                >
+                                                So delicious! I will definitely visit again, Lorem ipsum dolor sit amet,
+                                                consectetur adipiscing...
+                                                <a href="#" id="link">Read More</a>
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                display="flex"
+                                                justifyContent="flex-end"
+                                                >
+                                                +2 images
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItemButton>
+                        </List>
+                    </ThemeProvider>
+                </div>
+            </span>
+            <span className="bigScreen">
+            <Box sx={{ 
+                flexGrow: 1, 
+                overflowY: 'auto', 
+                maxHeight:  "200px",
+                padding: '1%',
+                "&::-webkit-scrollbar": {
+                    width: '0.3em',
+                },
+                "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: '#BEE5B0',
+                    borderRadius: '10px',
+                }
+            }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {Array.from(Array(10)).map((_, index) => (
+                    // loop here
+                    <Grid item xs={2} sm={4} md={4} key={index}>
+                        <ThemeProvider theme={theme}>   
+                            <List sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                <ListItemButton 
+                                    href="#"
+                                    alignItems="flex-start" 
+                                    sx={{ 
+                                        width: '95%', 
+                                        bgcolor: 'background.white', 
+                                        borderRadius: '10px',
+                                        boxShadow: '0 5px 5px rgba(0, 0, 0, 0.25)',
+                                        "&:hover": { bgcolor: 'white'},
+                                }}>
+                                    <ListItemText sx={{ margin: '-7px' }}
+                                        primary={
+                                            <React.Fragment>
+                                                <div className="t1">
+                                                    <Typography 
+                                                        variant="body2"
+                                                        display="inline"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans">
+                                                        Date visited: 01/01/22
+                                                    </Typography>
+                                                    <Typography 
+                                                        variant="body2"
+                                                        display="inline"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans">
+                                                        By abcd123
+                                                    </Typography>
+                                                </div>
+                                                <div className="line2"></div>
+                                                <div className="t2">
+                                                    <Typography 
+                                                        variant="h5"
+                                                        fontSize="15px"
+                                                        fontFamily="Martel Sans"
+                                                        display="inline"
+                                                        >
+                                                        Calia
+                                                    </Typography>
+                                                    <div className="like">
+                                                        <ThumbUpIcon sx={{ fontSize: 15 }}/>
+                                                        <Typography
+                                                            variant="body2"
+                                                            fontSize="10px"
+                                                            fontFamily="Martel Sans"
+                                                            display="inline"
+                                                            mt="1px"
+                                                            >
+                                                            10k
+                                                        </Typography> 
+                                                    </div> 
+                                                </div>  
+                                            </React.Fragment>
+                                        }
+                                        secondary={
+                                            <React.Fragment>
+                                                <Rating name="read-only" value="4" size="small" readOnly />
+                                                <Typography
+                                                    variant="body2"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans"
+                                                    >
+                                                    So delicious! I will definitely visit again, Lorem ipsum dolor sit amet,
+                                                    consectetur adipiscing...
+                                                    <a href="#" id="link">Read More</a>
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans"
+                                                    display="flex"
+                                                    justifyContent="flex-end"
+                                                    >
+                                                    +2 images
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItemButton>
+                            </List>
+                        </ThemeProvider>
+                    </Grid>
+                    ))}
+                </Grid>
+            </Box>
+            </span>
+        </div>
+    )
+}
+
+function Recent() {
+    return (
+        <div className="recent">
+            <h2>RECENT</h2>
+            <span className="smallScreen">
+                <div className="recent-content">
+                    <ThemeProvider theme={theme}>   
+                        <List sx={{ 
+                            width: '100%', 
+                            display: 'flex', 
+                            justifyContent: 'center',
+                            overflowY: 'auto',
+                            maxHeight: "200px", 
+                            flexDirection: "column",
+                            "&::-webkit-scrollbar": {
+                                width: '0.3em',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#FFFEEC',
+                                borderRadius: '10px',
+                                maxHeight: '4px',
+                            }
+                        }}>
+                            <ListItemButton 
+                                href="#"
+                                alignItems="flex-start" 
+                                sx={{ 
+                                    width: '95%', 
+                                    bgcolor: 'background.white', 
+                                    borderRadius: '10px',
+                                    marginLeft: '5px',
+                                    "&:hover": { bgcolor: 'white'}
+                                }}>
+                                <ListItemText sx={{ margin: '-7px' }}
+                                    primary={
+                                        <React.Fragment>
+                                            <div className="t1">
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    Date visited: 08/01/22
+                                                </Typography>
+                                                <Typography 
+                                                    variant="body2"
+                                                    display="inline"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans">
+                                                    By xyz789
+                                                </Typography>
+                                            </div>
+                                            <div className="line2"></div>
+                                            <div className="t2">
+                                                <Typography 
+                                                    variant="h5"
+                                                    fontSize="15px"
+                                                    fontFamily="Martel Sans"
+                                                    display="inline"
+                                                    >
+                                                    David's Hotpot
+                                                </Typography>
+                                                <div className="like">
+                                                    <ThumbUpIcon sx={{ fontSize: 15 }}/>
+                                                    <Typography
+                                                        variant="body2"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans"
+                                                        display="inline"
+                                                        mt="1px"
+                                                        >
+                                                        0
+                                                    </Typography> 
+                                                </div> 
+                                            </div>  
+                                        </React.Fragment>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Rating name="read-only" value="5" size="small" readOnly />
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                Phasellus convallis,...
+                                                <a href="#" id="link">Read More</a>
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                fontSize="10px"
+                                                fontFamily="Martel Sans"
+                                                display="flex"
+                                                justifyContent="flex-end"
+                                                >
+                                                +1 images
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItemButton>
+                        </List>
+                    </ThemeProvider>
+                    <div className="line3"></div>
+                </div>
+            </span>
+            <span className="bigScreen">
+            <Box sx={{ 
+                flexGrow: 1, 
+                overflowY: 'auto', 
+                maxHeight:  "200px",
+                padding: '1%',
+                "&::-webkit-scrollbar": {
+                    width: '0.3em',
+                },
+                "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: '#BEE5B0',
+                    borderRadius: '10px',
+                }
+            }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {Array.from(Array(10)).map((_, index) => (
+                    // loop here
+                    <Grid item xs={2} sm={4} md={4} key={index}>
+                        <ThemeProvider theme={theme}>   
+                            <List sx={{ 
+                                width: '100%', 
+                                display: 'flex', 
+                                justifyContent: 'center',
+                                overflowY: 'auto',
+                                maxHeight: "200px", 
+                                flexDirection: "column",
+                                "&::-webkit-scrollbar": {
+                                    width: '0.3em',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: '#FFFEEC',
+                                    borderRadius: '10px',
+                                    maxHeight: '4px',
+                                }
+                            }}>
+                                <ListItemButton 
+                                    href="#"
+                                    alignItems="flex-start" 
+                                    sx={{ 
+                                        width: '95%', 
+                                        bgcolor: 'background.white', 
+                                        borderRadius: '10px',
+                                        boxShadow: '0 5px 5px rgba(0, 0, 0, 0.25)',
+                                        "&:hover": { bgcolor: 'white'}
+                                    }}>
+                                    <ListItemText sx={{ margin: '-7px' }}
+                                        primary={
+                                            <React.Fragment>
+                                                <div className="t1">
+                                                    <Typography 
+                                                        variant="body2"
+                                                        display="inline"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans">
+                                                        Date visited: 08/01/22
+                                                    </Typography>
+                                                    <Typography 
+                                                        variant="body2"
+                                                        display="inline"
+                                                        fontSize="10px"
+                                                        fontFamily="Martel Sans">
+                                                        By xyz789
+                                                    </Typography>
+                                                </div>
+                                                <div className="line2"></div>
+                                                <div className="t2">
+                                                    <Typography 
+                                                        variant="h5"
+                                                        fontSize="15px"
+                                                        fontFamily="Martel Sans"
+                                                        display="inline"
+                                                        >
+                                                        David's Hotpot
+                                                    </Typography>
+                                                    <div className="like">
+                                                        <ThumbUpIcon sx={{ fontSize: 15 }}/>
+                                                        <Typography
+                                                            variant="body2"
+                                                            fontSize="10px"
+                                                            fontFamily="Martel Sans"
+                                                            display="inline"
+                                                            mt="1px"
+                                                            >
+                                                            0
+                                                        </Typography> 
+                                                    </div> 
+                                                </div>  
+                                            </React.Fragment>
+                                        }
+                                        secondary={
+                                            <React.Fragment>
+                                                <Rating name="read-only" value="5" size="small" readOnly />
+                                                <Typography
+                                                    variant="body2"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans"
+                                                    >
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                    Phasellus convallis,...
+                                                    <a href="#" id="link">Read More</a>
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    fontSize="10px"
+                                                    fontFamily="Martel Sans"
+                                                    display="flex"
+                                                    justifyContent="flex-end"
+                                                    >
+                                                    +1 images
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItemButton>
+                            </List>
+                        </ThemeProvider>
+                    </Grid>
+                    ))}
+                </Grid>
+            </Box>
+            </span>
+        </div>
+    )
+}
+
+function Post() {
+    return(
+        <div className="postButton">
+            <span className="smallScreen">
+                <IconButton href='#'>
+                    <PostAddIcon 
+                        sx={{
+                            bgcolor: "#BEE5B0",
+                            color: "white",
+                            borderRadius: "30px",
+                            fontSize: 50,
+                            position: "fixed",
+                            bottom: "40px",
+                            padding: "2px"
+                        }}
+                    />
+                </IconButton>
+            </span>
+        </div>
+    )
+}
+
+function Community() {
+    return (
+        <div className="content">
+            {/* if logged in */}
+            <NavLoggedIn />
+            {/* else */}
+            {/* <Nav /> */}
+            <span className="bigScreen">
+                <Location />
+            </span>
+            <Title />
+            <span className="smallScreen">
+                <Location />
+            </span>
+            <SearchBar />
+            <div className="line" />
+            <TopRecom />
+            <div className="line" />
+            <Recent />
+            <Post />
+            <div className="footer">
+                <p>copyright © 2022 All-for-one</p>
+            </div>  
+        </div>
+    )
+}
+
+export default Community;
