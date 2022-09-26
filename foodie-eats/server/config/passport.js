@@ -13,6 +13,7 @@ const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 
+const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
 module.exports = function(passport) {
   // used by passport to store information in and retrieve data from sessions
   passport.serializeUser(function(user, done) {
@@ -75,9 +76,10 @@ module.exports = function(passport) {
         process.nextTick(function() {
           User.findOne(
             {
-              $or: [{ username: username }, { email: email }]
+              $or: [{ username: req.body.username }, { email: req.body.email }]
             },
             function(err, existingUser) {
+              console.log(req.body);
               if (err) {
                 console.log(err);
                 return done(err);
@@ -96,8 +98,8 @@ module.exports = function(passport) {
               } else {
                 // otherwise create a new user
                 var newUser = new User();
-                newUser.username = username;
-                newUser.email = email;
+                newUser.username = req.body.username;
+                newUser.email = req.body.email;
                 newUser.password = newUser.generateHash(password);
 
                 // and save the user

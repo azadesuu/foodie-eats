@@ -78,6 +78,9 @@ export async function signupUser(user) {
     return;
   }
 
+  console.log("api user");
+  console.log(user);
+
   const endpoint = SERVER_URL + "/signup";
 
   // POST the email and password to API to

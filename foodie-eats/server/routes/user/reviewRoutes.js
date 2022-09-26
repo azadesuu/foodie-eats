@@ -12,7 +12,6 @@ reviewRouter.get("/getReviewsByRecent", async (req, res, next) => {
       .lean()
       .limit(10)
       .sort({ $natural: -1 });
-      console.log(reviews);
 
     if (!reviews) {
       next({ name: "CastError" });

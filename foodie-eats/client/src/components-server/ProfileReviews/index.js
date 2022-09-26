@@ -18,7 +18,6 @@ function ProfileReviews() {
     console.log(user?.username);
     console.log(username);
     navigate("/my-reviews");
-    console.log("NAVIGATED TO MY-REVIEWS");
   }
 
   const { data: userProfile, isLoadingUser } = useQuery(
