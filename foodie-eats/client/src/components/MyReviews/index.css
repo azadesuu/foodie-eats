@@ -15,6 +15,7 @@ span.smallScreen {
     }
     span.smallScreen {
         display: inline;
+        width: 98%;
     }
     .searchrow {
         width: 95%;
@@ -95,14 +96,6 @@ input:focus {
 .line {
     border-top: 1px solid #000000;
     margin-top: 28px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.line2 {
-    border-top: 1px solid #000000;
-    margin-top: -5px;
-    margin-bottom: 10px;
     width: 100%;
     display: flex;
     justify-content: center;

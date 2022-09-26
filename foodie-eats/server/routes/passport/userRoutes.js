@@ -18,6 +18,8 @@ const sendEmail = require("../../sendEmail.js");
 const crypto = require("crypto");
 const User = require("../../models/user");
 const Token = require("../../models/token");
+const passwordComplexity = require("joi-password-complexity");
+const bcrypt = require("bcrypt");
 
 // POST login -- using JWT
 userRouter.post("/login", async (req, res, next) => {
@@ -98,29 +100,41 @@ userRouter.get("/findTokenUser", async (req, res) => {
   }
 });
 
-userRouter.post("/password-reset/:userId/:token", async (req, res) => {
+// reset password
+userRouter.post("/reset-password/:id/:token", async (req, res) => {
   try {
-    const schema = Joi.object({ password: Joi.string().required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    const passwordSchema = Joi.object({
+      password: passwordComplexity()
+        .required()
+        .label("Password")
+    });
+    const { error } = passwordSchema.validate(req.body);
+    if (error)
+      return res.status(400).send({ message: error.details[0].message });
 
-    const user = await User.findById(req.params.userId);
-    if (!user) return res.status(400).send("invalid link or expired");
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user)
+      return res.status(400).send({ message: "Invalid userId in link" });
 
     const token = await Token.findOne({
-      userId: user._id,
+      _id: user._id,
       token: req.params.token
     });
-    if (!token) return res.status(400).send("Invalid link or expired");
+    if (!token)
+      return res.status(400).send({ message: "Invalid token in link" });
 
-    user.password = req.body.password;
+    if (!user.verified) user.verified = true;
+
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+    user.password = hashPassword;
     await user.save();
-    await token.delete();
+    //await token.remove();
 
-    res.send("password reset sucessfully.");
+    res.status(200).send({ message: "Password reset successfully" });
   } catch (error) {
-    res.send("An error occured");
-    console.log(error);
+    res.status(500).send({ message: "Internal server error " });
   }
 });
 

@@ -15,6 +15,7 @@ span.smallScreen {
     }
     span.smallScreen {
         display: inline;
+        width: 98%;
     }
     .searchrow {
         width: 95%;
@@ -99,13 +100,10 @@ input:focus {
     display: flex;
     justify-content: center;
 }
-.line2 {
-    border-top: 1px solid #000000;
-    margin-top: -5px;
-    margin-bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.postButton {
+    display: grid;
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 .reviews {
     display: flex;

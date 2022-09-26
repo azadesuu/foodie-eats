@@ -8,6 +8,7 @@ import Axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { usePreviousNonNullish } from "../../hooks";
 import EditProfile from "../EditProfile";
+
 function MyProfile() {
   // // getting logged in user
   const [user1, setUser1] = useContext(UserContext);

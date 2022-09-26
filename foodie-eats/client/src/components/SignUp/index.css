@@ -51,29 +51,6 @@ span.smallScreen {
 :root {
     box-sizing: border-box;
 }
-.nav {
-    background-color: #FFFEEC;
-}
-.dropdwn-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 20px;
-}
-.dropdwn-link {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-left: -30px;
-    margin-top: 20px;
-    gap: 4px;
-}
-.dropdwn-back {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-
 body {
     margin-top: 230px;
     background-color: #FFFEEC;
@@ -83,24 +60,13 @@ body {
     justify-content: center;
     flex-direction: column;
 }
-.content {
+.content-register {
     margin-top: -90px;
     margin-bottom: 80px;
 }
-.content h1 {
-    text-align: center;
-    font-size: 60px;
-}
-.content h2 {
-    text-align: center;
-}
-.row {
-    display: flex;
-    gap: 6px;
-    background-color: #D9D9D9;
-    max-width: 346px;
-    border-radius: 10px;
-}
+.content-register .signup {
+    display: none;
+} 
 form {
     max-width: 505px;
     display: flex;
@@ -130,19 +96,6 @@ form {
     height: 40px;
     padding: 8px;
     font-size: 20px;
-}
-.forgetpw {
-    font-size: 15px;
-    text-decoration: underline;
-}
-.ORline {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-.line {
-    border-top: 1px solid #000000;
-    margin-top: 28px;
 }
 .signup-done {
     display: flex;

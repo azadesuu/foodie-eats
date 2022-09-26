@@ -4,43 +4,46 @@ span.bigScreen {
 span.smallScreen {
     display: none;
 }
-@media screen and (max-width: 485px) { 
+@media screen and (max-width: 570px) { 
     span.bigScreen {
-        display: none;
+      display: none;
     }
     span.smallScreen {
-        display: inline;
+      display: inline;
+      width: 98%;
     }
     .content h1 {
-        font-size: 50px;
+      font-size: 50px;
     }
     .searchrow {
-        width: 95%;
+      width: 95%;
     }
     .searchbar input {
-        height: 20px;
-        border-radius: 20px;
+      height: 20px;
+      border-radius: 20px;
     }
     .location {
-        margin-left: 30px;
-        margin-top: -50px;
+      margin-left: 30px;
+      margin-top: -30px;
+      margin-bottom: 50px;
     }
 }
-@media screen and (min-width: 485px) {
+@media screen and (min-width: 570px) {
     .content h1 {
-        font-size: 60px;
+      font-size: 60px;
     }
     .searchrow {
-        width: 50%;
-        border-radius: 10px;
+      width: 50%;
+      border-radius: 10px;
     }
     .searchbar input {
-        height: 35px;
-        border-radius: 10px;
+      height: 35px;
+      border-radius: 10px;
     }
     .location {
-        justify-content: flex-end;
-        margin-right: 70px;
+      justify-content: flex-end;
+      margin-right: 70px;
+      margin-top: 10px;
     }
 }
 :root {
@@ -73,7 +76,6 @@ body {
     display: flex;
     gap: 1px;
     align-items: center;
-    margin-top: 10px;
 }
 .location input {
     background: #FFFEEC;
@@ -128,7 +130,15 @@ input:focus {
     border-top: 1px solid #000000;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 95%;
+    width: 97%;
+    display: flex;
+    justify-content: center;
+}
+.line4 {
+    border-top: 1px solid #000000;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    width: 97%;
     display: flex;
     justify-content: center;
 }
@@ -183,7 +193,7 @@ input:focus {
     flex-direction: column;
 }
 .postButton {
-    display: flex;
+    display: grid;
     justify-content: flex-end;
     margin-right: 20px;
 }

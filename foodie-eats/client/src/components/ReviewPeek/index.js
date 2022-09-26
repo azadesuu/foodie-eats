@@ -29,7 +29,7 @@ const theme = createTheme({
 
 const ReviewPeek = props => {
   const navigate = useNavigate();
-  const { _id, restaurantName, userID, rating, likeCount } = props.reviewData;
+  const { _id, restaurantName, userID, rating, likeCount, dateVisited, description, images} = props.reviewData;
     // const { data: user, isLoading } = useQuery(
     //   "username-query",
     //   () => getUserById(),
@@ -48,6 +48,7 @@ const ReviewPeek = props => {
           width: '100%', 
           display: 'flex', 
           justifyContent: 'center', 
+          flexDirection: 'column'
         }}>
             <ListItemButton 
                 href="#"
@@ -57,7 +58,8 @@ const ReviewPeek = props => {
                     bgcolor: 'background.white', 
                     borderRadius: '10px',
                     marginRight: '10px',
-                    boxShadow: '0 5px 5px rgba(0, 0, 0, 0.25)',
+                    // boxShadow: '0 5px 5px rgba(0, 0, 0, 0.25)',
+                    // border: '1px solid #000000',
                     "&:hover": { bgcolor: 'white'}
                 }}>
                 <ListItemText sx={{ margin: '-7px' }}
@@ -68,8 +70,9 @@ const ReviewPeek = props => {
                                     variant="body2"
                                     display="inline"
                                     fontSize="10px"
-                                    fontFamily="Martel Sans">
-                                    Date visited: 01/01/22
+                                    fontFamily="Martel Sans"
+                                >
+                                    Date visited: {dateVisited}
                                 </Typography>
                                 <Typography 
                                     variant="body2"
@@ -112,8 +115,10 @@ const ReviewPeek = props => {
                                 fontSize="10px"
                                 fontFamily="Martel Sans"
                                 >
-                                So delicious! I will definitely visit again, Lorem ipsum dolor sit amet,
-                                consectetur adipiscing...
+                                {/* {description.length > 250 ?
+                                    `${description.substring(0, 250)}...` : description
+                                } */}
+                                {description}
                                 <a href="#" id="link">Read More</a>
                             </Typography>
                             <Typography
@@ -123,6 +128,7 @@ const ReviewPeek = props => {
                                 display="flex"
                                 justifyContent="flex-end"
                                 >
+                                {/* +{images.length} images */}
                                 +2 images
                             </Typography>
                         </React.Fragment>

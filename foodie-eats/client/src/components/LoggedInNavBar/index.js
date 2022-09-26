@@ -139,7 +139,7 @@ function NavLoggedIn() {
                                                                         handleClose
                                                                     }
                                                                 >
-                                                                    <a href="community">
+                                                                    <a href="/">
                                                                         community
                                                                     </a>
                                                                 </MenuItem>
@@ -175,7 +175,7 @@ function NavLoggedIn() {
                                                                         handleClose
                                                                     }
                                                                 >
-                                                                    <a href="#">
+                                                                    <a href="my-profile">
                                                                         profile
                                                                     </a>
                                                                 </MenuItem>
@@ -184,7 +184,7 @@ function NavLoggedIn() {
                                                                         handleClose
                                                                     }
                                                                 >
-                                                                    <a href="#">
+                                                                    <a href="my-theme">
                                                                         theme
                                                                     </a>
                                                                 </MenuItem>
@@ -260,10 +260,10 @@ function NavLoggedIn() {
                         >
                             <Toolbar>
                                 <Link
-                                    href="community"
+                                    href="/"
                                     style={{ textDecoration: "none" }}
                                 >
-                                    <Button href='community' color="inherit"><img src={ WebLogo } width="70px"/></Button>
+                                    <Button href='/' color="inherit"><img src={ WebLogo } width="70px"/></Button>
                                 </Link>
                                 <Grid container justifyContent="space-between">
                                     <div className="nav1">
@@ -274,7 +274,7 @@ function NavLoggedIn() {
                                             }}
                                         >
                                             <Link
-                                                href="community"
+                                                href="/"
                                                 style={{ textDecoration: "none" }}
                                             >
                                                 <Button
@@ -431,7 +431,7 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <Link href="#">
+                                            <Link href="my-profile">
                                                 <Button>
                                                     <AccountCircleIcon color='black' sx={{ fontSize: 50, color: 'black' }}/>
                                                 </Button>
