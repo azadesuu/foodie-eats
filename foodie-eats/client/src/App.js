@@ -13,7 +13,11 @@ import SignUp from "./components-server/SignUp";
 import MyProfile from "./components-server/MyProfile/MyProfile";
 import ForgotPassword from './components-server/ForgotPassword';
 import ChangePassword from './components-server/ChangePassword/ChangePassword';
+import PostReview from "./components-server/PostReview/PostReview";
+import Review from './components-server/Review/Review';
+import EditReview from "./components-server/EditReview/EditReview";
 // import MyProfile from './components/MyProfile';
+
 
 function App() {
   const isLoggedIn = true;
@@ -26,6 +30,9 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
+          <Route path="/post-a-review" element={<PostReview/>} />
+          <Route path="/review" element={<Review/>} />
+          <Route path="/edit-review" element={<EditReview/>} />
           {/* <Route path="/" element={isLoggedIn ? <Content /> : <Navigate to="/login" />} /> */}
           {/* <Route path="/my-profile" element={isLoggedIn ? <MyBookmarks /> : <Navigate to="/login" />} />
           <Route path="/my-bookmarks" element={isLoggedIn ? <MyProfile /> : <Navigate to="/login" />} />

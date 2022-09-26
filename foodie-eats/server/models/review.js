@@ -9,15 +9,18 @@ const addressSchema = new mongoose.Schema({
     type: Number,
     min: 3000,
     max: 3999,
-    default: 3000
+    default: 3000,
+    required: true
   },
   state: {
     type: String,
-    default: "Victoria"
+    default: "VIC",
+    required: true
   },
   suburb: {
     type: String,
-    default: "Melbourne"
+    default: "Melbourne",
+    required: true
   },
   country: {
     type: String,
@@ -25,11 +28,10 @@ const addressSchema = new mongoose.Schema({
   }
 });
 const reviewSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    //type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-    // required: true,
+  userId: {	
+    type: mongoose.Schema.Types.ObjectId,	
+    ref: "User",	
+    //required: true
   },
   username: {
     type: String
@@ -40,13 +42,14 @@ const reviewSchema = new mongoose.Schema({
     required: true
   },
   dateVisited: {
-    type: Date
+    type: Date,
+    default: Date.now
   },
   restaurantName: {
     type: String
   },
   address: addressSchema,
-  price_range: {
+  priceRange: {
     type: Number,
     min: 1,
     max: 4,
@@ -54,18 +57,22 @@ const reviewSchema = new mongoose.Schema({
     required: true
   },
   rating: {
-    value: {
-      type: Number,
-      min: 0,
-      max: 5
-    },
-    comment: String
+    type: Number,
+    min: 1,
+    max: 5,
+    default: 1,
+    required: true
+  },
+  description: {
+    type: String,
+    default: ""
   },
   images: {
     type: [String]
   },
-  public: {
-    type: Boolean
+  isPublic: {
+    type: Boolean,
+    default: false
   },
   tags: {
     type: [String],
@@ -74,7 +81,7 @@ const reviewSchema = new mongoose.Schema({
   userLikes: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User",
-    required: true
+    default: []
   },
   likeCount: {
     type: Number,
@@ -86,9 +93,11 @@ const reviewSchema = new mongoose.Schema({
     default: false
   },
   flagCount: {
-    type: Number,
-    default: 0
+    type: [mongoose.Schema.Types.ObjectId],	
+    ref: "User",	
+    default: []
   }
+
 });
 
 // compile the Schema into a Model
