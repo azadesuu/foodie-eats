@@ -1,10 +1,11 @@
 import React from "react"; // required
 import "./index.css";
 
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { useContext } from "react";
 import { getMyReviews } from "../../api";
 import { useQuery } from "react-query";
+import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 
@@ -15,9 +16,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 
-import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
 import CircularProgress from "@mui/material/CircularProgress";
+import Avatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
 
 function SearchBar() {
     const data = [
@@ -65,7 +69,57 @@ function Post() {
     );
 }
 
-function Reviews() {
+function TopUser() {
+    // getting logged in user
+    const [user1, setUser1] = useContext(UserContext);
+    // console.log(user1);
+    const [username, setUsername] = useState();
+    const [email, setEmail] = useState();
+    const [bio, setBio] = useState();
+    const [profileImage, setProfileImage] = useState();
+    const [userId, setUserId] = useState();
+
+    const [editButton, setEditButton] = useState(false);
+    const updateUser = () => {
+        setEditButton(!editButton);
+    };
+
+    const { data: userProfile, isLoading } = useQuery(
+        "my-profile",
+        () => getProfile(user1?.username),
+        { enabled: !!user1?.username }
+    );
+    return (
+        <div className="top-user">
+            <div className="top-user-r1">
+                <Avatar alt="user-profile-image" src={userProfile.profileImage} sx={{ height: 130, width: 130 }}/>
+                <div className="top-user-info">
+                <h2>{userProfile.username}</h2>
+                <p>{userProfile.bio}</p>
+                </div>
+            </div>
+            <div className="top-user-rev">
+                <p><span className="detail">7</span> reviews</p>
+                <p><span className="detail">10k</span> likes</p>
+            </div>
+        </div>
+    )
+}
+  
+function Sidebar() {
+    return (
+        <div className="sidebar-content">
+          <a href="my-profile">profile</a>
+          <div id="current">
+            <a href="my-reviews">reviews</a>
+          </div>
+          <a href="my-bookmarks">bookmarks</a>
+          <a href="my-theme">theme</a>
+        </div>
+    )
+}
+
+function ReviewsSmallScreen() {
     const [user, setUser] = useContext(UserContext);
     const { data: listReviews, isLoading } = useQuery(
         "my-reviews",
@@ -75,13 +129,13 @@ function Reviews() {
 
     return (
         <div className="reviews">
-            <div>I am {user?.username}</div>
             <div className="reviews-content">
                 <List
                     sx={{
                         width: "100%",
                         justifyContent: "center",
                         overflowY: "auto",
+                        overflowX: 'hidden',
                         flexDirection: "column",
                         "&::-webkit-scrollbar": {
                             width: "0.3em"
@@ -117,17 +171,81 @@ function Reviews() {
         </div>
     );
 }
+function ReviewsBigScreen() {
+    const [user, setUser] = useContext(UserContext);
+    const { data: listReviews, isLoading } = useQuery(
+        "my-reviews",
+        () => getMyReviews(user?._id),
+        { enabled: !!user }
+    );
+
+    return (
+        <div className="reviews">
+            <div className="reviews-r1">
+                <h2>reviews</h2>
+                <SearchBar />
+            </div>
+            <Box sx={{ 
+                flexGrow: 1, 
+                overflowY: 'auto', 
+                overflowX: 'hidden',
+                maxHeight:  "300px",
+                padding: '1%',
+                width: '90%',
+                "&::-webkit-scrollbar": {
+                    width: '0.3em',
+                },
+                "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: '#BEE5B0',
+                    borderRadius: '10px',
+                }
+            }}>
+                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {!user && <CircularProgress className="spinner" />}
+                    {listReviews ? (
+                        <div>
+                        {listReviews.length > 0 ? (
+                            <div>
+                                {listReviews.map(review => {
+                                    return (
+                                        <ReviewPeek reviewData={review} />
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            // If the info can't be loaded, then display a message
+                            <h2>User has not posted</h2>
+                        )}
+                    </div>
+                ) : (
+                    <h2>Found no reviews</h2>
+                    )}  
+                </Grid>
+            </Box>         
+        </div>
+    )
+}
 
 function MyReviews() {
     return (
         <div className="content">
             <NavLoggedIn />
-
-            <h1>MY REVIEWS</h1>
-            <SearchBar />
-            <div className="line" />
-            <Reviews />
-            <Post />
+            <span className="smallScreen-myreviews">
+                <h1>MY REVIEWS</h1>
+                <SearchBar />
+                <div className="line" />
+                <ReviewsSmallScreen />
+                <Post />
+            </span>
+            <span className="bigScreen-myreviews">
+                <TopUser />
+                <div className="line5" />
+                <div className="r1">
+                    <Sidebar />
+                    <div className="line6" />
+                    <ReviewsBigScreen />
+                </div>
+            </span>
             <div className="footer">
                 <p>copyright © 2022 All-for-one</p>
             </div>

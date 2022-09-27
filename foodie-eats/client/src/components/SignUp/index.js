@@ -23,7 +23,7 @@ function Register() {
                 email: email,
                 password: password
             });
-
+            alert("Signup successful. Please Login.");
             navigate("/login");
         } else {
             alert("Please re-confirm your password");

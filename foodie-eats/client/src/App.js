@@ -16,7 +16,7 @@ import MyReviews from "./components/MyReviews";
 import MyBookmarks from "./components/MyBookmarks";
 import Theme from "./components-server/Theme";
 // import ChangePassword from "./components-server/ChangePassword";
-import ForgotPassword from "./components-server/ForgotPassword";
+import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();

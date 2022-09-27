@@ -27,7 +27,7 @@ function ForgetPassword() {
   return (
     <div className="form-control">
       <div className="forgetpw">
-        <a href="#">Forget Password</a>
+        <a href="forgot-password">Forget Password</a>
       </div>
     </div>
   );

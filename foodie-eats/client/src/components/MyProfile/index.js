@@ -16,15 +16,35 @@ import IconButton from '@mui/material/IconButton';
 
 import NavLoggedIn from "../LoggedInNavBar";
 import EditProfile from "../EditProfile";
+import ChangePassword from "../ChangePassword";
 
 function TopUser() {
+  // getting logged in user
+  const [user1, setUser1] = useContext(UserContext);
+  // console.log(user1);
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [bio, setBio] = useState();
+  const [profileImage, setProfileImage] = useState();
+  const [userId, setUserId] = useState();
+
+  const [editButton, setEditButton] = useState(false);
+  const updateUser = () => {
+    setEditButton(!editButton);
+  };
+
+  const { data: userProfile, isLoading } = useQuery(
+    "my-profile",
+    () => getProfile(user1?.username),
+    { enabled: !!user1?.username }
+  );
   return (
     <div className="top-user">
       <div className="top-user-r1">
-        <Avatar alt="user1" src="" sx={{ height: 130, width: 130 }}/>
+        <Avatar alt="user-profile-image" src={userProfile.profileImage} sx={{ height: 130, width: 130 }}/>
         <div className="top-user-info">
-          <h2>abcd123</h2>
-          <p>Hi! I am abcd. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h2>{userProfile.username}</h2>
+          <p>{userProfile.bio}</p>
         </div>
       </div>
       <div className="top-user-rev">
@@ -89,37 +109,61 @@ function ProfileDetails() {
           }}/>
         </IconButton>
       </div>
-      <div className="form-control-profile">
-        <label>Username </label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value="abcd123"
-          readOnly="readOnly"
-        />
-      </div>
-      <div className="form-control-profile">
-        <label>Email </label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value="abcd123@gmail.com"
-          readOnly="readOnly"
-        />
-      </div>
-      <div className="form-control-profile-bio">
-        <label>Bio </label>
-        <textarea
-          type="text"
-          name="bio"
-          id="bio"
-          value="Hi! I am abcd. Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-          readOnly="readOnly"
-        />
-      </div>
-      <a className="changepw" href="#">Change Password</a>
+      {!editButton ? (
+        <div>
+          {!userProfile && <CircularProgress className="spinner" />}
+          {userProfile ? (
+            <div>
+              <div className="form-control-profile">
+                <label>Username </label>
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={userProfile.username}
+                  readOnly="readOnly"
+                />
+              </div>
+              <div className="form-control-profile">
+                <label>Email </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={userProfile.email}
+                  readOnly="readOnly"
+                />
+              </div>
+              <div className="form-control-profile-bio">
+                <label>Bio </label>
+                <textarea
+                  type="text"
+                  name="bio"
+                  id="bio"
+                  value={userProfile.bio}
+                  readOnly="readOnly"
+                />
+              </div>
+              <div className="changepw">
+                <a href="change-password">Change Password</a>
+              </div>
+            </div>
+          ) : (
+            <div>Error</div>
+          )}  
+        </div>
+      ) : (
+        <>
+          <EditProfile
+            _id={userProfile._id}
+            username={userProfile.username}
+            email={userProfile.email}
+            bio={userProfile.bio}
+            profileImage={userProfile.profileImage}
+          />
+        </>
+      )}
+      {/* <ChangePassword  /> */}
     </div>
   )
 }

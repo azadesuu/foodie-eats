@@ -1,117 +1,93 @@
-// import "./index.css";
+import "./index.css";
 
-import EditIcon from '@mui/icons-material/Edit';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { updateUser } from "../../api";
 
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
+const EditProfile = data => {
+  const { _id, username, email, bio, profileImage } = data;
+  // getting logged in user
+  const [usernameEdit, setUsernameEdit] = useState(username);
+  const [emailEdit, setEmailEdit] = useState(email);
+  const [bioEdit, setBioEdit] = useState(bio);
+  const [profileImageEdit, setProfileImageEdit] = useState(profileImage);
 
-import NavLoggedIn from "../LoggedInNavBar";
+  const navigate = useNavigate();
 
-function TopUser() {
+  const editProfile = async e => {
+    try {
+      await updateUser({
+        userId: _id,
+        username: usernameEdit,
+        email: emailEdit,
+        bio: bioEdit,
+        profileImage: profileImageEdit
+      });
+      console.log(
+        JSON.stringify({
+          userId: _id,
+          username: usernameEdit,
+          email: emailEdit,
+          bio: bioEdit,
+          profileImage: profileImageEdit
+        })
+      );
+      navigate("/logout"); //must logout and login to reset token (temp)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   return (
-    <div className="top-user">
-      <div className="top-user-r1">
-        <Avatar alt="user1" src="" sx={{ height: 130, width: 130 }}/>
-        <div className="top-user-info">
-          <h2>abcd123</h2>
-          <p>Hi! I am abcd. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <div>
+      {_id ? (
+        <div className="edit-form">
+          <div className="form-control-profile">
+            <label>Username </label>
+            <input
+              type="text"
+              name="usernameEdit"
+              id="usernameEdit"
+              value={usernameEdit}
+              placeholder="Edit your username here"
+              onChange={event => {
+                setUsernameEdit(event.target.value);
+              }}
+            />
+          </div>
+          <div className="form-control-profile">
+            <label>Email </label>
+            <input
+              type="text"
+              name="emailEdit"
+              id="emailEdit"
+              value={emailEdit}
+              placeholder="Edit your email here"
+              onChange={event => {
+                setEmailEdit(event.target.value);
+              }}
+            />
+          </div>
+          <div className="form-control-profile-bio">
+            <label>Bio </label>
+            <textarea
+              type="text"
+              name="bioEdit"
+              id="bioEdit"
+              value={bioEdit}
+              placeholder="Edit your bio here"
+              onChange={event => {
+                setBioEdit(event.target.value);
+              }}
+            />
+          </div>
+          <a className="edit-profile-done" onClick={editProfile}>DONE</a>
         </div>
-      </div>
-      <div className="top-user-rev">
-        <p><span className="detail">7</span> reviews</p>
-        <p><span className="detail">10k</span> likes</p>
-      </div>
+      ) : (
+        <h1>User Profile not found</h1>
+      )}
     </div>
   )
 }
 
-function Sidebar() {
-  return (
-      <div className="sidebar-content">
-        <div id="current">
-          <a href="my-profile">profile</a>
-        </div>
-        <a href="my-reviews">reviews</a>
-        <a href="my-bookmarks">bookmarks</a>
-        <a href="my-theme">theme</a>
-      </div>
-  )
-}
-
-function ProfileDetails() {
-  return (
-    <div className="profile-details">
-      <div className="profile-title">
-        <h2>profile</h2>
-        <IconButton
-          sx={{
-            "&:hover": {
-              bgcolor: '#FFFEEC',
-            }
-          }}>
-          <EditIcon sx={{ 
-            color: 'black', 
-            fontSize: 30, 
-            marginTop: '15px',
-            "&:hover": {
-              bgcolor: '#FFFEEC',
-            }
-          }}/>
-        </IconButton>
-      </div>
-      <div className="form-control-profile">
-        <label>Username </label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value="abcd123"
-          readOnly="readOnly"
-        />
-      </div>
-      <div className="form-control-profile">
-        <label>Email </label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value="abcd123@gmail.com"
-          readOnly="readOnly"
-        />
-      </div>
-      <div className="form-control-profile-bio">
-        <label>Bio </label>
-        <textarea
-          type="text"
-          name="bio"
-          id="bio"
-          value="Hi! I am abcd. Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-          readOnly="readOnly"
-        />
-      </div>
-      <a className="changepw" href="#">Change Password</a>
-    </div>
-  )
-}
-
-function MyProfile() {
-  return (
-    <div className="content">
-      <NavLoggedIn />
-      <span className="bigScreen-profile">
-        <TopUser />
-        <div className="line5" />
-        <div className="r1">
-          <Sidebar />
-          <div className="line6" />
-          <ProfileDetails />
-        </div>
-      </span>
-      <div className="footer">
-          <p>copyright © 2022 All-for-one</p>
-      </div>
-    </div>
-  );
-}
-
-export default MyProfile;
+export default EditProfile;
