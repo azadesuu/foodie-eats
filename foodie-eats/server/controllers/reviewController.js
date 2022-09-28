@@ -4,49 +4,40 @@ const User = require("../models/user");
 // get express-validator, to validate user data in forms
 const expressValidator = require("express-validator");
 
-const createReview = async (req, res, next) => {
-  const {
-    user_id,
-    dateVisited,
-    restaurantName,
-    rating,
-    description,
-    images,
-    address,
-    publicBool,
-    tags
-  } = req.body;
+const createReview = async (req, res) => {
+  console.log("server func called");
+  const newRestaurantName = req.body.restaurantName;
+  const newIsPublic = req.body.isPublic;
+  const newPriceRange = req.body.priceRange;
+  const newRating = req.body.rating;
+  const newDateVisited = req.body.dateVisited;
+  const newAddress = req.body.address;
+  const newDescription = req.body.description;
+  // console.log(newRestaurantName)
+  // console.log(newIsPublic)
+  // console.log(newPriceRange)
+  // console.log(newRating)
+  // console.log(newDateVisited)
+  // console.log(newAddress)
+  // console.log(newDescription)
 
-  try {
-    const userExists = await User.exists({ _id: user_id });
-    if (!userExists) {
-      next({ name: "CastError" });
-      return;
-    }
+  const tempReview = new Review({
+    restaurantName: newRestaurantName,
+    isPublic: newIsPublic,
+    priceRange: newPriceRange,
+    rating: newRating,
+    dateVisited: newDateVisited,
+    address: newAddress,
+    description: newDescription
+  });
 
-    // create new  object
-    const newReview = new Review({
-      user_id,
-      dateVisited,
-      restaurantName,
-      rating,
-      address,
-      description,
-      images,
-      address,
-      publicBool,
-      tags
-    });
-    // adds new review to the collection
-    await newReview.save();
-
-    res.status(201).json({
-      success: true,
-      data: newReview
-    });
-  } catch (err) {
-    next(err);
-  }
+  // console.log(tempReview.priceRange);
+  // console.log(tempReview.rating);
+  await tempReview.save();
+  res.status(200).json({
+    success: true,
+    data: tempReviews
+  });
 };
 
 // Get all reviews
@@ -177,9 +168,9 @@ const getOneReview = async (req, res, next) => {
 module.exports = {
   createReview,
   updateReview,
-  getMyReviews,
+  getMyReviews
+  // getOneReview
   // getReviewFilter,
   // getReviewTags,
-  getOneReview
   // getReviewPostcode,
 };

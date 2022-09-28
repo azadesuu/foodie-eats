@@ -19,99 +19,96 @@ const SERVER_URL = "http://localhost:5000"; //server url
 // );
 
 export const setAuthToken = token => {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else delete axios.defaults.headers.common["Authorization"];
+    if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else delete axios.defaults.headers.common["Authorization"];
 };
 
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export async function loginUser(user) {
-  const { email, password } = user;
+    const { email, password } = user;
 
-  if (!email || !password) {
-    alert("Must provide email and a password");
-    return;
-  }
-
-  const endpoint = SERVER_URL + "/login";
-  let data = await axios
-    .post(
-      endpoint,
-      {
-        email: email,
-        password: password
-      },
-      { withCredentials: true }
-    )
-    .then(res => res.data)
-    .catch(err => {
-      alert("email not found or password does not match.");
-    });
-  if (data) {
-    // store token locally
-    await localStorage.setItem("token", data);
-    if (!localStorage.hasOwnProperty("token")) {
-      alert("token not set");
+    if (!email || !password) {
+        alert("Must provide email and a password");
+        return;
     }
-  }
+
+    const endpoint = SERVER_URL + "/login";
+    let data = await axios
+        .post(
+            endpoint,
+            {
+                email: email,
+                password: password
+            },
+            { withCredentials: true }
+        )
+        .then(res => res.data)
+        .catch(err => {
+            alert("email not found or password does not match.");
+        });
+    if (data) {
+        // store token locally
+        await localStorage.setItem("token", data);
+        if (!localStorage.hasOwnProperty("token")) {
+            alert("token not set");
+        }
+    }
 }
 
 // Get user associated with stored token
 export const getUser = jwt => {
-  const headers = {
-    headers: { "x-auth-token": jwt }
-  };
-  return axios
-    .get(`${SERVER_URL}/findTokenUser`, headers)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    const headers = {
+        headers: { "x-auth-token": jwt }
+    };
+    return axios
+        .get(`${SERVER_URL}/findTokenUser`, headers)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 // Authenticate user signup
 export async function signupUser(user) {
-  localStorage.removeItem("token");
+    localStorage.removeItem("token");
 
-  const { username, email, password } = user;
+    const { username, email, password } = user;
 
-  if (!username || !password || !email) {
-    alert("must provide an email, a password, and a username");
-    return;
-  }
+    if (!username || !password || !email) {
+        alert("must provide an email, a password, and a username");
+        return;
+    }
 
-  console.log("api user");
-  console.log(user);
+    const endpoint = SERVER_URL + "/signup";
 
-  const endpoint = SERVER_URL + "/signup";
-
-  // POST the email and password to API to
-  // signup user and receive the token explicitly
-  let data = await axios
-    .post(endpoint, {
-      username,
-      email,
-      password
-    })
-    .then(res => res.data)
-    .catch(() => {
-      return;
-    });
-  if (!data) {
-    alert("Please try again with a different email or stronger password.");
-  } else if (data.message) {
-    // show error message
-    alert(data.message);
-  } else {
-    // store token locally
-    localStorage.setItem("token", data);
-  }
+    // POST the email and password to API to
+    // signup user and receive the token explicitly
+    let data = await axios
+        .post(endpoint, {
+            username,
+            email,
+            password
+        })
+        .then(res => res.data)
+        .catch(() => {
+            return;
+        });
+    if (!data) {
+        alert("Please try again with a different email or stronger password.");
+    } else if (data.message) {
+        // show error message
+        alert(data.message);
+    } else {
+        // store token locally
+        localStorage.setItem("token", data);
+    }
 }
 
 export async function forgotPassword(email) {
-  const user_email = { email: email };
-  return axios
-    .post(`${SERVER_URL}/forgotPassword`, user_email)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    const user_email = { email: email };
+    return axios
+        .post(`${SERVER_URL}/forgotPassword`, user_email)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 }
 //-------------------------------------------------
 // community page
@@ -124,17 +121,17 @@ export async function forgotPassword(email) {
 // };
 
 export const getCommunityRecent = async () => {
-  return await axios
-    .get("http://localhost:5000/review/getReviewsByRecent")
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get("http://localhost:5000/review/getReviewsByRecent")
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 export const getCommunityMostLiked = async () => {
-  return await axios
-    .get(`http://localhost:5000/review/getReviewsByLikes`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get(`http://localhost:5000/review/getReviewsByLikes`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 // // use req.query.search
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
@@ -158,53 +155,47 @@ export const getCommunityMostLiked = async () => {
 
 // //------------------------ Review APIs (Create, ViewOne, Edit)
 
-// // create review
-// export const createReview = review => {
-//     const {
-//         user_id,
-//         username,
-//         dateVisited,
-//         restaurantName,
-//         rating,
-//         description,
-//         images,
-//         address,
-//         publicBool,
-//         tags
-//     } = review;
-//     return axios
-//         .put(`${SERVER_URL}/review/newReview`, review)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const createReview = async data => {
+    // const {
+    //     restaurantName,
+    //     isPublic,
+    //     priceRange,
+    //     rating,
+    //     dateVisited,
+    //     address,
+    //     description
+    // } = data;
 
-export const getReview = async reviewId => {
-  return await axios
-    .get(`${SERVER_URL}/review/${reviewId}`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    console.log(`called ${SERVER_URL}/review/createReview`);
+    return await axios
+        .put(`${SERVER_URL}/review/createReview`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
-// // not all fields will be filled in
-// export const editOneReview = reviewEdit => {
-//     const {
-//         user_id,
-//         username,
-//         dateVisited,
-//         restaurantName,
-//         rating,
-//         description,
-//         images,
-//         address,
-//         publicBool,
-//         tags
-//     } = reviewEdit;
+export const getReview = async reviewId => {
+    return await axios
+        .get(`${SERVER_URL}/review/getReview/${reviewId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
-//     return axios
-//         .patch(`${SERVER_URL}/review/${reviewId}/edit`, reviewEdit)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const updateReview = async data => {
+    // const {
+    //     _id,
+    //     restaurantNamee,
+    //     isPublic,
+    //     priceRange,
+    //     rating,
+    //     dateVisited,
+    //     address,
+    //     description
+    // } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/updateReview`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 //add to user object
 // export const toggleBookmark = (userId, reviewId) => {
@@ -239,15 +230,11 @@ export const getReview = async reviewId => {
 
 // // -------------- Bookmarks page
 
-// // export const fetchReviews = () => axios.get(SERVER_URL);
-// // export const createReview = (newReview) => axios.post(SERVER_URL, newReview);
-
-// //
 export const getBookmarks = bookmarks => {
-  return axios
-    .get(`${SERVER_URL}/account/my-bookmarks`, bookmarks)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return axios
+        .get(`${SERVER_URL}/account/my-bookmarks`, bookmarks)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 // // use req.query.search
@@ -272,32 +259,32 @@ export const getBookmarks = bookmarks => {
 
 // // ------ Profiles
 export const getUserById = async userId => {
-  return await axios
-    .get(`${SERVER_URL}/account/${userId}`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get(`${SERVER_URL}/account/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 export const getProfile = async username => {
-  return await axios
-    .get(`${SERVER_URL}/account/profile/${username}`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get(`${SERVER_URL}/account/profile/${username}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 export const getMyProfile = async username => {
-  return await axios
-    .get(`${SERVER_URL}/account/my-profile/${username}`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get(`${SERVER_URL}/account/my-profile/${username}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 //--- My Reviews
 export const getMyReviews = async userId => {
-  return await axios
-    .get(`${SERVER_URL}/account/myReviews/${userId}`)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .get(`${SERVER_URL}/account/myReviews/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
 // // use req.query.search
@@ -320,27 +307,27 @@ export const getMyReviews = async userId => {
 // //--- Profile Edits
 
 export const updateUser = async profile => {
-  const { userId, username, email, bio, image } = profile;
+    const { userId, username, email, bio, image } = profile;
 
-  return await axios
-    .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };
 
-// export const changePassword = (oldPassword, newPassword) => {
-//     const passwords = { oldPassword, newPassword };
-//     return axios
-//         .patch(`${SERVER_URL}/account/changePassword/${userId}`, passwords)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const changePassword = async passwords => {
+    const { oldPassword, newPassword } = passwords;
+    return await axios
+        .patch(`${SERVER_URL}/account/changePassword/:userId`, passwords)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 export const changeTheme = async data => {
-  const { userId, newTheme } = data;
+    const { userId, newTheme } = data;
 
-  return await axios
-    .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)
-    .then(res => res?.data?.data)
-    .catch(err => console.log(err));
+    return await axios
+        .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
 };

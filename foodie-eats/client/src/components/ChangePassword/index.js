@@ -6,7 +6,7 @@ function ChangePassword() {
   return (
     <div className="edit-form">
         <div className="form-control-profile">
-        <label>current password </label>
+        <label>current password</label>
         <input
             type="password"
             name="change-currentpw"
