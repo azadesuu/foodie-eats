@@ -7,6 +7,7 @@ import Community from "./components/Community";
 import Login from "./components/Login";
 import Logout from "./components-server/Logout";
 import SignUp from "./components/SignUp";
+import ChangePassword from "./components/ChangePassword";
 import Profile from "./components-server/Profile";
 import ProfileReviews from "./components-server/ProfileReviews";
 // import ViewReview from "./components-server/ViewReview";
@@ -18,6 +19,7 @@ import EditReview from "./components/EditReview";
 import Review from "./components/Review";
 import Theme from "./components-server/Theme";
 // import ChangePassword from "./components-server/ChangePassword";
+
 import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -79,6 +81,10 @@ function App() {
                         <Route path="/my-bookmarks" element={<MyBookmarks />} />
                         <Route path="/my-profile" element={<MyProfile />} />
                         <Route path="/my-reviews" element={<MyReviews />} />
+                        <Route
+                            path="/change-password"
+                            element={<ChangePassword />}
+                        />
                         <Route path="/create-review" element={<PostReview />} />
                         <Route path="/review/:reviewId" element={<Review />} />
                         <Route

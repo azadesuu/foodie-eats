@@ -164,50 +164,17 @@ accountRouter.patch("/my-bookmarks", async (req, res) => {
   }
 });
 
-accountRouter.put("/changePassword/:userId", async (req, res) => {
-  const _id = req.params.userId;
-  try {
-    const user = await User.findOne({ _id: userId }, function(
-      err,
-      result,
-      next
-    ) {
-      if (err) {
-        next(err);
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    });
+accountRouter.put("/updatePassword", async (req, res) => {
+  const _id = req.body._id;
+  const newPassword = req.body.password;
 
-    if (!user) {
-      res.send("user not found");
-      return;
-    }
-
-    if (user.validPassword(oldPassword)) {
-      await User.findByIdAndUpdate(
-        _id,
-        { password: user.generateHash(req.body.newpassword) },
-        function(err, result, next) {
-          if (err) {
-            console.log("user is not found");
-          } else {
-            res.status(200).json({
-              success: true,
-              data: result
-            });
-          }
-        }
-      ).clone();
+  User.findByIdAndUpdate(_id, { password: newPassword }, function(err, result) {
+    if (err) {
+      console.log("update error for user");
     } else {
-      res.send("old password does not match.");
+      res.send(result);
     }
-  } catch (err) {
-    next(err);
-  }
+  });
 });
 
 module.exports = accountRouter;

@@ -315,10 +315,9 @@ export const updateUser = async profile => {
         .catch(err => console.log(err));
 };
 
-export const changePassword = async passwords => {
-    const { oldPassword, newPassword } = passwords;
+export const updatePassword = async data => {
     return await axios
-        .patch(`${SERVER_URL}/account/changePassword/:userId`, passwords)
+        .put(`${SERVER_URL}/account/updatePassword`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
