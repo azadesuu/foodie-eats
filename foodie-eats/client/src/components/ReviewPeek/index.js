@@ -137,7 +137,7 @@ const ReviewPeek = props => {
                                     {/* {description.length > 250 ?
                                     `${description.substring(0, 250)}...` : description
                                 } */}
-                                    {description}
+                                    {description}...
                                     <a href="#" id="link">
                                         Read More
                                     </a>
