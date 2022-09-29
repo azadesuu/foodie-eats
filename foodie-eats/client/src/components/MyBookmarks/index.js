@@ -1,8 +1,8 @@
 import React from "react"; // required
 import "./index.css";
 
-import { useContext, useEffect, useState } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useContext, useState } from "react";
+import { useQuery, } from "react-query";
 import { getBookmarks } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 import { getProfile } from "../../api";
@@ -118,8 +118,6 @@ function Sidebar() {
 
 function ReviewsSmallScreen() {
     const [user, setUser] = useContext(UserContext);
-
-    const userId = user?.id;
     //{"_id":{"$in": ids}}
     const { data: listReviews, isLoading } = useQuery(
         "bookmarks",

@@ -1,12 +1,9 @@
 // import './App.css';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { navigate, useNavigate } from "react";
 import { getProfile } from "../../api";
 import { useQuery, useMutation } from "react-query";
-import Axios from "axios";
 import { CircularProgress } from "@mui/material";
-import { usePreviousNonNullish } from "../../hooks";
 import EditProfile from "../EditProfile";
 
 function MyProfile() {

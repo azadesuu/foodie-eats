@@ -164,6 +164,17 @@ accountRouter.patch("/my-bookmarks", async (req, res) => {
   }
 });
 
-//changepassword
+accountRouter.put("/updatePassword", async (req, res) => {
+  const _id = req.body._id;
+  const newPassword = req.body.password;
+
+  User.findByIdAndUpdate(_id, { password: newPassword }, function(err, result) {
+    if (err) {
+      console.log("update error for user");
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 module.exports = accountRouter;
