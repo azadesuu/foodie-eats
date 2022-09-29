@@ -2,73 +2,36 @@ const express = require("express");
 const accountRouter = express.Router();
 const User = require("../../models/user");
 const Review = require("../../models/review");
-
 const accountController = require("../../controllers/accountController");
 
-//get User by Id
-accountRouter.get("/:userId", async (req, res, next) => {
-  try {
-    const userInfo = await User.findOne({
-      _id: req.params.userId
-    }).lean();
+// GET User by Id --- returns a user if they exist in the database
+accountRouter.get("/:userId", accountController.getUser);
 
-    if (!userInfo) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: { username: userInfo.username }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+// GET profile by username --- returns a user if they exist in the database
+accountRouter.get("/profile/:username", accountController.getProfile);
 
-// My Reviews
-accountRouter.get("/myReviews/:userId", async (req, res) => {
-  await Review.find({ userId: req.params.userId }, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.status(200).json({
-        success: true,
-        data: result
-      });
-    }
-  })
-    .lean()
-    .clone();
-});
+// GET reviews by Id --- returns list of reviews with the associated user ID
+accountRouter.get("/myReviews/:userId", accountController.getMyReviews);
 
-//get profile by username
-accountRouter.get("/profile/:username", async (req, res, next) => {
-  try {
-    const userInfo = await User.findOne({
-      username: req.params.username
-    }).lean();
+// GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
+accountRouter.get("/my-bookmarks", accountController.getMyBookmarks);
 
-    if (!userInfo) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: userInfo
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+// PATCH profile by userId -- Updates the user profile with new data and returns updated profile
+accountRouter.patch("/updateUser/:userId", accountController.updateUser);
 
-// finds the newest user
-accountRouter.get("/getUsers", async (req, res) => {
+// PUT new password into profile -- returns user with updated password if they exist
+accountRouter.put("/updatePassword", accountController.updatePassword);
+
+// PATCH profile by userId -- Updates the user profile with new theme  and returns updated profile
+accountRouter.patch("/changeTheme/:userId", accountController.changeTheme);
+
+// gets a random user (for testing purposes)
+accountRouter.get("/getUsers", async (req, res, next) => {
   try {
     await User.find({}, (err, result) => {
       if (err) {
         res.json(err);
       } else {
-        console.log("info found");
         res.status(200).json({
           success: true,
           data: result
@@ -76,105 +39,8 @@ accountRouter.get("/getUsers", async (req, res) => {
       }
     }).limit(1);
   } catch (err) {
-    res.json(err);
-  }
-});
-
-accountRouter.patch("/updateUser/:userId", async (req, res) => {
-  const _id = req.params.userId;
-  const newUsername = req.body.username;
-  const newEmail = req.body.email;
-  const newImage = req.body.image;
-  const newBio = req.body.bio;
-
-  await User.findByIdAndUpdate(
-    _id,
-    { username: newUsername, email: newEmail, bio: newBio, image: newImage },
-    function(err, result) {
-      if (err) {
-        console.log("update error for user");
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    }
-  );
-});
-
-accountRouter.patch("/changeTheme/:userId", async (req, res) => {
-  console.log(req.body);
-  const _id = req.params.userId;
-  const newTheme = req.body.newTheme;
-
-  try {
-    await User.findByIdAndUpdate(_id, { theme: newTheme }, (err, result) => {
-      console.log("result");
-
-      console.log(result);
-      console.log("result-end");
-    });
-  } catch (err) {
-    res.json(err);
-  }
-});
-
-accountRouter.patch("/changeTheme/:userId", async (req, res) => {
-  console.log(req.body);
-  const _id = req.params.userId;
-  const newTheme = req.body.newTheme;
-
-  try {
-    await User.findByIdAndUpdate(
-      _id,
-      { theme: newTheme },
-      async (err, result, next) => {
-        if (err) {
-          next(err);
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
-        }
-      }
-    );
-  } catch (err) {
-    res.json(err);
-  }
-});
-
-accountRouter.patch("/my-bookmarks", async (req, res) => {
-  const { bookmarks } = req.body.bookmarks;
-
-  try {
-    await Review.find({ _id: { $in: bookmarks } }, function(err, result, next) {
-      if (err) {
-        console.log("bookmarks not found");
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    });
-  } catch (err) {
     next(err);
   }
-});
-
-accountRouter.put("/updatePassword", async (req, res) => {
-  const _id = req.body._id;
-  const newPassword = req.body.password;
-
-  User.findByIdAndUpdate(_id, { password: newPassword }, function(err, result) {
-    if (err) {
-      console.log("update error for user");
-    } else {
-      res.send(result);
-    }
-  });
 });
 
 module.exports = accountRouter;

@@ -1,11 +1,70 @@
 const Review = require("../models/review");
 const User = require("../models/user");
 
-// get express-validator, to validate user data in forms
-const expressValidator = require("express-validator");
+const getReviewsByRecent = async (req, res, next) => {
+  try {
+    const postcode = req.body.postcode ? req.body.postcode : 3000;
+    const reviews = await Review.find({ postcode: postcode })
+      .populate("userId")
+      .lean()
+      .limit(10)
+      .sort({ $natural: -1 });
 
-const createReview = async (req, res) => {
-  console.log("server func called");
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getReviewsByLikes = async (req, res, next) => {
+  try {
+    const reviews = await Review.find({})
+      .lean()
+      .limit(10)
+      .populate("userId")
+      .sort({ likeCount: -1 });
+
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getOneReview = async (req, res, next) => {
+  try {
+    const review = await Review.findOne({ _id: req.params.reviewId })
+      .populate("userId")
+      .lean();
+
+    if (!review) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: review
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const createReview = async (req, res, next) => {
+  const newUserId = req.body.userId;
   const newRestaurantName = req.body.restaurantName;
   const newIsPublic = req.body.isPublic;
   const newPriceRange = req.body.priceRange;
@@ -13,15 +72,9 @@ const createReview = async (req, res) => {
   const newDateVisited = req.body.dateVisited;
   const newAddress = req.body.address;
   const newDescription = req.body.description;
-  // console.log(newRestaurantName)
-  // console.log(newIsPublic)
-  // console.log(newPriceRange)
-  // console.log(newRating)
-  // console.log(newDateVisited)
-  // console.log(newAddress)
-  // console.log(newDescription)
 
   const tempReview = new Review({
+    userId: newUserId,
     restaurantName: newRestaurantName,
     isPublic: newIsPublic,
     priceRange: newPriceRange,
@@ -31,37 +84,20 @@ const createReview = async (req, res) => {
     description: newDescription
   });
 
-  // console.log(tempReview.priceRange);
-  // console.log(tempReview.rating);
-  await tempReview.save();
-  res.status(200).json({
-    success: true,
-    data: tempReviews
-  });
-};
-
-// Get all reviews
-const getMyReviews = async (req, res, next) => {
   try {
-    // look for all reviews from user
-    const myReviews = await Review.find({
-      userId: req.params.userId
-    }).lean();
-    // if there are no reviews, then respond with an error
-    if (!myReviews) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: myReviews
+    await tempReview.save(function(err, result) {
+      if (err) res.send(err);
+
+      res.status(200).json({
+        success: true,
+        data: result
+      });
     });
-  } catch (err) {
+  } catch {
     next(err);
   }
 };
 
-//update a review //tb debugged
 const updateReview = async (req, res, next) => {
   try {
     const {
@@ -75,7 +111,7 @@ const updateReview = async (req, res, next) => {
     } = req.body;
 
     const updatedReview = await Review.updateOne(
-      { _id: req.params.id },
+      { _id: req.body.id },
       {
         $currentDate: {
           dateStart: true
@@ -89,88 +125,24 @@ const updateReview = async (req, res, next) => {
           address: address,
           tags: tags
         }
+      },
+      (err, updatedReview) => {
+        if (err) res.json(err);
+        res.status(200).json({
+          success: true,
+          data: updatedReview
+        });
       }
     );
-    const newReview = await Review.findById(req.params.reviewId);
-    // if this review doesn't exist, send a 400 error
-    if (!newReview) {
-      next({ name: "CastError" });
-      return;
-    }
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
-//   const getReviewsPostcode = async (req, res, next) => {
-//     try {
-//       // look for review with postcode
-//       const order = await Review.findById(req.params.address.postcode);
-//       // if there are no orders, then respond with an error
-//       if (!order) {
-//         next({ name: "CastError" });
-//         return;
-//       } else {
-//         res.status(200).json({
-//           success: true,
-//           data: order,
-//         });
-//       }
-//     } catch (err) {
-//       next(err);
-//     }
-//   };
-
-// // tbd include if tags in list
-
-// const getReviewsTags = async (req, res, next) => {
-//   try {
-//     // look for review with postcode
-//     const order = await Review.findById(req.params.tags);
-//     // if there are no orders, then respond with an error
-//     if (!order) {
-//       next({ name: "CastError" });
-//       return;
-//     } else {
-//       res.status(200).json({
-//         success: true,
-//         data: order,
-//       });
-//     }
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-const getOneReview = async (req, res, next) => {
-  try {
-    // look for all reviews from user
-    const oneReview = await Review.findOne({
-      reviewId: req.params.reviewId
-    }).lean();
-    // if there are no reviews, then respond with an error
-    if (!oneReview) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: myReviews
-    });
   } catch (err) {
     next(err);
   }
 };
-
-// getReviewBookmarks
 
 module.exports = {
+  getReviewsByRecent,
+  getReviewsByLikes,
+  getOneReview,
   createReview,
-  updateReview,
-  getMyReviews
-  // getOneReview
-  // getReviewFilter,
-  // getReviewTags,
-  // getReviewPostcode,
+  updateReview
 };

@@ -2,22 +2,6 @@ import axios from "axios";
 
 const SERVER_URL = "http://localhost:5000"; //server url
 
-// add token to every request made to API
-// axios.interceptors.request.use(
-//     config => {
-//         const { origin } = new URL(config.url);
-//         const allowedOrigins = [SERVER_URL];
-//         const token = localStorage.getItem("token");
-//         if (allowedOrigins.includes(origin)) {
-//             config.headers.authorization = `Bearer ${token}`;
-//         }
-//         return config;
-//     },
-//     error => {
-//         return Promise.reject(error);
-//     }
-// );
-
 export const setAuthToken = token => {
     if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -57,11 +41,11 @@ export async function loginUser(user) {
 }
 
 // Get user associated with stored token
-export const getUser = jwt => {
+export const getUser = async jwt => {
     const headers = {
         headers: { "x-auth-token": jwt }
     };
-    return axios
+    return await axios
         .get(`${SERVER_URL}/findTokenUser`, headers)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
@@ -110,26 +94,18 @@ export async function forgotPassword(email) {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 }
-//-------------------------------------------------
-// community page
-
-// export const getCommunityPostcode = postcode => {
-//     return axios
-//         .get(`${SERVER_URL}/review/${postcode}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+// COMMUNITY
 
 export const getCommunityRecent = async () => {
     return await axios
-        .get("http://localhost:5000/review/getReviewsByRecent")
+        .get(`${SERVER_URL}/review/getReviewsByRecent`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
 export const getCommunityMostLiked = async () => {
     return await axios
-        .get(`http://localhost:5000/review/getReviewsByLikes`)
+        .get(`${SERVER_URL}/review/getReviewsByLikes`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -156,17 +132,6 @@ export const getCommunityMostLiked = async () => {
 // //------------------------ Review APIs (Create, ViewOne, Edit)
 
 export const createReview = async data => {
-    // const {
-    //     restaurantName,
-    //     isPublic,
-    //     priceRange,
-    //     rating,
-    //     dateVisited,
-    //     address,
-    //     description
-    // } = data;
-
-    console.log(`called ${SERVER_URL}/review/createReview`);
     return await axios
         .put(`${SERVER_URL}/review/createReview`, data)
         .then(res => res?.data?.data)
@@ -181,16 +146,6 @@ export const getReview = async reviewId => {
 };
 
 export const updateReview = async data => {
-    // const {
-    //     _id,
-    //     restaurantNamee,
-    //     isPublic,
-    //     priceRange,
-    //     rating,
-    //     dateVisited,
-    //     address,
-    //     description
-    // } = data;
     return await axios
         .patch(`${SERVER_URL}/review/updateReview`, data)
         .then(res => res?.data?.data)
@@ -230,8 +185,9 @@ export const updateReview = async data => {
 
 // // -------------- Bookmarks page
 
-export const getBookmarks = bookmarks => {
-    return axios
+export const getBookmarks = async bookmarks => {
+    if (bookmarks === undefined) return [];
+    return await axios
         .get(`${SERVER_URL}/account/my-bookmarks`, bookmarks)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
@@ -258,23 +214,10 @@ export const getBookmarks = bookmarks => {
 // };
 
 // // ------ Profiles
-export const getUserById = async userId => {
-    return await axios
-        .get(`${SERVER_URL}/account/${userId}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
 
 export const getProfile = async username => {
     return await axios
         .get(`${SERVER_URL}/account/profile/${username}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getMyProfile = async username => {
-    return await axios
-        .get(`${SERVER_URL}/account/my-profile/${username}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -323,7 +266,7 @@ export const updatePassword = async data => {
 };
 
 export const changeTheme = async data => {
-    const { userId, newTheme } = data;
+    const { userId } = data;
 
     return await axios
         .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)

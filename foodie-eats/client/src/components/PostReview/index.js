@@ -75,18 +75,6 @@ function PostReview() {
                 state: state,
                 suburb: suburb
             };
-            console.log(
-                JSON.stringify({
-                    userId: user1?._id,
-                    restaurantName: restaurantName,
-                    isPublic: isPublic,
-                    priceRange: priceRange,
-                    rating: rating,
-                    dateVisited: dateVisited,
-                    address: address,
-                    description: description
-                })
-            );
             const review = await createReview({
                 userId: user1?._id,
                 restaurantName: restaurantName,

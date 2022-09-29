@@ -25,8 +25,6 @@ function Review(props) {
         () => getReview(reviewId),
         { enabled: !!reviewId && !!user }
     );
-    console.log(user);
-    console.log(review);
 
     const marks = [
         {
@@ -49,10 +47,10 @@ function Review(props) {
 
     return (
         <div className="profile-info">
-            {(isLoading && !review) && <CircularProgress className="spinner" />}
+            {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">
-                    <h1>Review</h1>
+                    <h1>{review.userId.username}'s Review</h1>
 
                     <div id="outer">
                         <div className="switchContainer">
@@ -171,7 +169,7 @@ function Review(props) {
                                 className="editReviewButton"
                                 type="button"
                                 onClick={() => {
-                                    navigate("./../edit-review");
+                                    navigate(`review/${review._id}/edit`);
                                 }}
                             >
                                 EDIT

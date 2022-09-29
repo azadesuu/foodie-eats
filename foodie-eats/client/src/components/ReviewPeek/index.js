@@ -32,20 +32,14 @@ const ReviewPeek = props => {
     const {
         _id,
         restaurantName,
-        userID,
+        userId,
         rating,
         likeCount,
         dateVisited,
         description,
         images
     } = props.reviewData;
-    // const { data: user, isLoading } = useQuery(
-    //   "username-query",
-    //   () => getUserById(),
-    //   { enabled: !!userID }
-    // );
-    // change to queried username once database is updated
-    const [username, setUsername] = useState(userID);
+    const [username, setUsername] = useState(userId.username);
 
     function viewReview() {
         navigate(`/review/${_id}`);
@@ -62,7 +56,9 @@ const ReviewPeek = props => {
                 }}
             >
                 <ListItemButton
-                    href="#"
+                    onClick={event => {
+                        viewReview();
+                    }}
                     alignItems="flex-start"
                     sx={{
                         width: "95%",
@@ -85,7 +81,10 @@ const ReviewPeek = props => {
                                         fontSize="10px"
                                         fontFamily="Martel Sans"
                                     >
-                                        Date visited: {dateVisited}
+                                        Date visited:{" "}
+                                        {new Date(
+                                            dateVisited
+                                        ).toLocaleDateString("en-GB")}
                                     </Typography>
                                     <Typography
                                         variant="body2"
@@ -138,7 +137,12 @@ const ReviewPeek = props => {
                                     `${description.substring(0, 250)}...` : description
                                 } */}
                                     {description}...
-                                    <a href="#" id="link">
+                                    <a
+                                        onClick={event => {
+                                            viewReview();
+                                        }}
+                                        id="link"
+                                    >
                                         Read More
                                     </a>
                                 </Typography>

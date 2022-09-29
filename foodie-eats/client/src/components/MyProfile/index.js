@@ -1,13 +1,8 @@
 import "./index.css";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { navigate, useNavigate } from "react";
-import { getProfile } from "../../api";
-import { useQuery, useMutation } from "react-query";
-import Axios from "axios";
 import { CircularProgress } from "@mui/material";
-import { usePreviousNonNullish } from "../../hooks";
 
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -94,7 +89,6 @@ function ProfileDetails(props) {
             </div>
             {!editButton ? (
                 <div>
-                    {!userProfile && <CircularProgress className="spinner" />}
                     {userProfile ? (
                         <div>
                             <div className="form-control-profile">
@@ -136,15 +130,13 @@ function ProfileDetails(props) {
                     )}
                 </div>
             ) : (
-                <>
-                    <EditProfile
-                        _id={userProfile._id}
-                        username={userProfile.username}
-                        email={userProfile.email}
-                        bio={userProfile.bio}
-                        profileImage={userProfile.profileImage}
-                    />
-                </>
+                <EditProfile
+                    _id={userProfile._id}
+                    username={userProfile.username}
+                    email={userProfile.email}
+                    bio={userProfile.bio}
+                    profileImage={userProfile.profileImage}
+                />
             )}
             {/* <ChangePassword  /> */}
         </div>

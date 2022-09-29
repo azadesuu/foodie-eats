@@ -24,7 +24,7 @@ function EditReview() {
         { enabled: !!reviewId && !!user }
     );
 
-    if (review?.userId !== user?._id) {
+    if (review?.userId._id !== user?._id) {
         alert("You have no permission to edit this review");
         navigate("/");
     }

@@ -3,10 +3,10 @@ import "./index.css";
 
 import "@fontsource/martel-sans";
 
-import WebLogo from '../../assets/images/foodie_eats_192x192.svg';
+import WebLogo from "../../assets/images/foodie_eats_192x192.svg";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 import IconButton from "@mui/material/IconButton";
@@ -41,7 +41,7 @@ function NavLoggedIn() {
     const [auth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleMenu = (event) => {
+    const handleMenu = event => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -132,7 +132,10 @@ function NavLoggedIn() {
                                                         }}
                                                     >
                                                         <div className="dropdwn-content">
-                                                            <img src={ WebLogo } width="107px"/>
+                                                            <img
+                                                                src={WebLogo}
+                                                                width="107px"
+                                                            />
                                                             <div className="dropdwn-link">
                                                                 <MenuItem
                                                                     onClick={
@@ -149,7 +152,8 @@ function NavLoggedIn() {
                                                                     }
                                                                 >
                                                                     <a href="#">
-                                                                        post a review
+                                                                        post a
+                                                                        review
                                                                     </a>
                                                                 </MenuItem>
                                                                 <MenuItem
@@ -158,7 +162,8 @@ function NavLoggedIn() {
                                                                     }
                                                                 >
                                                                     <a href="my-bookmarks">
-                                                                        my reviews
+                                                                        my
+                                                                        reviews
                                                                     </a>
                                                                 </MenuItem>
                                                                 <MenuItem
@@ -167,7 +172,8 @@ function NavLoggedIn() {
                                                                     }
                                                                 >
                                                                     <a href="my-reviews">
-                                                                        my bookmarks
+                                                                        my
+                                                                        bookmarks
                                                                     </a>
                                                                 </MenuItem>
                                                                 <MenuItem
@@ -201,11 +207,14 @@ function NavLoggedIn() {
                                                             <div className="dropdwn-back">
                                                                 <ArrowBackIosNewIcon
                                                                     sx={{
-                                                                        color: "white",
+                                                                        color:
+                                                                            "white",
                                                                         bgcolor:
                                                                             "#514F4E",
-                                                                        height: "61px",
-                                                                        width: "17px",
+                                                                        height:
+                                                                            "61px",
+                                                                        width:
+                                                                            "17px",
                                                                         borderRadius:
                                                                             "10px 0px 0px 10px"
                                                                     }}
@@ -225,7 +234,13 @@ function NavLoggedIn() {
                                     >
                                         <Link href="#">
                                             <Button>
-                                                <AccountCircleIcon color='black' sx={{ fontSize: 50, color: 'black' }}/>
+                                                <AccountCircleIcon
+                                                    color="black"
+                                                    sx={{
+                                                        fontSize: 50,
+                                                        color: "black"
+                                                    }}
+                                                />
                                             </Button>
                                         </Link>
                                     </Box>
@@ -263,7 +278,9 @@ function NavLoggedIn() {
                                     href="/"
                                     style={{ textDecoration: "none" }}
                                 >
-                                    <Button href='/' color="inherit"><img src={ WebLogo } width="70px"/></Button>
+                                    <Button href="/" color="inherit">
+                                        <img src={WebLogo} width="70px" />
+                                    </Button>
                                 </Link>
                                 <Grid container justifyContent="space-between">
                                     <div className="nav1">
@@ -275,14 +292,17 @@ function NavLoggedIn() {
                                         >
                                             <Link
                                                 href="/"
-                                                style={{ textDecoration: "none" }}
+                                                style={{
+                                                    textDecoration: "none"
+                                                }}
                                             >
                                                 <Button
                                                     color="text"
                                                     style={{
                                                         fontSize: "20px",
                                                         textTransform: "none",
-                                                        fontFamily: "Martel Sans"
+                                                        fontFamily:
+                                                            "Martel Sans"
                                                     }}
                                                     sx={{
                                                         "&:hover": {
@@ -290,9 +310,10 @@ function NavLoggedIn() {
                                                             borderRadius: 0,
                                                             color: "text.main",
                                                             height: 100,
-                                                            alignItems: "center",
+                                                            alignItems:
+                                                                "center",
                                                             display: "flex"
-                                                        },
+                                                        }
                                                         // borderBottom: isActive ? 2 : '',
                                                         // borderRadius: isActive ? 0 : '',
                                                         // color: isActive ? "text.main" : '',
@@ -314,14 +335,17 @@ function NavLoggedIn() {
                                         >
                                             <Link
                                                 href="my-reviews"
-                                                style={{ textDecoration: "none" }}
+                                                style={{
+                                                    textDecoration: "none"
+                                                }}
                                             >
                                                 <Button
                                                     color="text"
                                                     style={{
                                                         fontSize: "20px",
                                                         textTransform: "none",
-                                                        fontFamily: "Martel Sans"
+                                                        fontFamily:
+                                                            "Martel Sans"
                                                     }}
                                                     sx={{
                                                         "&:hover": {
@@ -329,9 +353,10 @@ function NavLoggedIn() {
                                                             borderRadius: 0,
                                                             color: "text.main",
                                                             height: 100,
-                                                            alignItems: "center",
+                                                            alignItems:
+                                                                "center",
                                                             display: "flex"
-                                                        },
+                                                        }
                                                         // borderBottom: isActive ? 2 : '',
                                                         // borderRadius: isActive ? 0 : '',
                                                         // color: isActive ? "text.main" : '',
@@ -353,14 +378,17 @@ function NavLoggedIn() {
                                         >
                                             <Link
                                                 href="my-bookmarks"
-                                                style={{ textDecoration: "none" }}
+                                                style={{
+                                                    textDecoration: "none"
+                                                }}
                                             >
                                                 <Button
                                                     color="text"
                                                     style={{
                                                         fontSize: "20px",
                                                         textTransform: "none",
-                                                        fontFamily: "Martel Sans"
+                                                        fontFamily:
+                                                            "Martel Sans"
                                                     }}
                                                     sx={{
                                                         "&:hover": {
@@ -368,9 +396,10 @@ function NavLoggedIn() {
                                                             borderRadius: 0,
                                                             color: "text.main",
                                                             height: 100,
-                                                            alignItems: "center",
+                                                            alignItems:
+                                                                "center",
                                                             display: "flex"
-                                                        },
+                                                        }
                                                         // borderBottom: isActive ? 2 : '',
                                                         // borderRadius: isActive ? 0 : '',
                                                         // color: isActive ? "text.main" : '',
@@ -394,14 +423,17 @@ function NavLoggedIn() {
                                         >
                                             <Link
                                                 href="#"
-                                                style={{ textDecoration: "none" }}
+                                                style={{
+                                                    textDecoration: "none"
+                                                }}
                                             >
                                                 <Button
                                                     color="text"
                                                     style={{
                                                         fontSize: "20px",
                                                         textTransform: "none",
-                                                        fontFamily: "Martel Sans"
+                                                        fontFamily:
+                                                            "Martel Sans"
                                                     }}
                                                     sx={{
                                                         "&:hover": {
@@ -409,9 +441,10 @@ function NavLoggedIn() {
                                                             borderRadius: 0,
                                                             color: "text.main",
                                                             height: 100,
-                                                            alignItems: "center",
+                                                            alignItems:
+                                                                "center",
                                                             display: "flex"
-                                                        },
+                                                        }
                                                         // borderBottom: isActive ? 2 : '',
                                                         // borderRadius: isActive ? 0 : '',
                                                         // color: isActive ? "text.main" : '',
@@ -433,7 +466,13 @@ function NavLoggedIn() {
                                         >
                                             <Link href="my-profile">
                                                 <Button>
-                                                    <AccountCircleIcon color='black' sx={{ fontSize: 50, color: 'black' }}/>
+                                                    <AccountCircleIcon
+                                                        color="black"
+                                                        sx={{
+                                                            fontSize: 50,
+                                                            color: "black"
+                                                        }}
+                                                    />
                                                 </Button>
                                             </Link>
                                         </Box>

@@ -1,6 +1,5 @@
 import "./index.css";
 import { useState, useEffect, useContext } from "react";
-
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";

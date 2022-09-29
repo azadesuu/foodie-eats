@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const addressSchema = new mongoose.Schema({
   streetAddress: {
     type: String,
@@ -27,7 +26,7 @@ const addressSchema = new mongoose.Schema({
 const reviewSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "users",
     required: true
   },
   username: {

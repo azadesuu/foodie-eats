@@ -1,7 +1,7 @@
 import "./index.css";
 
-import { useState } from "react";
 import React from "react";
+import { useState } from "react";
 import { signupUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 

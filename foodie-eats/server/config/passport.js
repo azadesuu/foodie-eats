@@ -3,19 +3,16 @@ require("dotenv").config(); // for JWT password key
 // used to create our local strategy for authenticating
 // using username and password
 const LocalStrategy = require("passport-local").Strategy;
-
-// our user model
 const User = require("../models/user");
 
-// the following is required if you wanted to use passport-jwt
 // JSON Web Tokens
 const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 
 const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
+
 module.exports = function(passport) {
-  // used by passport to store information in and retrieve data from sessions
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   });
@@ -42,21 +39,26 @@ module.exports = function(passport) {
       function(req, email, password, done) {
         process.nextTick(function() {
           // see if the user with the email exists
-          User.findOne({ email: email }, function(err, user) {
-            // if there are errors, user is not found or password doesn't match
-            if (err) return done(err);
+          User.findOne(
+            {
+              $or: [{ username: email }, { email: email }]
+            },
+            function(err, user) {
+              // if there are errors, user is not found or password doesn't match
+              if (err) return done(err);
 
-            if (!user) return done(null, false);
+              if (!user) return done(null, false);
 
-            if (!user.validPassword(password)) {
-              return done(null, false);
+              if (!user.validPassword(password)) {
+                return done(null, false);
+              }
+              // otherwise, put the user's email in the session
+              else {
+                req.session.email = email;
+                return done(null, user);
+              }
             }
-            // otherwise, put the user's email in the session
-            else {
-              req.session.email = email;
-              return done(null, user);
-            }
-          });
+          );
         });
       }
     )
@@ -79,9 +81,7 @@ module.exports = function(passport) {
               $or: [{ username: req.body.username }, { email: req.body.email }]
             },
             function(err, existingUser) {
-              console.log(req.body);
               if (err) {
-                console.log(err);
                 return done(err);
               }
               // if password isn't strong or email is already taken, return
@@ -174,8 +174,6 @@ module.exports = function(passport) {
             }
           ).clone();
         } catch (error) {
-          console.log(error);
-
           return done(error);
         }
       }
