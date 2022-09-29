@@ -52,7 +52,7 @@ const ReviewPeek = props => {
         }}>
             <ListItemButton 
                 href="#"
-                alignItems="flex-start" 
+                alignItems="flex-start"
                 sx={{ 
                     width: '95%', 
                     bgcolor: 'background.white', 
@@ -114,11 +114,8 @@ const ReviewPeek = props => {
                                 variant="body2"
                                 fontSize="10px"
                                 fontFamily="Martel Sans"
-                                >
-                                {/* {description.length > 250 ?
-                                    `${description.substring(0, 250)}...` : description
-                                } */}
-                                {description}
+                            >
+                                {description}...
                                 <a href="#" id="link">Read More</a>
                             </Typography>
                             <Typography
