@@ -44,7 +44,7 @@ function App() {
             return newUser;
         };
         //console log user
-        getUserWithJwt().then(res => console.log(res));
+        getUserWithJwt();
     }, [setUser]);
 
     return (
