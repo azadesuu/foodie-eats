@@ -13,9 +13,9 @@ const jwt = require("jsonwebtoken");
 app.use(
   cors({
     credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-    origin: "https://cors-anywhere.herokuapp.com/https://foodie-eats.herokuapp.com/"
+    //origin: "https://cors-anywhere.herokuapp.com/https://foodie-eats.herokuapp.com/"
     //origin: "https://foodie-eats.herokuapp.com"
-    //origin: "http://localhost:3000" // or your heroku url
+    origin: "http://localhost:3000/" // or your heroku url
   })
 );
 
