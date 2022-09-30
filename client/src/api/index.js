@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //const SERVER_URL = "http://localhost:5000"; //server url
-const SERVER_URL = "https://cors-anywhere.herokuapp.com/https://foodie-eats.herokuapp.com"; //server url
+const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
 
 export const setAuthToken = token => {
     if (token) {
