@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:5000"; //server url
+//const SERVER_URL = "http://localhost:5000"; //server url
+const SERVER_URL = process.env.SERVER_URL; //server url
 
 export const setAuthToken = token => {
     if (token) {
