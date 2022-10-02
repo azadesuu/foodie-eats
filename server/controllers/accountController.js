@@ -66,6 +66,7 @@ const getMyBookmarks = async (req, res, next) => {
     await Review.find({ _id: { $in: bookmarks } }, function(err, result) {
       if (err) {
         res.json("bookmarks not found");
+        return;
       } else {
         res.status(200).json({
           success: true,

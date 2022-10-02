@@ -25,7 +25,8 @@ const getReviewsByRecent = async (req, res, next) => {
 
 const getReviewsByLikes = async (req, res, next) => {
   try {
-    const reviews = await Review.find({})
+    const postcode = req.body.postcode ? req.body.postcode : 3000;
+    const reviews = await Review.find({ postcode: postcode })
       .lean()
       .limit(10)
       .populate("userId")
@@ -86,8 +87,10 @@ const createReview = async (req, res, next) => {
 
   try {
     await tempReview.save(function(err, result) {
-      if (err) res.send(err);
-
+      if (err) {
+        res.send(err);
+        return;
+      }
       res.status(200).json({
         success: true,
         data: result
@@ -127,7 +130,10 @@ const updateReview = async (req, res, next) => {
         }
       },
       (err, updatedReview) => {
-        if (err) res.json(err);
+        if (err) {
+          res.json(err);
+          return;
+        }
         res.status(200).json({
           success: true,
           data: updatedReview
