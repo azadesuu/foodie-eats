@@ -65,7 +65,7 @@ function EditReview() {
                 description: description
             });
             if (updatedReviewRecord) {
-                alert("Review has been updated!.");
+                alert("Review has been updated!");
             } else {
                 alert("Update unsuccessful. Please try again.");
             }
