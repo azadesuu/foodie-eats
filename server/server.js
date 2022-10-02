@@ -10,35 +10,20 @@ const passport = require("passport");
 const flash = require("express-flash");
 const jwt = require("jsonwebtoken");
 
-const allowedOrigins = [
-  "http://localhost:3000/",
-  "https://foodie-eats.netlify.app/"
-];
-app.use(
-  cors({
-    credentials: true // from Express docs: adds the Access-Control-Allow-Credentials CORS headerE
-  })
-);
-
+app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "http://localhost:3000/",
-    "https://foodie-eats.netlify.app/"
+    "https://foodie-eats.herokuapp.com",
+    "http://localhost:3000"
   ];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Credentials", true);
   return next();
 });
-
-/*app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin", "X-Requested-With, Content-Type, Accept");
-});*/
 
 // setup a session store signing the contents using the secret key
 app.use(

@@ -2,7 +2,7 @@
   "name": "prettier-config-example",
   "scripts": {
     "test": "jest --forceExit",
-    "format": "prettier --write 'foodie-eats/server/**/*.js' 'foodie-eats/client/src/**/*.{js,css}'",
+    "format": "prettier --write 'server/**/*.js' 'client/src/**/*.{js,css}'",
     "server": "cd server && npm start",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run client\" \"npm run server\" "

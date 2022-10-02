@@ -57,11 +57,11 @@ function Login() {
     const submitHandler = async e => {
         try {
             // using API function to submit data to FoodBuddy API
-            await loginUser({
+            const user = await loginUser({
                 email: email,
                 password: password
             });
-            // if token exists login is successful
+
             var token = localStorage.getItem("token");
             setAuthToken(token);
             token ? navigate("/") : navigate("/login");

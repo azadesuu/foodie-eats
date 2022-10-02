@@ -1,6 +1,6 @@
 import "./index.css";
 import { useContext } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 import { useQuery } from "react-query";
 import "@fontsource/martel-sans";
@@ -16,14 +16,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Moment from "moment";
 
 function Review(props) {
-    const navigate = useNavigate();
     const [user, setUser] = useContext(UserContext);
+    const navigate = useNavigate();
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
         "view-review",
         () => getReview(reviewId),
-        { enabled: !!reviewId && !!user }
+        { enabled: !!reviewId }
     );
 
     const marks = [
@@ -165,15 +165,19 @@ function Review(props) {
                         </div>
 
                         <div>
-                            <button
-                                className="editReviewButton"
-                                type="button"
-                                onClick={() => {
-                                    navigate(`review/${review._id}/edit`);
-                                }}
-                            >
-                                EDIT
-                            </button>
+                            {review.userId._id !== user?._id ? (
+                                <></>
+                            ) : (
+                                <button
+                                    className="editReviewButton"
+                                    type="button"
+                                    onClick={() => {
+                                        navigate(`/review/${review._id}/edit`);
+                                    }}
+                                >
+                                    EDIT
+                                </button>
+                            )}
                         </div>
                     </form>
                 </div>

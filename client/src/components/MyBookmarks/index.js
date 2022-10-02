@@ -1,11 +1,10 @@
 import React from "react"; // required
 import "./index.css";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useQuery } from "react-query";
 import { getBookmarks } from "../../api";
 import { UserContext } from "../../actions/UserContext";
-import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 
@@ -209,7 +208,14 @@ function MyBookmarks() {
                         <h1>BOOKMARKS</h1>
                         <SearchBar />
                         <div className="line" />
-                        <ReviewsSmallScreen user={user} reviews={listReviews} />
+                        {user?.bookmarks && !listReviews && !isLoading ? (
+                            <CircularProgress className="spinner" />
+                        ) : (
+                            <ReviewsSmallScreen
+                                user={user}
+                                reviews={listReviews}
+                            />
+                        )}
                         <Post />
                     </span>
                     <span className="bigScreen-mybookmarks">
@@ -218,15 +224,15 @@ function MyBookmarks() {
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            
-                                {user?.bookmarks && !listReviews && (
-                                    <CircularProgress className="spinner" />
-                                )}
-                                {!user?.bookmarks && <h1>No Reviews Found.</h1>}
-                            <ReviewsBigScreen
-                                user={user}
-                                reviews={listReviews}
-                            />
+
+                            {user?.bookmarks && !listReviews && !isLoading ? (
+                                <CircularProgress className="spinner" />
+                            ) : (
+                                <ReviewsBigScreen
+                                    user={user}
+                                    reviews={listReviews}
+                                />
+                            )}
                         </div>
                     </span>
                     <div className="footer">

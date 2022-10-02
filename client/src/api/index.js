@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//const SERVER_URL = "http://localhost:5000"; //server url
+// const SERVER_URL = "http://localhost:5000"; //server url
 const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
 
 export const setAuthToken = token => {
@@ -17,27 +17,30 @@ export async function loginUser(user) {
         alert("Must provide email and a password");
         return;
     }
+    const endpoint = SERVER_URL + `/login`;
 
-    const endpoint = SERVER_URL + "/login";
-    let data = await axios
-        .post(
-            endpoint,
+    let data = await axios({
+        url: endpoint,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify(
             {
                 email: email,
                 password: password
             },
             { withCredentials: true }
         )
+    })
         .then(res => res.data)
-        .catch(err => {
-            alert("email not found or password does not match.");
+        .catch(() => {
+            alert("Email not found or password doesn't match.");
         });
+
     if (data) {
         // store token locally
-        await localStorage.setItem("token", data);
-        if (!localStorage.hasOwnProperty("token")) {
-            alert("token not set");
-        }
+        localStorage.setItem("token", data);
     }
 }
 
