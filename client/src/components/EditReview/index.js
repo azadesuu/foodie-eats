@@ -15,7 +15,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 function EditReview() {
     const navigate = useNavigate();
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
@@ -38,7 +38,7 @@ function EditReview() {
             alert("restaurant name is missing");
         } else if (!dateVisited) {
             alert("date is missing");
-        } else if (!address.street_address) {
+        } else if (!address.streetAddress) {
             alert("street address is missing");
         } else if (!address.suburb) {
             alert("suburb is missing");
@@ -64,10 +64,12 @@ function EditReview() {
                 address: address,
                 description: description
             });
-            if (!review) {
-                alert("update unsucessful.");
+            if (updatedReviewRecord) {
+                alert("Review has been updated!.");
+            } else {
+                alert("Update unsuccessful. Please try again.");
             }
-            navigate(`/review/${review?._id}`);
+            navigate(-1);
         }
     };
 
@@ -168,10 +170,10 @@ function EditReview() {
                                     <input
                                         type="text"
                                         defaultValue={
-                                            review.address.street_address
+                                            review.address.streetAddress
                                         }
                                         onChange={e => {
-                                            review.address.street_address =
+                                            review.address.streetAddress =
                                                 e.target.value;
                                         }}
                                     />

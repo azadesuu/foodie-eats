@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useNavigate, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { getUser } from "./api";
 import { UserContext } from "./actions/UserContext";
 import Community from "./components/Community";
@@ -37,17 +37,12 @@ const PrivateRoutes = props => {
 };
 
 function App() {
-    const [user, setUser] = useState();
-    const [jwt, setJwt] = useState("");
-
-    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const jwt = localStorage.getItem("token");
-        setJwt(jwt);
-        if (!jwt) {
-            return;
-        }
+        if (!jwt) return;
+
         //gets the user from the signed jwt token
         const getUserWithJwt = async () => {
             const newUser = await getUser(jwt);
@@ -60,7 +55,7 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <UserContext.Provider value={[user, setUser]}>
+            <UserContext.Provider value={[user, setUser, getUser]}>
                 <div>
                     <Routes>
                         {/* public routes */}
@@ -109,7 +104,7 @@ function App() {
                             />
                             <Route
                                 path="/review/:reviewId"
-                                element={<Review />}
+                                element={<Review user={user} />}
                             />
                             <Route
                                 path="/review/:reviewId/edit"

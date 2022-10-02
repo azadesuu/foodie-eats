@@ -1,7 +1,5 @@
 import "./index.css";
-import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { UserContext } from "../../actions/UserContext";
 import { useQuery } from "react-query";
 import "@fontsource/martel-sans";
 import { CircularProgress } from "@mui/material";
@@ -16,7 +14,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Moment from "moment";
 
 function Review(props) {
-    const [user, setUser] = useContext(UserContext);
     const navigate = useNavigate();
 
     const { reviewId } = useParams();
@@ -106,7 +103,7 @@ function Review(props) {
                         <div className="details-container">
                             <input
                                 type="text"
-                                placeholder={review.address.street_address}
+                                placeholder={review.address.streetAddress}
                                 disabled
                             />
                         </div>
@@ -165,7 +162,7 @@ function Review(props) {
                         </div>
 
                         <div>
-                            {review.userId._id !== user?._id ? (
+                            {review.userId._id !== props.user?._id ? (
                                 <></>
                             ) : (
                                 <button

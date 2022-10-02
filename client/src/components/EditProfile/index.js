@@ -23,10 +23,15 @@ const EditProfile = data => {
                 profileImage: profileImageEdit
             });
             if (user) {
-                alert(
-                    "Successfully updated, please re-enter your login credentials."
-                );
-                navigate("/logout"); //must logout and login to reset token (temp)
+                if (user.username === username && user.email === email) {
+                    // if username and email are not changed
+                    alert("Successfully updated. Re-login to see changes.");
+                } else {
+                    alert(
+                        "Successfully updated, please re-enter your login credentials."
+                    );
+                    navigate("/logout"); //must logout and login to reset token (temp)
+                }
             } else {
                 alert("Error occured, please try again.");
             }

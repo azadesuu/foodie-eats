@@ -17,7 +17,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { createReview, getProfile } from "../../api";
 
 function PostReview() {
-    const [user1, setUser1] = useContext(UserContext);
+    const [user1] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
         "my-user",
         () => getProfile(user1?.username),
@@ -70,7 +70,7 @@ function PostReview() {
             alert("description is missing");
         } else {
             const address = {
-                street_address: streetAddress,
+                streetAddress: streetAddress,
                 postcode: postcode,
                 state: state,
                 suburb: suburb
@@ -113,7 +113,7 @@ function PostReview() {
 
     return (
         <div className="profile-info">
-            {!userProfile && <CircularProgress className="spinner" />}
+            {isLoading && <CircularProgress className="spinner" />}
             {userProfile && (
                 <div className="user-container">
                     <h1>POST</h1>

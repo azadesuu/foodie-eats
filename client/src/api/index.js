@@ -2,6 +2,8 @@ import axios from "axios";
 
 // const SERVER_URL = "http://localhost:5000"; //server url
 const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
+// const SERVER_URL = process.env.SERVER_URL; //server url
+
 
 export const setAuthToken = token => {
     if (token) {
@@ -150,6 +152,7 @@ export const getReview = async reviewId => {
 };
 
 export const updateReview = async data => {
+    console.log(data);
     return await axios
         .patch(`${SERVER_URL}/review/updateReview`, data)
         .then(res => res?.data?.data)
@@ -254,10 +257,8 @@ export const getMyReviews = async userId => {
 // //--- Profile Edits
 
 export const updateUser = async profile => {
-    const { userId, username, email, bio, image } = profile;
-
     return await axios
-        .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
+        .patch(`${SERVER_URL}/account/updateUser/${profile.userId}`, profile)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

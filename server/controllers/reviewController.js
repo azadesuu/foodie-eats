@@ -104,31 +104,38 @@ const createReview = async (req, res, next) => {
 const updateReview = async (req, res, next) => {
   try {
     const {
-      dateVisited,
+      _id,
       restaurantName,
+      isPublic,
+      priceRange,
       rating,
+      dateVisited,
       description,
       images,
       address,
       tags
     } = req.body;
 
-    const updatedReview = await Review.updateOne(
-      { _id: req.body.id },
+    await Review.findByIdAndUpdate(
+      _id,
       {
         $currentDate: {
           dateStart: true
         },
         $set: {
-          dateVisited: dateVisited,
           restaurantName: restaurantName,
+          isPublic: isPublic,
+          priceRange: priceRange,
           rating: rating,
+          dateVisited: dateVisited,
           description: description,
           images: images,
           address: address,
           tags: tags
         }
       },
+      { new: true },
+
       (err, updatedReview) => {
         if (err) {
           res.json(err);
@@ -139,7 +146,7 @@ const updateReview = async (req, res, next) => {
           data: updatedReview
         });
       }
-    );
+    ).clone();
   } catch (err) {
     next(err);
   }
