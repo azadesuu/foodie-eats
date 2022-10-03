@@ -3,8 +3,10 @@ const User = require("../models/user");
 
 const getReviewsByRecent = async (req, res, next) => {
   try {
-    const postcode = req.params.postcode ? req.params.postcode : 3000;
-    const reviews = await Review.find({ postcode: postcode })
+    const query = req.params.postcode
+      ? { "address.postcode": req.params.postcode }
+      : {};
+    const reviews = await Review.find(query)
       .populate("userId")
       .lean()
       .limit(10)
@@ -25,8 +27,10 @@ const getReviewsByRecent = async (req, res, next) => {
 
 const getReviewsByLikes = async (req, res, next) => {
   try {
-    const postcode = req.body.postcode ? req.body.postcode : 3000;
-    const reviews = await Review.find({ postcode: postcode })
+    const query = req.body.postcode
+      ? { "address.postcode": req.params.postcode }
+      : {};
+    const reviews = await Review.find(query)
       .lean()
       .limit(10)
       .populate("userId")
