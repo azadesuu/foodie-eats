@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const SERVER_URL = "http://localhost:5000"; //server url
-const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
+const SERVER_URL = "http://localhost:5000"; //server url
+// const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
 // const SERVER_URL = process.env.SERVER_URL; //server url
 
 export const setAuthToken = async token => {
@@ -101,16 +101,16 @@ export const forgotPassword = async email => {
 };
 // COMMUNITY
 
-export const getCommunityRecent = async data => {
+export const getCommunityRecent = async postcode => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByRecent`, data)
+        .get(`${SERVER_URL}/review/getReviewsByRecent/${postcode}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
-export const getCommunityMostLiked = async data => {
+export const getCommunityMostLiked = async postcode => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByLikes`, data)
+        .get(`${SERVER_URL}/review/getReviewsByLikes/${postcode}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -121,7 +121,7 @@ export const getCommunityMostLiked = async data => {
 export const getCommunitySearch = async data => {
     const { search, rating, priceRange, tag, postcode } = data;
     return await axios
-        .get(`${SERVER_URL}/review/search`, data)
+        .post(`${SERVER_URL}/review/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -153,7 +153,7 @@ export const updateReview = async data => {
 export const toggleBookmark = async data => {
     const { reviewId, userId } = data;
     return await axios
-        .patch(`${SERVER_URL}/review/bookmark/${reviewId}/${userId}`)
+        .patch(`${SERVER_URL}/account/bookmark/${reviewId}/${userId}`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -162,7 +162,7 @@ export const toggleBookmark = async data => {
 export const toggleLike = async data => {
     const { userId, reviewId } = data;
     return await axios
-        .patch(`${SERVER_URL}/review/like/${userId}/${reviewId}`)
+        .patch(`${SERVER_URL}/review/like/${userId}/${reviewId}`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -176,17 +176,16 @@ export const deleteReview = async reviewId => {
 };
 
 // // -------------- Bookmarks page
-export const getBookmarks = async bookmarks => {
-    if (bookmarks === undefined) return [];
+export const getBookmarks = async data => {
     return await axios
-        .get(`${SERVER_URL}/account/my-bookmarks`, bookmarks)
+        .post(`${SERVER_URL}/account/my-bookmarks/get`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
 export const getBookmarksSearch = async data => {
     return await axios
-        .get(`${SERVER_URL}/account/my-bookmarks/search`, data)
+        .post(`${SERVER_URL}/account/my-bookmarks/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -209,8 +208,9 @@ export const getMyReviews = async userId => {
 };
 
 export const getMyReviewsSearch = async data => {
+    const { userId } = data;
     return await axios
-        .get(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
+        .post(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -218,8 +218,9 @@ export const getMyReviewsSearch = async data => {
 // //--- Profile Edits
 
 export const updateUser = async profile => {
+    const { userId } = profile;
     return await axios
-        .patch(`${SERVER_URL}/account/updateUser/${profile.userId}`, profile)
+        .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

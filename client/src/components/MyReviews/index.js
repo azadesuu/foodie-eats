@@ -1,5 +1,5 @@
 import React from "react"; // required
-import "./index.css";
+import "./MyReviews.css";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
@@ -122,6 +122,7 @@ function ReviewsSmallScreen(props) {
                     sx={{
                         width: "100%",
                         justifyContent: "center",
+                        ml: "5px",
                         overflowY: "auto",
                         overflowX: "hidden",
                         flexDirection: "column",
@@ -181,6 +182,7 @@ function ReviewsBigScreen(props) {
                     maxHeight: "300px",
                     padding: "1%",
                     width: "90%",
+                    marginTop: "10px",
                     "&::-webkit-scrollbar": {
                         width: "0.3em"
                     },
@@ -190,47 +192,47 @@ function ReviewsBigScreen(props) {
                     }
                 }}
             >
-                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {!user && <CircularProgress className="spinner" />}
-                    {listReviews ? (
-                        <div>
-                            {listReviews.length > 0 ? (
-                                <div>
-                                    {listReviews.map(review => {
-                                        return (
+                {!user && <CircularProgress className="spinner" />}
+                {listReviews ? (
+                    <div>
+                        {listReviews.length > 0 ? (
+                            <div>
+                                <Grid container spacing={{ xs: 2, md: 3 }}>
+                                    {listReviews.map(review => (
+                                        <Grid item xs={6} key={review}>
                                             <ReviewPeek reviewData={review} />
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                // If the info can't be loaded, then display a message
-                                <h2>User has not posted</h2>
-                            )}
-                        </div>
-                    ) : (
-                        <h2>Found no reviews</h2>
-                    )}
-                </Grid>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </div>
+                        ) : (
+                            // If the info can't be loaded, then display a message
+                            <h2>User has not posted</h2>
+                        )}
+                    </div>
+                ) : (
+                    <h2>Found no reviews</h2>
+                )}
             </Box>
         </div>
     );
 }
 
 function MyReviews() {
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
     return (
         <>
             {user ? (
-                <div className="content">
+                <div className="content-MyReviews">
                     <NavLoggedIn />
-                    <span className="smallScreen-myreviews">
+                    <span className="smallScreen-MyReviews">
                         <h1>MY REVIEWS</h1>
                         <SearchBar />
                         <div className="line" />
                         <ReviewsSmallScreen user={user} />
                         <Post />
                     </span>
-                    <span className="bigScreen-myreviews">
+                    <span className="bigScreen-MyReviews">
                         <TopUser user={user} />
                         <div className="line5" />
                         <div className="r1">

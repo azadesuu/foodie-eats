@@ -1,0 +1,130 @@
+@media screen and (min-width: 700px) {
+    #form-control-pw {
+      margin-right: -62px;
+      width: 483px;
+    }
+    .form-control input {
+      width: 399px;  
+    }
+    .forgetpw a{
+      margin-left: -107px;
+    }
+    .content-register .line {
+      width: 318px;
+    }
+}
+@media screen and (max-width: 700px) { 
+    .form-control {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-control label {
+      margin-left: -240px;
+    }
+    .forgetpw a {
+      margin-left: -170px;
+    }
+    .line {
+      width: 250px;
+    }
+    .form-control-signup-pw-con label {
+      width: 150px;
+    }
+}
+@media screen and (max-width: 600px) { 
+    .line {
+      width: 170px;
+    }
+}
+:root {
+    box-sizing: border-box;
+}
+body {
+    margin-top: 230px;
+    background-color: #FFFEEC;
+    padding: 1%;
+    font-family: "Martel Sans";
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.content-register {
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-register .signup {
+    display: none;
+} 
+.content-register form {
+    max-width: 505px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0 auto;
+}
+.form-control {
+    margin-bottom: 40px;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    max-width: 483px;
+}
+.form-control label {
+    font-size: 20px;
+    width: 100px;
+}
+.form-control input {
+    border: none;
+    background: #D9D9D9;
+    border-radius: 10px;
+    display: block;
+    width: 330px;
+    height: 40px;
+    padding: 8px;
+    font-size: 20px;
+}
+.signup-done {
+    display: flex;
+    justify-content: center;
+    color: #FFFEEC;
+}
+.done {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    background-color: #BEE5B0;
+    border-radius: 10px;
+    margin-left: 0px;
+    height: 27px;
+    width: 77px;
+}
+a {
+    margin-left: 5px;
+    text-decoration: none;
+    color: inherit;
+}
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+.footer {
+    background-color: #E4F3D3;
+    color: #3f3f3f;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: 90;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+    left: 0;
+    position: fixed;
+    margin: 0;
+}
+.footer p {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 130px;
+    margin-top: 3px;
+}

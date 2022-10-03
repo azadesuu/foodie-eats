@@ -14,22 +14,25 @@ accountRouter.get("/profile/:username", accountController.getProfile);
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
 //GET my reviews by search values -- restaurantname, rating, pricerange, postcode, tags
-accountRouter.get(
+accountRouter.post(
   "/my-reviews/:userId/search",
   accountController.getMyReviewsSearch
 );
 
 // GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
-accountRouter.get("/my-bookmarks", accountController.getMyBookmarks);
+accountRouter.post("/my-bookmarks/get", accountController.getMyBookmarks);
 
 //GET my reviews by search values -- restaurantname, rating, pricerange, postcode, tags
-accountRouter.get(
+accountRouter.post(
   "/my-bookmarks/:userId/search",
   accountController.getMyBookmarksSearch
 );
 
 // PATCH user to add bookmarks to array if boolean is true
-accountRouter.patch("/bookmark/:reviewId/:userId", accountController.bookmarkReview);
+accountRouter.patch(
+  "/bookmark/:reviewId/:userId",
+  accountController.bookmarkReview
+);
 
 // PATCH profile by userId -- Updates the user profile with new data and returns updated profile
 accountRouter.patch("/updateUser/:userId", accountController.updateUser);

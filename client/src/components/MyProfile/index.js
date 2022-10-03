@@ -1,4 +1,4 @@
-import "./index.css";
+import "./MyProfile.css";
 
 import { useContext, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 
 import NavLoggedIn from "../LoggedInNavBar";
 import EditProfile from "../EditProfile";
-import ChangePassword from "../ChangePassword";
 
 function TopUser(props) {
     const userProfile = props.user;
@@ -19,11 +18,11 @@ function TopUser(props) {
     return (
         <div className="top-user">
             <div className="top-user-r1">
-                {/* <Avatar
+                <Avatar
                     alt="user-profile-image"
-                    src={userProfile.profileImage}
+                    // src={userProfile.profileImage}
                     sx={{ height: 130, width: 130 }}
-                /> */}
+                />
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -65,27 +64,67 @@ function ProfileDetails(props) {
     return (
         <div className="profile-details">
             <div className="profile-title">
-                <h2>profile</h2>
-                <IconButton
-                    value={editButton}
-                    onClick={updateUser}
-                    sx={{
-                        "&:hover": {
-                            bgcolor: "#FFFEEC"
-                        }
-                    }}
-                >
-                    <EditIcon
-                        sx={{
-                            color: "black",
-                            fontSize: 30,
-                            marginTop: "15px",
-                            "&:hover": {
-                                bgcolor: "#FFFEEC"
-                            }
+                <span className="bigScreen-MyProfile">
+                    <h2>profile</h2>
+                </span>
+                <span className="smallScreen-MyProfile">
+                    <div className="r2">
+                        <h1>{userProfile.username}</h1>
+                        <IconButton
+                            value={editButton}
+                            onClick={updateUser}
+                            sx={{
+                                "&:hover": {
+                                    bgcolor: "#FFFEEC"
+                                },
+                                left: "30px",
+                                bottom: "40px",
+                            }}
+                        >   
+                            <EditIcon
+                                sx={{
+                                    color: "black",
+                                    fontSize: 40,
+                                    "&:hover": {
+                                        bgcolor: "#FFFEEC"
+                                    }
+                                }}
+                            />  
+                        </IconButton>
+                    </div>
+                    <Avatar
+                        alt="user-profile-image"
+                        // src={user.profileImage}
+                        sx={{ 
+                            height: 110, 
+                            width:  110,
+                            ml: "35px",
+                            mt: "-40px",
                         }}
                     />
-                </IconButton>
+                </span>
+                <span className="bigScreen-MyProfile">
+                    <IconButton
+                        value={editButton}
+                        onClick={updateUser}
+                        sx={{
+                            "&:hover": {
+                                bgcolor: "#FFFEEC"
+                            },
+                            bottom: "5px",
+                        }}
+                    >   
+                        <EditIcon
+                            sx={{
+                                color: "black",
+                                fontSize: 30,
+                                "&:hover": {
+                                    bgcolor: "#FFFEEC"
+                                }
+                            }}
+                        />  
+                    </IconButton>
+                </span>
             </div>
             {!editButton ? (
                 <div>
@@ -121,6 +160,11 @@ function ProfileDetails(props) {
                                     readOnly="readOnly"
                                 />
                             </div>
+                            <span className="smallScreen-MyProfile">
+                                <div className="viewallreviews">
+                                    <a href="my-reviews">View all my reviews</a>
+                                </div>
+                            </span>
                             <div className="changepw">
                                 <a href="change-password">Change Password</a>
                             </div>
@@ -138,19 +182,22 @@ function ProfileDetails(props) {
                     profileImage={userProfile.profileImage}
                 />
             )}
-            {/* <ChangePassword  /> */}
         </div>
     );
 }
 
 function MyProfile() {
     const [user, setUser] = useContext(UserContext);
+
     return (
         <>
             {user ? (
-                <div className="content">
+                <div className="content-MyProfile">
                     <NavLoggedIn />
-                    <span className="bigScreen-profile">
+                    <span className="smallScreen-MyProfile">
+                        <ProfileDetails user={user} />
+                    </span>
+                    <span className="bigScreen-MyProfile">
                         <TopUser user={user} />
                         <div className="line5" />
                         <div className="r1">

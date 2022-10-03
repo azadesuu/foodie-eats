@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 const getReviewsByRecent = async (req, res, next) => {
   try {
-    const postcode = req.body.postcode ? req.body.postcode : 3000;
+    const postcode = req.params.postcode ? req.params.postcode : 3000;
     const reviews = await Review.find({ postcode: postcode })
       .populate("userId")
       .lean()
@@ -233,6 +233,7 @@ const toggleLike = async (req, res, next) => {
         (err, updatedReview) => {
           if (err) {
             res.json(err);
+            console.log(err);
             return;
           }
           res.status(200).json({

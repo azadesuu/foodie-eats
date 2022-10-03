@@ -104,19 +104,19 @@ const getMyReviewsSearch = async (req, res, next) => {
 };
 
 const getMyBookmarks = async (req, res, next) => {
-  const { bookmarks } = req.body.bookmarks;
+  const bookmarks = req.body.bookmarks;
   try {
     await Review.find({ _id: { $in: bookmarks } }, function(err, result) {
       if (err) {
         res.json("bookmarks not found");
         return;
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
       }
+      res.status(200).json({
+        success: true,
+        data: result
+      });
     })
+      .clone()
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();

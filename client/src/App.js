@@ -60,14 +60,14 @@ function App() {
                     <Routes>
                         {/* public routes */}
                         <Route path="/home" element={<Community />} />
-                        <Route
+                        {/* <Route
                             path="/profile/:username"
                             element={<Profile />}
-                        />
-                        <Route
+                        /> */}
+                        {/* <Route
                             path="/profile/:username/reviews"
                             element={<ProfileReviews />}
-                        />
+                        /> */}
                         {/* must be public */}
                         <Route path="*" element={<PageNotFound />} />
                         <Route path="/login" element={<Login />} />
@@ -93,7 +93,10 @@ function App() {
                                 element={<MyBookmarks />}
                             />
                             <Route path="/my-profile" element={<MyProfile />} />
-                            <Route path="/my-reviews" element={<MyReviews />} />
+                            <Route
+                                path="/my-reviews"
+                                element={<MyReviews />}
+                            />
                             <Route
                                 path="/change-password"
                                 element={<ChangePassword />}

@@ -1,7 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { getUserById } from "../../api";
 import { useNavigate } from "react-router-dom";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import List from "@mui/material/List";
@@ -10,6 +8,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import "./ReviewPeek.css";
 
 const theme = createTheme({
     palette: {
@@ -65,27 +65,27 @@ const ReviewPeek = props => {
                         bgcolor: "background.white",
                         borderRadius: "10px",
                         marginRight: "10px",
-                        // boxShadow: '0 5px 5px rgba(0, 0, 0, 0.25)',
-                        // border: '1px solid #000000',
+                        minHeight: "146px",
+                        boxShadow: "0 5px 5px rgba(0, 0, 0, 0.25)",
                         "&:hover": { bgcolor: "white" }
                     }}
                 >
                     <ListItemText
-                        sx={{ margin: "-7px" }}
                         primary={
                             <React.Fragment>
                                 <div className="t1">
-                                    <Typography
-                                        variant="body2"
-                                        display="inline"
-                                        fontSize="10px"
-                                        fontFamily="Martel Sans"
-                                    >
-                                        Date visited:{" "}
-                                        {new Date(
-                                            dateVisited
-                                        ).toLocaleDateString("en-GB")}
-                                    </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            display="inline"
+                                            fontSize="10px"
+                                            fontFamily="Martel Sans"
+                                            marginBottom={0.2}
+                                        >
+                                            Date visited:{" "}
+                                            {new Date(
+                                                dateVisited
+                                            ).toLocaleDateString("en-GB")}
+                                        </Typography>
                                     <Typography
                                         variant="body2"
                                         display="inline"
@@ -133,10 +133,7 @@ const ReviewPeek = props => {
                                     fontSize="10px"
                                     fontFamily="Martel Sans"
                                 >
-                                    {/* {description.length > 250 ?
-                                    `${description.substring(0, 250)}...` : description
-                                } */}
-                                    {description}...
+                                    {description.length <= 70 ? description: (description.substr(0, 70) + "...")}
                                     <a
                                         onClick={event => {
                                             viewReview();
@@ -152,6 +149,7 @@ const ReviewPeek = props => {
                                     fontFamily="Martel Sans"
                                     display="flex"
                                     justifyContent="flex-end"
+                                    mb="0px"
                                 >
                                     {/* +{images.length} images */}
                                     +2 images

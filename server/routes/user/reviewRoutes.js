@@ -6,12 +6,18 @@ const User = require("../../models/user");
 const reviewController = require("../../controllers/reviewController");
 
 //GET reviews by recent
-reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
+reviewRouter.get(
+  "/getReviewsByRecent/:postcode",
+  reviewController.getReviewsByRecent
+);
 //GET reviews by most liked
-reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
+reviewRouter.get(
+  "/getReviewsByLikes/:postcode",
+  reviewController.getReviewsByLikes
+);
 
 //GET by search values -- restaurantname, rating, pricerange, postcode, tags
-reviewRouter.get("/search", reviewController.getReviewsBySearch);
+reviewRouter.post("/search", reviewController.getReviewsBySearch);
 
 //GET one review by reviewId
 reviewRouter.get("/getReview/:reviewId", reviewController.getOneReview);
