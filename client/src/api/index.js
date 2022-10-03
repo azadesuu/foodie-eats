@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:5000"; //server url
-// const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
+// const SERVER_URL = "http://localhost:5000"; //server url
+const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
 // const SERVER_URL = process.env.SERVER_URL; //server url
 
 export const setAuthToken = async token => {
@@ -114,10 +114,7 @@ export const getCommunityMostLiked = async postcode => {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
-// // use req.query.search
-// // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
-// // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
-// // If we need to work with numbers, and convert query statements from text to number, we can simply add a plus sign in front of statement.
+
 export const getCommunitySearch = async data => {
     const { search, rating, priceRange, tag, postcode } = data;
     return await axios
