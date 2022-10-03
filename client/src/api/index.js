@@ -118,9 +118,9 @@ export const getCommunityMostLiked = async data => {
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
 // // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
 // // If we need to work with numbers, and convert query statements from text to number, we can simply add a plus sign in front of statement.
-export const getCommunitySearch = data => {
+export const getCommunitySearch = async data => {
     const { search, rating, priceRange, tag, postcode } = data;
-    return axios
+    return await axios
         .get(`${SERVER_URL}/review/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
