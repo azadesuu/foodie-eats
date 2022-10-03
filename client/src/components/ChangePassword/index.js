@@ -1,4 +1,6 @@
-import "./index.css";
+import "./ChangePassword.css";
+import NavLoggedIn from "../LoggedInNavBar";
+
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -7,6 +9,47 @@ import { updatePassword, getProfile } from "../../api";
 import { CircularProgress } from "@mui/material";
 
 import "@fontsource/martel-sans";
+
+function TopUser(props) {
+    const userProfile = props.user;
+
+    return (
+        <div className="top-user">
+            <div className="top-user-r1">
+                {/* <Avatar
+                    alt="user-profile-image"
+                    src={userProfile.profileImage}
+                    sx={{ height: 130, width: 130 }}
+                /> */}
+                <div className="top-user-info">
+                    <h2>{userProfile.username}</h2>
+                    <p>{userProfile.bio}</p>
+                </div>
+            </div>
+            <div className="top-user-rev">
+                <p>
+                    <span className="detail">7</span> reviews
+                </p>
+                <p>
+                    <span className="detail">10k</span> likes
+                </p>
+            </div>
+        </div>
+    );
+}
+
+function Sidebar() {
+    return (
+        <div className="sidebar-content">
+            <div id="current">
+                <a href="my-profile">profile</a>
+            </div>
+            <a href="my-reviews">reviews</a>
+            <a href="my-bookmarks">bookmarks</a>
+            <a href="my-theme">theme</a>
+        </div>
+    );
+}
 
 function ChangePassword() {
     const navigate = useNavigate();
@@ -55,70 +98,80 @@ function ChangePassword() {
     };
 
     return (
-        <div className="profile-info">
-            {isLoading && !userProfile && (
-                <CircularProgress className="spinner" />
-            )}
-            {userProfile ? (
-                <div className="user-container">
-                    {/* choosing the header depending on if ur editing the profile or not */}
-                    <h1>CHANGE PASSWORD</h1>
+        <div className="content-ChangePassword">
+            <NavLoggedIn />
+            <span className="smallScreen-ChangePassword">
+                <h1>CHANGE PASSWORD</h1>
+                {isLoading && !userProfile && (
+                    <CircularProgress className="spinner" />
+                )}
+                {userProfile ? (
+                    <div className="user-container">
+                        <form>
+                            {/* current password field */}
+                            <div className="details-container">
+                                <label>Current Password</label>
+                                <input
+                                    type="password"
+                                    onChange={e => {
+                                        setCurrentPassword(e.target.value);
+                                    }}
+                                />
+                            </div>
 
-                    <form>
-                        {/* current password field */}
-                        <div className="details-container">
-                            <label>Current Password</label>
-                            <input
-                                type="password"
-                                onChange={e => {
-                                    setCurrentPassword(e.target.value);
+                            {/* new password field */}
+                            <div className="details-container">
+                                <label>New Password</label>
+                                <input
+                                    type="password"
+                                    onChange={e => {
+                                        setNewPassword(e.target.value);
+                                    }}
+                                />
+                            </div>
+
+                            {/* confirm new password field */}
+                            <div className="details-container">
+                                <label>Confirm New Password</label>
+                                <input
+                                    type="password"
+                                    onChange={e => {
+                                        setConfirmNewPassword(e.target.value);
+                                    }}
+                                />
+                            </div>
+                        </form>
+
+                        <div className="button-group">
+                            <button
+                                className="confirm"
+                                onClick={() => {
+                                    checkPassword(
+                                        user?._id,
+                                        user?.password,
+                                        currentPassword,
+                                        newPassword,
+                                        confirmNewPassword
+                                    );
                                 }}
-                            />
+                            >
+                                CONFIRM
+                            </button>
                         </div>
-
-                        {/* new password field */}
-                        <div className="details-container">
-                            <label>New Password</label>
-                            <input
-                                type="password"
-                                onChange={e => {
-                                    setNewPassword(e.target.value);
-                                }}
-                            />
-                        </div>
-
-                        {/* coonfirm new password field */}
-                        <div className="details-container">
-                            <label>Confirm New Password</label>
-                            <input
-                                type="password"
-                                onChange={e => {
-                                    setConfirmNewPassword(e.target.value);
-                                }}
-                            />
-                        </div>
-                    </form>
-
-                    <div className="button-group">
-                        <button
-                            className="confirm"
-                            onClick={() => {
-                                checkPassword(
-                                    user?._id,
-                                    user?.password,
-                                    currentPassword,
-                                    newPassword,
-                                    confirmNewPassword
-                                );
-                            }}
-                        >
-                            CONFIRM
-                        </button>
                     </div>
-                </div>
-            ) : (
-                <h1>No user found</h1>
-            )}
+                ) : (
+                    <h1>No user found</h1>
+                )}
+            </span>
+            <span className="bigScreen-ChangePassword">
+                <TopUser user={user} />
+                    <div className="line5" />
+                    <div className="r1">
+                        <Sidebar />
+                        <div className="line6" />
+                        
+                    </div>
+            </span>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import "./index.css";
+import "./Community.css";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getCommunityRecent, getCommunityMostLiked } from "../../api";
@@ -16,6 +16,29 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Nav from "../NavBar";
 import ReviewPeek from "../ReviewPeek";
 import NavLoggedIn from "../LoggedInNavBar";
+
+import React from "react";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import Typography from "@mui/material/Typography";
+import Rating from "@mui/material/Rating";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+const theme = createTheme({
+    palette: {
+        background: {
+            green: "#BEE5B0",
+            grey: "#ECE7E5",
+            white: "#FFFCFB"
+        },
+        text: {
+            main: "#000000"
+        },
+        img: {
+            main: "#000000"
+        }
+    }
+});
 
 function Location() {
     return (
@@ -48,7 +71,9 @@ function SearchBar() {
                 />
                 <FilterAltIcon />
             </div>
-            <div className="searchResult"></div>
+            <div className="searchResult">
+                
+            </div>
         </div>
     );
 }
@@ -56,8 +81,8 @@ function SearchBar() {
 function Post() {
     return (
         <div className="postButton">
-            <span className="smallScreen">
-                <IconButton href="#">
+            <span className="smallScreen-Community">
+                <IconButton href="create-review">
                     <PostAddIcon
                         sx={{
                             bgcolor: "#BEE5B0",
@@ -87,16 +112,16 @@ function Community() {
     );
 
     return (
-        <div className="content">
+        <div className="content-Community">
             {/* if logged in */}
             <NavLoggedIn />
             {/* else */}
-            <Nav />
-            <span className="bigScreen">
+            {/* <Nav /> */}
+            <span className="bigScreen-Community">
                 <Location />
             </span>
             <h1>COMMUNITY</h1>
-            <span className="smallScreen">
+            <span className="smallScreen-Community">
                 <Location />
             </span>
             <SearchBar />
@@ -105,12 +130,13 @@ function Community() {
             {listLikes ? (
                 <div className="toprecom">
                     <h2>TOP RECOMMENDATIONS</h2>
-                    <span className="smallScreen">
+                    <span className="smallScreen-Community">
                         <div className="toprecom-content">
                             <List
                                 sx={{
                                     width: "100%",
                                     justifyContent: "center",
+                                    ml: "5px",
                                     overflowY: "auto",
                                     maxHeight: "200px",
                                     flexDirection: "column",
@@ -136,7 +162,7 @@ function Community() {
                             </List>
                         </div>
                     </span>
-                    <span className="bigScreen">
+                    <span className="bigScreen-Community">
                         <Box
                             sx={{
                                 flexGrow: 1,
@@ -160,9 +186,7 @@ function Community() {
                                 {listLikes.slice(0, 9).map(review => (
                                     <Grid
                                         item
-                                        xs={2}
-                                        sm={4}
-                                        md={4}
+                                        xs={4}
                                         key={review}
                                     >
                                         <ReviewPeek reviewData={review} />
@@ -181,12 +205,13 @@ function Community() {
             {listReviewsRecent ? (
                 <div className="recent">
                     <h2>RECENT</h2>
-                    <span className="smallScreen">
+                    <span className="smallScreen-Community">
                         <div className="recent-content">
                             <List
                                 sx={{
                                     width: "100%",
                                     justifyContent: "center",
+                                    ml: "5px",
                                     overflowY: "auto",
                                     maxHeight: "200px",
                                     flexDirection: "column",
@@ -212,7 +237,7 @@ function Community() {
                             </List>
                         </div>
                     </span>
-                    <span className="bigScreen">
+                    <span className="bigScreen-Community">
                         <Box
                             sx={{
                                 flexGrow: 1,
@@ -235,9 +260,7 @@ function Community() {
                                 {listReviewsRecent.map(review => (
                                     <Grid
                                         item
-                                        xs={2}
-                                        sm={4}
-                                        md={4}
+                                        xs={4}
                                         key={review}
                                     >
                                         <ReviewPeek reviewData={review} />
@@ -251,6 +274,7 @@ function Community() {
                 // If the info can't be loaded, then display a message
                 !isLoading && <h2>Found no orders</h2>
             )}
+            {/* if logged in */}
             <Post />
             <div className="footer">
                 <p>copyright © 2022 All-for-one</p>

@@ -1,7 +1,7 @@
 import React from "react"; // required
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import "./index.css";
+
+import "./NavBar.css";
 
 import "@fontsource/martel-sans";
 
@@ -20,11 +20,9 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
+import { NavLink } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 
 const theme = createTheme({
     palette: {
@@ -149,7 +147,7 @@ function NavPublic() {
                                                                         handleClose
                                                                     }
                                                                 >
-                                                                    <a href="/">
+                                                                    <a href="/home">
                                                                         community
                                                                     </a>
                                                                 </MenuItem>
@@ -186,33 +184,24 @@ function NavPublic() {
                                             display: "flex"
                                         }}
                                     >
-                                        <Link
-                                            href="login"
-                                            style={{ textDecoration: "none" }}
-                                        >
-                                            <Button
-                                                color="text"
-                                                style={{
+                                        <NavLink
+                                            className="active-link"
+                                            tag={Link}
+                                            to="/login"
+                                            style={
+                                                ({isActive}) => ({
                                                     fontSize: "20px",
-                                                    textTransform: "none",
-                                                    fontFamily: "Martel Sans",
-                                                    
-                                                }}
-                                                sx={{
-                                                    "&:hover": {
-                                                        borderBottom: 2,
-                                                        borderRadius: 0,
-                                                        color: "text.main",
-                                                        height: 100,
-                                                        alignItems: "center",
-                                                        display: "flex"
-                                                    },
-                                                }}
-                                                onClick={handleClick}
-                                            >
-                                                login
-                                            </Button>
-                                        </Link>
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans", 
+                                                    height: isActive ? 100 : "",  
+                                                    borderBottom: isActive ? "2px solid #000000" : "",
+                                                    display: isActive ? "flex" :  "",
+                                                    alignItems: isActive ? "center" : "",
+                                                })
+                                            }
+                                        >
+                                            login
+                                        </NavLink>
                                     </Box>
                                 </Grid>
                             </Toolbar>
@@ -223,23 +212,6 @@ function NavPublic() {
 
             <span className="bigScreen-nav">
                 <ThemeProvider theme={theme}>
-                    {/* <>
-                        <Navbar position="fixed"
-                            sx={{
-                                bgcolor: "background.green",
-                                borderRadius: 3,
-                                boxShadow: 7,
-                                top: 20,
-                            }}>
-                            <Container>
-                                <Navbar.Brand href='community'><img src={ WebLogo } width="70px"/></Navbar.Brand>
-                                <Nav className='nav-content'>
-                                    <Nav.Link href='community'>community</Nav.Link>
-                                    <Nav.Link href='login'>login</Nav.Link>
-                                </Nav>
-                            </Container>
-                        </Navbar>
-                    </> */}
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -261,12 +233,17 @@ function NavPublic() {
                             }}
                         >
                             <Toolbar>
-                                <Link
-                                    href="/"
-                                    style={{ textDecoration: "none" }}
+                                <Button 
+                                    href='/home' 
+                                    color="inherit"
+                                    sx={{
+                                        "&:hover": {
+                                            background: "transparent"
+                                        }
+                                    }}
                                 >
-                                    <Button href='/' color="inherit"><img src={ WebLogo } width="70px"/></Button>
-                                </Link>
+                                    <img src={ WebLogo } width="70px"/>
+                                </Button>
                                 <Grid container justifyContent="space-between">
                                     <Box
                                         sx={{
@@ -274,38 +251,24 @@ function NavPublic() {
                                             display: "flex"
                                         }}
                                     >
-                                        <Link
-                                            href="/"
-                                            style={{ textDecoration: "none" }}
-                                        >
-                                            <Button
-                                                color="text"
-                                                style={{
+                                        <NavLink
+                                            className="active-link"
+                                            tag={Link}
+                                            to="/home"
+                                            style={
+                                                ({isActive}) => ({
                                                     fontSize: "20px",
-                                                    textTransform: "none",
-                                                    fontFamily: "Martel Sans"
-                                                }}
-                                                sx={{
-                                                    "&:hover": {
-                                                        borderBottom: 2,
-                                                        borderRadius: 0,
-                                                        color: "text.main",
-                                                        height: 100,
-                                                        alignItems: "center",
-                                                        display: "flex"
-                                                    },
-                                                    // borderBottom: isActive ? 2 : '',
-                                                    // borderRadius: isActive ? 0 : '',
-                                                    // color: isActive ? "text.main" : '',
-                                                    // height: isActive ? 100 : '',
-                                                    // alignItems: isActive ? "center" : '',
-                                                    // display: isActive ? "flex" : ''
-                                                }}
-                                                // onClick={handleClick}
-                                            >
-                                                community
-                                            </Button>
-                                        </Link>
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans", 
+                                                    height: isActive ? 100 : "",  
+                                                    borderBottom: isActive ? "2px solid #000000" : "",
+                                                    display: isActive ? "flex" :  "",
+                                                    alignItems: isActive ? "center" : "",
+                                                })
+                                            }
+                                        >
+                                            community
+                                        </NavLink>
                                     </Box>
                                     <Box
                                         sx={{
@@ -313,38 +276,24 @@ function NavPublic() {
                                             display: "flex"
                                         }}
                                     >
-                                        <Link
-                                            href="login"
-                                            style={{ textDecoration: "none" }}
-                                        >
-                                            <Button
-                                                color="text"
-                                                style={{
+                                        <NavLink
+                                            className="active-link"
+                                            tag={Link}
+                                            to="/login"
+                                            style={
+                                                ({isActive}) => ({
                                                     fontSize: "20px",
-                                                    textTransform: "none",
-                                                    fontFamily: "Martel Sans"
-                                                }}
-                                                sx={{
-                                                    "&:hover": {
-                                                        borderBottom: 2,
-                                                        borderRadius: 0,
-                                                        color: "text.main",
-                                                        height: 100,
-                                                        alignItems: "center",
-                                                        display: "flex"
-                                                    },
-                                                    // borderBottom: isActive ? 2 : '',
-                                                    // borderRadius: isActive ? 0 : '',
-                                                    // color: isActive ? "text.main" : '',
-                                                    // height: isActive ? 100 : '',
-                                                    // alignItems: isActive ? "center" : '',
-                                                    // display: isActive ? "flex" : ''
-                                                }}
-                                                // onClick={handleClick}
-                                            >
-                                                login
-                                            </Button>
-                                        </Link>
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans", 
+                                                    height: isActive ? 100 : "",  
+                                                    borderBottom: isActive ? "2px solid #000000" : "",
+                                                    display: isActive ? "flex" :  "",
+                                                    alignItems: isActive ? "center" : "",
+                                                })
+                                            }
+                                        >
+                                            login
+                                        </NavLink>
                                     </Box>
                                 </Grid>
                             </Toolbar>

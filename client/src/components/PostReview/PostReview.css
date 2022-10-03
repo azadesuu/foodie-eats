@@ -1,0 +1,241 @@
+span.bigScreen-CreateReview {
+    display: inline;
+}
+span.smallScreen-CreateReview {
+    display: none;
+}
+@media screen and (max-width: 1000px) { 
+    span.bigScreen-CreateReview {
+      display: none;
+    }
+    span.smallScreen-CreateReview {
+      display: inline;
+    }
+    .content-PostReview h1 {
+        font-size: 50px;
+    }
+    .content-PostReview form {
+        width: 316px;
+    }
+    .content-PostReview .r2 {
+        max-width: 316px;
+    }
+    .content-PostReview .sliderContainer {
+        width: 120px;
+    }
+    .content-PostReview .switchContainer {
+        margin-left: 23px;
+    }
+}
+@media screen and (min-width: 1000px) { 
+    .content-PostReview h1 {
+        font-size: 60px;
+    }
+    .content-PostReview form {
+        width: 1104px;
+    }
+    .content-PostReview .r2 {
+        max-width: 1104px;
+    }
+    .content-PostReview .sliderContainer {
+        width: 150px;
+    }
+    .content-PostReview .switchContainer {
+        margin-left: -700px;
+    }
+}
+body {
+    margin-top: 230px;
+    background-color: #fffeec;
+    font-family: "Martel Sans";
+}
+.content-PostReview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-PostReview h1 {
+    text-align: center;
+    font-weight: bold;
+}
+.content-PostReview .user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    line-height: 220%;
+    align-self: center;
+    align-content: center;
+}
+.content-PostReview form {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 20px;
+}
+.content-PostReview form .details-container {
+    display: block;
+    width: 90%;
+    margin-bottom: 15px;
+}
+.content-PostReview form .details-container input {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-PostReview form .details-container textarea {
+    display: block;
+    outline: none;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 140px;
+    font-family: "Martel Sans";
+}
+.content-PostReview textarea {
+    resize: none;
+}
+.content-PostReview textarea::placeholder {
+    color: gray;
+}
+.content-PostReview .r1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    max-width: 316px;
+    margin-bottom: -20px;
+}
+.content-PostReview .r2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: -30px;
+    gap: 180px;
+    margin-left: 280px;
+}
+.content-PostReview .r3 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    gap: 160px;
+}
+.content-PostReview .r3-content1 {
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+}
+.content-PostReview .r3-content2 {
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+}
+.content-PostReview #outer {
+    margin-top: -20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content-PostReview .sliderContainer {
+    margin-right: 10px;
+}
+.content-PostReview .ratingContainer {
+    margin-bottom: -15px;
+    width: 100%;
+    display: flex;
+    max-width: 316px;
+}
+.content-PostReview #outerAddress {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.content-PostReview form .suburb-container {
+    width: 100%;
+}
+.content-PostReview form .suburb-container input {
+    display: block;
+    width: 95%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-PostReview form .state-container {
+    width: 150px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+.content-PostReview form .postcode-container {
+    width: 160px;
+}
+.content-PostReview form .postcode-container input {
+    display: block;
+    width: 90%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-PostReview form .country-container {
+    width: 100%;
+}
+.content-PostReview form .country-container input {
+    width: 90%;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px
+}
+.content-PostReview .addImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+}
+.content-PostReview .add-image a {
+    text-decoration: underline;
+    margin-top: -10px;
+}
+.content-PostReview .addImageButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: -10px;
+}
+.content-PostReview .add-image {
+    text-align: left;
+    font-size: 11.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.content-PostReview .postReviewButton {
+    padding: 3.89px 13px 3.89px 13px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #bee5b0;
+    border-radius: 10px;
+    color: #ffffff;
+    border: none;
+    width: 80px;
+    height: 27px;
+    top: 15px;
+    position: relative;
+}

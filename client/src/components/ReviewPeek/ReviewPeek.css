@@ -1,0 +1,13 @@
+.t1 {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+}
+.t2 {
+    display: flex;
+    justify-content: space-between;
+}
+#link {
+    text-decoration: underline;
+    font-weight: bold;
+}
