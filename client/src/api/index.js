@@ -1,8 +1,6 @@
 import axios from "axios";
 
-// const SERVER_URL = "http://localhost:5000"; //server url
-const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
-// const SERVER_URL = process.env.SERVER_URL; //server url
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 
 export const setAuthToken = token => {
