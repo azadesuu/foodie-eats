@@ -1,4 +1,4 @@
-import "./index.css";
+import "./EditReview.css";
 import "@fontsource/martel-sans";
 import addImage from "../../assets/images/addImage.png";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,7 +43,7 @@ function EditReview() {
             alert("restaurant name is missing");
         } else if (!dateVisited) {
             alert("date is missing");
-        } else if (!address.street_address) {
+        } else if (!address.streetAddress) {
             alert("street address is missing");
         } else if (!address.suburb) {
             alert("suburb is missing");
@@ -96,41 +96,102 @@ function EditReview() {
     ];
 
     return (
-        <div className="profile-info">
+        <div className="content-EditReview">
             {review.map(review => {
                 return (
                     <div className="user-container">
                         <h1>EDIT</h1>
-
                         <div id="outer">
-                            <div className="switchContainer">
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            defaultChecked={review.isPublic}
-                                        />
-                                    }
-                                    label="Public"
-                                    onChange={e => {
-                                        review.isPublic = e.target.checked;
-                                    }}
-                                />
-                            </div>
+                            <div className="r1">
+                                <div className="switchContainer">
+                                    <FormControlLabel
+                                        sx={{
+                                            gap: "5px",
+                                        }}
+                                        control={
+                                            <Switch
+                                                sx={{
+                                                    width: 36,
+                                                    height: 20,
+                                                    padding: 0,
+                                                    gap: "10px",
+                                                    "& .MuiSwitch-switchBase": {
+                                                        padding: 0,
+                                                        margin: 0.3,
+                                                        transitionDuration: "300ms",
+                                                        "&.Mui-checked": {
+                                                            transform: "translateX(16px)",
+                                                            color: "#FFFCFB",
+                                                        "& + .MuiSwitch-track": {
+                                                            backgroundColor: "#D9D9D9",
+                                                            opacity: 1,
+                                                            border: 0,
+                                                        },
+                                                        "&.Mui-disabled + .MuiSwitch-track": {
+                                                            opacity: 0.5,
+                                                        },
+                                                        },
+                                                    },
+                                                    "& .MuiSwitch-thumb": {
+                                                        boxSizing: "border-box",
+                                                        width: 16,
+                                                        height: 16,
+                                                    },
+                                                    "& .MuiSwitch-track": {
+                                                        borderRadius: "10px",
+                                                        bgcolor: "#A9CABB",
+                                                        opacity: 1,
 
-                            <div className="sliderContainer">
-                                <Slider
-                                    defaultValue={review.priceRange}
-                                    step={1}
-                                    marks={marks}
-                                    min={1}
-                                    max={4}
-                                    track={false}
-                                    onChange={e => {
-                                        review.priceRange = e.target.value;
-                                    }}
-                                />
+                                                    },
+                                                }}
+                                                defaultChecked={review.isPublic}
+                                            />
+                                        }
+                                        label={review.isPublic ? "Private":"Public"}
+                                        onChange={e => {
+                                            review.isPublic = e.target.checked;
+                                        }}
+                                    />
+                                </div>
+                                <div className="sliderContainer">
+                                    <Slider
+                                        defaultValue={review.priceRange}
+                                        step={1}
+                                        marks={marks}
+                                        min={1}
+                                        max={4}
+                                        track={false}
+                                        onChange={e => {
+                                            review.priceRange = e.target.value;
+                                        }}
+                                        sx={{
+                                            "& .MuiSlider-thumb": {
+                                                color: "#BEE5B0",
+                                                height: 10,
+                                                width: 10,
+                                                "&:focus, &:hover, &.Mui-active": {
+                                                    boxShadow:
+                                                    "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
+                                                }
+                                            },
+                                            "& .MuiSlider-rail": {
+                                                color: "#949292",
+                                                height: "1px",
+                                                opacity: 100
+                                            },
+                                            "& .MuiSlider-markLabel": {
+                                                fontSize: 10
+                                            },
+                                            "& .MuiSlider-mark": {
+                                                color: "#949292",
+                                                height: 5,
+                                                width: 5,
+                                                borderRadius: "5px",
+                                            }
+                                        }}
+                                    />
+                                </div>
                             </div>
-
                             <div className="ratingContainer">
                                 <Rating
                                     name="size-medium"
@@ -169,9 +230,9 @@ function EditReview() {
                             <div className="details-container">
                                 <input
                                     type="text"
-                                    defaultValue={review.address.street_address}
+                                    defaultValue={review.address.streetAddress}
                                     onChange={e => {
-                                        review.address.street_address =
+                                        review.address.streetAddress =
                                             e.target.value;
                                     }}
                                 />
@@ -191,8 +252,11 @@ function EditReview() {
 
                                 <div className="state-container">
                                     <FormControl fullWidth size="small">
-                                        <InputLabel id="state-select-label">
-                                            State
+                                        <InputLabel
+                                            shrink={false} 
+                                            id="state-select-label"
+                                        >
+                                            {review.address.state}
                                         </InputLabel>
                                         <Select
                                             defaultValue={review.address.state}
@@ -202,6 +266,14 @@ function EditReview() {
                                             onChange={e => {
                                                 review.address.state =
                                                     e.target.value;
+                                            }}
+                                            sx={{
+                                                ".MuiOutlinedInput-notchedOutline": { 
+                                                    border: 0 
+                                                },
+                                                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                                    border: "none",
+                                                }
                                             }}
                                         >
                                             <MenuItem value="ACT">ACT</MenuItem>
@@ -254,11 +326,8 @@ function EditReview() {
                                 />
                             </div>
 
-                            <div className="add-image-text">
+                            <div className="add-image">
                                 <p>Add your image</p>
-                            </div>
-
-                            <div>
                                 <button className="addImageButton">
                                     <img className="addImage" src={addImage} />
                                 </button>
@@ -288,6 +357,9 @@ function EditReview() {
                     </div>
                 );
             })}
+            <div className="footer">
+                <p>copyright © 2022 All-for-one</p>
+            </div>
         </div>
     );
 }

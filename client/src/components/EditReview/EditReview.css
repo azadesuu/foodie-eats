@@ -1,0 +1,178 @@
+body {
+    margin-top: 230px;
+    background-color: #fffeec;
+    font-family: "Martel Sans";
+}
+.content-EditReview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-EditReview h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+}
+.content-EditReview .user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    line-height: 220%;
+    align-self: center;
+    align-content: center;
+}
+.content-EditReview form {
+    display: flex;
+    flex-direction: column;
+    width: 316px;
+    align-self: center;
+    margin-top: 20px;
+}
+.content-EditReview form .details-container {
+    display: block;
+    width: 90%;
+    margin-bottom: 15px;
+}
+.content-EditReview form .details-container label {
+    text-align: left;
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 5px;
+    transition: 0.4s;
+}
+.content-EditReview form .details-container input {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-EditReview form .details-container textarea {
+    display: block;
+    outline: none;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 140px;
+    font-family: "Martel Sans";
+}
+.content-EditReview textarea {
+    resize: none;
+}
+.content-EditReview .r1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    max-width: 316px;
+    margin-bottom: -20px;
+}
+.content-EditReview #outer {
+    margin-top: -20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content-EditReview .sliderContainer {
+    width: 100px;
+    margin-right: 10px;
+}
+.content-EditReview .switchContainer {
+    margin-left: 23px;
+}
+.content-EditReview .ratingContainer {
+    margin-bottom: -15px;
+    width: 100%;
+    display: flex;
+    max-width: 316px;
+}
+
+.content-EditReview #outerAddress {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.content-EditReview form .suburb-container {
+    width: 100%;
+}
+.content-EditReview form .suburb-container input {
+    display: block;
+    width: 95%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-EditReview form .state-container {
+    width: 150px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+.content-EditReview form .postcode-container {
+    width: 160px;
+}
+.content-EditReview form .postcode-container input {
+    display: block;
+    width: 90%;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px;
+}
+.content-EditReview form .country-container {
+    width: 100%;
+}
+.content-EditReview form .country-container input {
+    width: 90%;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    height: 20px
+}
+.content-EditReview .addImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+}
+.content-EditReview .addImageButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: -10px;
+}
+.content-EditReview .add-image {
+    text-align: left;
+    font-size: 11.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.content-EditReview .editReviewButton {
+    padding: 3.89px 13px 3.89px 13px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #bee5b0;
+    border-radius: 10px;
+    color: #ffffff;
+    border: none;
+    width: 80px;
+    height: 27px;
+    top: 15px;
+    position: relative;
+}

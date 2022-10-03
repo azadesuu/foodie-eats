@@ -18,7 +18,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 // yet to be implemented with css
 import Theme from "./components-server/Theme";
 import PageNotFound from "./components/PageNotFound";
-import Profile from "./components-server/Profile";
+import Profile from "./components/Profile";
 import ProfileReviews from "./components-server/ProfileReviews";
 import Logout from "./components-server/Logout";
 
@@ -64,7 +64,7 @@ function App() {
                 <div>
                     <Routes>
                         {/* public routes */}
-                        <Route path="/" element={<Community />} />
+                        <Route path="/home" element={<Community />} />
                         <Route
                             path="/profile/:username"
                             element={<Profile />}

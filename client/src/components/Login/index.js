@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { loginUser, setAuthToken } from "../../api";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
-import "./index.css";
+import "./Login.css";
 
 import "@fontsource/martel-sans";
 
@@ -72,7 +72,7 @@ function Login() {
     };
 
     return (
-        <div className="content">
+        <div className="content-Login">
             <Nav />
             <Title />
             <form action="#" method="post" class="form" id="form">

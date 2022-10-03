@@ -1,24 +1,50 @@
-span.bigScreen-profile {
+span.bigScreen-MyProfile {
     display: inline;
 }
-span.smallScreen-profile {
+span.smallScreen-MyProfile {
     display: none;
 }
 @media screen and (max-width: 1000px) { 
-    span.bigScreen-profile {
+    span.bigScreen-MyProfile {
       display: none;
     }
-    span.smallScreen-profile {
+    span.smallScreen-MyProfile {
       display: inline;
       width: 98%;
     }
-    .content h1 {
+    .content-MyProfile h1 {
       font-size: 50px;
     }
+    .profile-details {
+        align-items: center;
+    }
+    .profile-title {
+        flex-direction: column;
+        margin-left: 60px;
+    }
+    .form-control-profile input {
+        width: 340px;
+    }
+    .form-control-profile-bio textarea {
+        width: 340px;
+    }
+
 }
 @media screen and (min-width: 1000px) {
-    .content h1 {
+    .content-MyProfile h1 {
       font-size: 60px;
+    }
+    .profile-details {
+        margin-left: 40px;
+    }
+    .form-control-profile input {
+        width: 440px;
+    }
+    .form-control-profile-bio textarea {
+        width: 700px;
+    }
+    .changepw {
+        margin-top: 40px;
     }
 }
 :root {
@@ -33,11 +59,11 @@ body {
     justify-content: center;
     flex-direction: column;
 }
-.content {
+.content-MyProfile {
     margin-top: -90px;
     margin-bottom: 80px;
 }
-.content h1 {
+.content-MyProfile h1 {
     text-align: center;
     font-weight: bold;
     margin-bottom: 50px;
@@ -55,10 +81,14 @@ body {
     display: flex;
     justify-content: center;
 }
-.r1 {
+.content-MyProfile .r1 {
     display: flex;
     flex-direction: row;
     margin-left: -18px;
+}
+.content-MyProfile .r2 {
+    display: flex;
+    flex-direction: row;
 }
 .top-user {
     display: flex;
@@ -121,13 +151,10 @@ span.detail {
 .profile-details {
     display: flex;
     flex-direction: column;
-    margin-left: 40px;
 }
 .profile-title {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 10px;
 }
 .form-control-profile {
     margin-top: 30px;
@@ -149,7 +176,6 @@ span.detail {
     background: #D9D9D9;
     border-radius: 10px;
     display: block;
-    width: 440px;
     height: 40px;
     padding: 8px;
     font-size: 20px;
@@ -174,34 +200,18 @@ span.detail {
     outline: none;
     background: #D9D9D9;
     border-radius: 10px;
-    width: 700px;
     height: 130px;
     max-height: 130px;
     overflow-y: auto;
     padding: 8px;
     font-size: 20px;
     font-family: "Martel Sans";
-} 
-.changepw {
+    resize: none;
+}
+.viewallreviews {
     text-decoration: underline;
     margin-top: 40px;
 }
-.footer {
-    background-color: #E4F3D3;
-    color: #3f3f3f;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    z-index: 90;
-    bottom: 0;
-    height: 30px;
-    width: 100%;
-    left: 0;
-    position: fixed;
-    margin: 0;
-}
-.footer p {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 130px;
-    margin-top: 3px;
+.changepw {
+    text-decoration: underline;
 }

@@ -1,9 +1,3 @@
-span.bigScreen {
-    display: inline;
-}
-span.smallScreen {
-    display: none;
-}
 @media screen and (min-width: 700px) {
     #form-control-pw {
       margin-right: -62px;
@@ -15,17 +9,11 @@ span.smallScreen {
     .forgetpw a{
       margin-left: -107px;
     }
-    .line {
+    .content-register .line {
       width: 318px;
     }
 }
 @media screen and (max-width: 700px) { 
-    span.bigScreen {
-        display: none;
-    }
-    span.smallScreen {
-        display: inline;
-    }
     .form-control {
       display: flex;
       flex-direction: column;
@@ -67,7 +55,7 @@ body {
 .content-register .signup {
     display: none;
 } 
-form {
+.content-register form {
     max-width: 505px;
     display: flex;
     flex-direction: column;

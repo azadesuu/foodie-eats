@@ -1,5 +1,5 @@
 import React from "react"; // required
-import "./index.css";
+import "./MyBookmarks.css";
 
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
@@ -118,6 +118,7 @@ function ReviewsSmallScreen(props) {
                     sx={{
                         width: "100%",
                         justifyContent: "center",
+                        ml: "5px",
                         overflowX: "hidden",
                         overflowY: "auto",
                         flexDirection: "column",
@@ -165,6 +166,7 @@ function ReviewsBigScreen(props) {
                     maxHeight: "300px",
                     padding: "1%",
                     width: "90%",
+                    marginTop: "10px",
                     "&::-webkit-scrollbar": {
                         width: "0.3em"
                     },
@@ -174,20 +176,27 @@ function ReviewsBigScreen(props) {
                     }
                 }}
             >
-                <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {!user && <CircularProgress className="spinner" />}
-                    {listReviews ? (
-                        <div>
+                {!user && <CircularProgress className="spinner" />}
+                {listReviews ? (
+                    <div>
+                        <Grid 
+                            container 
+                            spacing={{ xs: 2, md: 3 }}
+                        >
                             {listReviews.map(review => {
-                                <Grid item xs={2} sm={6} md={6} key={review}>
-                                    return <ReviewPeek reviewData={review} />;
+                                <Grid 
+                                    item 
+                                    xs={6} 
+                                    key={review}
+                                >
+                                    <ReviewPeek reviewData={review} />;
                                 </Grid>;
                             })}
-                        </div>
-                    ) : (
-                        <h2>Bookmarks not found</h2>
-                    )}
-                </Grid>
+                        </Grid>
+                    </div>
+                ) : (
+                    <h2>Bookmarks not found</h2>
+                )}
             </Box>
         </div>
     );
@@ -203,26 +212,21 @@ function MyBookmarks() {
     return (
         <>
             {user ? (
-                <div className="content">
+                <div className="content-MyBookmarks">
                     <NavLoggedIn />
-                    <span className="smallScreen-mybookmarks">
+                    <span className="smallScreen-MyBookmarks">
                         <h1>BOOKMARKS</h1>
                         <SearchBar />
                         <div className="line" />
                         <ReviewsSmallScreen user={user} reviews={listReviews} />
                         <Post />
                     </span>
-                    <span className="bigScreen-mybookmarks">
+                    <span className="bigScreen-MyBookmarks">
                         <TopUser user={user} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            
-                                {user?.bookmarks && !listReviews && (
-                                    <CircularProgress className="spinner" />
-                                )}
-                                {!user?.bookmarks && <h1>No Reviews Found.</h1>}
                             <ReviewsBigScreen
                                 user={user}
                                 reviews={listReviews}

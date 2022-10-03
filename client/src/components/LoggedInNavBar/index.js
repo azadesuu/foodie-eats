@@ -1,5 +1,5 @@
 import React from "react"; // required
-import "./index.css";
+import "./LoggedInNavBar.css";
 
 import "@fontsource/martel-sans";
 
@@ -14,11 +14,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme, makeStyles } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
+import { NavLink } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 
 const theme = createTheme({
@@ -50,7 +51,7 @@ function NavLoggedIn() {
     };
 
     const [checked] = React.useState(false);
-
+    
     return (
         <div className="nav">
             <span className="smallScreen-nav">
@@ -136,89 +137,100 @@ function NavLoggedIn() {
                                                                 src={WebLogo}
                                                                 width="107px"
                                                             />
-                                                            <div className="dropdwn-link">
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="/">
-                                                                        community
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="#">
-                                                                        post a
-                                                                        review
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="my-bookmarks">
-                                                                        my
-                                                                        reviews
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="my-reviews">
-                                                                        my
-                                                                        bookmarks
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="my-profile">
-                                                                        profile
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="my-theme">
-                                                                        theme
-                                                                    </a>
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={
-                                                                        handleClose
-                                                                    }
-                                                                >
-                                                                    <a href="login">
-                                                                        logout
-                                                                    </a>
-                                                                </MenuItem>
-                                                            </div>
-                                                            <div className="dropdwn-back">
-                                                                <ArrowBackIosNewIcon
-                                                                    sx={{
-                                                                        color:
-                                                                            "white",
-                                                                        bgcolor:
-                                                                            "#514F4E",
-                                                                        height:
-                                                                            "61px",
-                                                                        width:
-                                                                            "17px",
-                                                                        borderRadius:
-                                                                            "10px 0px 0px 10px"
-                                                                    }}
-                                                                />
+                                                            <div className="dropdown-r1">
+                                                                <div className="dropdwn-link">
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="/home">
+                                                                            community
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="create-review">
+                                                                            post a
+                                                                            review
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="my-reviews">
+                                                                            my
+                                                                            reviews
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="my-bookmarks">
+                                                                            my
+                                                                            bookmarks
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="my-profile">
+                                                                            profile
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="my-theme">
+                                                                            theme
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <a href="#">
+                                                                            logout
+                                                                        </a>
+                                                                    </MenuItem>
+                                                                </div>
+                                                                <div className="dropdwn-back">
+                                                                    <Button
+                                                                        sx={{
+                                                                            display: "contents"
+                                                                        }}
+                                                                        onClick={
+                                                                            handleClose
+                                                                        }
+                                                                    >
+                                                                        <ArrowBackIosNewIcon
+                                                                            sx={{
+                                                                                color:
+                                                                                    "white",
+                                                                                bgcolor:
+                                                                                    "#514F4E",
+                                                                                height:
+                                                                                    "61px",
+                                                                                width:
+                                                                                    "17px",
+                                                                                borderRadius:
+                                                                                    "10px 0px 0px 10px"
+                                                                            }}
+                                                                        />
+                                                                    </Button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </Menu>
@@ -232,17 +244,15 @@ function NavLoggedIn() {
                                             display: "flex"
                                         }}
                                     >
-                                        <Link href="#">
-                                            <Button>
-                                                <AccountCircleIcon
-                                                    color="black"
-                                                    sx={{
-                                                        fontSize: 50,
-                                                        color: "black"
-                                                    }}
-                                                />
-                                            </Button>
-                                        </Link>
+                                        <IconButton href="my-profile">
+                                            <AccountCircleIcon
+                                                color="black"
+                                                sx={{
+                                                    fontSize: 50,
+                                                    color: "black"
+                                                }}
+                                            />
+                                        </IconButton>
                                     </Box>
                                 </Grid>
                             </Toolbar>
@@ -274,14 +284,17 @@ function NavLoggedIn() {
                             }}
                         >
                             <Toolbar>
-                                <Link
-                                    href="/"
-                                    style={{ textDecoration: "none" }}
+                                <Button 
+                                    href='/home' 
+                                    color="inherit"
+                                    sx={{
+                                        "&:hover": {
+                                            background: "transparent"
+                                        }
+                                    }}
                                 >
-                                    <Button href="/" color="inherit">
-                                        <img src={WebLogo} width="70px" />
-                                    </Button>
-                                </Link>
+                                    <img src={ WebLogo } width="70px"/>
+                                </Button>
                                 <Grid container justifyContent="space-between">
                                     <div className="nav1">
                                         <Box
@@ -290,42 +303,49 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <Link
-                                                href="/"
-                                                style={{
-                                                    textDecoration: "none"
-                                                }}
-                                            >
-                                                <Button
-                                                    color="text"
-                                                    style={{
+                                            <NavLink
+                                                className="active-link"
+                                                tag={Link}
+                                                to="/home"
+                                                style={
+                                                    ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        textTransform: "none",
-                                                        fontFamily:
-                                                            "Martel Sans"
-                                                    }}
-                                                    sx={{
-                                                        "&:hover": {
-                                                            borderBottom: 2,
-                                                            borderRadius: 0,
-                                                            color: "text.main",
-                                                            height: 100,
-                                                            alignItems:
-                                                                "center",
-                                                            display: "flex"
-                                                        }
-                                                        // borderBottom: isActive ? 2 : '',
-                                                        // borderRadius: isActive ? 0 : '',
-                                                        // color: isActive ? "text.main" : '',
-                                                        // height: isActive ? 100 : '',
-                                                        // alignItems: isActive ? "center" : '',
-                                                        // display: isActive ? "flex" : ''
-                                                    }}
-                                                    // onClick={handleClick}
-                                                >
-                                                    community
-                                                </Button>
-                                            </Link>
+                                                        color: "#000000",
+                                                        fontFamily: "Martel Sans", 
+                                                        height: isActive ? 100 : "",  
+                                                        borderBottom: isActive ? "2px solid #000000" : "",
+                                                        display: isActive ? "flex" :  "",
+                                                        alignItems: isActive ? "center" : "",
+                                                    })
+                                                }
+                                            >
+                                                community
+                                            </NavLink>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                alignItems: "center",
+                                                display: "flex",
+                                            }}
+                                        >
+                                            <NavLink
+                                                className="active-link"
+                                                tag={Link}
+                                                to="/my-reviews"
+                                                style={
+                                                    ({isActive}) => ({
+                                                        fontSize: "20px",
+                                                        color: "#000000",
+                                                        fontFamily: "Martel Sans", 
+                                                        height: isActive ? 100 : "",  
+                                                        borderBottom: isActive ? "2px solid #000000" : "",
+                                                        display: isActive ? "flex" :  "",
+                                                        alignItems: isActive ? "center" : "",
+                                                    })
+                                                }
+                                            >
+                                                my reviews
+                                            </NavLink>
                                         </Box>
                                         <Box
                                             sx={{
@@ -333,42 +353,24 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <Link
-                                                href="my-reviews"
-                                                style={{
-                                                    textDecoration: "none"
-                                                }}
-                                            >
-                                                <Button
-                                                    color="text"
-                                                    style={{
+                                            <NavLink
+                                                className="active-link"
+                                                tag={Link}
+                                                to="/my-bookmarks"
+                                                style={
+                                                    ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        textTransform: "none",
-                                                        fontFamily:
-                                                            "Martel Sans"
-                                                    }}
-                                                    sx={{
-                                                        "&:hover": {
-                                                            borderBottom: 2,
-                                                            borderRadius: 0,
-                                                            color: "text.main",
-                                                            height: 100,
-                                                            alignItems:
-                                                                "center",
-                                                            display: "flex"
-                                                        }
-                                                        // borderBottom: isActive ? 2 : '',
-                                                        // borderRadius: isActive ? 0 : '',
-                                                        // color: isActive ? "text.main" : '',
-                                                        // height: isActive ? 100 : '',
-                                                        // alignItems: isActive ? "center" : '',
-                                                        // display: isActive ? "flex" : ''
-                                                    }}
-                                                    // onClick={handleClick}
-                                                >
-                                                    my reviews
-                                                </Button>
-                                            </Link>
+                                                        color: "#000000",
+                                                        fontFamily: "Martel Sans", 
+                                                        height: isActive ? 100 : "",  
+                                                        borderBottom: isActive ? "2px solid #000000" : "",
+                                                        display: isActive ? "flex" :  "",
+                                                        alignItems: isActive ? "center" : "",
+                                                    })
+                                                }
+                                            >
+                                                my bookmarks
+                                            </NavLink>
                                         </Box>
                                         <Box
                                             sx={{
@@ -376,44 +378,27 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <Link
-                                                href="my-bookmarks"
-                                                style={{
-                                                    textDecoration: "none"
-                                                }}
-                                            >
-                                                <Button
-                                                    color="text"
-                                                    style={{
+                                            <NavLink
+                                                className="active-link"
+                                                tag={Link}
+                                                to="/create-review"
+                                                style={
+                                                    ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        textTransform: "none",
-                                                        fontFamily:
-                                                            "Martel Sans"
-                                                    }}
-                                                    sx={{
-                                                        "&:hover": {
-                                                            borderBottom: 2,
-                                                            borderRadius: 0,
-                                                            color: "text.main",
-                                                            height: 100,
-                                                            alignItems:
-                                                                "center",
-                                                            display: "flex"
-                                                        }
-                                                        // borderBottom: isActive ? 2 : '',
-                                                        // borderRadius: isActive ? 0 : '',
-                                                        // color: isActive ? "text.main" : '',
-                                                        // height: isActive ? 100 : '',
-                                                        // alignItems: isActive ? "center" : '',
-                                                        // display: isActive ? "flex" : ''
-                                                    }}
-                                                    // onClick={handleClick}
-                                                >
-                                                    my bookmarks
-                                                </Button>
-                                            </Link>
+                                                        color: "#000000",
+                                                        fontFamily: "Martel Sans", 
+                                                        height: isActive ? 100 : "",  
+                                                        borderBottom: isActive ? "2px solid #000000" : "",
+                                                        display: isActive ? "flex" :  "",
+                                                        alignItems: isActive ? "center" : "",
+                                                    })
+                                                }
+                                            >
+                                                post a review
+                                            </NavLink>
                                         </Box>
                                     </div>
+                                    
                                     <div className="nav2">
                                         <Box
                                             sx={{
@@ -421,60 +406,34 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <Link
-                                                href="#"
+                                            <NavLink
+                                                className="active-link"
+                                                tag={Link}
+                                                to="#"
                                                 style={{
-                                                    textDecoration: "none"
+                                                    fontSize: "20px",
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans"
                                                 }}
                                             >
-                                                <Button
-                                                    color="text"
-                                                    style={{
-                                                        fontSize: "20px",
-                                                        textTransform: "none",
-                                                        fontFamily:
-                                                            "Martel Sans"
-                                                    }}
-                                                    sx={{
-                                                        "&:hover": {
-                                                            borderBottom: 2,
-                                                            borderRadius: 0,
-                                                            color: "text.main",
-                                                            height: 100,
-                                                            alignItems:
-                                                                "center",
-                                                            display: "flex"
-                                                        }
-                                                        // borderBottom: isActive ? 2 : '',
-                                                        // borderRadius: isActive ? 0 : '',
-                                                        // color: isActive ? "text.main" : '',
-                                                        // height: isActive ? 100 : '',
-                                                        // alignItems: isActive ? "center" : '',
-                                                        // display: isActive ? "flex" : ''
-                                                    }}
-                                                    // onClick={handleClick}
-                                                >
-                                                    post a review
-                                                </Button>
-                                            </Link>
+                                                logout
+                                            </NavLink>
                                         </Box>
                                         <Box
-                                            sx={{
-                                                alignItems: "center",
-                                                display: "flex"
-                                            }}
+                                        sx={{
+                                            alignItems: "center",
+                                            display: "flex"
+                                        }}
                                         >
-                                            <Link href="my-profile">
-                                                <Button>
-                                                    <AccountCircleIcon
-                                                        color="black"
-                                                        sx={{
-                                                            fontSize: 50,
-                                                            color: "black"
-                                                        }}
-                                                    />
-                                                </Button>
-                                            </Link>
+                                            <IconButton href="/my-profile">
+                                                <AccountCircleIcon
+                                                    color="black"
+                                                    sx={{
+                                                        fontSize: 50,
+                                                        color: "black",
+                                                    }}
+                                                />
+                                            </IconButton>
                                         </Box>
                                     </div>
                                 </Grid>

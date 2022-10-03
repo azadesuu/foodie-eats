@@ -1,0 +1,294 @@
+span.bigScreen-Review {
+    display: inline;
+    
+}
+span.smallScreen-Review {
+    display: none;
+}
+@media screen and (max-width: 1000px) { 
+    span.bigScreen-Review {
+      display: none;
+    }
+    span.smallScreen-Review {
+      display: inline;
+    }
+    .content-Review h1 {
+        font-size: 50px;
+    }
+    .content-Review form {
+        width: 316px;
+    }
+    .content-Review .r1, .r2 {
+        max-width: 316px;
+    }
+    .content-Review .sliderContainer {
+        width: 120px;
+    }
+    .content-Review .switchContainer {
+        margin-left: 15px;
+    }
+    .content-Review .ratingContainer {
+        max-width: 316px;
+        margin-top: -30px;
+    }
+}
+@media screen and (min-width: 1000px) { 
+    .content-Review h1 {
+        font-size: 60px;
+    }
+    .content-Review form {
+        width: 1104px;
+    }
+    .content-Review .r1 {
+        min-width: 900px;
+    }
+    .content-Review .r2 {
+        max-width: 1104px;
+    }
+    .content-Review .sliderContainer {
+        width: 150px;
+    }
+    .content-Review .switchContainer {
+        margin-left: -700px;
+    }
+    .content-Review .likes-bookmark {
+        margin-top: -110px;
+    }
+    .content-Review .ratingContainer {
+        margin-top: 10px;
+    }
+}
+body {
+    margin-top: 230px;
+    background-color: #fffeec;
+    font-family: "Martel Sans";
+}
+.content-Review {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-Review h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+}
+.content-Review .review-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+.content-Review .review-container h3 {
+    font-size: 25px;
+    margin: 0;
+}
+.content-Review .review-container h4 {
+    margin: 0;
+    font-weight: 100;
+}
+.content-Review .review-container p {
+    margin: 0;
+    font-size: 12px;
+    margin-bottom: 10px;
+    max-width: 1000px;
+}
+.content-Review .review-tags p {
+    background-color: #FFFCFB;
+    border: 1px solid #949292;
+    border-radius: 10px;
+    padding: 5px;
+    height: 10px;
+    color: #949292;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+}
+.content-Review form {
+    display: flex;
+    flex-direction: column;
+    width: 316px;
+    align-self: center;
+    margin-top: 20px;
+}
+.content-Review input::placeholder, textarea::placeholder {
+    color: #000000;
+}
+.content-Review form .details-container {
+    display: block;
+    width: 90%;
+    margin-bottom: 15px;
+}
+.content-Review form .details-container label {
+    text-align: left;
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 5px;
+    transition: 0.4s;
+}
+.content-Review form .details-container input {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    height: 20px;
+}
+.content-Review form .details-container textarea {
+    display: block;
+    outline: none;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    height: 140px;
+    font-family: "Martel Sans";
+}
+.content-Review textarea {
+    resize: none;
+}
+.content-Review .r1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: -20px;
+    align-items: center;
+}
+.content-Review .r2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+.content-Review .r2 p {
+    font-size: 10px;
+    margin: 0;
+    height: 20px;
+    color: #6E6E66;
+}
+.authorButton {
+    border: none;
+    background-color: transparent;
+    font-size: 10px;
+    color: #6E6E66;
+}
+.content-Review .likes-bookmark {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.content-Review .likes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.content-Review .likes-bookmark p {
+    margin-top: 20px;
+}
+.content-Review #outer {
+    margin-top: -20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -20px;
+}
+.content-Review .sliderContainer {
+    margin-right: 10px;
+}
+.content-Review .ratingContainer {
+    width: 100%;
+    display: flex;
+}
+.content-Review #outerAddress {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.content-Review form .suburb-container {
+    width: 100%;
+}
+.content-Review form .suburb-container input {
+    display: block;
+    width: 95%;
+    padding: 10px 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    height: 20px;
+}
+.content-Review form .state-container {
+    width: 150px;
+    background-color: #D9D9D9;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+.content-Review form .state-container input {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border: none;
+    border-radius: 10px;
+}
+.content-Review form .postcode-container {
+    width: 160px;
+}
+.content-Review form .postcode-container input {
+    display: block;
+    width: 90%;
+    padding: 10px 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    height: 20px;
+}
+.content-Review form .country-container {
+    width: 100%;
+}
+.content-Review form .country-container input {
+    width: 90%;
+    padding: 10px;
+    background-color: #D9D9D9;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    height: 20px
+}
+.content-Review .addImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+}
+.content-Review .addImageButton {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: -10px;
+}
+.content-Review .add-image {
+    text-align: left;
+    font-size: 11.5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.content-Review .editReviewButton {
+    padding: 3.89px 13px 3.89px 13px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #bee5b0;
+    border-radius: 10px;
+    color: #ffffff;
+    border: none;
+}
