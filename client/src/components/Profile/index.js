@@ -2,10 +2,9 @@ import "./index.css";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { navigate, useNavigate } from "react";
+import { useNavigate } from "react";
 import { getProfile } from "../../api";
-import { useQuery, useMutation } from "react-query";
-import Axios from "axios";
+import { useQuery } from "react-query";
 import { CircularProgress } from "@mui/material";
 import { usePreviousNonNullish } from "../../hooks";
 
@@ -18,32 +17,8 @@ import NavLoggedIn from "../LoggedInNavBar";
 import EditProfile from "../EditProfile";
 import ChangePassword from "../ChangePassword";
 
-function TopUser() {
-    //getting visited user
-    const navigate = useNavigate();
-    const { username } = useParams();
-
-    // getting logged in user
-    const [user, setUser] = useContext(UserContext);
-    const [loggedUsername, setloggedUsername] = useState("");
-    useEffect(() => {
-        setloggedUsername(user?.username);
-    }, [user]);
-
-    // if its the  logged in user, load the myprofile component
-    const isUser = username === loggedUsername;
-    if (isUser) {
-        alert(
-            "You are the user of this profile! Navigating to My Profile page..."
-        );
-        navigate("/my-profile");
-    }
-
-    const { data: userProfile, isLoading } = useQuery(
-        "profile",
-        () => getProfile(username),
-        { enabled: !!username }
-    );
+function TopUser(props) {
+    const userProfile = props.user;
 
     return (
         <div className="top-user">
@@ -81,26 +56,6 @@ function Sidebar() {
 }
 
 function ProfileDetails() {
-    //getting visited user
-    const navigate = useNavigate();
-    const { username } = useParams();
-
-    // getting logged in user
-    const [user, setUser] = useContext(UserContext);
-    const [loggedUsername, setloggedUsername] = useState("");
-    useEffect(() => {
-        setloggedUsername(user?.username);
-    }, [user]);
-
-    // if its the  logged in user, load the myprofile component
-    const isUser = username === loggedUsername;
-    if (isUser) {
-        navigate("/my-profile");
-    }
-
-    const userQueryProfile = useQuery("profile", () => getProfile(username));
-    const { data: userProfile, isLoading } = userQueryProfile;
-
     return (
         <div className="profile-details">
             {!userProfile && <CircularProgress className="spinner" />}
@@ -148,20 +103,39 @@ function ProfileDetails() {
 }
 
 function Profile() {
+    const { username } = useParams();
+
+    const [user] = useContext(UserContext);
+    const [loggedUsername, setloggedUsername] = useState("");
+    useEffect(() => {
+        setloggedUsername(user?.username);
+    }, [user]);
+
+    // if its the  logged in user, load the myprofile component
+    if (username === loggedUsername) {
+        navigate("/my-profile");
+    }
+    const { data: userProfile, isLoading } = useQuery(
+        "profile",
+        () => getProfile(username),
+        { enabled: !!username }
+    );
+
     return (
         <div className="content">
             <NavLoggedIn />
             <span className="bigScreen-profile">
-                <TopUser />
+                <TopUser user={userProfile} />
                 <div className="line5" />
                 <div className="r1">
                     <Sidebar />
                     <div className="line6" />
-                    <ProfileDetails />
+                    {isLoading && <CircularProgress className="spinner" />}
+                    {!isLoading && <ProfileDetails user={userProfile} />}
                 </div>
             </span>
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );

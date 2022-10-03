@@ -15,11 +15,11 @@ import EditReview from "./components/EditReview";
 import Review from "./components/Review";
 import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
+import PageNotFound from "./components/PageNotFound";
+import Profile from "./components/Profile";
+import ProfileReviews from "./components/ProfileReviews";
 // yet to be implemented with css
 import Theme from "./components-server/Theme";
-import PageNotFound from "./components/PageNotFound";
-import Profile from "./components-server/Profile";
-import ProfileReviews from "./components-server/ProfileReviews";
 import Logout from "./components-server/Logout";
 
 const queryClient = new QueryClient();
@@ -59,7 +59,7 @@ function App() {
                 <div>
                     <Routes>
                         {/* public routes */}
-                        <Route path="/" element={<Community />} />
+                        <Route path="/home" element={<Community />} />
                         <Route
                             path="/profile/:username"
                             element={<Profile />}

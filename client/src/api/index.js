@@ -4,15 +4,14 @@ import axios from "axios";
 const SERVER_URL = "https://foodie-eats.herokuapp.com"; //server url
 // const SERVER_URL = process.env.SERVER_URL; //server url
 
-
-export const setAuthToken = token => {
+export const setAuthToken = async token => {
     if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else delete axios.defaults.headers.common["Authorization"];
 };
 
 // ----------AUTHENTICATION: login/signup/forgotpassword
-export async function loginUser(user) {
+export const loginUser = async user => {
     const { email, password } = user;
 
     if (!email || !password) {
@@ -44,7 +43,7 @@ export async function loginUser(user) {
         // store token locally
         localStorage.setItem("token", data);
     }
-}
+};
 
 // Get user associated with stored token
 export const getUser = async jwt => {
@@ -58,7 +57,7 @@ export const getUser = async jwt => {
 };
 
 // Authenticate user signup
-export async function signupUser(user) {
+export const signupUser = async user => {
     localStorage.removeItem("token");
 
     const { username, email, password } = user;
@@ -72,7 +71,7 @@ export async function signupUser(user) {
 
     // POST the email and password to API to
     // signup user and receive the token explicitly
-    let data = await axios
+    const data = await axios
         .post(endpoint, {
             username,
             email,
@@ -91,49 +90,41 @@ export async function signupUser(user) {
         // store token locally
         localStorage.setItem("token", data);
     }
-}
+};
 
-export async function forgotPassword(email) {
+export const forgotPassword = async email => {
     const user_email = { email: email };
     return axios
         .post(`${SERVER_URL}/forgotPassword`, user_email)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
-}
+};
 // COMMUNITY
 
-export const getCommunityRecent = async () => {
+export const getCommunityRecent = async data => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByRecent`)
+        .get(`${SERVER_URL}/review/getReviewsByRecent`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
-export const getCommunityMostLiked = async () => {
+export const getCommunityMostLiked = async data => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByLikes`)
+        .get(`${SERVER_URL}/review/getReviewsByLikes`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 // // use req.query.search
 // // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
 // // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
-// export const getCommunitySearch = searchValue => {
-//     return axios
-//         .get(`${SERVER_URL}/review?search=${searchValue}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
-
-// // use req.query.rt and req.query.pr (integers)
-// // if raitng/price range == 0, do not filter anything (for that field)
 // // If we need to work with numbers, and convert query statements from text to number, we can simply add a plus sign in front of statement.
-// export async function getCommunityFilter(rating, priceRange) {
-//     return axios
-//         .get(`${SERVER_URL}/review?rt=${rating}&$pr=${priceRange}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// }
+export const getCommunitySearch = data => {
+    const { search, rating, priceRange, tag, postcode } = data;
+    return axios
+        .get(`${SERVER_URL}/review/search`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 // //------------------------ Review APIs (Create, ViewOne, Edit)
 
@@ -152,7 +143,6 @@ export const getReview = async reviewId => {
 };
 
 export const updateReview = async data => {
-    console.log(data);
     return await axios
         .patch(`${SERVER_URL}/review/updateReview`, data)
         .then(res => res?.data?.data)
@@ -191,7 +181,6 @@ export const updateReview = async data => {
 // };
 
 // // -------------- Bookmarks page
-
 export const getBookmarks = async bookmarks => {
     if (bookmarks === undefined) return [];
     return await axios
@@ -232,7 +221,7 @@ export const getProfile = async username => {
 //--- My Reviews
 export const getMyReviews = async userId => {
     return await axios
-        .get(`${SERVER_URL}/account/myReviews/${userId}`)
+        .get(`${SERVER_URL}/account/my-reviews/${userId}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
