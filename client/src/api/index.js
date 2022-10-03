@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:5000"; //server url
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
 
 export const setAuthToken = token => {
     if (token) {
@@ -16,27 +17,30 @@ export async function loginUser(user) {
         alert("Must provide email and a password");
         return;
     }
+    const endpoint = SERVER_URL + `/login`;
 
-    const endpoint = SERVER_URL + "/login";
-    let data = await axios
-        .post(
-            endpoint,
+    let data = await axios({
+        url: endpoint,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify(
             {
                 email: email,
                 password: password
             },
             { withCredentials: true }
         )
+    })
         .then(res => res.data)
-        .catch(err => {
-            alert("email not found or password does not match.");
+        .catch(() => {
+            alert("Email not found or password doesn't match.");
         });
+
     if (data) {
         // store token locally
-        await localStorage.setItem("token", data);
-        if (!localStorage.hasOwnProperty("token")) {
-            alert("token not set");
-        }
+        localStorage.setItem("token", data);
     }
 }
 
@@ -146,6 +150,7 @@ export const getReview = async reviewId => {
 };
 
 export const updateReview = async data => {
+    console.log(data);
     return await axios
         .patch(`${SERVER_URL}/review/updateReview`, data)
         .then(res => res?.data?.data)
@@ -250,10 +255,8 @@ export const getMyReviews = async userId => {
 // //--- Profile Edits
 
 export const updateUser = async profile => {
-    const { userId, username, email, bio, image } = profile;
-
     return await axios
-        .patch(`${SERVER_URL}/account/updateUser/${userId}`, profile)
+        .patch(`${SERVER_URL}/account/updateUser/${profile.userId}`, profile)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

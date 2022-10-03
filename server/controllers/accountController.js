@@ -52,6 +52,7 @@ const getMyReviews = async (req, res, next) => {
         });
       }
     })
+      .sort({ $natural: -1 })
       .populate("userId")
       .lean()
       .clone();
@@ -66,6 +67,7 @@ const getMyBookmarks = async (req, res, next) => {
     await Review.find({ _id: { $in: bookmarks } }, function(err, result) {
       if (err) {
         res.json("bookmarks not found");
+        return;
       } else {
         res.status(200).json({
           success: true,
@@ -73,6 +75,7 @@ const getMyBookmarks = async (req, res, next) => {
         });
       }
     })
+      .sort({ $natural: -1 })
       .populate("userId")
       .lean();
   } catch (err) {
@@ -90,19 +93,25 @@ const updateUser = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(
       _id,
-      { username: newUsername, email: newEmail, bio: newBio, image: newImage },
-      function(err, result) {
-        if (err) {
-          res.json("update error for user");
-          return;
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
+      {
+        $set: {
+          username: newUsername,
+          email: newEmail,
+          bio: newBio,
+          image: newImage
         }
+      },
+      (err, result, next) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
       }
-    );
+    ).clone();
   } catch (err) {
     next(err);
   }
@@ -118,15 +127,15 @@ const updatePassword = async (req, res, next) => {
       { password: User.generateHash(newPassword) },
       function(err, result) {
         if (err) {
-          res.json("password update error for user");
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
+          res.status(500).json({ error: err.message });
+          return;
         }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
       }
-    );
+    ).clone();
   } catch (err) {
     next(err);
   }
@@ -139,18 +148,18 @@ const changeTheme = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(
       _id,
-      { theme: newTheme },
-      async (err, result, next) => {
+      { $set: { theme: newTheme } },
+      (err, result, next) => {
         if (err) {
           next(err);
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
+          return;
         }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
       }
-    );
+    ).clone();
   } catch (err) {
     next(err);
   }

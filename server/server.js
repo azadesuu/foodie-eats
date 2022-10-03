@@ -10,12 +10,20 @@ const passport = require("passport");
 const flash = require("express-flash");
 const jwt = require("jsonwebtoken");
 
-app.use(
-  cors({
-    credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-    origin: "http://localhost:3000" // or your heroku url
-  })
-);
+app.use(cors());
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    "https://foodie-eats.herokuapp.com",
+    "http://localhost:3000"
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
+  return next();
+});
 
 // setup a session store signing the contents using the secret key
 app.use(

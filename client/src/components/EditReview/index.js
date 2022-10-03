@@ -1,7 +1,7 @@
 import "./EditReview.css";
 import "@fontsource/martel-sans";
 import addImage from "../../assets/images/addImage.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
@@ -15,19 +15,14 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 function EditReview() {
     const navigate = useNavigate();
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
         "view-review",
         () => getReview(reviewId),
-        { enabled: !!reviewId && !!user }
+        { enabled: !!reviewId }
     );
-
-    if (review?.userId._id !== user?._id) {
-        alert("You have no permission to edit this review");
-        navigate("/");
-    }
 
     const submitUpdatedReview = async (
         _id,
@@ -69,10 +64,12 @@ function EditReview() {
                 address: address,
                 description: description
             });
-            if (!review) {
-                alert("update unsucessful.");
+            if (updatedReviewRecord) {
+                alert("Review has been updated!");
+            } else {
+                alert("Update unsuccessful. Please try again.");
             }
-            navigate(`/review/${review?._id}`);
+            navigate(-1);
         }
     };
 
@@ -94,7 +91,6 @@ function EditReview() {
             label: "$$$$"
         }
     ];
-
     return (
         <div className="content-EditReview">
             {review.map(review => {
@@ -205,27 +201,35 @@ function EditReview() {
                             </div>
                         </div>
 
-                        <form>
-                            {/* user name field */}
-                            <div className="details-container">
-                                <input
-                                    type="text"
-                                    defaultValue={review.restaurantName}
-                                    onChange={e => {
-                                        review.restaurantName = e.target.value;
-                                    }}
-                                />
-                            </div>
 
-                            <div className="details-container">
-                                <input
-                                    type="date"
-                                    value={review.dateVisited.slice(0, 10)}
-                                    onChange={e => {
-                                        review.dateVisited = e.target.value;
-                                    }}
-                                />
-                            </div>
+                            <div id="outer">
+                                <div className="switchContainer">
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                defaultChecked={review.isPublic}
+                                            />
+                                        }
+                                        label="Public"
+                                        onChange={e => {
+                                            review.isPublic = e.target.checked;
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="sliderContainer">
+                                    <Slider
+                                        defaultValue={review.priceRange}
+                                        step={1}
+                                        marks={marks}
+                                        min={1}
+                                        max={4}
+                                        track={false}
+                                        onChange={e => {
+                                            review.priceRange = e.target.value;
+                                        }}
+                                    />
+                                </div>
 
                             <div className="details-container">
                                 <input
@@ -236,19 +240,18 @@ function EditReview() {
                                             e.target.value;
                                     }}
                                 />
-                            </div>
-
-                            <div id="outerAddress">
-                                <div className="suburb-container">
-                                    <input
-                                        type="text"
-                                        defaultValue={review.address.suburb}
+                                <div className="ratingContainer">
+                                    <Rating
+                                        name="size-medium"
+                                        defaultValue={review.rating}
+                                        size="medium"
+                                        precision={1}
                                         onChange={e => {
-                                            review.address.suburb =
-                                                e.target.value;
+                                            review.rating = e.target.value;
                                         }}
                                     />
                                 </div>
+
 
                                 <div className="state-container">
                                     <FormControl fullWidth size="small">
@@ -286,45 +289,118 @@ function EditReview() {
                                             <MenuItem value="WA">WA</MenuItem>
                                         </Select>
                                     </FormControl>
-                                </div>
-                            </div>
 
-                            <div id="outerAddress">
-                                <div className="postcode-container">
+                                </div>
+
+                                <div className="details-container">
                                     <input
                                         type="text"
-                                        maxlength="4"
-                                        defaultValue={review.address.postcode}
-                                        onKeyPress={event => {
-                                            if (!/[0-9]/.test(event.key)) {
-                                                event.preventDefault();
-                                            }
-                                        }}
+                                        defaultValue={
+                                            review.address.streetAddress
+                                        }
                                         onChange={e => {
-                                            review.address.postcode =
+                                            review.address.streetAddress =
                                                 e.target.value;
                                         }}
                                     />
                                 </div>
 
-                                <div className="country-container">
-                                    <input
+                                <div id="outerAddress">
+                                    <div className="suburb-container">
+                                        <input
+                                            type="text"
+                                            defaultValue={review.address.suburb}
+                                            onChange={e => {
+                                                review.address.suburb =
+                                                    e.target.value;
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="state-container">
+                                        <FormControl fullWidth size="small">
+                                            <InputLabel id="state-select-label">
+                                                State
+                                            </InputLabel>
+                                            <Select
+                                                defaultValue={
+                                                    review.address.state
+                                                }
+                                                labelId="state-select-label"
+                                                id="state-select"
+                                                label="State"
+                                                onChange={e => {
+                                                    review.address.state =
+                                                        e.target.value;
+                                                }}
+                                            >
+                                                <MenuItem value="ACT">
+                                                    ACT
+                                                </MenuItem>
+                                                <MenuItem value="NSW">
+                                                    NSW
+                                                </MenuItem>
+                                                <MenuItem value="NT">
+                                                    NT
+                                                </MenuItem>
+                                                <MenuItem value="QLD">
+                                                    QLD
+                                                </MenuItem>
+                                                <MenuItem value="SA">
+                                                    SA
+                                                </MenuItem>
+                                                <MenuItem value="TAS">
+                                                    TAS
+                                                </MenuItem>
+                                                <MenuItem value="VIC">
+                                                    VIC
+                                                </MenuItem>
+                                                <MenuItem value="WA">
+                                                    WA
+                                                </MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                </div>
+
+                                <div id="outerAddress">
+                                    <div className="postcode-container">
+                                        <input
+                                            type="text"
+                                            maxLength="4"
+                                            defaultValue={
+                                                review.address.postcode
+                                            }
+                                            onKeyPress={event => {
+                                                if (!/[0-9]/.test(event.key)) {
+                                                    event.preventDefault();
+                                                }
+                                            }}
+                                            onChange={e => {
+                                                review.address.postcode =
+                                                    e.target.value;
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="country-container">
+                                        <input
+                                            type="text"
+                                            placeholder="Australia"
+                                            disabled
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="details-container">
+                                    <textarea
                                         type="text"
-                                        placeholder="Australia"
-                                        disabled
+                                        defaultValue={review.description}
+                                        onChange={e => {
+                                            review.description = e.target.value;
+                                        }}
                                     />
                                 </div>
-                            </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    defaultValue={review.description}
-                                    onChange={e => {
-                                        review.description = e.target.value;
-                                    }}
-                                />
-                            </div>
 
                             <div className="add-image">
                                 <p>Add your image</p>
@@ -358,8 +434,9 @@ function EditReview() {
                 );
             })}
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
+
         </div>
     );
 }

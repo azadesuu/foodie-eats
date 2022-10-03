@@ -5,7 +5,6 @@ const Token = require("../models/token");
 // get express-validator, to validate user data in forms
 const expressValidator = require("express-validator");
 const jwt = require("jsonwebtoken");
-const { deserializeUser } = require("passport");
 const passport = require("passport");
 require("../config/passport")(passport);
 

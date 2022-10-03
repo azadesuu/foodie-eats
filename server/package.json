@@ -15,12 +15,12 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
+    "heroku": "^7.63.4",
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.2",
     "nodemailer": "^6.7.8",
-    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -33,10 +33,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "nodemon server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

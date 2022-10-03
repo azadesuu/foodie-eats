@@ -36,9 +36,11 @@ function TopUser() {
     // if (isUser) {
     //     navigate("/my-profile");
     // }
-
-    // const userQueryProfile = useQuery("profile", () => getProfile(username));
-    // const { data: userProfile, isLoading } = userQueryProfile;
+    const { data: userProfile, isLoading } = useQuery(
+        "profile",
+        () => getProfile(username),
+        { enabled: !!username }
+    );
 
     return (
         <div className="top-user">
