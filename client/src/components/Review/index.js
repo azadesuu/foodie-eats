@@ -1,7 +1,9 @@
+
 import "./Review.css";
 import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext, useEffect, useState } from "react";
+
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 
@@ -28,6 +30,7 @@ import StarIcon from "@mui/icons-material/Star";
 function Review() {
     // reviewsmallscreen buttons not done yet
     const [user] = useContext(UserContext);
+
     const navigate = useNavigate();
     const [bookmarked, setBookmark] = useState(false);
     const [liked, setLiked] = useState(false);
@@ -113,6 +116,7 @@ function Review() {
                                         }}
                                         control={
                                             <Switch
+
                                                 sx={{
                                                     width: 36,
                                                     height: 20,
@@ -137,15 +141,19 @@ function Review() {
                                                                 opacity: 0.5
                                                             }
                                                         }
+
                                                     },
                                                     "& .MuiSwitch-thumb": {
                                                         boxSizing: "border-box",
                                                         width: 16,
+
                                                         height: 16
+
                                                     },
                                                     "& .MuiSwitch-track": {
                                                         borderRadius: "10px",
                                                         bgcolor: "#A9CABB",
+
                                                         opacity: 1
                                                     }
                                                 }}
@@ -157,6 +165,7 @@ function Review() {
                                                 ? "Private"
                                                 : "Public"
                                         }
+
                                     />
                                 </div>
                                 <div className="likes-bookmark">
@@ -167,10 +176,12 @@ function Review() {
                                         <ThumbUpOffAltIcon />
                                         <p>{review.likeCount}k</p>
                                     </div>
+
                                     <BookmarkBorderIcon
                                         sx={{
                                             fontSize: "25px"
                                         }}
+
                                     />
                                     {/* if bookmarked */}
                                     {/* <BookmarkIcon 
@@ -188,6 +199,7 @@ function Review() {
                                         size="medium"
                                         precision={1}
                                         emptyIcon={
+
                                             <StarIcon
                                                 style={{
                                                     opacity: 0.55
@@ -195,6 +207,7 @@ function Review() {
                                                 fontSize="inherit"
                                             />
                                         }
+
                                         readOnly
                                     />
                                 </div>
@@ -215,6 +228,7 @@ function Review() {
                                                 "&:focus, &:hover, &.Mui-active": {
                                                     boxShadow:
                                                         "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
+
                                                 }
                                             },
                                             "& .MuiSlider-rail": {
@@ -229,7 +243,9 @@ function Review() {
                                                 color: "#949292",
                                                 height: 5,
                                                 width: 5,
+
                                                 borderRadius: "5px"
+
                                             }
                                         }}
                                     />
@@ -253,6 +269,7 @@ function Review() {
                                     placeholder={Moment(
                                         review.dateVisited
                                     ).format("MMMM Do, YYYY")}
+
                                     disabled
                                 />
                             </div>
@@ -334,10 +351,12 @@ function Review() {
                                                 `/profile/${review.userId.username}`
                                             );
                                         }}
+
                                     >
                                         {review.userId.username}
                                     </button>
                                 </p>
+
                                 <button
                                     className="editReviewButton"
                                     type="button"

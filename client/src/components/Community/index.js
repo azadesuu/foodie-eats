@@ -71,7 +71,9 @@ function SearchBar() {
                 />
                 <FilterAltIcon />
             </div>
-            <div className="searchResult"></div>
+            <div className="searchResult">
+                
+            </div>
         </div>
     );
 }
@@ -253,6 +255,7 @@ function Community() {
                             >
                                 {listReviewsRecent.map(review => (
                                     <Grid item xs={4} key={review}>
+
                                         <ReviewPeek reviewData={review} />
                                     </Grid>
                                 ))}
