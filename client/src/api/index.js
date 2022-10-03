@@ -149,36 +149,31 @@ export const updateReview = async data => {
         .catch(err => console.log(err));
 };
 
-//add to user object
-// export const toggleBookmark = (userId, reviewId) => {
-//     return axios
-//         .patch(`${SERVER_URL}/review/bookmark/${reviewId}`, userId)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+//add reviewId to user object
+export const toggleBookmark = async data => {
+    const { reviewId, userId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/bookmark/${reviewId}/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
-//add to review object
-// export const toggleLike = (userId, reviewId) => {
-//     return axios
-//         .patch(`${SERVER_URL}/review/like/${userId}`, reviewId)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+//add userId to review object
+export const toggleLike = async data => {
+    const { userId, reviewId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/like/${userId}/${reviewId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
-//change boolean
-// export const togglePublic = (userId, reviewId) => {
-//     return axios
-//         .patch(`${SERVER_URL}/review/togglePublic/${userId}`, reviewId)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
-
-// export const deleteReview = (userId, reviewId) => {
-//     return axios
-//         .patch(`${SERVER_URL}/review/unlike/${userId}`, reviewId)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+// delete user review
+export const deleteReview = async reviewId => {
+    return await axios
+        .delete(`${SERVER_URL}/review/delete/${reviewId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 // // -------------- Bookmarks page
 export const getBookmarks = async bookmarks => {
@@ -189,25 +184,12 @@ export const getBookmarks = async bookmarks => {
         .catch(err => console.log(err));
 };
 
-// // use req.query.search
-// // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
-// // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
-// export const getBookmarksSearch = searchValue => {
-//     return axios
-//         .get(`${SERVER_URL}/review/mybookmarks?search=${searchValue}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
-
-// // use req.query.rt and req.query.pr (integers)
-// // if raitng/price range == 0, do not filter anything (for that field)
-// // If we need to work with numbers, and convert query statements from text to number, we can simply add a plus sign in front of statement.
-// export const getBookmarksFilter = (rating, priceRange) => {
-//     return axios
-//         .get(`${SERVER_URL}/review/mybookmarks?rt=${rating}&$pr=${priceRange}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getBookmarksSearch = async data => {
+    return await axios
+        .get(`${SERVER_URL}/account/my-bookmarks/search`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 // // ------ Profiles
 
@@ -218,7 +200,7 @@ export const getProfile = async username => {
         .catch(err => console.log(err));
 };
 
-//--- My Reviews
+// // ------ My Reviews
 export const getMyReviews = async userId => {
     return await axios
         .get(`${SERVER_URL}/account/my-reviews/${userId}`)
@@ -226,22 +208,12 @@ export const getMyReviews = async userId => {
         .catch(err => console.log(err));
 };
 
-// // use req.query.search
-// // https://stackoverflow.com/questions/67244679/how-to-create-search-form-in-mern-application
-// // https://stackoverflow.com/questions/14417592/node-js-difference-between-req-query-and-req-params
-// export const getMyReviewsSearch = search => {
-//     return axios
-//         .get(`${SERVER_URL}/account/myReviews/search?=${tagValue}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
-
-// export const getMyReviewsTag = tagValue => {
-//     return axios
-//         .get(`${SERVER_URL}/account/myReviews/search?=${tagValue}`)
-//         .then(res => res?.data?.data)
-//         .catch(err => console.log(err));
-// };
+export const getMyReviewsSearch = async data => {
+    return await axios
+        .get(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
 
 // //--- Profile Edits
 

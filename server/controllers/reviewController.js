@@ -45,6 +45,49 @@ const getReviewsByLikes = async (req, res, next) => {
   }
 };
 
+const getReviewsBySearch = async (req, res, next) => {
+  try {
+    const search = req.body.search;
+    const rating = req.body.rating;
+    const priceRange = req.body.priceRange;
+    const tags = req.body.tags;
+    const postcode = req.body.postcode;
+
+    const oriQuery = {
+      restaurantName: { $regex: search, $options: "i" },
+      rating: rating,
+      priceRange: priceRange,
+      tags: { $in: tags.map(t => new RegExp(t)) },
+      postcode: postcode
+    };
+
+    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
+      if (key === "tags" && tags.length === 0) {
+        //
+      } else if (value !== undefined && value !== null && value !== []) {
+        qry[key] = value;
+      }
+      return qry;
+    }, {});
+
+    const reviews = await Review.find(query)
+      .populate("userId")
+      .lean()
+      .sort({ $natural: -1 });
+
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getOneReview = async (req, res, next) => {
   try {
     const review = await Review.findOne({ _id: req.params.reviewId })
@@ -152,10 +195,84 @@ const updateReview = async (req, res, next) => {
   }
 };
 
+const toggleLike = async (req, res, next) => {
+  try {
+    const reviewId = req.params.reviewId;
+    const userId = [req.params.userId];
+    const likeBool = req.body.likeBool;
+
+    if (!likeBool) {
+      //add to userlikes array and increment like count
+      await Review.findOneAndUpdate(
+        { _id: reviewId, userLikes: { $ne: userId } },
+        {
+          $addToSet: { userLikes: userId },
+          $inc: { likeCount: 1 }
+        },
+        { new: true },
+        (err, updatedReview) => {
+          if (err) {
+            res.json(err);
+            return;
+          }
+          res.status(200).json({
+            success: true,
+            data: updatedReview
+          });
+        }
+      ).clone();
+    } else {
+      //remove from userlikes array and decrement like count
+      await Review.findOneAndUpdate(
+        { _id: reviewId, userLikes: { $in: userId } },
+        {
+          $pullAll: { userLikes: userId },
+          $inc: { likeCount: -1 }
+        },
+        { new: true },
+        (err, updatedReview) => {
+          if (err) {
+            res.json(err);
+            return;
+          }
+          res.status(200).json({
+            success: true,
+            data: updatedReview
+          });
+        }
+      ).clone();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteReview = async (req, res, next) => {
+  try {
+    const reviewId = req.params.reviewId;
+    await Review.findByIdAndRemove(reviewId, (err, review) => {
+      if (err) {
+        res.json(err);
+        return;
+      } else {
+        res.status(200).json({
+          success: true,
+          data: review
+        });
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getReviewsByRecent,
   getReviewsByLikes,
+  getReviewsBySearch,
   getOneReview,
   createReview,
-  updateReview
+  updateReview,
+  toggleLike,
+  deleteReview
 };
