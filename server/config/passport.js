@@ -10,6 +10,7 @@ const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 
+const { deserializeUser } = require("passport");
 const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
 
 module.exports = function(passport) {
@@ -37,6 +38,8 @@ module.exports = function(passport) {
         passReqToCallback: true
       },
       function(req, email, password, done) {
+        console.log(email, password);
+
         process.nextTick(function() {
           // see if the user with the email exists
           User.findOne(

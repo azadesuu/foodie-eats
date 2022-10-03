@@ -19,7 +19,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { createReview, getProfile } from "../../api";
 
 function PostReview() {
-    const [user1, setUser1] = useContext(UserContext);
+    const [user1] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
         "my-user",
         () => getProfile(user1?.username),
@@ -115,9 +115,8 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
-            <NavLoggedIn />
-            {!userProfile && <CircularProgress className="spinner" />}
-            {userProfile && (
+            {isLoading && <CircularProgress className="spinner" />}
+            {!isLoading && userProfile && (
                 <div className="user-container">
                     <h1>POST</h1>
                     <span className="smallScreen-CreateReview">

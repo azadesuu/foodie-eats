@@ -1,11 +1,10 @@
 import React from "react"; // required
 import "./MyBookmarks.css";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useQuery } from "react-query";
 import { getBookmarks } from "../../api";
 import { UserContext } from "../../actions/UserContext";
-import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 
@@ -218,7 +217,14 @@ function MyBookmarks() {
                         <h1>BOOKMARKS</h1>
                         <SearchBar />
                         <div className="line" />
-                        <ReviewsSmallScreen user={user} reviews={listReviews} />
+                        {user?.bookmarks && !listReviews && !isLoading ? (
+                            <CircularProgress className="spinner" />
+                        ) : (
+                            <ReviewsSmallScreen
+                                user={user}
+                                reviews={listReviews}
+                            />
+                        )}
                         <Post />
                     </span>
                     <span className="bigScreen-MyBookmarks">
@@ -231,6 +237,7 @@ function MyBookmarks() {
                                 user={user}
                                 reviews={listReviews}
                             />
+
                         </div>
                     </span>
                     <div className="footer">

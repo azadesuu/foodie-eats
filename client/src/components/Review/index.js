@@ -1,9 +1,11 @@
+
 import "./Review.css";
 import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
+
 import { useQuery } from "react-query";
 import "@fontsource/martel-sans";
 import { CircularProgress } from "@mui/material";
@@ -26,13 +28,12 @@ import StarIcon from '@mui/icons-material/Star';
 
 function Review(props) {
     const navigate = useNavigate();
-    const [user, setUser] = useContext(UserContext);
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
         "view-review",
         () => getReview(reviewId),
-        { enabled: !!reviewId && !!user }
+        { enabled: !!reviewId }
     );
 
     const marks = [
