@@ -86,6 +86,7 @@ const ReviewPeek = props => {
                                                 dateVisited
                                             ).toLocaleDateString("en-GB")}
                                         </Typography>
+
                                     <Typography
                                         variant="body2"
                                         display="inline"

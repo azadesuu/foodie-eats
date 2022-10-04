@@ -223,6 +223,7 @@ function MyBookmarks() {
                     </span>
                     <span className="bigScreen-MyBookmarks">
                         <TopUser user={userProfile} />
+
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
@@ -231,6 +232,7 @@ function MyBookmarks() {
                                 user={userProfile}
                                 reviews={bookmarks}
                             />
+
                         </div>
                     </span>
                     <div className="footer">

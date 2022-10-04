@@ -27,7 +27,7 @@ function EditReview() {
     const { data: review, isLoading } = useQuery(
         "view-review",
         () => getReview(reviewId),
-        { enabled: !!reviewId }
+        { enabled: !!reviewId && !!user }
     );
 
     useEffect(() => {
@@ -367,7 +367,7 @@ function EditReview() {
                 </div>
             )}
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );
