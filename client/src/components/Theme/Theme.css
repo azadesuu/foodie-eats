@@ -1,0 +1,89 @@
+span.bigScreen-Theme {
+    display: inline;
+}
+span.smallScreen-Theme {
+    display: none;
+}
+@media screen and (max-width: 1000px) {
+    span.bigScreen-Theme {
+        display: none;
+    }
+    span.smallScreen-Theme {
+        display: inline;
+        width: 98%;
+    }
+    .content-Theme h1 {
+        font-size: 50px;
+    }
+}
+@media screen and (min-width: 1000px) {
+    .content-Theme h1 {
+        font-size: 60px;
+    }
+}
+body {
+    margin-top: 230px;
+    background-color: #fffeec;
+    padding: 1%;
+    font-family: "Martel Sans";
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.content-Theme {
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-Theme h1 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+.content-Theme h2 {
+    text-align: center;
+    margin-bottom: -5px;
+    font-weight: normal;
+}
+.content-Theme .sidebar-content {
+    min-width: 270px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    margin-top: 30px;
+    gap: 10px;
+}
+.content-Theme button {
+    background-color: transparent;
+    border: none;
+}
+.content-Theme button img {
+    border: 1px solid #000000;
+    border-radius: 70px;
+}
+.content-Theme .themes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.content-Theme .r1 {
+    display: flex;
+    flex-direction: row;
+    margin-left: -18px;
+}
+.content-Theme .r3 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 0;
+}
+.content-Theme .c1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 40px;
+    gap: 40px;
+    height: 400px;
+}
