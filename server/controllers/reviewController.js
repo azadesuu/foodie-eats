@@ -3,9 +3,10 @@ const User = require("../models/user");
 
 const getReviewsByRecent = async (req, res, next) => {
   try {
-    const query = req.params.postcode
-      ? { "address.postcode": req.params.postcode }
-      : {};
+    const query =
+      req.params.postcode !== "undefined"
+        ? { "address.postcode": req.params.postcode }
+        : {};
     const reviews = await Review.find(query)
       .populate("userId")
       .lean()
@@ -27,9 +28,10 @@ const getReviewsByRecent = async (req, res, next) => {
 
 const getReviewsByLikes = async (req, res, next) => {
   try {
-    const query = req.body.postcode
-      ? { "address.postcode": req.params.postcode }
-      : {};
+    const query =
+      req.params.postcode !== "undefined"
+        ? { "address.postcode": req.params.postcode }
+        : {};
     const reviews = await Review.find(query)
       .lean()
       .limit(10)
@@ -55,7 +57,7 @@ const getReviewsBySearch = async (req, res, next) => {
     const rating = req.body.rating;
     const priceRange = req.body.priceRange;
     const tags = req.body.tags;
-    const postcode = req.body.postcode;
+    const postcode = req.params.postcode;
 
     const oriQuery = {
       restaurantName: { $regex: search, $options: "i" },
@@ -68,7 +70,12 @@ const getReviewsBySearch = async (req, res, next) => {
     const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
       if (key === "tags" && tags.length === 0) {
         //
-      } else if (value !== undefined && value !== null && value !== []) {
+      } else if (
+        value !== undefined &&
+        value !== "undefined" &&
+        value !== null &&
+        value !== []
+      ) {
         qry[key] = value;
       }
       return qry;

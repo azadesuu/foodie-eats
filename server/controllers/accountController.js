@@ -279,7 +279,8 @@ const changeTheme = async (req, res, next) => {
     await User.findByIdAndUpdate(
       _id,
       { $set: { theme: newTheme } },
-      (err, result, next) => {
+      { new: false },
+      (err, result) => {
         if (err) {
           next(err);
           return;
