@@ -19,7 +19,7 @@ import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
 // yet to be implemented with css
-import Theme from "./components-server/Theme";
+import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
 
 const queryClient = new QueryClient();
@@ -93,10 +93,7 @@ function App() {
                                 element={<MyBookmarks />}
                             />
                             <Route path="/my-profile" element={<MyProfile />} />
-                            <Route
-                                path="/my-reviews"
-                                element={<MyReviews />}
-                            />
+                            <Route path="/my-reviews" element={<MyReviews />} />
                             <Route
                                 path="/change-password"
                                 element={<ChangePassword />}
