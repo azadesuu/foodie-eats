@@ -3,7 +3,7 @@ import "./MyBookmarks.css";
 
 import { useContext } from "react";
 import { useQuery } from "react-query";
-import { getBookmarks } from "../../api";
+import { getBookmarks, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 
 import "@fontsource/martel-sans";
@@ -108,7 +108,7 @@ function Sidebar() {
 
 function ReviewsSmallScreen(props) {
     const user = props.user;
-    const listReviews = props.listReviews;
+    const listReviews = props.reviews;
 
     return (
         <div className="reviews">
@@ -149,7 +149,7 @@ function ReviewsSmallScreen(props) {
 
 function ReviewsBigScreen(props) {
     const user = props.user;
-    const listReviews = props.listReviews;
+    const listReviews = props.reviews;
 
     return (
         <div className="reviews">
@@ -178,18 +178,9 @@ function ReviewsBigScreen(props) {
                 {!user && <CircularProgress className="spinner" />}
                 {listReviews ? (
                     <div>
-                        <Grid 
-                            container 
-                            spacing={{ xs: 2, md: 3 }}
-                        >
+                        <Grid container spacing={{ xs: 2, md: 3 }}>
                             {listReviews.map(review => {
-                                <Grid 
-                                    item 
-                                    xs={6} 
-                                    key={review}
-                                >
-                                    <ReviewPeek reviewData={review} />;
-                                </Grid>;
+                                return <ReviewPeek reviewData={review} />;
                             })}
                         </Grid>
                     </div>
@@ -202,40 +193,44 @@ function ReviewsBigScreen(props) {
 }
 
 function MyBookmarks() {
-    const user = useContext(UserContext);
-    const { data: listReviews, isLoading } = useQuery(
+    const [user] = useContext(UserContext);
+
+    const { data: userProfile, isLoading } = useQuery(
         "bookmarks",
-        () => getBookmarks(user?.bookmarks),
-        { enabled: user?.bookmarks }
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
+
+    const { data: bookmarks, isLoading2 } = useQuery(
+        "bookmarked-reviews",
+        () => getBookmarks({ bookmarks: userProfile.bookmarks }),
+        { enabled: !!userProfile }
     );
     return (
         <>
-            {user ? (
+            {(isLoading2 || isLoading) && (
+                <CircularProgress className="spinner" />
+            )}
+            {!isLoading2 && userProfile && bookmarks ? (
                 <div className="content-MyBookmarks">
                     <NavLoggedIn />
                     <span className="smallScreen-MyBookmarks">
                         <h1>BOOKMARKS</h1>
                         <SearchBar />
                         <div className="line" />
-                        {user?.bookmarks && !listReviews && !isLoading ? (
-                            <CircularProgress className="spinner" />
-                        ) : (
-                            <ReviewsSmallScreen
-                                user={user}
-                                reviews={listReviews}
-                            />
-                        )}
+                        <ReviewsSmallScreen user={user} reviews={bookmarks} />
                         <Post />
                     </span>
                     <span className="bigScreen-MyBookmarks">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} />
+
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
                             <ReviewsBigScreen
-                                user={user}
-                                reviews={listReviews}
+                                user={userProfile}
+                                reviews={bookmarks}
                             />
 
                         </div>

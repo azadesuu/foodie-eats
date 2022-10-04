@@ -74,18 +74,19 @@ const ReviewPeek = props => {
                         primary={
                             <React.Fragment>
                                 <div className="t1">
-                                    <Typography
-                                        variant="body2"
-                                        display="inline"
-                                        fontSize="10px"
-                                        fontFamily="Martel Sans"
-                                        marginBottom={0.2}
-                                    >
-                                        Date visited:{" "}
-                                        {new Date(
-                                            dateVisited
-                                        ).toLocaleDateString("en-GB")}
-                                    </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            display="inline"
+                                            fontSize="10px"
+                                            fontFamily="Martel Sans"
+                                            marginBottom={0.2}
+                                        >
+                                            Date visited:{" "}
+                                            {new Date(
+                                                dateVisited
+                                            ).toLocaleDateString("en-GB")}
+                                        </Typography>
+
                                     <Typography
                                         variant="body2"
                                         display="inline"

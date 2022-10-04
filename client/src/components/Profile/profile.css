@@ -1,0 +1,10 @@
+span.bigScreen-Profile {
+    display: inline;
+}
+span.smallScreen-Profile {
+    display: none;
+}
+.content-Profile {
+    margin-top: -90px;
+    margin-bottom: 80px;
+}

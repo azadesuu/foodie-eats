@@ -197,18 +197,12 @@ function ReviewsBigScreen(props) {
                     <div>
                         {listReviews.length > 0 ? (
                             <div>
-                                <Grid 
-                                    container 
-                                    spacing={{ xs: 2, md: 3 }}
-                                >
+                                <Grid container spacing={{ xs: 2, md: 3 }}>
                                     {listReviews.map(review => (
-                                        <Grid
-                                            item
-                                            xs={6}
-                                            key={review}
-                                        >
+                                        <Grid item xs={6} key={review}>
                                             <ReviewPeek reviewData={review} />
-                                        </Grid>  
+                                        </Grid>
+
                                     ))}
                                 </Grid>
                             </div>
@@ -226,7 +220,7 @@ function ReviewsBigScreen(props) {
 }
 
 function MyReviews() {
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
     return (
         <>
             {user ? (
