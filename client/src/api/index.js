@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const SERVER_URL = "http://localhost:5000";
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = "http://localhost:5000";
+// const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export const setAuthToken = async token => {
     if (token) {
@@ -62,7 +62,7 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        alert("must provide an email, a password, and a username");
+        alert("<ust provide an email, a password, and a username.");
         return;
     }
 
@@ -81,7 +81,9 @@ export const signupUser = async user => {
             return;
         });
     if (!data) {
-        alert("Please try again with a different email or stronger password.");
+        alert(
+            "Please try again with a different email/username or stronger password."
+        );
     } else if (data.message) {
         // show error message
         alert(data.message);

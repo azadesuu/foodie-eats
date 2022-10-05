@@ -14,9 +14,5 @@ export default function Logout() {
         navigate("/");
     }
 
-    return (
-        <div>
-            <button onClick={handleLogOut}>Logout</button>
-        </div>
-    );
+    return <div>{user && <button onClick={handleLogOut}>Logout</button>}</div>;
 }

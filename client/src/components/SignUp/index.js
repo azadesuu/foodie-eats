@@ -18,17 +18,21 @@ function Register() {
 
     async function onSubmit() {
         if (password === confirmPassword) {
-            const user = await signupUser({
-                username: username,
-                email: email,
-                password: password
-            });
-            if (user) {
-                alert("Signup successful. Please Login.");
-                navigate("/login");
+            try {
+                const user = await signupUser({
+                    username: username,
+                    email: email,
+                    password: password
+                });
+                if (user) {
+                    alert("Signup successful. Please Login.");
+                    navigate("/login");
+                }
+            } catch (err) {
+                alert(err);
             }
         } else {
-            alert("Please re-confirm your password");
+            alert("Please re-confirm your password.");
         }
     }
 
