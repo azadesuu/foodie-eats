@@ -126,7 +126,7 @@ function Login() {
                 SIGN UP
             </a>
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );
