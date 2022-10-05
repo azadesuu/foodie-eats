@@ -202,8 +202,10 @@ function MyProfile() {
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
-                            <div className="line6" />
-                            <ProfileDetails user={user} />
+                            <div className="r3">
+                                <div className="line6" />
+                                <ProfileDetails user={user} />
+                            </div>
                         </div>
                     </span>
                     <div className="footer">

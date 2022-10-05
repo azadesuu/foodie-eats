@@ -61,7 +61,6 @@ function Login() {
                 email: email,
                 password: password
             });
-
             if (user) {
                 var token = localStorage.getItem("token");
                 setAuthToken(token);

@@ -1,3 +1,6 @@
+import "./ForgotPassword.css";
+import NavBar from "../NavBar";
+
 import { useState } from "react";
 import React from "react";
 import { forgotPassword } from "../../api";
@@ -22,8 +25,10 @@ function ForgotPassword() {
     }
 
     return (
-        <div>
-            <form className="form-control">
+        <div className="content-ForgotPassword">
+            <NavBar />
+            <h1>FORGET PASSWORD</h1>
+            <form className="form-control-forgotpassword">
                 <input
                     type="text"
                     name="email"
@@ -34,7 +39,7 @@ function ForgotPassword() {
                         setEmail(event.target.value);
                     }}
                 />
-                <input type="button" value="Submit Email" onClick={onSubmit} />
+                <button id="submit-btn" onClick={onSubmit}>SUBMIT</button>
             </form>
         </div>
     );
