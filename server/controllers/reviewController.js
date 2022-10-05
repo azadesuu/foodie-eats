@@ -5,12 +5,11 @@ const getReviewsByRecent = async (req, res, next) => {
   try {
     const query =
       req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode }
-        : {};
+        ? { "address.postcode": req.params.postcode, publicBool: true }
+        : { isPublic: true };
     const reviews = await Review.find(query)
       .populate("userId")
       .lean()
-      .limit(10)
       .sort({ $natural: -1 });
 
     if (!reviews) {
@@ -30,8 +29,8 @@ const getReviewsByLikes = async (req, res, next) => {
   try {
     const query =
       req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode }
-        : {};
+        ? { "address.postcode": req.params.postcode, publicBool: true }
+        : { isPublic: true };
     const reviews = await Review.find(query)
       .lean()
       .limit(10)

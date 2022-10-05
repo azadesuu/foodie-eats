@@ -157,7 +157,7 @@ function EditReview() {
                                         />
                                     }
                                     label={
-                                        review.isPublic ? "Private" : "Public"
+                                        review.isPublic ? "Public" : "Private"
                                     }
                                     onChange={e => {
                                         review.isPublic = e.target.checked;

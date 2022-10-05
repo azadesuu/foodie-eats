@@ -1,4 +1,3 @@
-
 import "./Review.css";
 import NavLoggedIn from "../LoggedInNavBar";
 
@@ -116,7 +115,6 @@ function Review() {
                                         }}
                                         control={
                                             <Switch
-
                                                 sx={{
                                                     width: 36,
                                                     height: 20,
@@ -141,14 +139,12 @@ function Review() {
                                                                 opacity: 0.5
                                                             }
                                                         }
-
                                                     },
                                                     "& .MuiSwitch-thumb": {
                                                         boxSizing: "border-box",
                                                         width: 16,
 
                                                         height: 16
-
                                                     },
                                                     "& .MuiSwitch-track": {
                                                         borderRadius: "10px",
@@ -165,7 +161,6 @@ function Review() {
                                                 ? "Private"
                                                 : "Public"
                                         }
-
                                     />
                                 </div>
                                 <div className="likes-bookmark">
@@ -181,7 +176,6 @@ function Review() {
                                         sx={{
                                             fontSize: "25px"
                                         }}
-
                                     />
                                     {/* if bookmarked */}
                                     {/* <BookmarkIcon 
@@ -199,7 +193,6 @@ function Review() {
                                         size="medium"
                                         precision={1}
                                         emptyIcon={
-
                                             <StarIcon
                                                 style={{
                                                     opacity: 0.55
@@ -207,7 +200,6 @@ function Review() {
                                                 fontSize="inherit"
                                             />
                                         }
-
                                         readOnly
                                     />
                                 </div>
@@ -228,7 +220,6 @@ function Review() {
                                                 "&:focus, &:hover, &.Mui-active": {
                                                     boxShadow:
                                                         "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
-
                                                 }
                                             },
                                             "& .MuiSlider-rail": {
@@ -245,7 +236,6 @@ function Review() {
                                                 width: 5,
 
                                                 borderRadius: "5px"
-
                                             }
                                         }}
                                     />
@@ -269,7 +259,6 @@ function Review() {
                                     placeholder={Moment(
                                         review.dateVisited
                                     ).format("MMMM Do, YYYY")}
-
                                     disabled
                                 />
                             </div>
@@ -351,7 +340,6 @@ function Review() {
                                                 `/profile/${review.userId.username}`
                                             );
                                         }}
-
                                     >
                                         {review.userId.username}
                                     </button>

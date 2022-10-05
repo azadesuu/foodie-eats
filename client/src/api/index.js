@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// const SERVER_URL = "http://localhost:5000";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export const setAuthToken = async token => {
@@ -121,8 +122,7 @@ export const getCommunitySearch = async data => {
         .catch(err => console.log(err));
 };
 
-// //------------------------ Review APIs (Create, ViewOne, Edit)
-
+// //------------------------ Review APIs (Create, ViewOne, Update, Bookmark, Like)
 export const createReview = async data => {
     return await axios
         .put(`${SERVER_URL}/review/createReview`, data)
