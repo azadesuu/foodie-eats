@@ -61,11 +61,9 @@ function Login() {
                 email: email,
                 password: password
             });
-            if (user) {
                 var token = localStorage.getItem("token");
                 setAuthToken(token);
                 token ? navigate("/") : navigate("/login");
-            }
         } catch (err) {
             alert(err);
             document.location.reload();
