@@ -58,8 +58,7 @@ body {
     border: none;
 }
 .content-Theme button img {
-    border-radius: 70px;
-}
+    border: 1px solid #000000;
 .content-Theme .themes {
     display: flex;
     flex-direction: row;

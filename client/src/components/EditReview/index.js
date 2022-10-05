@@ -38,7 +38,7 @@ function EditReview() {
     useEffect(() => {
         if (review?.userId._id !== user?._id) {
             alert("You have no permission to edit this review");
-            navigate("/");
+            navigate(-1);
         }
     }, [user]);
 

@@ -188,11 +188,7 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listLikes.slice(0, 9).map(review => (
-                                    <Grid
-                                        item
-                                        xs={4}
-                                        key={review}
-                                    >
+                                    <Grid item xs={4} key={review}>
                                         <ReviewPeek reviewData={review} />
                                     </Grid>
                                 ))}
@@ -262,11 +258,8 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listReviewsRecent.map(review => (
-                                    <Grid
-                                        item
-                                        xs={4}
-                                        key={review}
-                                    >
+                                    <Grid item xs={4} key={review}>
+
                                         <ReviewPeek reviewData={review} />
                                     </Grid>
                                 ))}

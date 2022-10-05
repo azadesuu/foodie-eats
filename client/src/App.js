@@ -15,11 +15,11 @@ import EditReview from "./components/EditReview";
 import Review from "./components/Review";
 import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
-// yet to be implemented with css
-import Theme from "./components/Theme";
 import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
-import ProfileReviews from "./components-server/ProfileReviews";
+import ProfileReviews from "./components/ProfileReviews";
+// yet to be implemented with css
+import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
 
 const queryClient = new QueryClient();
@@ -60,14 +60,14 @@ function App() {
                     <Routes>
                         {/* public routes */}
                         <Route path="/home" element={<Community />} />
-                        <Route
+                        {/* <Route
                             path="/profile/:username"
                             element={<Profile />}
-                        />
-                        <Route
+                        /> */}
+                        {/* <Route
                             path="/profile/:username/reviews"
                             element={<ProfileReviews />}
-                        />
+                        /> */}
                         {/* must be public */}
                         <Route path="*" element={<PageNotFound />} />
                         <Route path="/login" element={<Login />} />

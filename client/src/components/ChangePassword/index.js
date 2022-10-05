@@ -55,11 +55,11 @@ function Sidebar() {
 function ChangePwDetails(props) {
     const user = props.user;
     const navigate = useNavigate();
-
+    
     const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
-        { enabled: !!user?.username }
+        { enabled: !!user }
     );
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -97,7 +97,6 @@ function ChangePwDetails(props) {
             }
         }
     };
-
     return (
         <div className="changepw-details">
             <span className="bigScreen-ChangePassword">

@@ -54,17 +54,18 @@ function Login() {
     const navigate = useNavigate();
 
     // submit form
-    const submitHandler = async e => {
+    const submitHandler = async () => {
         try {
             // using API function to submit data to FoodBuddy API
             const user = await loginUser({
                 email: email,
                 password: password
             });
-
-            var token = localStorage.getItem("token");
-            setAuthToken(token);
-            token ? navigate("/home") : navigate("/login");
+            if (user) {
+                var token = localStorage.getItem("token");
+                setAuthToken(token);
+                token ? navigate("/") : navigate("/login");
+            }
         } catch (err) {
             alert(err);
             document.location.reload();
@@ -126,7 +127,7 @@ function Login() {
                 SIGN UP
             </a>
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );
