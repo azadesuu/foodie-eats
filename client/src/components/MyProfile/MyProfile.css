@@ -35,7 +35,7 @@ span.smallScreen-MyProfile {
       font-size: 60px;
     }
     .profile-details {
-        margin-left: 40px;
+        margin-left: 50px;
     }
     .form-control-profile input {
         width: 440px;
@@ -68,6 +68,9 @@ body {
     font-weight: bold;
     margin-bottom: 50px;
 }
+.content-MyProfile h2 {
+    font-weight: normal;
+}
 .line5 {
     border-top: 1px solid #000000;
     margin-top: 28px;
@@ -89,6 +92,12 @@ body {
 .content-MyProfile .r2 {
     display: flex;
     flex-direction: row;
+}
+.content-MyProfile .r3 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 0;
 }
 .top-user {
     display: flex;
@@ -123,14 +132,14 @@ body {
     margin-right: 100px;
     font-size: 25px;
 }
-.top-user-rev p{
+.top-user-rev p {
     margin: 0;
 }
 span.detail {
     font-size: 40px;
 }
-.sidebar-content {
-    width: 270px;
+.content-MyProfile .sidebar-content {
+    min-width: 270px;
     height: 90%;
     display: flex;
     flex-direction: column;

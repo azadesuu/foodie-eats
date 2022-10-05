@@ -16,7 +16,7 @@ import Review from "./components/Review";
 import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
 // yet to be implemented with css
-import Theme from "./components-server/Theme";
+import Theme from "./components/Theme";
 import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components-server/ProfileReviews";

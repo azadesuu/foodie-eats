@@ -202,7 +202,7 @@ function Review(props) {
                                 <input
                                     type="text"
                                     placeholder={Moment(review.dateVisited).format(
-                                        "MMMM Do, YYYY"
+                                        "DD/MM/YY"
                                     )}
                                     disabled
                                 />
@@ -291,7 +291,7 @@ function Review(props) {
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {
-                                        navigate(`review/${review._id}/edit`);
+                                        navigate(`/review/${review._id}/edit`);
                                     }}
                                 >
                                     EDIT
@@ -356,7 +356,7 @@ function Review(props) {
                                 />
                             </div>
                         </div>
-                        <div className="line"/>
+                        <div className="line5"/>
                             <div className="r1">
                                 <div className="r2">
                                     <p>
@@ -377,15 +377,19 @@ function Review(props) {
                                         </button>
                                     </p>
                                 </div>
-                                <button
-                                    className="editReviewButton"
-                                    type="button"
-                                    onClick={() => {
-                                        navigate(`review/${review._id}/edit`);
-                                    }}
-                                >
-                                    EDIT
-                                </button>
+                                {review.userId._id !== props.user?._id ? (
+                                    <></>
+                                ) : (
+                                    <button
+                                        className="editReviewButton"
+                                        type="button"
+                                        onClick={() => {
+                                            navigate(`/review/${review._id}/edit`);
+                                        }}
+                                    >
+                                        EDIT
+                                    </button>
+                                )}
                             </div>
                     </span>
                 </div>

@@ -12,22 +12,42 @@ span.smallScreen-nav {
         display: inline;
     }
 }
-.dropdwn-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 20px;
+@media screen and (min-width: 500px) {
+    .MenuSideBar-c1 {
+        white-space: nowrap;
+    }
 }
-.dropdwn-link {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-left: -30px;
-    margin-top: 20px;
-    gap: 4px;
-}
-.dropdwn-back {
+.MenuClose {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    right: 0;
+}
+.content-MenuSideBar {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: #ECE7E5;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+.content-MenuSideBar img {
+    margin-top: 40px;
+}
+.MenuSideBar-r1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+.MenuSideBar-c1 {
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-left: 40px;
 }

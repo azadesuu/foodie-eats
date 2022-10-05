@@ -179,7 +179,7 @@ function ReviewsBigScreen(props) {
                     flexGrow: 1,
                     overflowY: "auto",
                     overflowX: "hidden",
-                    maxHeight: "300px",
+                    maxHeight: "440px",
                     padding: "1%",
                     width: "90%",
                     marginTop: "10px",

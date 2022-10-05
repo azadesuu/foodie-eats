@@ -115,6 +115,7 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
+            <NavLoggedIn />
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
@@ -237,6 +238,7 @@ function PostReview() {
                                     onChange={e => {
                                         setRestaurantName(e.target.value);
                                     }}
+                                    required
                                 />
                             </div>
 
@@ -247,6 +249,7 @@ function PostReview() {
                                     onChange={e => {
                                         setDate(e.target.value);
                                     }}
+                                    required
                                 />
                             </div>
 
@@ -257,6 +260,7 @@ function PostReview() {
                                     onChange={e => {
                                         setStreetAddress(e.target.value);
                                     }}
+                                    required
                                 />
                             </div>
 
@@ -268,6 +272,7 @@ function PostReview() {
                                         onChange={e => {
                                             setSuburb(e.target.value);
                                         }}
+                                        required
                                     />
                                 </div>
 
@@ -343,6 +348,7 @@ function PostReview() {
                                     onChange={e => {
                                         setDescription(e.target.value);
                                     }}
+                                    required
                                 />
                             </div>
 
@@ -495,6 +501,7 @@ function PostReview() {
                                             onChange={e => {
                                                 setRestaurantName(e.target.value);
                                             }}
+                                            required
                                         />
                                     </div>
 
@@ -505,6 +512,7 @@ function PostReview() {
                                             onChange={e => {
                                                 setDate(e.target.value);
                                             }}
+                                            required
                                         />
                                     </div>
 
@@ -515,6 +523,7 @@ function PostReview() {
                                             onChange={e => {
                                                 setDescription(e.target.value);
                                             }}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -526,6 +535,7 @@ function PostReview() {
                                             onChange={e => {
                                                 setStreetAddress(e.target.value);
                                             }}
+                                            required
                                         />
                                     </div>
 
@@ -537,6 +547,7 @@ function PostReview() {
                                                 onChange={e => {
                                                     setSuburb(e.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
 
@@ -594,6 +605,7 @@ function PostReview() {
                                                 onChange={e => {
                                                     setPostcode(e.target.value);
                                                 }}
+                                                required
                                             />
                                         </div>
                                         <div className="country-container">
