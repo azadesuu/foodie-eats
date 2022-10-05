@@ -194,6 +194,14 @@ export const getProfile = async username => {
         .catch(err => console.log(err));
 };
 
+// // ------ Other Reviews
+export const getOtherReviews = async userId => {
+    return await axios
+        .get(`${SERVER_URL}/account/other-reviews/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
 // // ------ My Reviews
 export const getMyReviews = async userId => {
     return await axios

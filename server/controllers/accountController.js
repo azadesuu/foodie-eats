@@ -39,6 +39,31 @@ const getProfile = async (req, res, next) => {
   }
 };
 
+const getReviews = async (req, res, next) => {
+  try {
+    await Review.find(
+      { userId: req.params.userId, isPublic: true },
+      (err, result) => {
+        if (err) {
+          res.json(err);
+          return;
+        } else {
+          res.status(200).json({
+            success: true,
+            data: result
+          });
+        }
+      }
+    )
+      .sort({ $natural: -1 })
+      .populate("userId")
+      .lean()
+      .clone();
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getMyReviews = async (req, res, next) => {
   try {
     await Review.find({ userId: req.params.userId }, (err, result) => {
@@ -299,6 +324,7 @@ const changeTheme = async (req, res, next) => {
 module.exports = {
   getUser,
   getProfile,
+  getReviews,
   getMyReviews,
   getMyReviewsSearch,
   getMyBookmarks,
