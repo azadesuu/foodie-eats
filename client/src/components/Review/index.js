@@ -108,7 +108,7 @@ function Review(props) {
                                                 }}
                                                 checked={review.isPublic} 
                                             />}
-                                        label={review.isPublic ? "Private":"Public"}
+                                        label={review.isPublic ? "Public":"Private"}
                                     />
                                 </div>
                                 <div className="likes-bookmark">

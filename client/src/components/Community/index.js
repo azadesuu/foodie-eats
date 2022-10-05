@@ -57,6 +57,8 @@ function Location() {
 }
 
 function SearchBar() {
+    const [query, setQuery] = React.useState("");
+
     return (
         <div className="searchbar">
             <div className="searchrow">
@@ -66,8 +68,10 @@ function SearchBar() {
                     placeholder="Search"
                     name="search"
                     id="search"
-                    // value="{{search}}"
                     required
+                    onChange={(e) =>
+                        setQuery(e.target.value)
+                    }
                 />
                 <FilterAltIcon />
             </div>

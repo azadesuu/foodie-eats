@@ -168,7 +168,7 @@ function PostReview() {
                                             />
                                         }
                                         checked={currentPublicity}
-                                        label={currentPublicity ? "Private":"Public"}
+                                        label={currentPublicity ? "Public":"Private"}
                                         onChange={e => {
                                             setPublicity(e.target.checked);
                                         }}

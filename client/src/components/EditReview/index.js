@@ -2,7 +2,7 @@ import "./EditReview.css";
 import "@fontsource/martel-sans";
 import addImage from "../../assets/images/addImage.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updateReview, getReview } from "../../api";
@@ -33,6 +33,7 @@ function EditReview() {
         () => getReview(reviewId),
         { enabled: !!reviewId }
     );
+    const [currentPublicity, setPublicity] = useState(review.isPublic);
 
     useEffect(() => {
         if (review?.userId._id !== user?._id) {
@@ -169,14 +170,15 @@ function EditReview() {
                                                         opacity: 1
                                                     }
                                                 }}
-                                                defaultChecked={review.isPublic}
+                                                defaultChecked={currentPublicity}
                                             />
                                         }
                                         label={
-                                            review.isPublic ? "Private" : "Public"
+                                            currentPublicity ? "Public" : "Private"
                                         }
                                         onChange={e => {
                                             review.isPublic = e.target.checked;
+                                            setPublicity(e.target.checked);
                                         }}
                                     />
                                 </div>
@@ -420,14 +422,15 @@ function EditReview() {
                                                     opacity: 1
                                                 }
                                             }}
-                                            defaultChecked={review.isPublic}
+                                            defaultChecked={currentPublicity}
                                         />
                                     }
                                     label={
-                                        review.isPublic ? "Private" : "Public"
+                                        currentPublicity ? "Public" : "Private"
                                     }
                                     onChange={e => {
                                         review.isPublic = e.target.checked;
+                                        setPublicity(e.target.checked);
                                     }}
                                 />
                             </div>
