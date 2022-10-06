@@ -269,7 +269,7 @@ const deleteReview = async (req, res, next) => {
         success: true,
         data: review
       });
-    });
+    }).clone();
   } catch (err) {
     next(err);
   }
