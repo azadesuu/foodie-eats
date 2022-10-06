@@ -1,174 +1,139 @@
-// import "./Profile.css";
+import "./Profile.css";
 
-// import { useContext, useEffect, useState } from "react";
-// import { UserContext } from "../../actions/UserContext";
-// import { useParams } from "react-router-dom";
-// import { navigate, useNavigate } from "react";
-// import { getProfile } from "../../api";
-// import { useQuery, useMutation } from "react-query";
-// import Axios from "axios";
-// import { CircularProgress } from "@mui/material";
-// import { usePreviousNonNullish } from "../../hooks";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../actions/UserContext";
+import { useParams, useNavigate } from "react-router-dom";
+import { getProfile } from "../../api";
+import { useQuery } from "react-query";
+import { CircularProgress } from "@mui/material";
 
-// import EditIcon from "@mui/icons-material/Edit";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
 
-// import Avatar from "@mui/material/Avatar";
-// import IconButton from "@mui/material/IconButton";
+function TopUser(props) {
+    const userProfile = props.user;
+    return (
+        <div className="top-user">
+            <div>
+                <div className="top-user-r1">
+                    <Avatar
+                        alt="user-profile-image"
+                        // src={userProfile.profileImage}
+                        sx={{ height: 130, width: 130 }}
+                    />
+                    <div className="top-user-info">
+                        <h2>{userProfile.username}</h2>
+                        <p>{userProfile.bio}</p>
+                    </div>
+                </div>
+                <div className="top-user-rev">
+                    <p>
+                        <span className="detail">7</span> reviews
+                    </p>
+                    <p>
+                        <span className="detail">10k</span> likes
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}
 
-// import NavLoggedIn from "../LoggedInNavBar";
-// import EditProfile from "../EditProfile";
-// import ChangePassword from "../ChangePassword";
+function Sidebar() {
+    return (
+        <div className="sidebar-content">
+            <div id="current">
+                <a href="reviews">reviews</a>
+            </div>
+        </div>
+    );
+}
 
-// function TopUser() {
-//     //getting visited user
-//     // const navigate = useNavigate();
-//     // const { username } = useParams();
+function ProfileDetails(props) {
+    const userProfile = props.user;
+    return (
+        <div className="profile-details">
+            <div>
+                <div className="form-control-profile">
+                    <label>Username </label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        value={userProfile.username}
+                        readOnly="readOnly"
+                    />
+                </div>
+                <div className="form-control-profile">
+                    <label>Email </label>
+                    <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        value={userProfile.email}
+                        readOnly="readOnly"
+                    />
+                </div>
+                <div className="form-control-profile-bio">
+                    <label>Bio </label>
+                    <textarea
+                        type="text"
+                        name="bio"
+                        id="bio"
+                        value={userProfile.bio}
+                        readOnly="readOnly"
+                    />
+                </div>
+                <div className="changepw">
+                    <a href="change-password">Change Password</a>
+                </div>
+            </div>
+        </div>
+    );
+}
 
-//     // getting logged in user
-//     // const [user, setUser] = useContext(UserContext);
-//     // const [loggedUsername, setloggedUsername] = useState("");
-//     // useEffect(() => {
-//     //     setloggedUsername(user?.username);
-//     // }, [user]);
+function Profile() {
+    //getting visited user
+    const navigate = useNavigate();
+    const { username } = useParams();
 
-//     // if its the  logged in user, load the myprofile component
-//     // const isUser = username === loggedUsername;
-//     // if (isUser) {
-//     //     navigate("/my-profile");
-//     // }
-//     const { data: userProfile, isLoading } = useQuery(
-//         "profile",
-//         () => getProfile(props.username),
-//         { enabled: !!username }
-//     );
+    const [user] = useContext(UserContext);
+    const [loggedUsername, setloggedUsername] = useState("");
+    useEffect(() => {
+        setloggedUsername(user?.username);
+        const isUser = username === loggedUsername;
+        if (isUser) {
+            navigate("/my-profile");
+        }
+    }, [user]);
 
-//     return (
-//         <div className="top-user">
-//             {/* {isLoading && <CircularProgress className="spinner" />}
-//             {userProfile ? ( */}
-//             <div>
-//                 {/* <div className="top-user-r1">
-//                         <Avatar
-//                             alt="user-profile-image"
-//                             // src={userProfile.profileImage}
-//                             sx={{ height: 130, width: 130 }}
-//                         />
-//                         <div className="top-user-info"> */}
-//                 {/* <h2>{userProfile.username}</h2>
-//                             <p>{userProfile.bio}</p> */}
-//                 {/* </div>
-//                     </div>
-//                     <div className="top-user-rev">
-//                         <p>
-//                             <span className="detail">7</span> reviews
-//                         </p>
-//                         <p>
-//                             <span className="detail">10k</span> likes
-//                         </p>
-//                     </div> */}
-//             </div>
-//             {/* ) : (
-//                 <h1>User not found</h1>
-//             )} */}
-//         </div>
-//     );
-// }
+    // if its the  logged in user, load the myprofile component
+    const { data: userProfile, isLoading } = useQuery(
+        "profile",
+        () => getProfile(username),
+        { enabled: !!username }
+    );
+    return (
+        <div className="content-Profile">
+            {isLoading && <CircularProgress className="spinner" />}
+            {!isLoading && userProfile ? (
+                <span className="bigScreen-Profile">
+                    <TopUser user={userProfile} />
+                    <div className="line5" />
+                    <div className="r1">
+                        <Sidebar />
+                        <div className="line6" />
+                        <ProfileDetails user={userProfile} />
+                    </div>
+                </span>
+            ) : (
+                <h1>User not found.</h1>
+            )}
+            <div className="footer">
+                <p>Copyright © 2022 All-for-one</p>
+            </div>
+        </div>
+    );
+}
 
-// function Sidebar() {
-//     return (
-//         <div className="sidebar-content">
-//             <div id="current">
-//                 <a href="reviews">reviews</a>
-//             </div>
-//         </div>
-//     );
-// }
-
-// // function ProfileDetails() {
-// //     //getting visited user
-// //     const navigate = useNavigate();
-// //     const { username } = useParams();
-
-// //     // getting logged in user
-// //     const [user, setUser] = useContext(UserContext);
-// //     const [loggedUsername, setloggedUsername] = useState("");
-// //     useEffect(() => {
-// //         setloggedUsername(user?.username);
-// //     }, [user]);
-
-// //     // if its the  logged in user, load the myprofile component
-// //     const isUser = username === loggedUsername;
-// //     if (isUser) {
-// //         navigate("/my-profile");
-// //     }
-
-// //     const userQueryProfile = useQuery("profile", () => getProfile(username));
-// //     const { data: userProfile, isLoading } = userQueryProfile;
-
-// //     return (
-// //         <div className="profile-details">
-// //             {isLoading && <CircularProgress className="spinner" />}
-// //             {userProfile ? (
-// //                 <div>
-// //                     <div className="form-control-profile">
-// //                         <label>Username </label>
-// //                         <input
-// //                             type="text"
-// //                             name="username"
-// //                             id="username"
-// //                             value={userProfile.username}
-// //                             readOnly="readOnly"
-// //                         />
-// //                     </div>
-// //                     <div className="form-control-profile">
-// //                         <label>Email </label>
-// //                         <input
-// //                             type="text"
-// //                             name="email"
-// //                             id="email"
-// //                             value={userProfile.email}
-// //                             readOnly="readOnly"
-// //                         />
-// //                     </div>
-// //                     <div className="form-control-profile-bio">
-// //                         <label>Bio </label>
-// //                         <textarea
-// //                             type="text"
-// //                             name="bio"
-// //                             id="bio"
-// //                             value={userProfile.bio}
-// //                             readOnly="readOnly"
-// //                         />
-// //                     </div>
-// //                     <div className="changepw">
-// //                         <a href="change-password">Change Password</a>
-// //                     </div>
-// //                 </div>
-// //             ) : (
-// //                 <h1>User not found</h1>
-// //             )}
-// //         </div>
-// //     );
-// // }
-
-// function Profile() {
-//     return (
-//         <div className="content-Profile">
-//             <NavLoggedIn />
-//             <span className="bigScreen-Profile">
-//                 <TopUser />
-//                 <div className="line5" />
-//                 <div className="r1">
-//                     <Sidebar />
-//                     <div className="line6" />
-//                     {/* <ProfileDetails /> */}
-//                 </div>
-//             </span>
-//             <div className="footer">
-//                 <p>copyright © 2022 All-for-one</p>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default Profile;
+export default Profile;

@@ -17,7 +17,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
 import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
-import ProfileReviews from "./components/ProfileReviews";
+// import ProfileReviews from "./components/ProfileReviews";
 import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
 
@@ -66,9 +66,15 @@ function App() {
                         {/* public routes */}
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<Community />} />
+
                         <Route
                             path="/review/:reviewId"
                             element={<Review user={user} />}
+                        />
+
+                        <Route
+                            path="/profile/:username"
+                            element={<Profile />}
                         />
                         <Route path="*" element={<PageNotFound />} />
 
