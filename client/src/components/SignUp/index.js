@@ -24,10 +24,9 @@ function Register() {
                     email: email,
                     password: password
                 });
-                if (user) {
-                    alert("Signup successful. Please Login.");
-                    navigate("/login");
-                }
+                alert("Signup successful. Please Login.");
+                navigate("/login");
+                
             } catch (err) {
                 alert(err);
             }
