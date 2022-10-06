@@ -64,6 +64,7 @@ function App() {
                 <div>
                     <Routes>
                         {/* public routes */}
+                        <Navigate from="/" exact to="/home" />
                         <Route path="/home" element={<Community />} />
                         <Route
                             path="/review/:reviewId"
