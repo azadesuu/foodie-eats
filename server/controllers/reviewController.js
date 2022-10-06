@@ -243,7 +243,6 @@ const toggleLike = async (req, res, next) => {
         (err, updatedReview) => {
           if (err) {
             res.json(err);
-            console.log(err);
             return;
           }
           res.status(200).json({
