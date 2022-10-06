@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Navigate, Outlet } from "react-router-dom";
-import { getUser } from "./api";
+import { createReview, getUser } from "./api";
 import { UserContext } from "./actions/UserContext";
 import Community from "./components/Community";
 import Login from "./components/Login";
@@ -112,7 +112,7 @@ function App() {
                         />
                         <Route
                             path="/create-review"
-                            element={<Private Component={MyReviews} />}
+                            element={<Private Component={PostReview} />}
                         />
                         <Route
                             path="/review/:reviewId/edit"
