@@ -1,0 +1,17 @@
+{
+  "name": "prettier-config-example",
+  "scripts": {
+    "test": "jest --forceExit",
+    "format": "prettier --write 'server/**/*.js' 'client/src/**/*.{js,css}'",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run client\" \"npm run server\" "
+  },
+  "devDependencies": {
+    "concurrently": "^1.0.0",
+    "prettier": "1.19.1"
+  },
+  "dependencies": {
+    "react": "^16.4.0"
+  }
+}
