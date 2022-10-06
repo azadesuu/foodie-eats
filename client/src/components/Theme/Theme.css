@@ -57,9 +57,6 @@ body {
     background-color: transparent;
     border: none;
 }
-.content-Theme button img {
-    border: 1px solid #000000;
-}
 .content-Theme .themes {
     display: flex;
     flex-direction: row;
@@ -89,7 +86,10 @@ body {
 .active-theme img {
     border: 2px solid #000000;
     border-radius: 70px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
 }
 .inactive-theme img {
-    border: 1px solid #000000;
+    /* border: 1px solid #000000; */
+    border-radius: 70px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
 }

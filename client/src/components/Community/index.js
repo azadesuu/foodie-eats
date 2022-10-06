@@ -118,7 +118,7 @@ function Community() {
     return (
         <div className="content-Community">
             {/* if logged in */}
-            <NavLoggedIn />
+            {/* <NavLoggedIn /> */}
             {/* else */}
             {/* <Nav /> */}
             <span className="bigScreen-Community">
@@ -259,7 +259,6 @@ function Community() {
                             >
                                 {listReviewsRecent.map(review => (
                                     <Grid item xs={4} key={review}>
-
                                         <ReviewPeek reviewData={review} />
                                     </Grid>
                                 ))}

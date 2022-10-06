@@ -190,9 +190,6 @@ body {
     flex-direction: row;
     align-items: center;
 }
-.content-Review .likes-bookmark p {
-    margin-top: 20px;
-}
 .content-Review #outer {
     margin-top: -20px;
     display: flex;

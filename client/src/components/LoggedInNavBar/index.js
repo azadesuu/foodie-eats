@@ -14,14 +14,15 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { ThemeProvider, createTheme, makeStyles } from "@mui/material/styles";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
-import Collapse from "@mui/material/Collapse";
 import { Drawer } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../actions/UserContext";
+import { useContext } from "react";
 
 const theme = createTheme({
     palette: {
@@ -38,150 +39,19 @@ const theme = createTheme({
     }
 });
 
-function MenuSideBar() {
-    const [isOpen, setIsOpen] = React.useState(false);
-
-    return (
-        <>
-            <IconButton
-                edge="start"
-                color="img"
-                aria-label="menu"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                sx={{ mr: 2 }}
-                onClick={() =>
-                    setIsOpen(!isOpen)    
-                }
-            >
-                <MenuIcon
-                    sx={{
-                        fontSize: "40px"
-                    }}
-                />
-            </IconButton>
-            <Drawer
-                anchor="left"
-                open={isOpen}
-                onClose={() => setIsOpen(!isOpen)}
-            >
-                <div className="content-MenuSideBar">
-                    <img
-                        src={WebLogo}
-                        width="107px"
-                    />
-                    <div className="MenuSideBar-r1">
-                        <div className="MenuSideBar-c1">
-                            <NavLink
-                                tag={Link}
-                                to="/home"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                community
-                            </NavLink>
-                            <NavLink
-                                to="/create-review"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                post a review
-                            </NavLink>
-                            <NavLink
-                                tag={Link}
-                                to="/my-reviews"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                my reviews
-                            </NavLink>
-                            <NavLink
-                                tag={Link}
-                                to="/my-bookmarks"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                my bookmarks
-                            </NavLink>
-                            <NavLink
-                                tag={Link}
-                                to="/my-profile"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                profile
-                            </NavLink>
-                            <NavLink
-                                tag={Link}
-                                to="/my-theme"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                theme
-                            </NavLink>
-                            <NavLink
-                                tag={Link}
-                                to="/logout"
-                                style={{
-                                    fontSize: "20px",
-                                    color: "#000000",
-                                    fontFamily: "Martel Sans", 
-                                }}
-                            >
-                                logout
-                            </NavLink>
-                        </div>
-                        <div className="MenuClose">
-                            <Button
-                                sx={{
-                                    display: "contents"
-                                }}
-                                onClick={() => {
-                                    setIsOpen(!isOpen)
-                                }}
-                            >
-                                <ArrowBackIosNewIcon
-                                    sx={{
-                                        color:
-                                            "white",
-                                        bgcolor:
-                                            "#514F4E",
-                                        height:
-                                            "61px",
-                                        width:
-                                            "17px",
-                                        borderRadius:
-                                            "10px 0px 0px 10px"
-                                    }}
-                                />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </Drawer>
-        </>
-    )
-}
-
 function NavLoggedIn() {
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [user, setUser] = useContext(UserContext);
+    const navigate = useNavigate();
+
+    // remove token from the local storage
+    function handleLogOut() {
+        // remove token from the local storage
+        localStorage.removeItem("token");
+        setUser({});
+        navigate("/login");
+    }
+
     return (
         <div className="nav">
             <span className="smallScreen-nav">
@@ -214,7 +84,143 @@ function NavLoggedIn() {
                                             display: "flex"
                                         }}
                                     >
-                                        <MenuSideBar />
+                                        <IconButton
+                                            edge="start"
+                                            color="img"
+                                            aria-label="menu"
+                                            aria-controls="menu-appbar"
+                                            aria-haspopup="true"
+                                            sx={{ mr: 2 }}
+                                            onClick={() =>
+                                                setIsOpen(!isOpen)    
+                                            }
+                                        >
+                                            <MenuIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </IconButton>
+                                        <Drawer
+                                            anchor="left"
+                                            open={isOpen}
+                                            onClose={() => setIsOpen(!isOpen)}
+                                        >
+                                            <div className="content-MenuSideBar">
+                                                <img
+                                                    src={WebLogo}
+                                                    width="107px"
+                                                />
+                                                <div className="MenuSideBar-r1">
+                                                    <div className="MenuSideBar-c1">
+                                                        <NavLink
+                                                            tag={Link}
+                                                            to="/home"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            community
+                                                        </NavLink>
+                                                        <NavLink
+                                                            to="/create-review"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            post a review
+                                                        </NavLink>
+                                                        <NavLink
+                                                            tag={Link}
+                                                            to="/my-reviews"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            my reviews
+                                                        </NavLink>
+                                                        <NavLink
+                                                            tag={Link}
+                                                            to="/my-bookmarks"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            my bookmarks
+                                                        </NavLink>
+                                                        <NavLink
+                                                            tag={Link}
+                                                            to="/my-profile"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            profile
+                                                        </NavLink>
+                                                        <NavLink
+                                                            tag={Link}
+                                                            to="/my-theme"
+                                                            style={{
+                                                                fontSize: "20px",
+                                                                color: "#000000",
+                                                                fontFamily: "Martel Sans", 
+                                                            }}
+                                                        >
+                                                            theme
+                                                        </NavLink>
+                                                        {user &&
+                                                            <NavLink
+                                                                tag={Link}
+                                                                to="/login"
+                                                                style={{
+                                                                    fontSize: "20px",
+                                                                    color: "#000000",
+                                                                    fontFamily: "Martel Sans", 
+                                                                }}
+                                                                onClick={handleLogOut}
+                                                            >
+                                                                logout
+                                                            </NavLink>
+                                                        }
+                                                    </div>
+                                                    <div className="MenuClose">
+                                                        <Button
+                                                            sx={{
+                                                                display: "contents"
+                                                            }}
+                                                            onClick={() => {
+                                                                setIsOpen(!isOpen)
+                                                            }}
+                                                        >
+                                                            <ArrowBackIosNewIcon
+                                                                sx={{
+                                                                    color:
+                                                                        "white",
+                                                                    bgcolor:
+                                                                        "#514F4E",
+                                                                    height:
+                                                                        "61px",
+                                                                    width:
+                                                                        "17px",
+                                                                    borderRadius:
+                                                                        "10px 0px 0px 10px"
+                                                                }}
+                                                            />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Drawer>
                                     </Box>
                                     <Box
                                         sx={{
@@ -384,18 +390,20 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            <NavLink
-                                                className="active-link"
-                                                tag={Link}
-                                                to="/logout"
-                                                style={{
-                                                    fontSize: "20px",
-                                                    color: "#000000",
-                                                    fontFamily: "Martel Sans"
-                                                }}
-                                            >
-                                                logout
-                                            </NavLink>
+                                            {/* {user && */}
+                                                <NavLink
+                                                    tag={Link}
+                                                    to="/login"
+                                                    style={{
+                                                        fontSize: "20px",
+                                                        color: "#000000",
+                                                        fontFamily: "Martel Sans", 
+                                                    }}
+                                                    // onClick={handleLogOut}
+                                                >
+                                                    logout
+                                                </NavLink>
+                                            {/* } */}
                                         </Box>
                                         <Box
                                         sx={{

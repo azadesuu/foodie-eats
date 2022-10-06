@@ -1,8 +1,7 @@
-
 import "./Review.css";
 import NavLoggedIn from "../LoggedInNavBar";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 
@@ -11,7 +10,7 @@ import "@fontsource/martel-sans";
 import { CircularProgress } from "@mui/material";
 
 import addImage from "../../assets/images/addImage.png";
-import { getReview } from "../../api";
+import { getReview, toggleLike, toggleBookmark, getProfile } from "../../api";
 
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
@@ -27,7 +26,11 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import StarIcon from '@mui/icons-material/Star';
 
 function Review(props) {
+    const [user] = useContext(UserContext);
+
     const navigate = useNavigate();
+    const [bookmarked, setBookmark] = useState(false);
+    const [liked, setLiked] = useState(false);
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
@@ -35,6 +38,48 @@ function Review(props) {
         () => getReview(reviewId),
         { enabled: !!reviewId }
     );
+
+    const { data: userProfile, isLoadingUser } = useQuery(
+        "view-profile",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
+    useEffect(() => {
+        if (!isLoading && review && userProfile) {
+            if (userProfile.bookmarks.includes(review._id)) {
+                setBookmark(true);
+            }
+            if (review.userLikes.includes(user._id)) {
+                setLiked(true);
+            }
+        }
+    }, [review && userProfile]);
+
+    async function likeButton() {
+        if (!userProfile) {
+            alert("Please log in to give a like!");
+        } else {
+            const likeReview = await toggleLike({
+                reviewId: review?._id,
+                userId: userProfile?._id,
+                likeBool: liked
+            });
+            if (likeReview) {
+                document.location.reload();
+            }
+        }
+    }
+
+    async function bookmarkButton() {
+        const bookmarkReview = await toggleBookmark({
+            reviewId: review?._id,
+            userId: userProfile?._id,
+            bookmarkedBool: bookmarked
+        });
+        if (bookmarkReview) {
+            document.location.reload();
+        }
+    }
 
     const marks = [
         {
@@ -113,23 +158,36 @@ function Review(props) {
                                 </div>
                                 <div className="likes-bookmark">
                                     <div className="likes">
-                                        {/* if clicked */}
-                                        {/* <ThumbUpAltIcon/> */}
-                                        {/* else */}
-                                        <ThumbUpOffAltIcon />
-                                        <p>{review.likeCount}k</p>
+                                        {liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpAltIcon />
+                                            </a>
+                                        )}
+                                        {!liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpOffAltIcon />
+                                            </a>
+                                        )}
+                                        <p>{review.likeCount}</p>
                                     </div>
-                                    <BookmarkBorderIcon 
-                                        sx={{
-                                            fontSize: "25px"
-                                        }}        
-                                    />
-                                    {/* if bookmarked */}
-                                    {/* <BookmarkIcon 
-                                        sx={{
-                                            fontSize: "25px"
-                                        }}
-                                    /> */}
+                                    {bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
+                                    {!bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkBorderIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                             <div className="r1">
@@ -287,15 +345,19 @@ function Review(props) {
                                         {review.userId.username}
                                     </button>
                                 </p>
-                                <button
-                                    className="editReviewButton"
-                                    type="button"
-                                    onClick={() => {
-                                        navigate(`/review/${review._id}/edit`);
-                                    }}
-                                >
-                                    EDIT
-                                </button>
+                                {review.userId._id !== props.user?._id ? (
+                                    <></>
+                                ) : (
+                                    <button
+                                        className="editReviewButton"
+                                        type="button"
+                                        onClick={() => {
+                                            navigate(`/review/${review._id}/edit`);
+                                        }}
+                                    >
+                                        EDIT
+                                    </button>
+                                )}
                             </div>
                         </form>                        
                     </span>
@@ -321,23 +383,36 @@ function Review(props) {
                                 </div>
                                 <div className="likes-bookmark">
                                     <div className="likes">
-                                        {/* if clicked */}
-                                        {/* <ThumbUpAltIcon /> */}
-                                        {/* else */}
-                                        <ThumbUpOffAltIcon />
-                                        <p>{review.likeCount}k</p>
+                                        {liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpAltIcon />
+                                            </a>
+                                        )}
+                                        {!liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpOffAltIcon />
+                                            </a>
+                                        )}
+                                        <p>{review.likeCount}</p>
                                     </div>
-                                    <BookmarkBorderIcon 
-                                        sx={{ 
-                                            fontSize: "40px" 
-                                        }} 
-                                    />
-                                    {/* if bookmarked */}
-                                    {/* <BookmarkIcon 
-                                        sx={{
-                                            fontSize: "40px"
-                                        }}
-                                    /> */}
+                                    {bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
+                                    {!bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkBorderIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </div>

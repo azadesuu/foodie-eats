@@ -132,7 +132,7 @@ function ReviewsSmallScreen(props) {
                     }}
                 >
                     {!user && <CircularProgress className="spinner" />}
-                    {listReviews ? (
+                    {listReviews.length > 0 ? (
                         <div>
                             {listReviews.map(review => {
                                 return <ReviewPeek reviewData={review} />;
@@ -176,7 +176,7 @@ function ReviewsBigScreen(props) {
                 }}
             >
                 {!user && <CircularProgress className="spinner" />}
-                {listReviews ? (
+                {listReviews.length > 0 ? (
                     <div>
                         <Grid container spacing={{ xs: 2, md: 3 }}>
                             {listReviews.map(review => {
@@ -232,7 +232,6 @@ function MyBookmarks() {
                                 user={userProfile}
                                 reviews={bookmarks}
                             />
-
                         </div>
                     </span>
                     <div className="footer">

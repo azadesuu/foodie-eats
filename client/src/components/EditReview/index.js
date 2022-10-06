@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
-import { updateReview, getReview } from "../../api";
+import { updateReview, getReview, deleteReview } from "../../api";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -34,6 +34,15 @@ function EditReview() {
         { enabled: !!reviewId }
     );
     const [currentPublicity, setPublicity] = useState(review.isPublic);
+    
+    const confirmDelete = async () => {
+        const review = await deleteReview(reviewId);
+        if (review) {
+            alert("Review deleted.");
+            navigate("/my-reviews");
+        } else {
+            alert("An error occured, please try again later")}
+        };
 
     useEffect(() => {
         if (review?.userId._id !== user?._id) {
@@ -123,6 +132,11 @@ function EditReview() {
                                 marginBottom: "10px",
                                 marginLeft: "40px"
                             }}
+                            onClick={(e) => { 
+                                if (window.confirm('Are you sure you wish to delete this review?')) 
+                                    confirmDelete() 
+                                }
+                            }
                         />
                     </div>
                     <span className="smallScreen-EditReview">
