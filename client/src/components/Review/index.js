@@ -59,25 +59,31 @@ function Review(props) {
         if (!userProfile) {
             alert("Please log in to give a like!");
         } else {
-            const likeReview = await toggleLike({
-                reviewId: review?._id,
-                userId: userProfile?._id,
-                likeBool: liked
-            });
-            if (likeReview) {
+            try {
+                const likeReview = await toggleLike({
+                    reviewId: review?._id,
+                    userId: userProfile?._id,
+                    likeBool: liked
+                });
                 document.location.reload();
+            } catch (err) {
+                alert(err);
             }
         }
     }
 
     async function bookmarkButton() {
-        const bookmarkReview = await toggleBookmark({
-            reviewId: review?._id,
-            userId: userProfile?._id,
-            bookmarkedBool: bookmarked
-        });
-        if (bookmarkReview) {
-            document.location.reload();
+        try {
+            const bookmarkReview = await toggleBookmark({
+                reviewId: review?._id,
+                userId: userProfile?._id,
+                bookmarkedBool: bookmarked
+            });
+            if (bookmarkReview) {
+                document.location.reload();
+            }
+        } catch (err) {
+            alert(err);
         }
     }
 
@@ -488,7 +494,7 @@ function Review(props) {
                 </div>
             ) : (
                 <div>
-                    <h1>Not Found.</h1>
+                    <h1>Review Not Found.</h1>
                 </div>
             )}
             <div className="footer">

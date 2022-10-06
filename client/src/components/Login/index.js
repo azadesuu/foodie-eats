@@ -63,7 +63,7 @@ function Login() {
             });
             var token = localStorage.getItem("token");
             setAuthToken(token);
-            token ? navigate("/") : navigate("/login");
+            token ? document.location.reload() : navigate("/login");
         } catch (err) {
             alert(err);
             document.location.reload();

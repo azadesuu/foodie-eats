@@ -18,25 +18,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
-// yet to be implemented with css
 import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
 
-const queryClient = new QueryClient();
+import NavBar from "./components/NavBar";
+import LoggedInNavBar from "./components/LoggedInNavBar";
 
-const PrivateRoutes = props => {
-    if (props.loggedIn === undefined) {
-        return null; // or loading indicator/spinner/etc
-    }
-
-    if (props.loggedIn === props.shouldBe) {
-        return <Outlet />;
-    } else {
-        return <Navigate to="/" />;
-    }
-};
+import { isLoggedIn } from "./utils";
 
 function App() {
+    const queryClient = new QueryClient();
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -53,64 +44,80 @@ function App() {
         getUserWithJwt();
     }, [setUser]);
 
+    const NavigationBar = props => {
+        if (isLoggedIn()) {
+            return <LoggedInNavBar />;
+        } else {
+            return <NavBar />;
+        }
+    };
+    const Private = ({ Component }) => {
+        return isLoggedIn() ? <Component /> : <Navigate to="/login" />;
+    };
+    const Public = ({ Component }) => {
+        return !isLoggedIn() ? <Component /> : <Navigate to="/home" />;
+    };
     return (
         <QueryClientProvider client={queryClient}>
             <UserContext.Provider value={[user, setUser, getUser]}>
+                <NavigationBar />
                 <div>
                     <Routes>
                         {/* public routes */}
                         <Route path="/home" element={<Community />} />
-                        {/* <Route
-                            path="/profile/:username"
-                            element={<Profile />}
-                        /> */}
-                        {/* <Route
-                            path="/profile/:username/reviews"
-                            element={<ProfileReviews />}
-                        /> */}
-                        {/* must be public */}
-                        <Route path="*" element={<PageNotFound />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<SignUp />} />
                         <Route
-                            path="/forgot-password"
-                            element={<ForgotPassword />}
+                            path="/review/:reviewId"
+                            element={<Review user={user} />}
+                        />
+                        <Route path="*" element={<PageNotFound />} />
+
+                        {/* must be public */}
+                        <Route
+                            path="/login"
+                            element={<Public Component={Login} />}
                         />
                         <Route
-                            path="/"
-                            element={
-                                <PrivateRoutes
-                                    loggedIn={true}
-                                    shouldBe={true}
-                                />
-                            }
-                        >
-                            <Route path="/logout" element={<Logout />} />
+                            path="/signup"
+                            element={<Public Component={SignUp} />}
+                        />
+                        <Route
+                            path="/forgot-password"
+                            element={<Public Component={ForgotPassword} />}
+                        />
 
-                            <Route path="/my-theme" element={<Theme />} />
-                            <Route
-                                path="/my-bookmarks"
-                                element={<MyBookmarks />}
-                            />
-                            <Route path="/my-profile" element={<MyProfile />} />
-                            <Route path="/my-reviews" element={<MyReviews />} />
-                            <Route
-                                path="/change-password"
-                                element={<ChangePassword />}
-                            />
-                            <Route
-                                path="/create-review"
-                                element={<PostReview />}
-                            />
-                            <Route
-                                path="/review/:reviewId"
-                                element={<Review user={user} />}
-                            />
-                            <Route
-                                path="/review/:reviewId/edit"
-                                element={<EditReview />}
-                            />
-                        </Route>
+                        {/* must be private */}
+                        <Route
+                            path="/logout"
+                            element={<Private Component={Logout} />}
+                        />
+                        <Route
+                            path="/my-theme"
+                            element={<Private Component={Theme} />}
+                        />
+                        <Route
+                            path="/my-bookmarks"
+                            element={<Private Component={MyBookmarks} />}
+                        />
+                        <Route
+                            path="/my-profile"
+                            element={<Private Component={MyProfile} />}
+                        />
+                        <Route
+                            path="/my-reviews"
+                            element={<Private Component={MyReviews} />}
+                        />
+                        <Route
+                            path="/change-password"
+                            element={<Private Component={ChangePassword} />}
+                        />
+                        <Route
+                            path="/create-review"
+                            element={<Private Component={MyReviews} />}
+                        />
+                        <Route
+                            path="/review/:reviewId/edit"
+                            element={<Private Component={EditReview} />}
+                        />
                     </Routes>
                 </div>
             </UserContext.Provider>

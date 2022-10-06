@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
-import { updateReview, getReview } from "../../api";
+import { updateReview, getReview, deleteReview } from "../../api";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
@@ -41,6 +41,16 @@ function EditReview() {
             navigate(-1);
         }
     }, [user]);
+
+    const confirmDelete = async () => {
+        const review = await deleteReview(reviewId);
+        if (review) {
+            alert("review deleted.");
+            navigate("/my-reviews");
+        } else {
+            alert("An error occured, please try again later");
+        }
+    };
 
     const submitUpdatedReview = async (
         _id,
@@ -82,8 +92,8 @@ function EditReview() {
                 address: address,
                 description: description
             });
-            if (!review) {
-                alert("update unsucessful.");
+            if (!updatedReviewRecord) {
+                alert("Update unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -116,7 +126,15 @@ function EditReview() {
                 <div className="user-container">
                     <div className="Edit-title">
                         <h1>EDIT</h1>
-                        <DeleteIcon 
+                        <DeleteIcon
+                            onClick={e => {
+                                if (
+                                    window.confirm(
+                                        "Are you sure you wish to delete this review?"
+                                    )
+                                )
+                                    confirmDelete();
+                            }}
                             sx={{
                                 fontSize: "35px",
                                 textAlign: "end",
@@ -143,7 +161,8 @@ function EditReview() {
                                                     "& .MuiSwitch-switchBase": {
                                                         padding: 0,
                                                         margin: 0.3,
-                                                        transitionDuration: "300ms",
+                                                        transitionDuration:
+                                                            "300ms",
                                                         "&.Mui-checked": {
                                                             transform:
                                                                 "translateX(16px)",
@@ -170,11 +189,15 @@ function EditReview() {
                                                         opacity: 1
                                                     }
                                                 }}
-                                                defaultChecked={currentPublicity}
+                                                defaultChecked={
+                                                    currentPublicity
+                                                }
                                             />
                                         }
                                         label={
-                                            currentPublicity ? "Public" : "Private"
+                                            currentPublicity
+                                                ? "Public"
+                                                : "Private"
                                         }
                                         onChange={e => {
                                             review.isPublic = e.target.checked;
@@ -275,7 +298,8 @@ function EditReview() {
                                         type="text"
                                         defaultValue={review.address.suburb}
                                         onChange={e => {
-                                            review.address.suburb = e.target.value;
+                                            review.address.suburb =
+                                                e.target.value;
                                         }}
                                     />
                                 </div>
@@ -496,7 +520,8 @@ function EditReview() {
                                             type="text"
                                             defaultValue={review.restaurantName}
                                             onChange={e => {
-                                                review.restaurantName = e.target.value;
+                                                review.restaurantName =
+                                                    e.target.value;
                                             }}
                                         />
                                     </div>
@@ -504,11 +529,12 @@ function EditReview() {
                                     <div className="details-container">
                                         <input
                                             type="date"
-                                            value={Moment(review.dateVisited).format(
-                                                "YYYY-MM-DD"
-                                            )}
+                                            value={Moment(
+                                                review.dateVisited
+                                            ).format("YYYY-MM-DD")}
                                             onChange={e => {
-                                                review.dateVisited = e.target.value;
+                                                review.dateVisited =
+                                                    e.target.value;
                                             }}
                                         />
                                     </div>
@@ -518,7 +544,8 @@ function EditReview() {
                                             type="text"
                                             defaultValue={review.description}
                                             onChange={e => {
-                                                review.description = e.target.value;
+                                                review.description =
+                                                    e.target.value;
                                             }}
                                         />
                                     </div>
@@ -527,7 +554,9 @@ function EditReview() {
                                     <div className="details-container">
                                         <input
                                             type="text"
-                                            defaultValue={review.address.streetAddress}
+                                            defaultValue={
+                                                review.address.streetAddress
+                                            }
                                             onChange={e => {
                                                 review.address.streetAddress =
                                                     e.target.value;
@@ -539,9 +568,12 @@ function EditReview() {
                                         <div className="suburb-container">
                                             <input
                                                 type="text"
-                                                defaultValue={review.address.suburb}
+                                                defaultValue={
+                                                    review.address.suburb
+                                                }
                                                 onChange={e => {
-                                                    review.address.suburb = e.target.value;
+                                                    review.address.suburb =
+                                                        e.target.value;
                                                 }}
                                             />
                                         </div>
@@ -549,7 +581,9 @@ function EditReview() {
                                         <div className="state-container">
                                             <FormControl fullWidth size="small">
                                                 <Select
-                                                    defaultValue={review.address.state}
+                                                    defaultValue={
+                                                        review.address.state
+                                                    }
                                                     labelId="state-select-label"
                                                     id="state-select"
                                                     label="State"
@@ -566,14 +600,30 @@ function EditReview() {
                                                         }
                                                     }}
                                                 >
-                                                    <MenuItem value="ACT">ACT</MenuItem>
-                                                    <MenuItem value="NSW">NSW</MenuItem>
-                                                    <MenuItem value="NT">NT</MenuItem>
-                                                    <MenuItem value="QLD">QLD</MenuItem>
-                                                    <MenuItem value="SA">SA</MenuItem>
-                                                    <MenuItem value="TAS">TAS</MenuItem>
-                                                    <MenuItem value="VIC">VIC</MenuItem>
-                                                    <MenuItem value="WA">WA</MenuItem>
+                                                    <MenuItem value="ACT">
+                                                        ACT
+                                                    </MenuItem>
+                                                    <MenuItem value="NSW">
+                                                        NSW
+                                                    </MenuItem>
+                                                    <MenuItem value="NT">
+                                                        NT
+                                                    </MenuItem>
+                                                    <MenuItem value="QLD">
+                                                        QLD
+                                                    </MenuItem>
+                                                    <MenuItem value="SA">
+                                                        SA
+                                                    </MenuItem>
+                                                    <MenuItem value="TAS">
+                                                        TAS
+                                                    </MenuItem>
+                                                    <MenuItem value="VIC">
+                                                        VIC
+                                                    </MenuItem>
+                                                    <MenuItem value="WA">
+                                                        WA
+                                                    </MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </div>
@@ -584,9 +634,13 @@ function EditReview() {
                                             <input
                                                 type="text"
                                                 maxlength="4"
-                                                defaultValue={review.address.postcode}
+                                                defaultValue={
+                                                    review.address.postcode
+                                                }
                                                 onKeyPress={event => {
-                                                    if (!/[0-9]/.test(event.key)) {
+                                                    if (
+                                                        !/[0-9]/.test(event.key)
+                                                    ) {
                                                         event.preventDefault();
                                                     }
                                                 }}
@@ -606,11 +660,13 @@ function EditReview() {
                                     </div>
                                     <div className="add-image">
                                         <button className="addImageButton">
-                                            <img className="addImage" src={addImage} />
+                                            <img
+                                                className="addImage"
+                                                src={addImage}
+                                            />
                                         </button>
                                     </div>
                                 </div>
-                                
                             </div>
 
                             <div>
@@ -635,7 +691,7 @@ function EditReview() {
                             </div>
                         </form>
                     </span>
-                </div> 
+                </div>
             )}
             <div className="footer">
                 <p>copyright © 2022 All-for-one</p>
