@@ -19,7 +19,6 @@ import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
 import Theme from "./components/Theme";
-import Logout from "./components-server/Logout";
 
 import NavBar from "./components/NavBar";
 import LoggedInNavBar from "./components/LoggedInNavBar";
@@ -69,6 +68,14 @@ function App() {
                             path="/review/:reviewId"
                             element={<Review user={user} />}
                         />
+                        <Route 
+                            path="/profile/:username" 
+                            element={<Profile />}
+                        />
+                        <Route 
+                            path="/profile/:username/reviews" 
+                            element={<ProfileReviews />} 
+                        />
                         <Route path="*" element={<PageNotFound />} />
 
                         {/* must be public */}
@@ -86,10 +93,6 @@ function App() {
                         />
 
                         {/* must be private */}
-                        <Route
-                            path="/logout"
-                            element={<Private Component={Logout} />}
-                        />
                         <Route
                             path="/my-theme"
                             element={<Private Component={Theme} />}

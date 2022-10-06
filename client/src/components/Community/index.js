@@ -13,9 +13,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
-import Nav from "../NavBar";
 import ReviewPeek from "../ReviewPeek";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import React from "react";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -117,10 +115,6 @@ function Community() {
 
     return (
         <div className="content-Community">
-            {/* if logged in */}
-            {/* <NavLoggedIn /> */}
-            {/* else */}
-            {/* <Nav /> */}
             <span className="bigScreen-Community">
                 <Location />
             </span>

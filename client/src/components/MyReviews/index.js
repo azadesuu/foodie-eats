@@ -9,7 +9,6 @@ import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 
-import NavLoggedIn from "../LoggedInNavBar";
 import ReviewPeek from "../ReviewPeek";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -225,7 +224,6 @@ function MyReviews() {
         <>
             {user ? (
                 <div className="content-MyReviews">
-                    <NavLoggedIn />
                     <span className="smallScreen-MyReviews">
                         <h1>MY REVIEWS</h1>
                         <SearchBar />

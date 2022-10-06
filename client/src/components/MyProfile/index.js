@@ -9,7 +9,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
-import NavLoggedIn from "../LoggedInNavBar";
 import EditProfile from "../EditProfile";
 
 function TopUser(props) {
@@ -193,7 +192,6 @@ function MyProfile() {
         <>
             {user ? (
                 <div className="content-MyProfile">
-                    <NavLoggedIn />
                     <span className="smallScreen-MyProfile">
                         <ProfileDetails user={user} />
                     </span>

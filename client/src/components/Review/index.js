@@ -1,5 +1,4 @@
 import "./Review.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
@@ -102,7 +101,6 @@ function Review(props) {
 
     return (
         <div className="content-Review">
-            <NavLoggedIn />
             {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">

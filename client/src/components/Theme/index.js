@@ -1,5 +1,4 @@
 import "./Theme.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext, useEffect, useState } from "react";
 import { changeTheme } from "../../api";
@@ -146,7 +145,6 @@ export default function Theme() {
 
     return (
         <div className="content-Theme">
-            <NavLoggedIn />
             {user ? (
                 <>
                     <span className="smallScreen-Theme">

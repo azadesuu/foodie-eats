@@ -390,8 +390,9 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            {/* {user && */}
+                                            {user &&
                                                 <NavLink
+                                                    className="active-link"
                                                     tag={Link}
                                                     to="/login"
                                                     style={{
@@ -399,11 +400,11 @@ function NavLoggedIn() {
                                                         color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                     }}
-                                                    // onClick={handleLogOut}
+                                                    onClick={handleLogOut}
                                                 >
                                                     logout
                                                 </NavLink>
-                                            {/* } */}
+                                            }
                                         </Box>
                                         <Box
                                         sx={{

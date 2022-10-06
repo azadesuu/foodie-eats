@@ -8,7 +8,6 @@ import { UserContext } from "../../actions/UserContext";
 
 import "@fontsource/martel-sans";
 
-import NavLoggedIn from "../LoggedInNavBar";
 import ReviewPeek from "../ReviewPeek";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -213,7 +212,6 @@ function MyBookmarks() {
             )}
             {!isLoading2 && userProfile && bookmarks ? (
                 <div className="content-MyBookmarks">
-                    <NavLoggedIn />
                     <span className="smallScreen-MyBookmarks">
                         <h1>BOOKMARKS</h1>
                         <SearchBar />

@@ -243,7 +243,6 @@ const toggleLike = async (req, res, next) => {
         (err, updatedReview) => {
           if (err) {
             res.json(err);
-            console.log(err);
             return;
           }
           res.status(200).json({
@@ -265,13 +264,12 @@ const deleteReview = async (req, res, next) => {
       if (err) {
         res.json(err);
         return;
-      } else {
-        res.status(200).json({
-          success: true,
-          data: review
-        });
       }
-    });
+      res.status(200).json({
+        success: true,
+        data: review
+      });
+    }).clone();
   } catch (err) {
     next(err);
   }

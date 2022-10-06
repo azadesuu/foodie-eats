@@ -1,5 +1,4 @@
 import "./PostReview.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import "@fontsource/martel-sans";
 
@@ -115,7 +114,6 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
-            <NavLoggedIn />
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
