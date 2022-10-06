@@ -36,7 +36,6 @@ function SearchBar() {
                     placeholder="Search"
                     name="search"
                     id="search"
-                    // value="{{search}}"
                     required
                 />
                 <FilterAltIcon />
@@ -132,7 +131,7 @@ function ReviewsSmallScreen(props) {
                     }}
                 >
                     {!user && <CircularProgress className="spinner" />}
-                    {listReviews ? (
+                    {listReviews.length > 0 ? (
                         <div>
                             {listReviews.map(review => {
                                 return <ReviewPeek reviewData={review} />;
@@ -176,7 +175,7 @@ function ReviewsBigScreen(props) {
                 }}
             >
                 {!user && <CircularProgress className="spinner" />}
-                {listReviews ? (
+                {listReviews.length > 0 ? (
                     <div>
                         <Grid container spacing={{ xs: 2, md: 3 }}>
                             {listReviews.map(review => {
@@ -211,37 +210,42 @@ function MyBookmarks() {
             {(isLoading2 || isLoading) && (
                 <CircularProgress className="spinner" />
             )}
-            {!isLoading2 && userProfile && bookmarks ? (
-                <div className="content-MyBookmarks">
-                    <NavLoggedIn />
-                    <span className="smallScreen-MyBookmarks">
-                        <h1>BOOKMARKS</h1>
-                        <SearchBar />
-                        <div className="line" />
-                        <ReviewsSmallScreen user={user} reviews={bookmarks} />
-                        <Post />
-                    </span>
-                    <span className="bigScreen-MyBookmarks">
-                        <TopUser user={userProfile} />
+            <div className="content-MyBookmarks">
+                <NavLoggedIn />
 
-                        <div className="line5" />
-                        <div className="r1">
-                            <Sidebar />
-                            <div className="line6" />
-                            <ReviewsBigScreen
-                                user={userProfile}
+                {!isLoading2 && userProfile && bookmarks ? (
+                    <>
+                        <span className="smallScreen-MyBookmarks">
+                            <h1>BOOKMARKS</h1>
+                            <SearchBar />
+                            <div className="line" />
+                            <ReviewsSmallScreen
+                                user={user}
                                 reviews={bookmarks}
                             />
+                            <Post />
+                        </span>
+                        <span className="bigScreen-MyBookmarks">
+                            <TopUser user={userProfile} />
 
-                        </div>
-                    </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
-                </div>
-            ) : (
-                <></>
-            )}
+                            <div className="line5" />
+                            <div className="r1">
+                                <Sidebar />
+                                <div className="line6" />
+                                <ReviewsBigScreen
+                                    user={userProfile}
+                                    reviews={bookmarks}
+                                />
+                            </div>
+                        </span>
+                    </>
+                ) : (
+                    <CircularProgress className="spinner" />
+                )}
+            </div>
+            <div className="footer">
+                <p>Copyright © 2022 All-for-one</p>
+            </div>
         </>
     );
 }
