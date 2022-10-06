@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+// const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = "http://localhost:5000";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -87,8 +88,7 @@ export const signupUser = async user => {
         // show error message
         alert(data.message);
     } else {
-        // store token locally
-        localStorage.setItem("token", data);
+        //do nothing
     }
 };
 
