@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export const setAuthToken = async token => {
     if (token) {
