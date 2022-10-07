@@ -38,7 +38,7 @@ function PostReview() {
 
     const [currentDescription, setDescription] = useState("");
     const [currentRating, setRating] = useState("2");
-    const [currentPublicity, setPublicity] = useState("false");
+    const [currentPublicity, setPublicity] = useState(false);
     const [currentPriceRange, setPriceRange] = useState("1");
 
     const postReview = async (
@@ -124,10 +124,10 @@ function PostReview() {
                                 <div className="switchContainer">
                                     <FormControlLabel
                                         sx={{
-                                            gap: "5px",
+                                            gap: "5px"
                                         }}
                                         control={
-                                            <Switch 
+                                            <Switch
                                                 value="checked"
                                                 sx={{
                                                     width: 36,
@@ -137,36 +137,42 @@ function PostReview() {
                                                     "& .MuiSwitch-switchBase": {
                                                         padding: 0,
                                                         margin: 0.3,
-                                                        transitionDuration: "300ms",
+                                                        transitionDuration:
+                                                            "300ms",
                                                         "&.Mui-checked": {
-                                                            transform: "translateX(16px)",
+                                                            transform:
+                                                                "translateX(16px)",
                                                             color: "#FFFCFB",
-                                                        "& + .MuiSwitch-track": {
-                                                            backgroundColor: "#D9D9D9",
-                                                            opacity: 1,
-                                                            border: 0,
-                                                        },
-                                                        "&.Mui-disabled + .MuiSwitch-track": {
-                                                            opacity: 0.5,
-                                                        },
-                                                        },
+                                                            "& + .MuiSwitch-track": {
+                                                                backgroundColor:
+                                                                    "#D9D9D9",
+                                                                opacity: 1,
+                                                                border: 0
+                                                            },
+                                                            "&.Mui-disabled + .MuiSwitch-track": {
+                                                                opacity: 0.5
+                                                            }
+                                                        }
                                                     },
                                                     "& .MuiSwitch-thumb": {
                                                         boxSizing: "border-box",
                                                         width: 16,
-                                                        height: 16,
+                                                        height: 16
                                                     },
                                                     "& .MuiSwitch-track": {
                                                         borderRadius: "10px",
                                                         bgcolor: "#A9CABB",
-                                                        opacity: 1,
-
-                                                    },
+                                                        opacity: 1
+                                                    }
                                                 }}
                                             />
                                         }
                                         checked={currentPublicity}
-                                        label={currentPublicity ? "Public":"Private"}
+                                        label={
+                                            currentPublicity
+                                                ? "Public"
+                                                : "Private"
+                                        }
                                         onChange={e => {
                                             setPublicity(e.target.checked);
                                         }}
@@ -192,7 +198,7 @@ function PostReview() {
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
                                                     boxShadow:
-                                                    "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
+                                                        "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
                                                 }
                                             },
                                             "& .MuiSlider-rail": {
@@ -207,9 +213,8 @@ function PostReview() {
                                                 color: "#949292",
                                                 height: 5,
                                                 width: 5,
-                                                borderRadius: "5px",
+                                                borderRadius: "5px"
                                             }
-
                                         }}
                                     />
                                 </div>
@@ -276,14 +281,14 @@ function PostReview() {
 
                                 <div className="state-container">
                                     <FormControl fullWidth size="small">
-                                        <InputLabel 
+                                        <InputLabel
                                             shrink={false}
                                             id="state-select-label"
                                             sx={{
                                                 fontSize: "14px"
                                             }}
                                         >
-                                            {currentState === "" ? "state":""}
+                                            {currentState === "" ? "state" : ""}
                                         </InputLabel>
                                         <Select
                                             labelId="state-select-label"
@@ -293,11 +298,11 @@ function PostReview() {
                                                 setState(e.target.value);
                                             }}
                                             sx={{
-                                                ".MuiOutlinedInput-notchedOutline": { 
-                                                    border: 0 
+                                                ".MuiOutlinedInput-notchedOutline": {
+                                                    border: 0
                                                 },
                                                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                    border: "none",
+                                                    border: "none"
                                                 }
                                             }}
                                         >
@@ -385,10 +390,10 @@ function PostReview() {
                             <div className="switchContainer">
                                 <FormControlLabel
                                     sx={{
-                                        gap: "5px",
+                                        gap: "5px"
                                     }}
                                     control={
-                                        <Switch 
+                                        <Switch
                                             value="checked"
                                             sx={{
                                                 width: 36,
@@ -400,36 +405,39 @@ function PostReview() {
                                                     margin: 0.3,
                                                     transitionDuration: "300ms",
                                                     "&.Mui-checked": {
-                                                        transform: "translateX(16px)",
+                                                        transform:
+                                                            "translateX(16px)",
                                                         color: "#FFFCFB",
-                                                    "& + .MuiSwitch-track": {
-                                                        backgroundColor: "#D9D9D9",
-                                                        opacity: 1,
-                                                        border: 0,
-                                                    },
-                                                    "&.Mui-disabled + .MuiSwitch-track": {
-                                                        opacity: 0.5,
-                                                    },
-                                                    },
+                                                        "& + .MuiSwitch-track": {
+                                                            backgroundColor:
+                                                                "#D9D9D9",
+                                                            opacity: 1,
+                                                            border: 0
+                                                        },
+                                                        "&.Mui-disabled + .MuiSwitch-track": {
+                                                            opacity: 0.5
+                                                        }
+                                                    }
                                                 },
                                                 "& .MuiSwitch-thumb": {
                                                     boxSizing: "border-box",
                                                     width: 16,
-                                                    height: 16,
+                                                    height: 16
                                                 },
                                                 "& .MuiSwitch-track": {
                                                     borderRadius: "10px",
                                                     bgcolor: "#A9CABB",
-                                                    opacity: 1,
-
-                                                },
+                                                    opacity: 1
+                                                }
                                             }}
                                         />
                                     }
                                     checked={currentPublicity}
-                                    label={currentPublicity ? "Private":"Public"}
+                                    label={
+                                        currentPublicity ? "Public" : "Private"
+                                    }
                                     onChange={e => {
-                                        setPublicity(e.target.checked);
+                                        setPublicity(!currentPublicity);
                                     }}
                                 />
                             </div>
@@ -464,7 +472,7 @@ function PostReview() {
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
                                                     boxShadow:
-                                                    "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
+                                                        "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
                                                 }
                                             },
                                             "& .MuiSlider-rail": {
@@ -479,9 +487,8 @@ function PostReview() {
                                                 color: "#949292",
                                                 height: 5,
                                                 width: 5,
-                                                borderRadius: "5px",
+                                                borderRadius: "5px"
                                             }
-
                                         }}
                                     />
                                 </div>
@@ -497,7 +504,9 @@ function PostReview() {
                                             type="text"
                                             placeholder="restaurant name"
                                             onChange={e => {
-                                                setRestaurantName(e.target.value);
+                                                setRestaurantName(
+                                                    e.target.value
+                                                );
                                             }}
                                             required
                                         />
@@ -531,7 +540,9 @@ function PostReview() {
                                             type="text"
                                             placeholder="street address"
                                             onChange={e => {
-                                                setStreetAddress(e.target.value);
+                                                setStreetAddress(
+                                                    e.target.value
+                                                );
                                             }}
                                             required
                                         />
@@ -551,39 +562,59 @@ function PostReview() {
 
                                         <div className="state-container">
                                             <FormControl fullWidth size="small">
-                                                <InputLabel 
+                                                <InputLabel
                                                     shrink={false}
                                                     id="state-select-label"
                                                     sx={{
                                                         fontSize: "14px"
                                                     }}
                                                 >
-                                                    {currentState === "" ? "state":""}
+                                                    {currentState === ""
+                                                        ? "state"
+                                                        : ""}
                                                 </InputLabel>
                                                 <Select
                                                     labelId="state-select-label"
                                                     id="state-select"
                                                     value={currentState}
                                                     onChange={e => {
-                                                        setState(e.target.value);
+                                                        setState(
+                                                            e.target.value
+                                                        );
                                                     }}
                                                     sx={{
-                                                        ".MuiOutlinedInput-notchedOutline": { 
-                                                            border: 0 
+                                                        ".MuiOutlinedInput-notchedOutline": {
+                                                            border: 0
                                                         },
                                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                            border: "none",
+                                                            border: "none"
                                                         }
                                                     }}
                                                 >
-                                                    <MenuItem value="ACT">ACT</MenuItem>
-                                                    <MenuItem value="NSW">NSW</MenuItem>
-                                                    <MenuItem value="NT">NT</MenuItem>
-                                                    <MenuItem value="QLD">QLD</MenuItem>
-                                                    <MenuItem value="SA">SA</MenuItem>
-                                                    <MenuItem value="TAS">TAS</MenuItem>
-                                                    <MenuItem value="VIC">VIC</MenuItem>
-                                                    <MenuItem value="WA">WA</MenuItem>
+                                                    <MenuItem value="ACT">
+                                                        ACT
+                                                    </MenuItem>
+                                                    <MenuItem value="NSW">
+                                                        NSW
+                                                    </MenuItem>
+                                                    <MenuItem value="NT">
+                                                        NT
+                                                    </MenuItem>
+                                                    <MenuItem value="QLD">
+                                                        QLD
+                                                    </MenuItem>
+                                                    <MenuItem value="SA">
+                                                        SA
+                                                    </MenuItem>
+                                                    <MenuItem value="TAS">
+                                                        TAS
+                                                    </MenuItem>
+                                                    <MenuItem value="VIC">
+                                                        VIC
+                                                    </MenuItem>
+                                                    <MenuItem value="WA">
+                                                        WA
+                                                    </MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </div>
@@ -596,7 +627,9 @@ function PostReview() {
                                                 maxLength="4"
                                                 placeholder="postcode"
                                                 onKeyPress={event => {
-                                                    if (!/[0-9]/.test(event.key)) {
+                                                    if (
+                                                        !/[0-9]/.test(event.key)
+                                                    ) {
                                                         event.preventDefault();
                                                     }
                                                 }}

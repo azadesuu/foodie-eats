@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Navigate, Outlet } from "react-router-dom";
-import { getUser } from "./api";
+import { createReview, getUser } from "./api";
 import { UserContext } from "./actions/UserContext";
 import Community from "./components/Community";
 import Login from "./components/Login";
@@ -19,6 +19,7 @@ import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
 import Theme from "./components/Theme";
+import Logout from "./components-server/Logout";
 
 import NavBar from "./components/NavBar";
 import LoggedInNavBar from "./components/LoggedInNavBar";
@@ -63,18 +64,11 @@ function App() {
                 <div>
                     <Routes>
                         {/* public routes */}
+                        <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<Community />} />
                         <Route
                             path="/review/:reviewId"
                             element={<Review user={user} />}
-                        />
-                        <Route 
-                            path="/profile/:username" 
-                            element={<Profile />}
-                        />
-                        <Route 
-                            path="/profile/:username/reviews" 
-                            element={<ProfileReviews />} 
                         />
                         <Route path="*" element={<PageNotFound />} />
 
@@ -93,6 +87,10 @@ function App() {
                         />
 
                         {/* must be private */}
+                        <Route
+                            path="/logout"
+                            element={<Private Component={Logout} />}
+                        />
                         <Route
                             path="/my-theme"
                             element={<Private Component={Theme} />}
