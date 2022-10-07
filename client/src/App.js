@@ -70,6 +70,14 @@ function App() {
                             path="/review/:reviewId"
                             element={<Review user={user} />}
                         />
+                        <Route 
+                            path="/profile/:username" 
+                            element={<Profile />}
+                        />
+                        <Route 
+                            path="/profile/:username/reviews" 
+                            element={<ProfileReviews />} 
+                        />
                         <Route path="*" element={<PageNotFound />} />
 
                         {/* must be public */}
