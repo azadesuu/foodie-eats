@@ -1,4 +1,4 @@
-import React from "react"; // required
+import React from "react";
 import "./MyReviews.css";
 
 import { useContext, useEffect, useState } from "react";
@@ -159,6 +159,7 @@ function ReviewsSmallScreen(props) {
         </div>
     );
 }
+
 function ReviewsBigScreen(props) {
     const user = props.user;
     const { data: listReviews, isLoading } = useQuery(
@@ -220,6 +221,7 @@ function ReviewsBigScreen(props) {
 
 function MyReviews() {
     const [user] = useContext(UserContext);
+    
     return (
         <>
             {user ? (
