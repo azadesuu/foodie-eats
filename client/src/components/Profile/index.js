@@ -1,4 +1,4 @@
-import "./Profile.css";
+// import "./profile.css";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
