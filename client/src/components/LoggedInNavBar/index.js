@@ -228,7 +228,7 @@ function NavLoggedIn() {
                                             display: "flex"
                                         }}
                                     >
-                                        <IconButton href="my-profile">
+                                        <IconButton href="/my-profile">
                                             <AccountCircleIcon
                                                 color="black"
                                                 sx={{
