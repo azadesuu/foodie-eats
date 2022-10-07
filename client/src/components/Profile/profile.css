@@ -7,4 +7,57 @@ span.smallScreen-Profile {
 .content-Profile {
     margin-top: -90px;
     margin-bottom: 80px;
+}span.bigScreen-Profile {
+    display: inline;
+}
+span.smallScreen-Profile {
+    display: none;
+}
+@media screen and (max-width: 1000px) { 
+    span.bigScreen-Profile {
+      display: none;
+    }
+    span.smallScreen-Profile {
+      display: inline;
+      width: 98%;
+    }
+    .content-Profile h1 {
+      font-size: 50px;
+    }
+}
+@media screen and (min-width: 1000px) {
+    .content-Profile h1 {
+      font-size: 60px;
+    }
+}
+.content-Profile {
+    margin-top: -90px;
+    margin-bottom: 80px;
+}
+.content-Profile h1 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+.content-Profile h2 {
+    font-weight: normal;
+}
+.content-Profile .r1 {
+    display: flex;
+    flex-direction: row;
+    margin-left: -18px;
+}
+.content-Profile .c1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content-Profile .sidebar-content {
+    min-width: 270px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    margin-top: 30px;
+    gap: 10px;
 }
