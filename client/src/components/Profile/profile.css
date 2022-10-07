@@ -4,15 +4,6 @@ span.bigScreen-Profile {
 span.smallScreen-Profile {
     display: none;
 }
-.content-Profile {
-    margin-top: -90px;
-    margin-bottom: 80px;
-}span.bigScreen-Profile {
-    display: inline;
-}
-span.smallScreen-Profile {
-    display: none;
-}
 @media screen and (max-width: 1000px) { 
     span.bigScreen-Profile {
       display: none;
