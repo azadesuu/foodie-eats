@@ -46,10 +46,14 @@ span.smallScreen-Community {
       height: 35px;
       border-radius: 10px;
     }
+    .content-Community .location input {
+        width: 250px;
+    }
     .content-Community .location {
       justify-content: flex-end;
-      margin-right: 70px;
       margin-top: 10px;
+      margin-right: -30px;
+      margin-bottom: -20px;
     }
 }
 :root {
@@ -86,7 +90,7 @@ body {
 .content-Community .location input {
     background: #FFFEEC;
     border: none;
-    font-size: medium;
+    font-size: 20px;
 }
 .content-Community .searchbar {
     display: flex;

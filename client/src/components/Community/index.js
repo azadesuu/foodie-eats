@@ -1,4 +1,6 @@
 import "./Community.css";
+
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getCommunityRecent, getCommunityMostLiked } from "../../api";
@@ -22,6 +24,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import axios from "axios";
 const theme = createTheme({
     palette: {
         background: {
@@ -38,24 +41,8 @@ const theme = createTheme({
     }
 });
 
-function Location() {
-    return (
-        <div className="location">
-            <LocationOnIcon />
-            <input
-                type="text"
-                placeholder="Select your postcode here"
-                name="location"
-                id="location"
-                // value="3000 Melbourne, Australia"
-                required
-            />
-        </div>
-    );
-}
-
 function SearchBar() {
-    const [query, setQuery] = React.useState("");
+    const [query, setQuery] = useState("");
 
     return (
         <div className="searchbar">
@@ -103,7 +90,8 @@ function Post() {
 }
 
 function Community() {
-    // need to post  postcode
+    const [location, setLocation] = useState(3000);
+    // need to post postcode
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
         () => getCommunityRecent()
@@ -116,11 +104,59 @@ function Community() {
     return (
         <div className="content-Community">
             <span className="bigScreen-Community">
-                <Location />
+                {/* <Location /> */}
+                <div className="location">
+                    <LocationOnIcon 
+                        sx={{
+                            fontSize: "35px"
+                        }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter postcode here"
+                        name="location"
+                        id="location"
+                        value={location}
+                        maxLength="4"
+                        onChange={(e) => {
+                            setLocation(e.target.value);
+                        }}
+                        onKeyPress={event => {
+                            if (!/[0-9]/.test(event.key)) {
+                                event.preventDefault();
+                            }
+                        }}
+                        required
+                    />
+                </div>
             </span>
             <h1>COMMUNITY</h1>
             <span className="smallScreen-Community">
-                <Location />
+                {/* <Location /> */}
+                <div className="location">
+                    <LocationOnIcon 
+                        sx={{
+                            fontSize: "35px"
+                        }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Enter postcode here"
+                        name="location"
+                        id="location"
+                        value={location}
+                        maxLength="4"
+                        onChange={(e) => {
+                            setLocation(e.target.value);
+                        }}
+                        onKeyPress={event => {
+                            if (!/[0-9]/.test(event.key)) {
+                                event.preventDefault();
+                            }
+                        }}
+                        required
+                    />
+                </div>
             </span>
             <SearchBar />
             <div className="line4" />
@@ -136,7 +172,7 @@ function Community() {
                                     justifyContent: "center",
                                     ml: "5px",
                                     overflowY: "auto",
-                                    maxHeight: "200px",
+                                    maxHeight: "300px",
                                     flexDirection: "column",
                                     "&::-webkit-scrollbar": {
                                         width: "0.3em"
@@ -149,13 +185,16 @@ function Community() {
                                 }}
                             >
                                 {/* review parameter contains the whole review document */}
-                                {listLikes.slice(0, 9).map(review => {
-                                    return (
-                                        <div>
-                                            <ReviewPeek reviewData={review} />
-                                            <div className="line3"></div>
-                                        </div>
-                                    );
+                                {listLikes
+                                    .filter((review) => 
+                                    review.address.postcode === location
+                                    ).slice(0, 9).map(review => {
+                                        return (
+                                            <div>
+                                                <ReviewPeek reviewData={review} />
+                                                <div className="line3"></div>
+                                            </div>
+                                        );
                                 })}
                             </List>
                         </div>
@@ -181,10 +220,13 @@ function Community() {
                                 spacing={{ xs: 2, md: 3 }}
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
-                                {listLikes.slice(0, 9).map(review => (
-                                    <Grid item xs={4} key={review}>
-                                        <ReviewPeek reviewData={review} />
-                                    </Grid>
+                                {listLikes
+                                    .filter((review) => 
+                                    review.address.postcode === location
+                                    ).slice(0, 9).map(review => (
+                                        <Grid item xs={4} key={review}>
+                                            <ReviewPeek reviewData={review} />
+                                        </Grid>
                                 ))}
                             </Grid>
                         </Box>
@@ -207,7 +249,7 @@ function Community() {
                                     justifyContent: "center",
                                     ml: "5px",
                                     overflowY: "auto",
-                                    maxHeight: "200px",
+                                    maxHeight: "300px",
                                     flexDirection: "column",
                                     "&::-webkit-scrollbar": {
                                         width: "0.3em"
@@ -220,13 +262,16 @@ function Community() {
                                 }}
                             >
                                 {/* review parameter contains the whole review document */}
-                                {listReviewsRecent.map(review => {
-                                    return (
-                                        <div>
-                                            <ReviewPeek reviewData={review} />
-                                            <div className="line3"></div>
-                                        </div>
-                                    );
+                                {listReviewsRecent
+                                    .filter((review) => 
+                                    review.address.postcode === location
+                                    ).map(review => {
+                                        return (
+                                            <div>
+                                                <ReviewPeek reviewData={review} />
+                                                <div className="line3"></div>
+                                            </div>
+                                        );
                                 })}
                             </List>
                         </div>
@@ -251,10 +296,13 @@ function Community() {
                                 spacing={{ xs: 2, md: 3 }}
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
-                                {listReviewsRecent.map(review => (
-                                    <Grid item xs={4} key={review}>
-                                        <ReviewPeek reviewData={review} />
-                                    </Grid>
+                                {listReviewsRecent
+                                    .filter((review) => 
+                                    review.address.postcode === location
+                                    ).map(review => (
+                                        <Grid item xs={4} key={review}>
+                                            <ReviewPeek reviewData={review} />
+                                        </Grid>
                                 ))}
                             </Grid>
                         </Box>
