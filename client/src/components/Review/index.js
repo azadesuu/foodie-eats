@@ -108,52 +108,58 @@ function Review(props) {
                     <span className="smallScreen-Review">
                         <div id="outer">
                             <div className="r1">
-                                <div className="switchContainer">
-                                    <FormControlLabel
-                                        sx={{
-                                            gap: "5px",
-                                        }}
-                                        control={
-                                            <Switch 
-                                                sx={{
-                                                    width: 36,
-                                                    height: 20,
-                                                    padding: 0,
-                                                    gap: "10px",
-                                                    "& .MuiSwitch-switchBase": {
+                                {review.userId._id !== props.user?._id ? (
+                                    <>
+                                        <p> </p>
+                                    </>
+                                ) : (
+                                    <div className="switchContainer">
+                                        <FormControlLabel
+                                            sx={{
+                                                gap: "5px",
+                                            }}
+                                            control={
+                                                <Switch 
+                                                    sx={{
+                                                        width: 36,
+                                                        height: 20,
                                                         padding: 0,
-                                                        margin: 0.3,
-                                                        transitionDuration: "300ms",
-                                                        "&.Mui-checked": {
-                                                            transform: "translateX(16px)",
-                                                            color: "#FFFCFB",
-                                                        "& + .MuiSwitch-track": {
-                                                            backgroundColor: "#D9D9D9",
+                                                        gap: "10px",
+                                                        "& .MuiSwitch-switchBase": {
+                                                            padding: 0,
+                                                            margin: 0.3,
+                                                            transitionDuration: "300ms",
+                                                            "&.Mui-checked": {
+                                                                transform: "translateX(16px)",
+                                                                color: "#FFFCFB",
+                                                            "& + .MuiSwitch-track": {
+                                                                backgroundColor: "#D9D9D9",
+                                                                opacity: 1,
+                                                                border: 0,
+                                                            },
+                                                            "&.Mui-disabled + .MuiSwitch-track": {
+                                                                opacity: 0.5,
+                                                            },
+                                                            },
+                                                        },
+                                                        "& .MuiSwitch-thumb": {
+                                                            boxSizing: "border-box",
+                                                            width: 16,
+                                                            height: 16,
+                                                        },
+                                                        "& .MuiSwitch-track": {
+                                                            borderRadius: "10px",
+                                                            bgcolor: "#A9CABB",
                                                             opacity: 1,
-                                                            border: 0,
-                                                        },
-                                                        "&.Mui-disabled + .MuiSwitch-track": {
-                                                            opacity: 0.5,
-                                                        },
-                                                        },
-                                                    },
-                                                    "& .MuiSwitch-thumb": {
-                                                        boxSizing: "border-box",
-                                                        width: 16,
-                                                        height: 16,
-                                                    },
-                                                    "& .MuiSwitch-track": {
-                                                        borderRadius: "10px",
-                                                        bgcolor: "#A9CABB",
-                                                        opacity: 1,
 
-                                                    },
-                                                }}
-                                                checked={review.isPublic} 
-                                            />}
-                                        label={review.isPublic ? "Public":"Private"}
-                                    />
-                                </div>
+                                                        },
+                                                    }}
+                                                    checked={review.isPublic} 
+                                                />}
+                                            label={review.isPublic ? "Public":"Private"}
+                                        />
+                                    </div>
+                                )}
                                 <div className="likes-bookmark">
                                     <div className="likes">
                                         {liked && (
