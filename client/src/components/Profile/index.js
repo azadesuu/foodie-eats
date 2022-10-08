@@ -19,30 +19,6 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import ReviewPeek from "../ReviewPeek";
 
-function SearchBar() {
-    const data = [
-        { Name: "Calia", Author: "abcd123" },
-        { Name: "David's Hotpot", Author: "xyz789" }
-    ];
-    return (
-        <div className="searchbar">
-            <div className="searchrow">
-                <SearchIcon />
-                <input
-                    type="text"
-                    placeholder="Search"
-                    name="search"
-                    id="search"
-                    // value="{{search}}"
-                    required
-                />
-                <FilterAltIcon />
-            </div>
-            <div className="searchResult"></div>
-        </div>
-    );
-}
-
 function TopUser(props) {
     const userProfile = props.user;
     return (
@@ -95,12 +71,27 @@ function ReviewsBigScreen(props) {
         () => getOtherReviews(user?._id),
         { enabled: !!user }
     );
+    const [input, setInput] = useState("");
 
     return (
         <div className="reviews">
             <div className="reviews-r1">
                 <h2>reviews</h2>
-                <SearchBar />
+                <div className="searchbar">
+                    <div className="searchrow">
+                        <SearchIcon />
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            name="search"
+                            id="search"
+                            onChange={(e) =>
+                                setInput(e.target.value)
+                            }
+                        />
+                        <FilterAltIcon />
+                    </div>
+                </div>
             </div>
             <Box
                 sx={{
@@ -126,11 +117,16 @@ function ReviewsBigScreen(props) {
                         {listReviews.length > 0 ? (
                             <div>
                                 <Grid container spacing={{ xs: 2, md: 3 }}>
-                                    {listReviews.map(review => (
-                                        <Grid item xs={6} key={review}>
-                                            <ReviewPeek reviewData={review} />
-                                        </Grid>
+                                    {listReviews
+                                        .filter(review => {
+                                            const searchInput = input.toLowerCase();
+                                            const resName = review.restaurantName.toLowerCase();
 
+                                            return resName.startsWith(searchInput)
+                                        }).map(review => (
+                                            <Grid item xs={6} key={review}>
+                                                <ReviewPeek reviewData={review} />
+                                            </Grid>
                                     ))}
                                 </Grid>
                             </div>

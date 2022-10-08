@@ -1,14 +1,16 @@
 import "./Community.css";
 
+import React from "react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getCommunityRecent, getCommunityMostLiked } from "../../api";
+import { getCommunityRecent, getCommunityMostLiked, getCommunitySearch } from "../../api";
 
 import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Select from '@mui/material/Select';
 
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -16,33 +18,32 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import ReviewPeek from "../ReviewPeek";
-
-import React from "react";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import Typography from "@mui/material/Typography";
-import Rating from "@mui/material/Rating";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import axios from "axios";
-const theme = createTheme({
-    palette: {
-        background: {
-            green: "#BEE5B0",
-            grey: "#ECE7E5",
-            white: "#FFFCFB"
-        },
-        text: {
-            main: "#000000"
-        },
-        img: {
-            main: "#000000"
-        }
-    }
-});
+import { Menu } from "@mui/material";
 
 function SearchBar() {
-    const [query, setQuery] = useState("");
+    const [input, setInput] = useState("");
+    // const { data: listReviews, isLoading3 } = useQuery(
+    //     "listReviews",
+    //     () => getCommunitySearch()
+    // );
+    const { data: listReviews, isLoading3 } = useQuery(
+        "listReviewsRecent",
+        () => getCommunityRecent()
+    );
+    const filter = (
+        <Menu
+            items={[
+                {
+                    label: "rating",
+                    key: "0",
+                },
+                {
+                    label: "price range",
+                    key: "1",
+                },
+            ]}
+        />
+    );
 
     return (
         <div className="searchbar">
@@ -53,16 +54,69 @@ function SearchBar() {
                     placeholder="Search"
                     name="search"
                     id="search"
-                    required
+                    value={input}
                     onChange={(e) =>
-                        setQuery(e.target.value)
+                        setInput(e.target.value)
                     }
                 />
-                <FilterAltIcon />
+                {/* <IconButton
+                    sx={{
+                        color: "#000000"
+                    }}
+                > */}
+                    <FilterAltIcon />
+                {/* </IconButton> */}
+                {/* <Select>
+                    <optgroup label="rating">
+                        <option>1-star</option>
+                        <option>2-star</option>
+                        <option>3-star</option>
+                        <option>4-star</option>
+                        <option>5-star</option>
+                    </optgroup>
+                    <optgroup label="price range">
+                        <option>$</option>
+                        <option>$$</option>
+                        <option>$$$</option>
+                        <option>$$$$</option>
+                    </optgroup>
+                </Select> */}
             </div>
-            <div className="searchResult">
-                
-            </div>
+            {isLoading3 && <CircularProgress className="spinner" />}
+            {listReviews && input && (
+                <div className="searchResult">
+                    <List
+                        sx={{
+                            paddingLeft: "30px",
+                            overflowY: "auto",
+                            "&::-webkit-scrollbar": {
+                                width: "0.3em"
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                                backgroundColor: "#BEE5B0",
+                                borderRadius: "10px",
+                                maxHeight: "4px"
+                            }
+                        }}
+                    >
+                        {listReviews
+                            .filter(review => {
+                                const searchInput = input.toLowerCase();
+                                const resName = review.restaurantName.toLowerCase();
+
+                                return searchInput && resName.startsWith(searchInput)
+                            })
+                            .map(review => {
+                                return (
+                                    <div>
+                                        <ReviewPeek reviewData={review} />
+                                        <div className="line5"></div>
+                                    </div>
+                                );
+                        })}
+                    </List>
+                </div>
+            )}
         </div>
     );
 }

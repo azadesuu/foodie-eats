@@ -118,6 +118,10 @@ input:focus {
     display: flex;
     justify-content: center;
 }
+.reviews-smallScreen {
+    display: flex;
+    flex-direction: column;
+}
 .reviews {
     display: flex;
     justify-content: flex-start;

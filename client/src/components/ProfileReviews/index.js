@@ -23,30 +23,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 
-function SearchBar() {
-    const data = [
-        { Name: "Calia", Author: "abcd123" },
-        { Name: "David's Hotpot", Author: "xyz789" }
-    ];
-    return (
-        <div className="searchbar">
-            <div className="searchrow">
-                <SearchIcon />
-                <input
-                    type="text"
-                    placeholder="Search"
-                    name="search"
-                    id="search"
-                    // value="{{search}}"
-                    required
-                />
-                <FilterAltIcon />
-            </div>
-            <div className="searchResult"></div>
-        </div>
-    );
-}
-
 function Post() {
     return (
         <div className="postButton">
@@ -121,48 +97,72 @@ function ReviewsSmallScreen(props) {
         () =>
         getOtherReviews(user?._id)
     );
+    const [input, setInput] = useState("");
 
     return (
-        <div className="reviews">
-            <div className="reviews-content">
-                <List
-                    sx={{
-                        width: "100%",
-                        justifyContent: "center",
-                        ml: "5px",
-                        overflowY: "auto",
-                        overflowX: "hidden",
-                        flexDirection: "column",
-                        "&::-webkit-scrollbar": {
-                            width: "0.3em"
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#FFFEEC",
-                            borderRadius: "10px",
-                            maxHeight: "4px"
+        <div>
+            <div className="searchbar">
+                <div className="searchrow">
+                    <SearchIcon />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        name="search"
+                        id="search"
+                        onChange={(e) =>
+                            setInput(e.target.value)
                         }
-                    }}
-                >
-                    {isLoading && <CircularProgress className="spinner" />}
-                    {listReviews ? (
-                        <div>
-                            {listReviews.length > 0 ? (
-                                <div>
-                                    {listReviews.map(review => {
-                                        return (
-                                            <ReviewPeek reviewData={review} />
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                // If the info can't be loaded, then display a message
-                                <h2>User has not posted</h2>
-                            )}
-                        </div>
-                    ) : (
-                        <h2>Found no reviews</h2>
-                    )}
-                </List>
+                    />
+                    <FilterAltIcon />
+                </div>
+            </div>
+            <div className="reviews">
+                <div className="reviews-content">
+                    <List
+                        sx={{
+                            width: "100%",
+                            justifyContent: "center",
+                            ml: "5px",
+                            overflowY: "auto",
+                            overflowX: "hidden",
+                            flexDirection: "column",
+                            "&::-webkit-scrollbar": {
+                                width: "0.3em"
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                                backgroundColor: "#FFFEEC",
+                                borderRadius: "10px",
+                                maxHeight: "4px"
+                            }
+                        }}
+                    >
+                        {isLoading && <CircularProgress className="spinner" />}
+                        {listReviews ? (
+                            <div>
+                                {listReviews.length > 0 ? (
+                                    <div>
+                                        {listReviews
+                                                .filter(review => {
+                                                const searchInput = input.toLowerCase();
+                                                const resName = review.restaurantName.toLowerCase();
+
+                                                return resName.startsWith(searchInput)
+                                            }).map(review => {
+                                                return (
+                                                    <ReviewPeek reviewData={review} />
+                                                );
+                                            })}
+                                    </div>
+                                ) : (
+                                    // If the info can't be loaded, then display a message
+                                    <h2>User has not posted</h2>
+                                )}
+                            </div>
+                        ) : (
+                            <h2>Found no reviews</h2>
+                        )}
+                    </List>
+                </div>
             </div>
         </div>
     );
@@ -175,12 +175,27 @@ function ReviewsBigScreen(props) {
         () => getOtherReviews(user?._id),
         { enabled: !!user }
     );
+    const [input, setInput] = useState("");
 
     return (
         <div className="reviews">
             <div className="reviews-r1">
                 <h2>reviews</h2>
-                <SearchBar />
+                <div className="searchbar">
+                    <div className="searchrow">
+                        <SearchIcon />
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            name="search"
+                            id="search"
+                            onChange={(e) =>
+                                setInput(e.target.value)
+                            }
+                        />
+                        <FilterAltIcon />
+                    </div>
+                </div>
             </div>
             <Box
                 sx={{
@@ -206,11 +221,16 @@ function ReviewsBigScreen(props) {
                         {listReviews.length > 0 ? (
                             <div>
                                 <Grid container spacing={{ xs: 2, md: 3 }}>
-                                    {listReviews.map(review => (
-                                        <Grid item xs={6} key={review}>
-                                            <ReviewPeek reviewData={review} />
-                                        </Grid>
+                                    {listReviews
+                                        .filter(review => {
+                                            const searchInput = input.toLowerCase();
+                                            const resName = review.restaurantName.toLowerCase();
 
+                                            return resName.startsWith(searchInput)
+                                        }).map(review => (
+                                            <Grid item xs={6} key={review}>
+                                                <ReviewPeek reviewData={review} />
+                                            </Grid>
                                     ))}
                                 </Grid>
                             </div>
@@ -255,8 +275,6 @@ function ProfileReviews() {
                 <div className="content-ProfileReviews">
                     <span className="smallScreen-ProfileReviews">
                         <h1> {userProfile.username}'s REVIEWS</h1>
-                        <SearchBar />
-                        <div className="line" />
                         <ReviewsSmallScreen user={userProfile} />
                         <Post />
                     </span>
