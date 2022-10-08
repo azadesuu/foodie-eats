@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updateReview, getReview, deleteReview } from "../../api";
+import { TagsInput } from "react-tag-input-component";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -34,7 +35,7 @@ function EditReview() {
         { enabled: !!reviewId }
     );
     const [currentPublicity, setPublicity] = useState(review.isPublic);
-    
+    const [tags, setTags] = useState([]);
     const confirmDelete = async () => {
         const review = await deleteReview(reviewId);
         if (review) {
@@ -59,7 +60,8 @@ function EditReview() {
         rating,
         dateVisited,
         address,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -89,7 +91,8 @@ function EditReview() {
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: tags
             });
             if (!review) {
                 alert("update unsucessful.");
@@ -353,17 +356,26 @@ function EditReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    defaultValue={review.description}
-                                    onChange={e => {
-                                        review.description = e.target.value;
-                                    }}
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        defaultValue={review.description}
+                                        onChange={e => {
+                                            review.description = e.target.value
+                                        }}
+                                    />
+                                    
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <button className="addImageButton">
                                     <img className="addImage" src={addImage} />
@@ -383,7 +395,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            review.tags
                                         );
                                     }}
                                 >
@@ -527,15 +540,26 @@ function EditReview() {
                                         />
                                     </div>
 
+                                    <div className="description-tags">
                                     <div className="details-container">
                                         <textarea
                                             type="text"
                                             defaultValue={review.description}
                                             onChange={e => {
-                                                review.description = e.target.value;
+                                                review.description = e.target.value
                                             }}
                                         />
+                                        
                                     </div>
+                                    <div className="tags-input">
+                                        <TagsInput
+                                            name="tags"
+                                            value={tags}
+                                            placeHolder="#tags"
+                                            onChange={setTags}
+                                        />
+                                    </div>
+                                </div>
                                 </div>
                                 <div className="r3-content2">
                                     <div className="details-container">
@@ -640,7 +664,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            review.tags
                                         );
                                     }}
                                 >

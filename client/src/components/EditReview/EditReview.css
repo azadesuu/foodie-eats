@@ -249,3 +249,14 @@ body {
     top: 15px;
     position: relative;
 }
+.content-EditReview .description-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.content-EditReview .tags-input {
+    position: fixed;
+    margin-bottom: 14px;
+    width: 296px;
+    padding: 5px;
+}

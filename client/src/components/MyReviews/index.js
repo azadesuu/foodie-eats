@@ -249,8 +249,6 @@ function MyReviews() {
                 <div className="content-MyReviews">
                     <span className="smallScreen-MyReviews">
                         <h1>MY REVIEWS</h1>
-                        {/* <SearchBar />
-                        <div className="line" /> */}
                         <ReviewsSmallScreen user={user} />
                         <Post />
                     </span>

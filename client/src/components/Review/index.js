@@ -1,16 +1,17 @@
 import "./Review.css";
 
+import "@fontsource/martel-sans";
+
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
-
 import { useQuery } from "react-query";
-import "@fontsource/martel-sans";
-import { CircularProgress } from "@mui/material";
+import { TagsInput } from "react-tag-input-component";
 
 import addImage from "../../assets/images/addImage.png";
 import { getReview, toggleLike, toggleBookmark, getProfile } from "../../api";
 
+import { CircularProgress } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
@@ -313,14 +314,24 @@ function Review(props) {
                                 </div>
                             </div>
 
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    placeholder={review.description}
-                                    disabled
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        placeholder={review.description}
+                                        disabled
+                                    />
+                                    
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={review.tags}
+                                        placeHolder={review.tags}
+                                        disabled
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <ImageIcon 
                                     sx={{
@@ -424,7 +435,14 @@ function Review(props) {
                             <h3>{review.restaurantName}</h3>
                             <h4>{review.address.streetAddress} {review.address.state} {review.address.postcode}</h4>
                             <div className="review-tags">
-                                <p>Japanese</p>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={review.tags}
+                                        placeHolder={review.tags}
+                                        disabled
+                                    />
+                                </div>
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">

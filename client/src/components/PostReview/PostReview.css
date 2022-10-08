@@ -239,3 +239,26 @@ body {
     top: 15px;
     position: relative;
 }
+.content-PostReview .description-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.content-PostReview .tags-input {
+    position: fixed;
+    margin-bottom: 14px;
+    width: 296px;
+    padding: 5px;
+}
+.tags-input .rti--container {
+    border: none;
+}
+.tags-input .rti--container > input:focus{
+    outline: none;
+}
+.tags-input .rti--input {
+    width: 20%;
+    border: 1.5px solid rgba(0, 0, 0, 0.42);
+    border-radius: 10px;
+    text-align: center;
+}

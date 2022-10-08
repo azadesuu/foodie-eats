@@ -4,8 +4,9 @@ import "@fontsource/martel-sans";
 
 import addImage from "../../assets/images/addImage.png";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { TagsInput } from "react-tag-input-component";
 import { UserContext } from "../../actions/UserContext";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -40,7 +41,7 @@ function PostReview() {
     const [currentRating, setRating] = useState("2");
     const [currentPublicity, setPublicity] = useState(false);
     const [currentPriceRange, setPriceRange] = useState("1");
-
+    const [tags, setTags] = useState([]);
     const postReview = async (
         restaurantName,
         isPublic,
@@ -51,7 +52,8 @@ function PostReview() {
         state,
         suburb,
         postcode,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -84,7 +86,8 @@ function PostReview() {
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: [tags]
             });
             if (!review) {
                 alert("creation unsucessful.");
@@ -111,7 +114,7 @@ function PostReview() {
             label: "$$$$"
         }
     ];
-
+    
     return (
         <div className="content-PostReview">
             {isLoading && <CircularProgress className="spinner" />}
@@ -343,18 +346,27 @@ function PostReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    placeholder="description..."
-                                    onChange={e => {
-                                        setDescription(e.target.value);
-                                    }}
-                                    required
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        placeholder="description..."
+                                        onChange={e => {
+                                            setDescription(e.target.value);
+                                        }}
+                                        required
+                                    />
+                                    
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <p>Add your image</p>
                                 <button className="addImageButton">
@@ -523,15 +535,26 @@ function PostReview() {
                                         />
                                     </div>
 
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            placeholder="description..."
-                                            onChange={e => {
-                                                setDescription(e.target.value);
-                                            }}
-                                            required
-                                        />
+                                    <div className="description-tags">
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                placeholder="description..."
+                                                onChange={e => {
+                                                    setDescription(e.target.value);
+                                                }}
+                                                required
+                                            />
+                                            
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="r3-content2">

@@ -289,3 +289,24 @@ body {
     color: #ffffff;
     border: none;
 }
+.content-Review .description-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.content-Review .description-tags .tags-input {
+    position: fixed;
+    margin-bottom: 14px;
+    width: 296px;
+    padding: 5px;
+}
+.content-Review .tags-input .rti--container {
+    background-color: #D9D9D9;
+}
+.content-Review .tags-input .rti--input {
+    background-color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.42);
+}
+.content-Review .review-tags .tags-input .rti--container {
+    background-color: transparent;
+}
