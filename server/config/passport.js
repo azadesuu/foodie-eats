@@ -38,8 +38,6 @@ module.exports = function(passport) {
         passReqToCallback: true
       },
       function(req, email, password, done) {
-        console.log(email, password);
-
         process.nextTick(function() {
           // see if the user with the email exists
           User.findOne(

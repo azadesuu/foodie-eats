@@ -11,12 +11,8 @@ export default function Logout() {
         // remove token from the local storage
         localStorage.removeItem("token");
         setUser({});
-        navigate("/");
+        navigate("/login");
     }
 
-    return (
-        <div>
-            <button onClick={handleLogOut}>Logout</button>
-        </div>
-    );
+    return <div>{user && <button onClick={handleLogOut}>Logout</button>}</div>;
 }

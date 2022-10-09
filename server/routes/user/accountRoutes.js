@@ -13,6 +13,9 @@ accountRouter.get("/profile/:username", accountController.getProfile);
 // GET reviews by Id --- returns list of reviews with the associated user ID
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
+// GET reviews by Id --- returns list of reviews with the associated user ID
+accountRouter.get("/other-reviews/:userId", accountController.getReviews);
+
 //GET my reviews by search values -- restaurantname, rating, pricerange, postcode, tags
 accountRouter.post(
   "/my-reviews/:userId/search",

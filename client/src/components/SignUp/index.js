@@ -16,17 +16,22 @@ function Register() {
     const [confirmPassword, setconfirmPassword] = useState("");
     const navigate = useNavigate();
 
-    function onSubmit() {
+    async function onSubmit() {
         if (password === confirmPassword) {
-            signupUser({
-                username: username,
-                email: email,
-                password: password
-            });
-            alert("Signup successful. Please Login.");
-            navigate("/login");
+            try {
+                const user = await signupUser({
+                    username: username,
+                    email: email,
+                    password: password
+                });
+                alert("Signup successful. Please Login.");
+                navigate("/login");
+                
+            } catch (err) {
+                alert(err);
+            }
         } else {
-            alert("Please re-confirm your password");
+            alert("Please re-confirm your password.");
         }
     }
 

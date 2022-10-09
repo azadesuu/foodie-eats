@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updatePassword, getProfile } from "../../api";
 import { CircularProgress } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import "@fontsource/martel-sans";
 
@@ -16,11 +17,11 @@ function TopUser(props) {
     return (
         <div className="top-user">
             <div className="top-user-r1">
-                {/* <Avatar
+                <Avatar
                     alt="user-profile-image"
-                    src={userProfile.profileImage}
+                    // src={userProfile.profileImage}
                     sx={{ height: 130, width: 130 }}
-                /> */}
+                />
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -51,10 +52,10 @@ function Sidebar() {
     );
 }
 
-function ChangePassword() {
+function ChangePwDetails(props) {
+    const user = props.user;
     const navigate = useNavigate();
-
-    const [user] = useContext(UserContext);
+    
     const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
@@ -97,85 +98,105 @@ function ChangePassword() {
         }
     };
     return (
-        <div className="content-ChangePassword">
-            <NavLoggedIn />
+        <div className="changepw-details">
+            <span className="bigScreen-ChangePassword">
+                <h2>change password</h2>
+            </span>
+            <span className="smallScreen-ChangePassword">
+                <h1>CHANGE PASSWORD</h1>
+            </span>
             {isLoading && !userProfile && (
                 <CircularProgress className="spinner" />
             )}
             {userProfile ? (
-                <>
-                    <span className="smallScreen-ChangePassword">
-                        <h1>CHANGE PASSWORD</h1>
-
-                        <div className="user-container">
-                            <form>
-                                {/* current password field */}
-                                <div className="details-container">
-                                    <label>Current Password</label>
-                                    <input
-                                        type="password"
-                                        onChange={e => {
-                                            setCurrentPassword(e.target.value);
-                                        }}
-                                    />
-                                </div>
-
-                                {/* new password field */}
-                                <div className="details-container">
-                                    <label>New Password</label>
-                                    <input
-                                        type="password"
-                                        onChange={e => {
-                                            setNewPassword(e.target.value);
-                                        }}
-                                    />
-                                </div>
-
-                                {/* confirm new password field */}
-                                <div className="details-container">
-                                    <label>Confirm New Password</label>
-                                    <input
-                                        type="password"
-                                        onChange={e => {
-                                            setConfirmNewPassword(
-                                                e.target.value
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            </form>
-
-                            <div className="button-group">
-                                <button
-                                    className="confirm"
-                                    onClick={() => {
-                                        checkPassword(
-                                            userProfile?._id,
-                                            userProfile?.password,
-                                            currentPassword,
-                                            newPassword,
-                                            confirmNewPassword
-                                        );
-                                    }}
-                                >
-                                    CONFIRM
-                                </button>
-                            </div>
+                <div className="user-container">
+                    <form>
+                        {/* current password field */}
+                        <div className="details-container">
+                            <label>current password</label>
+                            <input
+                                type="password"
+                                onChange={e => {
+                                    setCurrentPassword(e.target.value);
+                                }}
+                            />
                         </div>
-                    </span>
-                    <span className="bigScreen-ChangePassword">
-                        <TopUser user={userProfile} />
-                        <div className="line5" />
-                        <div className="r1">
-                            <Sidebar />
-                            <div className="line6" />
+
+                        {/* new password field */}
+                        <div className="details-container">
+                            <label>new password</label>
+                            <input
+                                type="password"
+                                onChange={e => {
+                                    setNewPassword(e.target.value);
+                                }}
+                            />
                         </div>
-                    </span>
-                </>
+
+                        {/* confirm new password field */}
+                        <div className="details-container">
+                            <label>confirm new password</label>
+                            <input
+                                type="password"
+                                onChange={e => {
+                                    setConfirmNewPassword(e.target.value);
+                                }}
+                            />
+                        </div>
+                    </form>
+
+                    <div className="button-group">
+                        <button
+                            className="confirm"
+                            onClick={() => {
+                                checkPassword(
+                                    user?._id,
+                                    user?.password,
+                                    currentPassword,
+                                    newPassword,
+                                    confirmNewPassword
+                                );
+                            }}
+                        >
+                            CONFIRM
+                        </button>
+                    </div>
+                </div>
             ) : (
                 <h1>No user found</h1>
             )}
         </div>
+    )
+}
+
+function ChangePassword() {
+    const [user, setUser] = useContext(UserContext);
+
+    return (
+        <>
+            {user ? (
+                <div className="content-ChangePassword">
+                    <NavLoggedIn />
+                    <span className="smallScreen-ChangePassword">
+                        <ChangePwDetails user={user} />
+                    </span>
+                    <span className="bigScreen-ChangePassword">
+                        <TopUser user={user} />
+                        <div className="line5" />
+                        <div className="r1">
+                            <Sidebar />
+                            <div className="line6" />
+                            <ChangePwDetails user={user} />
+                        </div>
+                    </span>
+                    <div className="footer">
+                        <p>Copyright © 2022 All-for-one</p>
+                    </div>
+                </div>
+            ) : (
+                <CircularProgress className="spinner" />
+            )}
+        </>
     );
 }
 

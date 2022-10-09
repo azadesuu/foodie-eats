@@ -12,6 +12,7 @@ import HoneyDew from "../../assets/images/HoneyDew.svg";
 import Shokupan from "../../assets/images/Shokupan.svg";
 
 import Avatar from "@mui/material/Avatar";
+import { CircularProgress } from "@mui/material";
 
 function TopUser(props) {
     const userProfile = props.user;
@@ -25,8 +26,8 @@ function TopUser(props) {
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
-                    {/* <h2>{userProfile.username}</h2>
-                  <p>{userProfile.bio}</p> */}
+                    <h2>{userProfile.username}</h2>
+                    <p>{userProfile.bio}</p>
                 </div>
             </div>
             <div className="top-user-rev">
@@ -57,17 +58,14 @@ function Sidebar() {
 function MyTheme(props) {
     const user = props.user;
     const [userId, setUserId] = useState();
+    const [currTheme, setCurrTheme] = useState("honeydew");
 
     useEffect(() => {
         if (user && !userId) {
-            console.log(user);
-            initializeFields();
+            setUserId(user._id);
+            setCurrTheme(user.theme);
         }
     }, [user]);
-
-    const initializeFields = () => {
-        setUserId(user._id);
-    };
 
     const updateTheme = async theme => {
         try {
@@ -81,41 +79,55 @@ function MyTheme(props) {
                 alert(
                     `Theme changed from ${oldUser.theme} to ${theme}, re-login to save changes`
                 );
+                setCurrTheme(theme);
             }
         } catch (err) {
             console.log(err);
         }
     };
 
+    function toggleActiveTheme(theme) {
+        if (theme === currTheme) {
+            return "active-theme";
+        } else {
+            return "inactive-theme";
+        }
+    }
+
     return (
         <div>
             {userId ? (
                 <div className="themes">
                     <button
+                        className={toggleActiveTheme("honeydew")}
                         value="honeydew"
                         onClick={() => updateTheme("honeydew")}
                     >
                         <img id="honeydew" src={HoneyDew} />
                     </button>
                     <button
+                        className={toggleActiveTheme("dragonfruit")}
                         value="dragonfruit"
                         onClick={() => updateTheme("dragonfruit")}
                     >
                         <img id="dragonfruit" src={Dragonfruit} />
                     </button>
                     <button
+                        className={toggleActiveTheme("shokupan")}
                         value="shokupan"
                         onClick={() => updateTheme("shokupan")}
                     >
                         <img id="shokupan" src={Shokupan} />
                     </button>
                     <button
+                        className={toggleActiveTheme("boring")}
                         value="boring"
                         onClick={() => updateTheme("boring")}
                     >
                         <img id="boring" src={Boring} />
                     </button>
                     <button
+                        className={toggleActiveTheme("blueberry")}
                         value="blueberry"
                         onClick={() => updateTheme("blueberry")}
                     >
@@ -130,32 +142,39 @@ function MyTheme(props) {
 }
 
 export default function Theme() {
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     return (
         <div className="content-Theme">
             <NavLoggedIn />
-            <span className="smallScreen-Theme">
-                <h1>THEME</h1>
-                <MyTheme user={user} />
-            </span>
-            <span className="bigScreen-Theme">
-                <TopUser user={user} />
-                <div className="line5" />
-                <div className="r1">
-                    <Sidebar />
-                    <div className="r3">
-                        <div className="line6" />
-                        <div className="c1">
-                            <h2>theme</h2>
-                            <MyTheme user={user} />
+
+            {user ? (
+                <>
+                    <span className="smallScreen-Theme">
+                        <h1>THEME</h1>
+                        <MyTheme user={user} />
+                    </span>
+                    <span className="bigScreen-Theme">
+                        <TopUser user={user} />
+                        <div className="line5" />
+                        <div className="r1">
+                            <Sidebar />
+                            <div className="r3">
+                                <div className="line6" />
+                                <div className="c1">
+                                    <h2>theme</h2>
+                                    <MyTheme user={user} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </span>
+                    </span>
+                </>
+            ) : (
+                <CircularProgress className="spinner" />
+            )}
 
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright Â© 2022 All-for-one</p>
             </div>
         </div>
     );

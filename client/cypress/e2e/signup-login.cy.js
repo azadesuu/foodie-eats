@@ -80,75 +80,71 @@
 })*/
 
 describe('The Login Page', () => {
-  beforeEach(() => {
-    cy.visit('/login');
-  })
+    beforeEach(() => {
+      cy.visit('/login');
+    })
+    
+    it('successfully loads', () => {
+       // Username
+       cy.get('.content-Login > #form > :nth-child(1) > label').should('be.visible');
+       cy.get('.content-Login > #form > :nth-child(1) > #email').should('be.visible');
+       // Password
+       cy.get('#form-control-pw > .form-control > label').should('be.visible');
+       cy.get('.row > #password').should('be.visible');
+       // Login button
+       cy.get('[data-testid="LoginIcon"]').should('be.visible');
+       // Forgot password link
+       cy.get('.forgetpw > a').should('be.visible');
+    })
   
-  it('successfully loads', () => {
-     // Username
-     cy.get('.content-Login > #form > :nth-child(1) > label').should('be.visible');
-     cy.get('.content-Login > #form > :nth-child(1) > #email').should('be.visible');
-     // Password
-     cy.get('#form-control-pw > .form-control > label').should('be.visible');
-     cy.get('.row > #password').should('be.visible');
-     // Login button
-     cy.get('[data-testid="LoginIcon"]').should('be.visible');
-     // Forgot password link
-     cy.get('.forgetpw > a').should('be.visible');
-  })
-
-  it('successfully redirects to home page after correct login info', () => {
-    cy.reload();
-    cy.get('#email').type('login-test@mail.com');
-    cy.get('#password').type('LoginTest12345@');
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.url().should('match', /\/home$/);
-  })
-
-  it('successfully displays alert when email and password not provided', function(){
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`)
+    /*it('successfully redirects to home page after correct login info', () => {
+      cy.reload();
+      cy.get('#email').type('login-test@mail.com');
+      cy.get('#password').type('LoginTest12345@');
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.url().should('match', /\/home$/);
+    })*/
+  
+    it('successfully displays alert when email and password not provided', function(){
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(`Must provide email and a password`)
+      })
+    })
+  
+    it('successfully displays alert when email not provided', function(){
+      cy.get('#password').type('LoginTest12345@');
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(`Must provide email and a password`)
+      })
+    })
+  
+    it('successfully displays alert when password not provided', function(){
+      cy.get('#email').type('login-test@mail.com');
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(`Must provide email and a password`)
+      })
+    })
+  
+    it('successfully displays alert when email not found', function(){
+      cy.reload();
+      cy.get('#email').type('email-not-found@mail.com');
+      cy.get('#password').type('email-not-found');
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(`Email not found or password doesn't match.`)
+      })
+    })
+  
+    it('successfully displays alert when password does not match', function(){
+      cy.reload();
+      cy.get('#email').type('login-test@mail.com');
+      cy.get('#password').type('wrong-password');
+      cy.get('[data-testid="LoginIcon"]').click();
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(`Email not found or password doesn't match.`)
+      })
     })
   })
-
-  it('successfully displays alert when email not provided', function(){
-    cy.get('#password').type('LoginTest12345@');
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`)
-    })
-  })
-
-  it('successfully displays alert when password not provided', function(){
-    cy.get('#email').type('login-test@mail.com');
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`)
-    })
-  })
-
-  /*
-
-  it('successfully displays alert when email not found', function(){
-    cy.reload();
-    cy.get('#email').type('email-not-found@mail.com');
-    cy.get('#password').type('email-not-found');
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Email not found or password doesn't match.`)
-    })
-  })
-
-  it('successfully displays alert when password does not match', function(){
-    cy.reload();
-    cy.get('#email').type('login-test@mail.com');
-    cy.get('#password').type('wrong-password');
-    cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Email not found or password doesn't match.`)
-    })
-  })
-
-  */
-})

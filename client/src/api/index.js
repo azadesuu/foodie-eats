@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// const SERVER_URL = "http://localhost:5000";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 export const setAuthToken = async token => {
@@ -62,7 +61,7 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        alert("must provide an email, a password, and a username");
+        alert("<ust provide an email, a password, and a username.");
         return;
     }
 
@@ -81,13 +80,14 @@ export const signupUser = async user => {
             return;
         });
     if (!data) {
-        alert("Please try again with a different email or stronger password.");
+        alert(
+            "Please try again with a different email/username or stronger password."
+        );
     } else if (data.message) {
         // show error message
         alert(data.message);
     } else {
-        // store token locally
-        localStorage.setItem("token", data);
+        //do nothing
     }
 };
 
@@ -190,6 +190,14 @@ export const getBookmarksSearch = async data => {
 export const getProfile = async username => {
     return await axios
         .get(`${SERVER_URL}/account/profile/${username}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+// // ------ Other Reviews
+export const getOtherReviews = async userId => {
+    return await axios
+        .get(`${SERVER_URL}/account/other-reviews/${userId}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

@@ -19,7 +19,6 @@ function Login() {
                 password: password
             });
             // if token exists login is successful
-
             var token = localStorage.getItem("token");
             console.log(token);
             setAuthToken(token);

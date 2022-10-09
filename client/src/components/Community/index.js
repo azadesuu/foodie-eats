@@ -57,6 +57,8 @@ function Location() {
 }
 
 function SearchBar() {
+    const [query, setQuery] = React.useState("");
+
     return (
         <div className="searchbar">
             <div className="searchrow">
@@ -66,14 +68,12 @@ function SearchBar() {
                     placeholder="Search"
                     name="search"
                     id="search"
-                    // value="{{search}}"
                     required
+                    onChange={e => setQuery(e.target.value)}
                 />
                 <FilterAltIcon />
             </div>
-            <div className="searchResult">
-                
-            </div>
+            <div className="searchResult"></div>
         </div>
     );
 }
@@ -114,7 +114,7 @@ function Community() {
     return (
         <div className="content-Community">
             {/* if logged in */}
-            <NavLoggedIn />
+            {/* <NavLoggedIn /> */}
             {/* else */}
             {/* <Nav /> */}
             <span className="bigScreen-Community">
@@ -255,7 +255,6 @@ function Community() {
                             >
                                 {listReviewsRecent.map(review => (
                                     <Grid item xs={4} key={review}>
-
                                         <ReviewPeek reviewData={review} />
                                     </Grid>
                                 ))}

@@ -2,7 +2,6 @@ import "./Review.css";
 import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext, useEffect, useState } from "react";
-
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 
@@ -26,8 +25,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import StarIcon from "@mui/icons-material/Star";
 
-function Review() {
-    // reviewsmallscreen buttons not done yet
+function Review(props) {
     const [user] = useContext(UserContext);
 
     const navigate = useNavigate();
@@ -58,27 +56,37 @@ function Review() {
     }, [review && userProfile]);
 
     async function likeButton() {
-        const likeReview = await toggleLike({
-            reviewId: review?._id,
-            userId: userProfile?._id,
-            likeBool: liked
-        });
-        if (likeReview) {
-            document.location.reload();
+        if (!userProfile) {
+            alert("Please log in to give a like!");
+        } else {
+            try {
+                const likeReview = await toggleLike({
+                    reviewId: review?._id,
+                    userId: userProfile?._id,
+                    likeBool: liked
+                });
+                document.location.reload();
+            } catch (err) {
+                alert(err);
+            }
         }
     }
 
     async function bookmarkButton() {
-        const bookmarkReview = await toggleBookmark({
-            reviewId: review?._id,
-            userId: userProfile?._id,
-            bookmarkedBool: bookmarked
-        });
-        console.log(bookmarkReview);
-        if (bookmarkReview) {
-            document.location.reload();
+        try {
+            const bookmarkReview = await toggleBookmark({
+                reviewId: review?._id,
+                userId: userProfile?._id,
+                bookmarkedBool: bookmarked
+            });
+            if (bookmarkReview) {
+                document.location.reload();
+            }
+        } catch (err) {
+            alert(err);
         }
     }
+
     const marks = [
         {
             value: 1,
@@ -143,13 +151,11 @@ function Review() {
                                                     "& .MuiSwitch-thumb": {
                                                         boxSizing: "border-box",
                                                         width: 16,
-
                                                         height: 16
                                                     },
                                                     "& .MuiSwitch-track": {
                                                         borderRadius: "10px",
                                                         bgcolor: "#A9CABB",
-
                                                         opacity: 1
                                                     }
                                                 }}
@@ -158,31 +164,43 @@ function Review() {
                                         }
                                         label={
                                             review.isPublic
-                                                ? "Private"
-                                                : "Public"
+                                                ? "Public"
+                                                : "Private"
                                         }
                                     />
                                 </div>
                                 <div className="likes-bookmark">
                                     <div className="likes">
-                                        {/* if clicked */}
-                                        {/* <ThumbUpAltIcon/> */}
-                                        {/* else */}
-                                        <ThumbUpOffAltIcon />
-                                        <p>{review.likeCount}k</p>
+                                        {liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpAltIcon />
+                                            </a>
+                                        )}
+                                        {!liked && (
+                                            <a onClick={likeButton}>
+                                                <ThumbUpOffAltIcon />
+                                            </a>
+                                        )}
+                                        <p>{review.likeCount}</p>
                                     </div>
-
-                                    <BookmarkBorderIcon
-                                        sx={{
-                                            fontSize: "25px"
-                                        }}
-                                    />
-                                    {/* if bookmarked */}
-                                    {/* <BookmarkIcon 
-                                        sx={{
-                                            fontSize: "25px"
-                                        }}
-                                    /> */}
+                                    {bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
+                                    {!bookmarked && userProfile && (
+                                        <a onClick={bookmarkButton}>
+                                            <BookmarkBorderIcon
+                                                sx={{
+                                                    fontSize: "40px"
+                                                }}
+                                            />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                             <div className="r1">
@@ -234,7 +252,6 @@ function Review() {
                                                 color: "#949292",
                                                 height: 5,
                                                 width: 5,
-
                                                 borderRadius: "5px"
                                             }
                                         }}
@@ -258,7 +275,7 @@ function Review() {
                                     type="text"
                                     placeholder={Moment(
                                         review.dateVisited
-                                    ).format("MMMM Do, YYYY")}
+                                    ).format("DD/MM/YY")}
                                     disabled
                                 />
                             </div>
@@ -344,16 +361,21 @@ function Review() {
                                         {review.userId.username}
                                     </button>
                                 </p>
-
-                                <button
-                                    className="editReviewButton"
-                                    type="button"
-                                    onClick={() => {
-                                        navigate(`review/${review._id}/edit`);
-                                    }}
-                                >
-                                    EDIT
-                                </button>
+                                {review.userId._id !== props.user?._id ? (
+                                    <></>
+                                ) : (
+                                    <button
+                                        className="editReviewButton"
+                                        type="button"
+                                        onClick={() => {
+                                            navigate(
+                                                `/review/${review._id}/edit`
+                                            );
+                                        }}
+                                    >
+                                        EDIT
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </span>
@@ -380,17 +402,16 @@ function Review() {
                                 </div>
                                 <div className="likes-bookmark">
                                     <div className="likes">
-                                        {userProfile && liked && (
+                                        {liked && (
                                             <a onClick={likeButton}>
                                                 <ThumbUpAltIcon />
                                             </a>
                                         )}
-                                        {userProfile && !liked && (
+                                        {!liked && (
                                             <a onClick={likeButton}>
                                                 <ThumbUpOffAltIcon />
                                             </a>
                                         )}
-
                                         <p>{review.likeCount}</p>
                                     </div>
                                     {bookmarked && userProfile && (
@@ -432,7 +453,7 @@ function Review() {
                                 />
                             </div>
                         </div>
-                        <div className="line" />
+                        <div className="line5" />
                         <div className="r1">
                             <div className="r2">
                                 <p>
@@ -455,25 +476,29 @@ function Review() {
                                     </button>
                                 </p>
                             </div>
-                            <button
-                                className="editReviewButton"
-                                type="button"
-                                onClick={() => {
-                                    navigate(`/review/${review._id}/edit`);
-                                }}
-                            >
-                                EDIT
-                            </button>
+                            {review.userId._id !== props.user?._id ? (
+                                <></>
+                            ) : (
+                                <button
+                                    className="editReviewButton"
+                                    type="button"
+                                    onClick={() => {
+                                        navigate(`/review/${review._id}/edit`);
+                                    }}
+                                >
+                                    EDIT
+                                </button>
+                            )}
                         </div>
                     </span>
                 </div>
             ) : (
                 <div>
-                    <h1>Not Found.</h1>
+                    <h1>Review Not Found.</h1>
                 </div>
             )}
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );

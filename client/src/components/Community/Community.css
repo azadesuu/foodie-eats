@@ -1,5 +1,6 @@
 span.bigScreen-Community {
     display: inline;
+    width: 100%;
 }
 span.smallScreen-Community {
     display: none;

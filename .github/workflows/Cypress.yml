@@ -1,0 +1,37 @@
+name: Cypress Testing
+on: [push]
+jobs:
+  server-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install npm in server
+        run: npm install
+        working-directory: server
+      - name: Server run
+        run: npm start &
+        working-directory: server
+  client-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install npm in client
+        run: npm install
+        working-directory: client
+      - name: Client run
+        run: npm start &
+        working-directory: client
+    needs: server-run
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v4.2.0
+        with:
+            working-directory: client
+            start: npm start
+    needs: [server-run, client-run]
