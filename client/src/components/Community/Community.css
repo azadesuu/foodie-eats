@@ -5,51 +5,51 @@ span.bigScreen-Community {
 span.smallScreen-Community {
     display: none;
 }
-@media screen and (max-width: 570px) { 
+@media screen and (max-width: 570px) {
     span.bigScreen-Community {
-      display: none;
+        display: none;
     }
     span.smallScreen-Community {
-      display: inline;
-      width: 98%;
+        display: inline;
+        width: 98%;
     }
     .content-Community h1 {
-      font-size: 50px;
+        font-size: 50px;
     }
     .content-Community .searchrow {
-      width: 95%;
+        width: 95%;
     }
     .content-Community .searchbar {
         margin-top: 10px;
     }
     .content-Community .searchbar input {
-      height: 20px;
-      border-radius: 20px;
+        height: 20px;
+        border-radius: 20px;
     }
     .content-Community .location {
-      margin-left: 30px;
-      margin-top: -50px;
+        margin-left: 30px;
+        margin-top: -50px;
     }
 }
 @media screen and (min-width: 570px) {
     .content-Community h1 {
-      font-size: 60px;
+        font-size: 60px;
     }
     .content-Community .searchrow {
-      width: 80%;
-      border-radius: 10px;
+        width: 80%;
+        border-radius: 10px;
     }
     .content-Community .searchbar {
         margin-top: -40px;
     }
     .content-Community .searchbar input {
-      height: 35px;
-      border-radius: 10px;
+        height: 35px;
+        border-radius: 10px;
     }
     .content-Community .location {
-      justify-content: flex-end;
-      margin-right: 70px;
-      margin-top: 10px;
+        justify-content: flex-end;
+        margin-right: 70px;
+        margin-top: 10px;
     }
 }
 :root {
@@ -57,7 +57,7 @@ span.smallScreen-Community {
 }
 body {
     margin-top: 230px;
-    background-color: #FFFEEC;
+    background-color: #fffeec;
     padding: 1%;
     font-family: "Martel Sans";
     display: flex;
@@ -84,7 +84,7 @@ body {
     align-items: center;
 }
 .content-Community .location input {
-    background: #FFFEEC;
+    background: #fffeec;
     border: none;
     font-size: medium;
 }
@@ -97,7 +97,7 @@ body {
 }
 .content-Community .searchbar input {
     border: none;
-    background: #D9D9D9;
+    background: #d9d9d9;
     padding: 8px;
     font-size: 20px;
     width: 100%;
@@ -105,7 +105,7 @@ body {
 .content-Community .searchrow {
     display: flex;
     gap: 6px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border-radius: 20px;
     gap: 1px;
     align-items: center;
@@ -147,7 +147,7 @@ input:focus {
     display: flex;
     justify-content: center;
 }
-.content-Community .t1{
+.content-Community .t1 {
     display: flex;
     justify-content: space-between;
     margin-bottom: 2px;
@@ -172,7 +172,7 @@ input:focus {
     align-items: flex-start;
 }
 .content-Community .toprecom-content {
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;
@@ -189,7 +189,7 @@ input:focus {
     align-items: flex-start;
 }
 .content-Community .recent-content {
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;
@@ -210,13 +210,13 @@ input:focus {
 }
 .content-Community .search-dropdwn {
     height: 100%;
-    background-color: #FFFCFB;
-    border: 1px solid #BEE5B0;
+    background-color: #fffcfb;
+    border: 1px solid #bee5b0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 .footer {
-    background-color: #E4F3D3;
+    background-color: #e4f3d3;
     color: #3f3f3f;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

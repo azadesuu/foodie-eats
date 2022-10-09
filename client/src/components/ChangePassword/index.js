@@ -55,7 +55,7 @@ function Sidebar() {
 function ChangePwDetails(props) {
     const user = props.user;
     const navigate = useNavigate();
-    
+
     const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
@@ -166,7 +166,7 @@ function ChangePwDetails(props) {
                 <h1>No user found</h1>
             )}
         </div>
-    )
+    );
 }
 
 function ChangePassword() {

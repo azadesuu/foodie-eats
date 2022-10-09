@@ -78,9 +78,9 @@ function ProfileDetails(props) {
                                     bgcolor: "#FFFEEC"
                                 },
                                 left: "30px",
-                                bottom: "40px",
+                                bottom: "40px"
                             }}
-                        >   
+                        >
                             <EditIcon
                                 sx={{
                                     color: "black",
@@ -89,17 +89,17 @@ function ProfileDetails(props) {
                                         bgcolor: "#FFFEEC"
                                     }
                                 }}
-                            />  
+                            />
                         </IconButton>
                     </div>
                     <Avatar
                         alt="user-profile-image"
                         // src={user.profileImage}
-                        sx={{ 
-                            height: 110, 
-                            width:  110,
+                        sx={{
+                            height: 110,
+                            width: 110,
                             ml: "35px",
-                            mt: "-40px",
+                            mt: "-40px"
                         }}
                     />
                 </span>
@@ -111,9 +111,9 @@ function ProfileDetails(props) {
                             "&:hover": {
                                 bgcolor: "#FFFEEC"
                             },
-                            bottom: "5px",
+                            bottom: "5px"
                         }}
-                    >   
+                    >
                         <EditIcon
                             sx={{
                                 color: "black",
@@ -122,7 +122,7 @@ function ProfileDetails(props) {
                                     bgcolor: "#FFFEEC"
                                 }
                             }}
-                        />  
+                        />
                     </IconButton>
                 </span>
             </div>

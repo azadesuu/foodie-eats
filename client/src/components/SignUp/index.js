@@ -26,7 +26,6 @@ function Register() {
                 });
                 alert("Signup successful. Please Login.");
                 navigate("/login");
-                
             } catch (err) {
                 alert(err);
             }

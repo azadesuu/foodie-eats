@@ -1,16 +1,15 @@
 span.bigScreen-Review {
     display: inline;
-    
 }
 span.smallScreen-Review {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-Review {
-      display: none;
+        display: none;
     }
     span.smallScreen-Review {
-      display: inline;
+        display: inline;
     }
     .content-Review h1 {
         font-size: 50px;
@@ -18,7 +17,8 @@ span.smallScreen-Review {
     .content-Review form {
         width: 316px;
     }
-    .content-Review .r1, .r2 {
+    .content-Review .r1,
+    .r2 {
         max-width: 316px;
     }
     .content-Review .sliderContainer {
@@ -32,7 +32,7 @@ span.smallScreen-Review {
         margin-top: -30px;
     }
 }
-@media screen and (min-width: 1000px) { 
+@media screen and (min-width: 1000px) {
     .content-Review h1 {
         font-size: 60px;
     }
@@ -97,7 +97,7 @@ body {
     max-width: 1000px;
 }
 .content-Review .review-tags p {
-    background-color: #FFFCFB;
+    background-color: #fffcfb;
     border: 1px solid #949292;
     border-radius: 10px;
     padding: 5px;
@@ -114,7 +114,8 @@ body {
     align-self: center;
     margin-top: 20px;
 }
-.content-Review input::placeholder, textarea::placeholder {
+.content-Review input::placeholder,
+textarea::placeholder {
     color: #000000;
 }
 .content-Review form .details-container {
@@ -134,7 +135,7 @@ body {
     display: block;
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -144,7 +145,7 @@ body {
     outline: none;
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 140px;
@@ -171,13 +172,13 @@ body {
     font-size: 10px;
     margin: 0;
     height: 20px;
-    color: #6E6E66;
+    color: #6e6e66;
 }
 .authorButton {
     border: none;
     background-color: transparent;
     font-size: 10px;
-    color: #6E6E66;
+    color: #6e6e66;
 }
 .content-Review .likes-bookmark {
     display: flex;
@@ -218,14 +219,14 @@ body {
     display: block;
     width: 95%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
 }
 .content-Review form .state-container {
     width: 150px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: 1px solid #000000;
     border-radius: 10px;
     display: flex;
@@ -234,7 +235,7 @@ body {
 .content-Review form .state-container input {
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border: none;
     border-radius: 10px;
@@ -246,7 +247,7 @@ body {
     display: block;
     width: 90%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -257,10 +258,10 @@ body {
 .content-Review form .country-container input {
     width: 90%;
     padding: 10px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: 1px solid #000000;
     border-radius: 10px;
-    height: 20px
+    height: 20px;
 }
 .content-Review .addImage {
     width: 80px;

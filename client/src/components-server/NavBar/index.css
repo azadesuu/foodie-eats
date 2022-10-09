@@ -4,7 +4,7 @@ span.bigScreen-nav {
 span.smallScreen-nav {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-nav {
         display: none;
     }

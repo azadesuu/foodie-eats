@@ -4,16 +4,16 @@
         width: 483px;
     }
     .form-control input {
-        width: 399px;  
+        width: 399px;
     }
-    .forgetpw a{
+    .forgetpw a {
         margin-left: -107px;
     }
     .line {
         width: 318px;
     }
 }
-@media screen and (max-width: 550px) { 
+@media screen and (max-width: 550px) {
     .form-control {
         display: flex;
         flex-direction: column;
@@ -21,14 +21,14 @@
     .form-control label {
         margin-left: -240px;
     }
-    .forgetpw a{
+    .forgetpw a {
         margin-left: -170px;
     }
     .content-Login .line {
         width: 250px;
     }
 }
-@media screen and (max-width: 450px) { 
+@media screen and (max-width: 450px) {
     .line {
         width: 170px;
     }
@@ -38,7 +38,7 @@
 }
 body {
     margin-top: 230px;
-    background-color: #FFFEEC;
+    background-color: #fffeec;
     padding: 1%;
     font-family: "Martel Sans";
     display: flex;
@@ -59,7 +59,7 @@ body {
 .row {
     display: flex;
     gap: 6px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     max-width: 346px;
     border-radius: 10px;
 }
@@ -85,7 +85,7 @@ body {
 }
 .form-control input {
     border: none;
-    background: #D9D9D9;
+    background: #d9d9d9;
     border-radius: 10px;
     display: block;
     width: 330px;
@@ -125,7 +125,7 @@ a:visited {
     text-decoration: none;
 }
 .footer {
-    background-color: #E4F3D3;
+    background-color: #e4f3d3;
     color: #3f3f3f;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

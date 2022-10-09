@@ -202,7 +202,6 @@ function ReviewsBigScreen(props) {
                                         <Grid item xs={6} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-
                                     ))}
                                 </Grid>
                             </div>

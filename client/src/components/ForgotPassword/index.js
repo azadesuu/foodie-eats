@@ -39,7 +39,9 @@ function ForgotPassword() {
                         setEmail(event.target.value);
                     }}
                 />
-                <button id="submit-btn" onClick={onSubmit}>SUBMIT</button>
+                <button id="submit-btn" onClick={onSubmit}>
+                    SUBMIT
+                </button>
             </form>
         </div>
     );

@@ -5,7 +5,7 @@ import "./NavBar.css";
 
 import "@fontsource/martel-sans";
 
-import WebLogo from '../../assets/images/foodie_eats_192x192.svg';
+import WebLogo from "../../assets/images/foodie_eats_192x192.svg";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -20,7 +20,6 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
 import { Drawer } from "@mui/material";
-
 
 const theme = createTheme({
     palette: {
@@ -41,7 +40,7 @@ function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
-        <> 
+        <>
             <IconButton
                 edge="start"
                 color="img"
@@ -49,9 +48,7 @@ function MenuSideBar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 sx={{ mr: 2 }}
-                onClick={() =>
-                    setIsOpen(!isOpen)    
-                }
+                onClick={() => setIsOpen(!isOpen)}
             >
                 <MenuIcon
                     sx={{
@@ -64,12 +61,8 @@ function MenuSideBar() {
                 open={isOpen}
                 onClose={() => setIsOpen(!isOpen)}
             >
-
                 <div className="content-MenuSideBar">
-                    <img
-                        src={WebLogo}
-                        width="107px"
-                    />
+                    <img src={WebLogo} width="107px" />
                     <div className="MenuSideBar-r1">
                         <div className="MenuSideBar-c1">
                             <NavLink
@@ -78,7 +71,7 @@ function MenuSideBar() {
                                 style={{
                                     fontSize: "20px",
                                     color: "#000000",
-                                    fontFamily: "Martel Sans", 
+                                    fontFamily: "Martel Sans"
                                 }}
                             >
                                 community
@@ -88,7 +81,7 @@ function MenuSideBar() {
                                 style={{
                                     fontSize: "20px",
                                     color: "#000000",
-                                    fontFamily: "Martel Sans", 
+                                    fontFamily: "Martel Sans"
                                 }}
                             >
                                 login
@@ -100,21 +93,16 @@ function MenuSideBar() {
                                     display: "contents"
                                 }}
                                 onClick={() => {
-                                    setIsOpen(!isOpen)
+                                    setIsOpen(!isOpen);
                                 }}
                             >
                                 <ArrowBackIosNewIcon
                                     sx={{
-                                        color:
-                                            "white",
-                                        bgcolor:
-                                            "#514F4E",
-                                        height:
-                                            "61px",
-                                        width:
-                                            "17px",
-                                        borderRadius:
-                                            "10px 0px 0px 10px"
+                                        color: "white",
+                                        bgcolor: "#514F4E",
+                                        height: "61px",
+                                        width: "17px",
+                                        borderRadius: "10px 0px 0px 10px"
                                     }}
                                 />
                             </Button>
@@ -123,7 +111,7 @@ function MenuSideBar() {
                 </div>
             </Drawer>
         </>
-    )
+    );
 }
 
 function NavPublic() {
@@ -171,17 +159,19 @@ function NavPublic() {
                                             className="active-link"
                                             tag={Link}
                                             to="/login"
-                                            style={
-                                                ({isActive}) => ({
-                                                    fontSize: "20px",
-                                                    color: "#000000",
-                                                    fontFamily: "Martel Sans", 
-                                                    height: isActive ? 100 : "",  
-                                                    borderBottom: isActive ? "2px solid #000000" : "",
-                                                    display: isActive ? "flex" :  "",
-                                                    alignItems: isActive ? "center" : "",
-                                                })
-                                            }
+                                            style={({ isActive }) => ({
+                                                fontSize: "20px",
+                                                color: "#000000",
+                                                fontFamily: "Martel Sans",
+                                                height: isActive ? 100 : "",
+                                                borderBottom: isActive
+                                                    ? "2px solid #000000"
+                                                    : "",
+                                                display: isActive ? "flex" : "",
+                                                alignItems: isActive
+                                                    ? "center"
+                                                    : ""
+                                            })}
                                         >
                                             login
                                         </NavLink>
@@ -216,8 +206,8 @@ function NavPublic() {
                             }}
                         >
                             <Toolbar>
-                                <Button 
-                                    href='/home' 
+                                <Button
+                                    href="/home"
                                     color="inherit"
                                     sx={{
                                         "&:hover": {
@@ -225,7 +215,7 @@ function NavPublic() {
                                         }
                                     }}
                                 >
-                                    <img src={ WebLogo } width="70px"/>
+                                    <img src={WebLogo} width="70px" />
                                 </Button>
                                 <Grid container justifyContent="space-between">
                                     <Box
@@ -238,17 +228,19 @@ function NavPublic() {
                                             className="active-link"
                                             tag={Link}
                                             to="/home"
-                                            style={
-                                                ({isActive}) => ({
-                                                    fontSize: "20px",
-                                                    color: "#000000",
-                                                    fontFamily: "Martel Sans", 
-                                                    height: isActive ? 100 : "",  
-                                                    borderBottom: isActive ? "2px solid #000000" : "",
-                                                    display: isActive ? "flex" :  "",
-                                                    alignItems: isActive ? "center" : "",
-                                                })
-                                            }
+                                            style={({ isActive }) => ({
+                                                fontSize: "20px",
+                                                color: "#000000",
+                                                fontFamily: "Martel Sans",
+                                                height: isActive ? 100 : "",
+                                                borderBottom: isActive
+                                                    ? "2px solid #000000"
+                                                    : "",
+                                                display: isActive ? "flex" : "",
+                                                alignItems: isActive
+                                                    ? "center"
+                                                    : ""
+                                            })}
                                         >
                                             community
                                         </NavLink>
@@ -263,17 +255,19 @@ function NavPublic() {
                                             className="active-link"
                                             tag={Link}
                                             to="/login"
-                                            style={
-                                                ({isActive}) => ({
-                                                    fontSize: "20px",
-                                                    color: "#000000",
-                                                    fontFamily: "Martel Sans", 
-                                                    height: isActive ? 100 : "",  
-                                                    borderBottom: isActive ? "2px solid #000000" : "",
-                                                    display: isActive ? "flex" :  "",
-                                                    alignItems: isActive ? "center" : "",
-                                                })
-                                            }
+                                            style={({ isActive }) => ({
+                                                fontSize: "20px",
+                                                color: "#000000",
+                                                fontFamily: "Martel Sans",
+                                                height: isActive ? 100 : "",
+                                                borderBottom: isActive
+                                                    ? "2px solid #000000"
+                                                    : "",
+                                                display: isActive ? "flex" : "",
+                                                alignItems: isActive
+                                                    ? "center"
+                                                    : ""
+                                            })}
                                         >
                                             login
                                         </NavLink>
