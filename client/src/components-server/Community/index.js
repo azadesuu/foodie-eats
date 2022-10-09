@@ -17,7 +17,11 @@ import Nav from '../NavBar';
 import ReviewPeek from "../ReviewPeek";
 
 function Location() {
+
+
   return (
+
+    
       <div className="location">
           <LocationOnIcon />
           <input
