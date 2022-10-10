@@ -67,8 +67,8 @@ function PostReview() {
             alert("state is missing");
         } else if (!postcode) {
             alert("postcode is missing");
-        } else if (parseInt(postcode) < 3000 || parseInt(postcode) > 3999) {
-            alert("postcode must be between 3000 and 3999");
+        } else if (!/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(postcode)) {
+            alert("Postcode is invalid.");
         } else if (!description) {
             alert("description is missing");
         } else {
@@ -87,10 +87,10 @@ function PostReview() {
                 dateVisited: dateVisited,
                 address: address,
                 description: description,
-                tags: [tags]
+                tags: tags
             });
             if (!review) {
-                alert("creation unsucessful.");
+                alert("creation unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -114,7 +114,7 @@ function PostReview() {
             label: "$$$$"
         }
     ];
-    
+
     return (
         <div className="content-PostReview">
             {isLoading && <CircularProgress className="spinner" />}
@@ -356,7 +356,6 @@ function PostReview() {
                                         }}
                                         required
                                     />
-                                    
                                 </div>
                                 <div className="tags-input">
                                     <TagsInput
@@ -388,7 +387,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >
@@ -541,11 +541,12 @@ function PostReview() {
                                                 type="text"
                                                 placeholder="description..."
                                                 onChange={e => {
-                                                    setDescription(e.target.value);
+                                                    setDescription(
+                                                        e.target.value
+                                                    );
                                                 }}
                                                 required
                                             />
-                                            
                                         </div>
                                         <div className="tags-input">
                                             <TagsInput
@@ -692,7 +693,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >

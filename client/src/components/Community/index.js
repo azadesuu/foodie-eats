@@ -4,13 +4,17 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getCommunityRecent, getCommunityMostLiked, getCommunitySearch } from "../../api";
+import {
+    getCommunityRecent,
+    getCommunityMostLiked,
+    getAllReviews
+} from "../../api";
 
 import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Select from '@mui/material/Select';
+import Select from "@mui/material/Select";
 
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -22,25 +26,20 @@ import { Menu } from "@mui/material";
 
 function SearchBar() {
     const [input, setInput] = useState("");
-    // const { data: listReviews, isLoading3 } = useQuery(
-    //     "listReviews",
-    //     () => getCommunitySearch()
-    // );
-    const { data: listReviews, isLoading3 } = useQuery(
-        "listReviewsRecent",
-        () => getCommunityRecent()
+    const { data: allReviews, isLoading3 } = useQuery("allReviews", () =>
+        getAllReviews()
     );
     const filter = (
         <Menu
             items={[
                 {
                     label: "rating",
-                    key: "0",
+                    key: "0"
                 },
                 {
                     label: "price range",
-                    key: "1",
-                },
+                    key: "1"
+                }
             ]}
         />
     );
@@ -55,16 +54,14 @@ function SearchBar() {
                     name="search"
                     id="search"
                     value={input}
-                    onChange={(e) =>
-                        setInput(e.target.value)
-                    }
+                    onChange={e => setInput(e.target.value)}
                 />
                 {/* <IconButton
                     sx={{
                         color: "#000000"
                     }}
                 > */}
-                    <FilterAltIcon />
+                <FilterAltIcon />
                 {/* </IconButton> */}
                 {/* <Select>
                     <optgroup label="rating">
@@ -83,7 +80,7 @@ function SearchBar() {
                 </Select> */}
             </div>
             {isLoading3 && <CircularProgress className="spinner" />}
-            {listReviews && input && (
+            {allReviews && input && (
                 <div className="searchResult">
                     <List
                         sx={{
@@ -99,12 +96,15 @@ function SearchBar() {
                             }
                         }}
                     >
-                        {listReviews
+                        {allReviews
                             .filter(review => {
                                 const searchInput = input.toLowerCase();
                                 const resName = review.restaurantName.toLowerCase();
 
-                                return searchInput && resName.startsWith(searchInput)
+                                return (
+                                    searchInput &&
+                                    resName.startsWith(searchInput)
+                                );
                             })
                             .map(review => {
                                 return (
@@ -113,7 +113,7 @@ function SearchBar() {
                                         <div className="line5"></div>
                                     </div>
                                 );
-                        })}
+                            })}
                     </List>
                 </div>
             )}
@@ -160,7 +160,7 @@ function Community() {
             <span className="bigScreen-Community">
                 {/* <Location /> */}
                 <div className="location">
-                    <LocationOnIcon 
+                    <LocationOnIcon
                         sx={{
                             fontSize: "35px"
                         }}
@@ -172,7 +172,7 @@ function Community() {
                         id="location"
                         value={location}
                         maxLength="4"
-                        onChange={(e) => {
+                        onChange={e => {
                             setLocation(e.target.value);
                         }}
                         onKeyPress={event => {
@@ -188,7 +188,7 @@ function Community() {
             <span className="smallScreen-Community">
                 {/* <Location /> */}
                 <div className="location">
-                    <LocationOnIcon 
+                    <LocationOnIcon
                         sx={{
                             fontSize: "35px"
                         }}
@@ -200,7 +200,7 @@ function Community() {
                         id="location"
                         value={location}
                         maxLength="4"
-                        onChange={(e) => {
+                        onChange={e => {
                             setLocation(e.target.value);
                         }}
                         onKeyPress={event => {
@@ -240,16 +240,21 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listLikes
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).slice(0, 9).map(review => {
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .slice(0, 9)
+                                    .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                })}
+                                    })}
                             </List>
                         </div>
                     </span>
@@ -275,13 +280,16 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listLikes
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).slice(0, 9).map(review => (
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .slice(0, 9)
+                                    .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-                                ))}
+                                    ))}
                             </Grid>
                         </Box>
                     </span>
@@ -317,16 +325,20 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listReviewsRecent
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).map(review => {
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                })}
+                                    })}
                             </List>
                         </div>
                     </span>
@@ -351,13 +363,15 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listReviewsRecent
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).map(review => (
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-                                ))}
+                                    ))}
                             </Grid>
                         </Box>
                     </span>

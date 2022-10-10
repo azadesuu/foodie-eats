@@ -18,12 +18,12 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Moment from "moment";
 
-import ImageIcon from '@mui/icons-material/Image';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import StarIcon from '@mui/icons-material/Star';
+import ImageIcon from "@mui/icons-material/Image";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import StarIcon from "@mui/icons-material/Star";
 
 function Review(props) {
     const [user] = useContext(UserContext);
@@ -117,10 +117,10 @@ function Review(props) {
                                     <div className="switchContainer">
                                         <FormControlLabel
                                             sx={{
-                                                gap: "5px",
+                                                gap: "5px"
                                             }}
                                             control={
-                                                <Switch 
+                                                <Switch
                                                     sx={{
                                                         width: 36,
                                                         height: 20,
@@ -129,35 +129,45 @@ function Review(props) {
                                                         "& .MuiSwitch-switchBase": {
                                                             padding: 0,
                                                             margin: 0.3,
-                                                            transitionDuration: "300ms",
+                                                            transitionDuration:
+                                                                "300ms",
                                                             "&.Mui-checked": {
-                                                                transform: "translateX(16px)",
-                                                                color: "#FFFCFB",
-                                                            "& + .MuiSwitch-track": {
-                                                                backgroundColor: "#D9D9D9",
-                                                                opacity: 1,
-                                                                border: 0,
-                                                            },
-                                                            "&.Mui-disabled + .MuiSwitch-track": {
-                                                                opacity: 0.5,
-                                                            },
-                                                            },
+                                                                transform:
+                                                                    "translateX(16px)",
+                                                                color:
+                                                                    "#FFFCFB",
+                                                                "& + .MuiSwitch-track": {
+                                                                    backgroundColor:
+                                                                        "#D9D9D9",
+                                                                    opacity: 1,
+                                                                    border: 0
+                                                                },
+                                                                "&.Mui-disabled + .MuiSwitch-track": {
+                                                                    opacity: 0.5
+                                                                }
+                                                            }
                                                         },
                                                         "& .MuiSwitch-thumb": {
-                                                            boxSizing: "border-box",
+                                                            boxSizing:
+                                                                "border-box",
                                                             width: 16,
-                                                            height: 16,
+                                                            height: 16
                                                         },
                                                         "& .MuiSwitch-track": {
-                                                            borderRadius: "10px",
+                                                            borderRadius:
+                                                                "10px",
                                                             bgcolor: "#A9CABB",
-                                                            opacity: 1,
-
-                                                        },
+                                                            opacity: 1
+                                                        }
                                                     }}
-                                                    checked={review.isPublic} 
-                                                />}
-                                            label={review.isPublic ? "Public":"Private"}
+                                                    checked={review.isPublic}
+                                                />
+                                            }
+                                            label={
+                                                review.isPublic
+                                                    ? "Public"
+                                                    : "Private"
+                                            }
                                         />
                                     </div>
                                 )}
@@ -203,12 +213,13 @@ function Review(props) {
                                         size="medium"
                                         precision={1}
                                         emptyIcon={
-                                            <StarIcon 
+                                            <StarIcon
                                                 style={{
-                                                    opacity: 0.55 
-                                                }} 
-                                                fontSize="inherit" 
-                                            />}
+                                                    opacity: 0.55
+                                                }}
+                                                fontSize="inherit"
+                                            />
+                                        }
                                         readOnly
                                     />
                                 </div>
@@ -228,7 +239,7 @@ function Review(props) {
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
                                                     boxShadow:
-                                                    "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
+                                                        "0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)"
                                                 }
                                             },
                                             "& .MuiSlider-rail": {
@@ -243,7 +254,7 @@ function Review(props) {
                                                 color: "#949292",
                                                 height: 5,
                                                 width: 5,
-                                                borderRadius: "5px",
+                                                borderRadius: "5px"
                                             }
                                         }}
                                     />
@@ -264,9 +275,9 @@ function Review(props) {
                             <div className="details-container">
                                 <input
                                     type="text"
-                                    placeholder={Moment(review.dateVisited).format(
-                                        "DD/MM/YY"
-                                    )}
+                                    placeholder={Moment(
+                                        review.dateVisited
+                                    ).format("DD/MM/YY")}
                                     disabled
                                 />
                             </div>
@@ -321,7 +332,6 @@ function Review(props) {
                                         placeholder={review.description}
                                         disabled
                                     />
-                                    
                                 </div>
                                 <div className="tags-input">
                                     <TagsInput
@@ -333,29 +343,31 @@ function Review(props) {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <ImageIcon 
+                                <ImageIcon
                                     sx={{
                                         fontSize: "72px",
                                         bgcolor: "#D9D9D9",
-                                        borderRadius: "10px",
-                                    }}    
+                                        borderRadius: "10px"
+                                    }}
                                 />
                             </div>
-                            <div className="line"/>
+                            <div className="line" />
                             <div className="r2">
                                 <p>
-                                    Date published {
-                                        Moment(review.dateReviewed).format(
-                                            "MMMM Do, YYYY"
-                                        )
-                                    }
+                                    Date published{" "}
+                                    {Moment(review.dateReviewed).format(
+                                        "MMMM Do, YYYY"
+                                    )}
                                 </p>
-                                <p>By 
+                                <p>
+                                    By
                                     <button
                                         className="authorButton"
                                         onClick={() => {
-                                            navigate(`/profile/${review.userId.username}`);
-                                        }} 
+                                            navigate(
+                                                `/profile/${review.userId.username}`
+                                            );
+                                        }}
                                     >
                                         {review.userId.username}
                                     </button>
@@ -367,14 +379,16 @@ function Review(props) {
                                         className="editReviewButton"
                                         type="button"
                                         onClick={() => {
-                                            navigate(`/review/${review._id}/edit`);
+                                            navigate(
+                                                `/review/${review._id}/edit`
+                                            );
                                         }}
                                     >
                                         EDIT
                                     </button>
                                 )}
                             </div>
-                        </form>                        
+                        </form>
                     </span>
                     <span className="bigScreen-Review">
                         <div id="outer">
@@ -386,12 +400,13 @@ function Review(props) {
                                         size="medium"
                                         precision={1}
                                         emptyIcon={
-                                            <StarIcon 
+                                            <StarIcon
                                                 style={{
-                                                    opacity: 0.55 
-                                                }} 
-                                                fontSize="inherit" 
-                                            />}
+                                                    opacity: 0.55
+                                                }}
+                                                fontSize="inherit"
+                                            />
+                                        }
                                         readOnly
                                     />
                                     <div className="price"></div>
@@ -433,7 +448,10 @@ function Review(props) {
                         </div>
                         <div className="review-container">
                             <h3>{review.restaurantName}</h3>
-                            <h4>{review.address.streetAddress} {review.address.state} {review.address.postcode}</h4>
+                            <h4>
+                                {review.address.streetAddress}{" "}
+                                {review.address.state} {review.address.postcode}
+                            </h4>
                             <div className="review-tags">
                                 <div className="tags-input">
                                     <TagsInput
@@ -446,48 +464,50 @@ function Review(props) {
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
-                                <ImageIcon 
+                                <ImageIcon
                                     sx={{
-                                        fontSize: "170px",
-                                    }}    
+                                        fontSize: "170px"
+                                    }}
                                 />
                             </div>
                         </div>
-                        <div className="line5"/>
-                            <div className="r1">
-                                <div className="r2">
-                                    <p>
-                                        Date published {
-                                            Moment(review.dateReviewed).format(
-                                                "MMMM Do, YYYY"
-                                            )
-                                        }
-                                    </p>
-                                    <p>By 
-                                        <button
-                                            className="authorButton"
-                                            onClick={() => {
-                                                navigate(`/profile/${review.userId.username}`);
-                                            }} 
-                                        >
-                                            {review.userId.username}
-                                        </button>
-                                    </p>
-                                </div>
-                                {review.userId._id !== props.user?._id ? (
-                                    <></>
-                                ) : (
+                        <div className="line5" />
+                        <div className="r1">
+                            <div className="r2">
+                                <p>
+                                    Date published{" "}
+                                    {Moment(review.dateReviewed).format(
+                                        "MMMM Do, YYYY"
+                                    )}
+                                </p>
+                                <p>
+                                    By
                                     <button
-                                        className="editReviewButton"
-                                        type="button"
+                                        className="authorButton"
                                         onClick={() => {
-                                            navigate(`/review/${review._id}/edit`);
+                                            navigate(
+                                                `/profile/${review.userId.username}`
+                                            );
                                         }}
                                     >
-                                        EDIT
+                                        {review.userId.username}
                                     </button>
-                                )}
+                                </p>
                             </div>
+                            {review.userId._id !== props.user?._id ? (
+                                <></>
+                            ) : (
+                                <button
+                                    className="editReviewButton"
+                                    type="button"
+                                    onClick={() => {
+                                        navigate(`/review/${review._id}/edit`);
+                                    }}
+                                >
+                                    EDIT
+                                </button>
+                            )}
+                        </div>
                     </span>
                 </div>
             ) : (

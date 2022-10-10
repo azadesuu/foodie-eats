@@ -8,7 +8,7 @@ import { UserContext } from "../../actions/UserContext";
 import { updateReview, getReview, deleteReview } from "../../api";
 import { TagsInput } from "react-tag-input-component";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
@@ -42,8 +42,9 @@ function EditReview() {
             alert("Review deleted.");
             navigate("/my-reviews");
         } else {
-            alert("An error occured, please try again later")}
-        };
+            alert("An error occured, please try again later");
+        }
+    };
 
     useEffect(() => {
         if (review?.userId._id !== user?._id) {
@@ -78,10 +79,9 @@ function EditReview() {
         } else if (!description) {
             alert("description is missing");
         } else if (
-            parseInt(address.postcode) < 3000 ||
-            parseInt(address.postcode) > 3999
+            !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
-            alert("postcode must be between 3000 and 3999");
+            alert("Postcode is invalid.");
         } else {
             const updatedReviewRecord = await updateReview({
                 _id: _id,
@@ -95,7 +95,7 @@ function EditReview() {
                 tags: tags
             });
             if (!review) {
-                alert("update unsucessful.");
+                alert("update unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -128,18 +128,21 @@ function EditReview() {
                 <div className="user-container">
                     <div className="Edit-title">
                         <h1>EDIT</h1>
-                        <DeleteIcon 
+                        <DeleteIcon
                             sx={{
                                 fontSize: "35px",
                                 textAlign: "end",
                                 marginBottom: "10px",
                                 marginLeft: "40px"
                             }}
-                            onClick={(e) => { 
-                                if (window.confirm('Are you sure you wish to delete this review?')) 
-                                    confirmDelete() 
-                                }
-                            }
+                            onClick={e => {
+                                if (
+                                    window.confirm(
+                                        "Are you sure you wish to delete this review?"
+                                    )
+                                )
+                                    confirmDelete();
+                            }}
                         />
                     </div>
                     <span className="smallScreen-EditReview">
@@ -160,7 +163,8 @@ function EditReview() {
                                                     "& .MuiSwitch-switchBase": {
                                                         padding: 0,
                                                         margin: 0.3,
-                                                        transitionDuration: "300ms",
+                                                        transitionDuration:
+                                                            "300ms",
                                                         "&.Mui-checked": {
                                                             transform:
                                                                 "translateX(16px)",
@@ -187,11 +191,15 @@ function EditReview() {
                                                         opacity: 1
                                                     }
                                                 }}
-                                                defaultChecked={currentPublicity}
+                                                defaultChecked={
+                                                    currentPublicity
+                                                }
                                             />
                                         }
                                         label={
-                                            currentPublicity ? "Public" : "Private"
+                                            currentPublicity
+                                                ? "Public"
+                                                : "Private"
                                         }
                                         onChange={e => {
                                             review.isPublic = e.target.checked;
@@ -292,7 +300,8 @@ function EditReview() {
                                         type="text"
                                         defaultValue={review.address.suburb}
                                         onChange={e => {
-                                            review.address.suburb = e.target.value;
+                                            review.address.suburb =
+                                                e.target.value;
                                         }}
                                     />
                                 </div>
@@ -362,10 +371,9 @@ function EditReview() {
                                         type="text"
                                         defaultValue={review.description}
                                         onChange={e => {
-                                            review.description = e.target.value
+                                            review.description = e.target.value;
                                         }}
                                     />
-                                    
                                 </div>
                                 <div className="tags-input">
                                     <TagsInput
@@ -396,7 +404,7 @@ function EditReview() {
                                             review.dateVisited,
                                             review.address,
                                             review.description,
-                                            review.tags
+                                            tags
                                         );
                                     }}
                                 >
@@ -523,7 +531,8 @@ function EditReview() {
                                             type="text"
                                             defaultValue={review.restaurantName}
                                             onChange={e => {
-                                                review.restaurantName = e.target.value;
+                                                review.restaurantName =
+                                                    e.target.value;
                                             }}
                                         />
                                     </div>
@@ -531,41 +540,46 @@ function EditReview() {
                                     <div className="details-container">
                                         <input
                                             type="date"
-                                            value={Moment(review.dateVisited).format(
-                                                "YYYY-MM-DD"
-                                            )}
+                                            value={Moment(
+                                                review.dateVisited
+                                            ).format("YYYY-MM-DD")}
                                             onChange={e => {
-                                                review.dateVisited = e.target.value;
+                                                review.dateVisited =
+                                                    e.target.value;
                                             }}
                                         />
                                     </div>
 
                                     <div className="description-tags">
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            defaultValue={review.description}
-                                            onChange={e => {
-                                                review.description = e.target.value
-                                            }}
-                                        />
-                                        
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                defaultValue={
+                                                    review.description
+                                                }
+                                                onChange={e => {
+                                                    review.description =
+                                                        e.target.value;
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="tags-input">
-                                        <TagsInput
-                                            name="tags"
-                                            value={tags}
-                                            placeHolder="#tags"
-                                            onChange={setTags}
-                                        />
-                                    </div>
-                                </div>
                                 </div>
                                 <div className="r3-content2">
                                     <div className="details-container">
                                         <input
                                             type="text"
-                                            defaultValue={review.address.streetAddress}
+                                            defaultValue={
+                                                review.address.streetAddress
+                                            }
                                             onChange={e => {
                                                 review.address.streetAddress =
                                                     e.target.value;
@@ -577,9 +591,12 @@ function EditReview() {
                                         <div className="suburb-container">
                                             <input
                                                 type="text"
-                                                defaultValue={review.address.suburb}
+                                                defaultValue={
+                                                    review.address.suburb
+                                                }
                                                 onChange={e => {
-                                                    review.address.suburb = e.target.value;
+                                                    review.address.suburb =
+                                                        e.target.value;
                                                 }}
                                             />
                                         </div>
@@ -587,7 +604,9 @@ function EditReview() {
                                         <div className="state-container">
                                             <FormControl fullWidth size="small">
                                                 <Select
-                                                    defaultValue={review.address.state}
+                                                    defaultValue={
+                                                        review.address.state
+                                                    }
                                                     labelId="state-select-label"
                                                     id="state-select"
                                                     label="State"
@@ -604,14 +623,30 @@ function EditReview() {
                                                         }
                                                     }}
                                                 >
-                                                    <MenuItem value="ACT">ACT</MenuItem>
-                                                    <MenuItem value="NSW">NSW</MenuItem>
-                                                    <MenuItem value="NT">NT</MenuItem>
-                                                    <MenuItem value="QLD">QLD</MenuItem>
-                                                    <MenuItem value="SA">SA</MenuItem>
-                                                    <MenuItem value="TAS">TAS</MenuItem>
-                                                    <MenuItem value="VIC">VIC</MenuItem>
-                                                    <MenuItem value="WA">WA</MenuItem>
+                                                    <MenuItem value="ACT">
+                                                        ACT
+                                                    </MenuItem>
+                                                    <MenuItem value="NSW">
+                                                        NSW
+                                                    </MenuItem>
+                                                    <MenuItem value="NT">
+                                                        NT
+                                                    </MenuItem>
+                                                    <MenuItem value="QLD">
+                                                        QLD
+                                                    </MenuItem>
+                                                    <MenuItem value="SA">
+                                                        SA
+                                                    </MenuItem>
+                                                    <MenuItem value="TAS">
+                                                        TAS
+                                                    </MenuItem>
+                                                    <MenuItem value="VIC">
+                                                        VIC
+                                                    </MenuItem>
+                                                    <MenuItem value="WA">
+                                                        WA
+                                                    </MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </div>
@@ -622,9 +657,13 @@ function EditReview() {
                                             <input
                                                 type="text"
                                                 maxlength="4"
-                                                defaultValue={review.address.postcode}
+                                                defaultValue={
+                                                    review.address.postcode
+                                                }
                                                 onKeyPress={event => {
-                                                    if (!/[0-9]/.test(event.key)) {
+                                                    if (
+                                                        !/[0-9]/.test(event.key)
+                                                    ) {
                                                         event.preventDefault();
                                                     }
                                                 }}
@@ -644,11 +683,13 @@ function EditReview() {
                                     </div>
                                     <div className="add-image">
                                         <button className="addImageButton">
-                                            <img className="addImage" src={addImage} />
+                                            <img
+                                                className="addImage"
+                                                src={addImage}
+                                            />
                                         </button>
                                     </div>
                                 </div>
-                                
                             </div>
 
                             <div>
@@ -665,7 +706,7 @@ function EditReview() {
                                             review.dateVisited,
                                             review.address,
                                             review.description,
-                                            review.tags
+                                            tags
                                         );
                                     }}
                                 >
@@ -674,10 +715,10 @@ function EditReview() {
                             </div>
                         </form>
                     </span>
-                </div> 
+                </div>
             )}
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );
