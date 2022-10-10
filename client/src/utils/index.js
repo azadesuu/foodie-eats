@@ -5,3 +5,9 @@ export const isLoggedIn = () => {
 
     return false;
 };
+
+const getPublicId = imageURL =>
+    imageURL
+        .split("/")
+        .pop()
+        .split(".")[0];
