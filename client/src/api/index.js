@@ -61,7 +61,7 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        alert("<ust provide an email, a password, and a username.");
+        alert("must provide an email, a password, and a username.");
         return;
     }
 
