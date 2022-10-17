@@ -1,14 +1,13 @@
 import React from "react"; // required
 import "./MyBookmarks.css";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { getBookmarks, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 
 import "@fontsource/martel-sans";
 
-import NavLoggedIn from "../LoggedInNavBar";
 import ReviewPeek from "../ReviewPeek";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,29 +20,6 @@ import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
-
-function SearchBar() {
-    const data = [
-        { Name: "Calia", Author: "abcd123" },
-        { Name: "David's Hotpot", Author: "xyz789" }
-    ];
-    return (
-        <div className="searchbar">
-            <div className="searchrow">
-                <SearchIcon />
-                <input
-                    type="text"
-                    placeholder="Search"
-                    name="search"
-                    id="search"
-                    required
-                />
-                <FilterAltIcon />
-            </div>
-            <div className="searchResult"></div>
-        </div>
-    );
-}
 
 function Post() {
     return (
@@ -108,39 +84,65 @@ function Sidebar() {
 function ReviewsSmallScreen(props) {
     const user = props.user;
     const listReviews = props.reviews;
+    const [input, setInput] = useState("");
 
     return (
-        <div className="reviews">
-            <div className="reviews-content">
-                <List
-                    sx={{
-                        width: "100%",
-                        justifyContent: "center",
-                        ml: "5px",
-                        overflowX: "hidden",
-                        overflowY: "auto",
-                        flexDirection: "column",
-                        "&::-webkit-scrollbar": {
-                            width: "0.3em"
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#FFFEEC",
-                            borderRadius: "10px",
-                            maxHeight: "4px"
-                        }
-                    }}
-                >
-                    {!user && <CircularProgress className="spinner" />}
-                    {listReviews.length > 0 ? (
-                        <div>
-                            {listReviews.map(review => {
-                                return <ReviewPeek reviewData={review} />;
-                            })}
-                        </div>
-                    ) : (
-                        <h2>Bookmarks not found</h2>
-                    )}
-                </List>
+        <div>
+            <div className="searchbar">
+                <div className="searchrow">
+                    <SearchIcon />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        name="search"
+                        id="search"
+                        onChange={e => setInput(e.target.value)}
+                    />
+                    <FilterAltIcon />
+                </div>
+            </div>
+            <div className="line" />
+            <div className="reviews">
+                <div className="reviews-content">
+                    <List
+                        sx={{
+                            width: "100%",
+                            justifyContent: "center",
+                            ml: "5px",
+                            overflowX: "hidden",
+                            overflowY: "auto",
+                            flexDirection: "column",
+                            "&::-webkit-scrollbar": {
+                                width: "0.3em"
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                                backgroundColor: "#FFFEEC",
+                                borderRadius: "10px",
+                                maxHeight: "4px"
+                            }
+                        }}
+                    >
+                        {!user && <CircularProgress className="spinner" />}
+                        {listReviews.length > 0 ? (
+                            <div>
+                                {listReviews
+                                    .filter(review => {
+                                        const searchInput = input.toLowerCase();
+                                        const resName = review.restaurantName.toLowerCase();
+
+                                        return resName.startsWith(searchInput);
+                                    })
+                                    .map(review => {
+                                        return (
+                                            <ReviewPeek reviewData={review} />
+                                        );
+                                    })}
+                            </div>
+                        ) : (
+                            <h2>Bookmarks not found</h2>
+                        )}
+                    </List>
+                </div>
             </div>
         </div>
     );
@@ -149,12 +151,25 @@ function ReviewsSmallScreen(props) {
 function ReviewsBigScreen(props) {
     const user = props.user;
     const listReviews = props.reviews;
+    const [input, setInput] = useState("");
 
     return (
         <div className="reviews">
             <div className="bookmarks-r1">
                 <h2>bookmarks</h2>
-                <SearchBar />
+                <div className="searchbar">
+                    <div className="searchrow">
+                        <SearchIcon />
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            name="search"
+                            id="search"
+                            onChange={e => setInput(e.target.value)}
+                        />
+                        <FilterAltIcon />
+                    </div>
+                </div>
             </div>
             <Box
                 sx={{
@@ -178,9 +193,20 @@ function ReviewsBigScreen(props) {
                 {listReviews.length > 0 ? (
                     <div>
                         <Grid container spacing={{ xs: 2, md: 3 }}>
-                            {listReviews.map(review => {
-                                return <ReviewPeek reviewData={review} />;
-                            })}
+                            {listReviews
+                                .filter(review => {
+                                    const searchInput = input.toLowerCase();
+                                    const resName = review.restaurantName.toLowerCase();
+
+                                    return resName.startsWith(searchInput);
+                                })
+                                .map(review => {
+                                    return (
+                                        <Grid item xs={6} key={review}>
+                                            <ReviewPeek reviewData={review} />
+                                        </Grid>
+                                    );
+                                })}
                         </Grid>
                     </div>
                 ) : (
@@ -210,42 +236,33 @@ function MyBookmarks() {
             {(isLoading2 || isLoading) && (
                 <CircularProgress className="spinner" />
             )}
-            <div className="content-MyBookmarks">
-                <NavLoggedIn />
+            {!isLoading2 && userProfile && bookmarks ? (
+                <div className="content-MyBookmarks">
+                    <span className="smallScreen-MyBookmarks">
+                        <h1>BOOKMARKS</h1>
+                        <ReviewsSmallScreen user={user} reviews={bookmarks} />
+                        <Post />
+                    </span>
+                    <span className="bigScreen-MyBookmarks">
+                        <TopUser user={userProfile} />
 
-                {!isLoading2 && userProfile && bookmarks ? (
-                    <>
-                        <span className="smallScreen-MyBookmarks">
-                            <h1>BOOKMARKS</h1>
-                            <SearchBar />
-                            <div className="line" />
-                            <ReviewsSmallScreen
-                                user={user}
+                        <div className="line5" />
+                        <div className="r1">
+                            <Sidebar />
+                            <div className="line6" />
+                            <ReviewsBigScreen
+                                user={userProfile}
                                 reviews={bookmarks}
                             />
-                            <Post />
-                        </span>
-                        <span className="bigScreen-MyBookmarks">
-                            <TopUser user={userProfile} />
-
-                            <div className="line5" />
-                            <div className="r1">
-                                <Sidebar />
-                                <div className="line6" />
-                                <ReviewsBigScreen
-                                    user={userProfile}
-                                    reviews={bookmarks}
-                                />
-                            </div>
-                        </span>
-                    </>
-                ) : (
-                    <CircularProgress className="spinner" />
-                )}
-            </div>
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
+                        </div>
+                    </span>
+                    <div className="footer">
+                        <p>Copyright © 2022 All-for-one</p>
+                    </div>
+                </div>
+            ) : (
+                <></>
+            )}
         </>
     );
 }
