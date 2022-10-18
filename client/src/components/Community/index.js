@@ -269,11 +269,17 @@ function SearchBar(props) {
                             .filter(review => {
                                 const searchInput = input.toLowerCase();
                                 const resName = review.restaurantName.toLowerCase();
+                                const tagNames = review.tags;
 
-                                return (
-                                    searchInput &&
-                                    resName.startsWith(searchInput)
-                                );
+                                if (input.startsWith("#")) {
+                                    return (
+                                        searchInput && tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                    );
+                                } else {
+                                    return (
+                                        searchInput && resName.startsWith(searchInput)
+                                    );
+                                }
                             })
                             .map(review => {
                                 return (
@@ -315,7 +321,7 @@ function Post() {
 }
 
 function Community() {
-    const [location, setLocation] = useState(3000);
+    const [location, setLocation] = useState("3000");
     const [filters, setFilters] = useState({
         rating: [],
         price: []
@@ -361,11 +367,6 @@ function Community() {
                         onChange={e => {
                             setLocation(e.target.value);
                         }}
-                        onKeyPress={event => {
-                            if (!/[0-9]/.test(event.key)) {
-                                event.preventDefault();
-                            }
-                        }}
                         required
                     />
                 </div>
@@ -380,18 +381,12 @@ function Community() {
                     />
                     <input
                         type="text"
-                        placeholder="Enter postcode here"
                         name="location"
                         id="location"
                         value={location}
                         maxLength="4"
                         onChange={e => {
                             setLocation(e.target.value);
-                        }}
-                        onKeyPress={event => {
-                            if (!/[0-9]/.test(event.key)) {
-                                event.preventDefault();
-                            }
                         }}
                         required
                     />
@@ -428,17 +423,20 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listLikes
-                                    .filter(
-                                        review =>
-                                            review.address.postcode === location
-                                    )
+                                    .filter(review => {
+                                        const postcodeInput = Number(location);
+                                        const reviewPostcode = review.address.postcode;
+
+                                        return (
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
+                                        );
+                                    })
                                     .slice(0, 9)
                                     .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek
-                                                    reviewData={review}
-                                                />
+                                                <ReviewPeek reviewData={review}/>
                                                 <div className="line3"></div>
                                             </div>
                                         );
@@ -470,16 +468,24 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listLikes
-                                    .filter(
-                                        review =>
-                                            review.address.postcode === location
-                                    )
+                                    .filter(review => {
+                                        const postcodeInput = Number(location);
+                                        const reviewPostcode = review.address.postcode;
+
+                                        return (
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
+                                        );
+                                    })
                                     .slice(0, 9)
-                                    .map(review => (
-                                        <Grid item xs={4} key={review}>
-                                            <ReviewPeek reviewData={review} />
-                                        </Grid>
-                                    ))
+                                    .map(review => {
+                                        return (    
+                                            <Grid item xs={4} key={review}>
+                                                <ReviewPeek reviewData={review} />
+                                            </Grid>
+                                        );
+                                        
+                                    })
                                 }
                             </Grid>
                         </Box>
@@ -517,16 +523,19 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listReviewsRecent
-                                    .filter(
-                                        review =>
-                                            review.address.postcode === location
-                                    )
+                                    .filter(review => {
+                                        const postcodeInput = Number(location);
+                                        const reviewPostcode = review.address.postcode;
+
+                                        return (
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
+                                        );
+                                    })
                                     .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek
-                                                    reviewData={review}
-                                                />
+                                                <ReviewPeek reviewData={review}/>
                                                 <div className="line3"></div>
                                             </div>
                                         );
@@ -557,10 +566,15 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listReviewsRecent
-                                    .filter(
-                                        review =>
-                                            review.address.postcode === location
-                                    )
+                                    .filter(review => {
+                                        const postcodeInput = Number(location);
+                                        const reviewPostcode = review.address.postcode;
+
+                                        return (
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
+                                        );
+                                    })
                                     .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
