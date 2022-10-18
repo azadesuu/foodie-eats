@@ -21,12 +21,16 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
-                  <p>{userProfile.bio}</p>
+                    <p>{userProfile.bio}</p>
                 </div>
             </div>
             <div className="top-user-rev">
@@ -141,7 +145,7 @@ function MyTheme(props) {
 }
 
 export default function Theme() {
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     return (
         <div className="content-Theme">

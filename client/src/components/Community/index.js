@@ -135,9 +135,7 @@ function SearchBar(props) {
                     name="search"
                     id="search"
                     value={input}
-                    onChange={(e) =>
-                        setInput(e.target.value)
-                    }
+                    onChange={e => setInput(e.target.value)}
                 />
                 <IconButton
                     sx={{
@@ -272,7 +270,10 @@ function SearchBar(props) {
                                 const searchInput = input.toLowerCase();
                                 const resName = review.restaurantName.toLowerCase();
 
-                                return searchInput && resName.startsWith(searchInput)
+                                return (
+                                    searchInput &&
+                                    resName.startsWith(searchInput)
+                                );
                             })
                             .map(review => {
                                 return (
@@ -345,7 +346,7 @@ function Community() {
         <div className="content-Community">
             <span className="bigScreen-Community">
                 <div className="location">
-                    <LocationOnIcon 
+                    <LocationOnIcon
                         sx={{
                             fontSize: "35px"
                         }}
@@ -357,7 +358,7 @@ function Community() {
                         id="location"
                         value={location}
                         maxLength="4"
-                        onChange={(e) => {
+                        onChange={e => {
                             setLocation(e.target.value);
                         }}
                         onKeyPress={event => {
@@ -372,7 +373,7 @@ function Community() {
             <h1>COMMUNITY</h1>
             <span className="smallScreen-Community">
                 <div className="location">
-                    <LocationOnIcon 
+                    <LocationOnIcon
                         sx={{
                             fontSize: "35px"
                         }}
@@ -384,7 +385,7 @@ function Community() {
                         id="location"
                         value={location}
                         maxLength="4"
-                        onChange={(e) => {
+                        onChange={e => {
                             setLocation(e.target.value);
                         }}
                         onKeyPress={event => {
@@ -427,12 +428,17 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listLikes
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).slice(0, 9).map(review => {
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .slice(0, 9)
+                                    .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
@@ -464,9 +470,12 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listLikes
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).slice(0, 9).map(review => (
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .slice(0, 9)
+                                    .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
@@ -508,12 +517,16 @@ function Community() {
                             >
                                 {/* review parameter contains the whole review document */}
                                 {listReviewsRecent
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).map(review => {
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
@@ -544,9 +557,11 @@ function Community() {
                                 columns={{ xs: 4, sm: 8, md: 12 }}
                             >
                                 {listReviewsRecent
-                                    .filter((review) => 
-                                    review.address.postcode === location
-                                    ).map(review => (
+                                    .filter(
+                                        review =>
+                                            review.address.postcode === location
+                                    )
+                                    .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>

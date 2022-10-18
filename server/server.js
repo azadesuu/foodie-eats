@@ -58,7 +58,7 @@ const accountRoutes = require("./routes/user/accountRoutes");
 
 // initialise express server
 // enable cors for use of api in client
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 const server = http.createServer(app);
 server.listen(port, () => {
   console.log(`The server is listening on port ${port}!`);
