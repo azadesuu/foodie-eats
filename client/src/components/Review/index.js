@@ -354,8 +354,8 @@ function Review(props) {
                             <div className="line" />
                             <div className="r2">
                                 <p>
-                                    Date published{" "}
-                                    {Moment(review.dateReviewed).format(
+                                    Date visited{" "}
+                                    {Moment(review.dateVisited).format(
                                         "MMMM Do, YYYY"
                                     )}
                                 </p>
@@ -475,8 +475,8 @@ function Review(props) {
                         <div className="r1">
                             <div className="r2">
                                 <p>
-                                    Date published{" "}
-                                    {Moment(review.dateReviewed).format(
+                                    Date visited{" "}
+                                    {Moment(review.dateVisited).format(
                                         "MMMM Do, YYYY"
                                     )}
                                 </p>
