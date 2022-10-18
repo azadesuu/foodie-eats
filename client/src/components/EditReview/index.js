@@ -378,7 +378,7 @@ function EditReview() {
                                 <div className="tags-input">
                                     <TagsInput
                                         name="tags"
-                                        value={tags}
+                                        value={review.tags}
                                         placeHolder="#tags"
                                         onChange={setTags}
                                     />
@@ -566,7 +566,7 @@ function EditReview() {
                                         <div className="tags-input">
                                             <TagsInput
                                                 name="tags"
-                                                value={tags}
+                                                value={review.tags}
                                                 placeHolder="#tags"
                                                 onChange={setTags}
                                             />

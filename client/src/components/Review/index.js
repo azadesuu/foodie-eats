@@ -334,12 +334,13 @@ function Review(props) {
                                     />
                                 </div>
                                 <div className="tags-input">
-                                    <TagsInput
-                                        name="tags"
-                                        value={review.tags}
-                                        placeHolder={review.tags}
-                                        disabled
-                                    />
+                                    {review.tags.map(tag => {
+                                        return (
+                                            <div className="tags">
+                                                {tag}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                             <div className="add-image">
@@ -454,12 +455,13 @@ function Review(props) {
                             </h4>
                             <div className="review-tags">
                                 <div className="tags-input">
-                                    <TagsInput
-                                        name="tags"
-                                        value={review.tags}
-                                        placeHolder={review.tags}
-                                        disabled
-                                    />
+                                    {review.tags.map(tag => {
+                                        return (
+                                            <div className="tags">
+                                                {tag}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                             <p>{review.description}</p>

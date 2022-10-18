@@ -225,6 +225,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 20px;
 }
 .content-PostReview .postReviewButton {
     padding: 3.89px 13px 3.89px 13px;
