@@ -255,8 +255,8 @@ body {
     justify-content: flex-end;
 }
 .content-EditReview .tags-input {
-    position: fixed;
     margin-bottom: 14px;
+    margin-top: -70px;
     width: 296px;
     padding: 5px;
 }
