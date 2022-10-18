@@ -4,46 +4,126 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getCommunityRecent, getCommunityMostLiked, getCommunitySearch } from "../../api";
+import {
+    getCommunityRecent,
+    getCommunityMostLiked,
+    getAllReviews
+} from "../../api";
 
 import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Select from '@mui/material/Select';
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
 
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import ReviewPeek from "../ReviewPeek";
-import { Menu } from "@mui/material";
 
-function SearchBar() {
+function SearchBar(props) {
     const [input, setInput] = useState("");
-    // const { data: listReviews, isLoading3 } = useQuery(
-    //     "listReviews",
-    //     () => getCommunitySearch()
-    // );
-    const { data: listReviews, isLoading3 } = useQuery(
-        "listReviewsRecent",
-        () => getCommunityRecent()
+    const [checked, setChecked] = useState([])
+    const [rating, setRating] = useState("");
+    const [priceRange, setPriceRange] = useState("");
+    const { data: allReviews, isLoading3 } = useQuery("allReviews", () =>
+        getAllReviews()
     );
-    const filter = (
-        <Menu
-            items={[
-                {
-                    label: "rating",
-                    key: "0",
-                },
-                {
-                    label: "price range",
-                    key: "1",
-                },
-            ]}
-        />
-    );
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    function handleListKeyDown(event) {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === "Escape") {
+            setOpen(false);
+        }
+    }
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current.focus();
+        }
+        prevOpen.current = open;
+    }, [open]);
+    const handleRating = (value) => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+
+        if (currentIndex === -1 ) {
+            newChecked.push(value)
+        } else {
+            newChecked.splice(currentIndex, 1)
+        }
+        setChecked(newChecked)
+        props.handleFilters(newChecked)
+    }
+    const ratingList = [
+        {
+            id: 1,
+            value: 1,
+            label: "1-star",
+        },
+        {
+            id: 2,
+            value: 2,
+            label: "2-star",
+        },
+        {
+            id: 3,
+            value: 3,
+            label: "3-star",
+        },
+        {
+            id: 4,
+            value: 4,
+            label: "4-star",
+        },
+        {
+            id: 5,
+            value: 5,
+            label: "5-star",
+        },
+    ];
+    const priceRangeList = [
+        {
+            id: 1,
+            value: 1,
+            label: "$",
+        },
+        {
+            id: 2,
+            value: 2,
+            label: "$$",
+        },
+        {
+            id: 3,
+            value: 3,
+            label: "$$$",
+        },
+        {
+            id: 4,
+            value: 4,
+            label: "$$$$",
+        },
+    ];
 
     return (
         <div className="searchbar">
@@ -59,31 +139,118 @@ function SearchBar() {
                         setInput(e.target.value)
                     }
                 />
-                {/* <IconButton
+                <IconButton
                     sx={{
                         color: "#000000"
                     }}
-                > */}
+                    ref={anchorRef}
+                    aria-controls={open ? "composition-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
                     <FilterAltIcon />
-                {/* </IconButton> */}
-                {/* <Select>
-                    <optgroup label="rating">
-                        <option>1-star</option>
-                        <option>2-star</option>
-                        <option>3-star</option>
-                        <option>4-star</option>
-                        <option>5-star</option>
-                    </optgroup>
-                    <optgroup label="price range">
-                        <option>$</option>
-                        <option>$$</option>
-                        <option>$$$</option>
-                        <option>$$$$</option>
-                    </optgroup>
-                </Select> */}
+                </IconButton>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-end"
+                    transition
+                    disablePortal
+                    sx={{
+                        zIndex: 95,
+                    }}
+                >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin:
+                                placement === "bottom-end" ? "right top" : "left bottom",
+                            }}
+                        >
+                            <Paper
+                                sx={{
+                                    border: "2px solid #BEE5B0",
+                                    borderTopRightRadius: "10px",
+                                    borderBottomRightRadius: "10px",
+                                    borderBottomLeftRadius: "10px",
+                                    marginTop: "5px",
+                                    marginRight: "-5px",
+                                    minHeight: "139px",
+                                    width: "130px"
+                                }}
+                            >
+                                <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList
+                                        autoFocusItem={open}
+                                        onKeyDown={handleListKeyDown}
+                                    >
+                                        <div className="multi-level">
+                                            <div className="item">
+                                                <input type="checkbox" id="title-rating"/>
+                                                <ArrowRightIcon
+                                                    id="arrow"
+                                                    sx={{
+                                                        margin: "10px 0 -7px 0",                                                    
+                                                    }}
+                                                />
+                                                <label for="title-rating">rating</label>
+                                                <ul>
+                                                    {ratingList.map(({ label, id, value }) => {
+                                                        return (
+                                                            <div key={id} value={value}>
+                                                                <li>
+                                                                    <input 
+                                                                        type="checkbox"
+                                                                        onChange={() => 
+                                                                            handleRating(id)
+                                                                        }
+                                                                        checked={
+                                                                            checked.indexOf(id) === -1 ?
+                                                                                false : true
+                                                                        }
+                                                                    />
+                                                                    {label}
+                                                                </li>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                            <div className="item">
+                                                <input type="checkbox" id="title-price"/>
+                                                <ArrowRightIcon
+                                                    id="arrow"
+                                                    sx={{
+                                                        margin: "10px 0 -7px 0"
+                                                    }}
+                                                />
+                                                <label for="title-price">price range</label>
+                                                <ul>
+                                                    {priceRangeList.map(({ label, id, value }) => {
+                                                        return (
+                                                            <div key={id} value={value}>
+                                                                <li>
+                                                                    <input type="checkbox"/>
+                                                                    {label}
+                                                                </li>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Popper>
             </div>
             {isLoading3 && <CircularProgress className="spinner" />}
-            {listReviews && input && (
+            {allReviews && input && (
                 <div className="searchResult">
                     <List
                         sx={{
@@ -96,10 +263,11 @@ function SearchBar() {
                                 backgroundColor: "#BEE5B0",
                                 borderRadius: "10px",
                                 maxHeight: "4px"
-                            }
+                            },
+                            transition: "all 0.5s ease",
                         }}
                     >
-                        {listReviews
+                        {allReviews
                             .filter(review => {
                                 const searchInput = input.toLowerCase();
                                 const resName = review.restaurantName.toLowerCase();
@@ -113,7 +281,8 @@ function SearchBar() {
                                         <div className="line5"></div>
                                     </div>
                                 );
-                        })}
+                            })
+                        }
                     </List>
                 </div>
             )}
@@ -127,6 +296,7 @@ function Post() {
             <span className="smallScreen-Community">
                 <IconButton href="/create-review">
                     <PostAddIcon
+                        id="btn"
                         sx={{
                             bgcolor: "#BEE5B0",
                             color: "white",
@@ -145,7 +315,10 @@ function Post() {
 
 function Community() {
     const [location, setLocation] = useState(3000);
-    // need to post postcode
+    const [filters, setFilters] = useState({
+        rating: [],
+        price: []
+    });
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
         () => getCommunityRecent()
@@ -154,11 +327,23 @@ function Community() {
         "listOfReviewsByLikes",
         () => getCommunityMostLiked()
     );
+    const showFilteredResults = (filters) => {
+
+    };
+    const handleFilters = (filters, category) => {
+        const newFilters = {...filters}
+        newFilters[category] = filters
+        
+        if (category === "price") {
+ 
+        }
+        showFilteredResults(newFilters)
+        setFilters(newFilters)
+    };
 
     return (
         <div className="content-Community">
             <span className="bigScreen-Community">
-                {/* <Location /> */}
                 <div className="location">
                     <LocationOnIcon 
                         sx={{
@@ -186,7 +371,6 @@ function Community() {
             </span>
             <h1>COMMUNITY</h1>
             <span className="smallScreen-Community">
-                {/* <Location /> */}
                 <div className="location">
                     <LocationOnIcon 
                         sx={{
@@ -212,7 +396,9 @@ function Community() {
                     />
                 </div>
             </span>
-            <SearchBar />
+            <SearchBar 
+                handleFilters={filters => handleFilters(filters, "rating")}
+            />
             <div className="line4" />
             {isLoading2 && <CircularProgress className="spinner" />}
             {listLikes ? (
@@ -221,6 +407,7 @@ function Community() {
                     <span className="smallScreen-Community">
                         <div className="toprecom-content">
                             <List
+                                id="top-recom-small"
                                 sx={{
                                     width: "100%",
                                     justifyContent: "center",
@@ -249,12 +436,14 @@ function Community() {
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                })}
+                                    })
+                                }
                             </List>
                         </div>
                     </span>
                     <span className="bigScreen-Community">
                         <Box
+                            id="top-recom-big"
                             sx={{
                                 flexGrow: 1,
                                 overflowY: "auto",
@@ -281,13 +470,14 @@ function Community() {
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-                                ))}
+                                    ))
+                                }
                             </Grid>
                         </Box>
                     </span>
                 </div>
             ) : (
-                // If the info can't be loaded, then display a message
+                // If the info can"t be loaded, then display a message
                 !isLoading2 && <h2>Found no orders</h2>
             )}
             <div className="line4" />
@@ -298,6 +488,7 @@ function Community() {
                     <span className="smallScreen-Community">
                         <div className="recent-content">
                             <List
+                                id="top-recom-small"
                                 sx={{
                                     width: "100%",
                                     justifyContent: "center",
@@ -326,12 +517,14 @@ function Community() {
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                })}
+                                    })
+                                }
                             </List>
                         </div>
                     </span>
                     <span className="bigScreen-Community">
                         <Box
+                            id="top-recom-big"
                             sx={{
                                 flexGrow: 1,
                                 overflowY: "auto",
@@ -357,13 +550,14 @@ function Community() {
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-                                ))}
+                                    ))
+                                }
                             </Grid>
                         </Box>
                     </span>
                 </div>
             ) : (
-                // If the info can't be loaded, then display a message
+                // If the info can"t be loaded, then display a message
                 !isLoading && <h2>Found no orders</h2>
             )}
             {/* if logged in */}
