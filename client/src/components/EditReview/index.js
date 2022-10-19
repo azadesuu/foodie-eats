@@ -53,16 +53,6 @@ function EditReview() {
         }
     }, [user]);
 
-    const confirmDelete = async () => {
-        const review = await deleteReview(reviewId);
-        if (review) {
-            alert("review deleted.");
-            navigate("/my-reviews");
-        } else {
-            alert("An error occured, please try again later");
-        }
-    };
-
     const submitUpdatedReview = async (
         _id,
         restaurantName,
