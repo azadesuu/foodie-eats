@@ -19,4 +19,9 @@ userRouter.post("/reset-password/:id/:token", userController.resetPassword);
 // POST email to receive email with token to reset password
 userRouter.post("/forgotPassword", userController.forgotPassword);
 
+userRouter.get("/logout", (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.redirect(process.env.BASE_URL);
+});
 module.exports = userRouter;
