@@ -29,10 +29,11 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ReviewPeek from "../ReviewPeek";
 
 function SearchBar(props) {
+    const ratingChecked = props.ratingChecked;
+    const setRatingChecked = props.setRatingChecked;
+    const priceChecked = props.priceChecked;
+    const setPriceChecked = props.setPriceChecked;
     const [input, setInput] = useState("");
-    const [checked, setChecked] = useState([])
-    const [rating, setRating] = useState("");
-    const [priceRange, setPriceRange] = useState("");
     const { data: allReviews, isLoading3 } = useQuery("allReviews", () =>
         getAllReviews()
     );
@@ -63,68 +64,28 @@ function SearchBar(props) {
         }
         prevOpen.current = open;
     }, [open]);
-    const handleRating = (value) => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1 ) {
-            newChecked.push(value)
-        } else {
-            newChecked.splice(currentIndex, 1)
-        }
-        setChecked(newChecked)
-        props.handleFilters(newChecked)
-    }
-    const ratingList = [
-        {
-            id: 1,
-            value: 1,
-            label: "1-star",
-        },
-        {
-            id: 2,
-            value: 2,
-            label: "2-star",
-        },
-        {
-            id: 3,
-            value: 3,
-            label: "3-star",
-        },
-        {
-            id: 4,
-            value: 4,
-            label: "4-star",
-        },
-        {
-            id: 5,
-            value: 5,
-            label: "5-star",
-        },
-    ];
-    const priceRangeList = [
-        {
-            id: 1,
-            value: 1,
-            label: "$",
-        },
-        {
-            id: 2,
-            value: 2,
-            label: "$$",
-        },
-        {
-            id: 3,
-            value: 3,
-            label: "$$$",
-        },
-        {
-            id: 4,
-            value: 4,
-            label: "$$$$",
-        },
-    ];
-
+    const handleRating = (id) => {
+        setRatingChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
+    const handlePriceRange = (id) => {
+        setPriceChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
     return (
         <div className="searchbar">
             <div className="searchrow">
@@ -196,19 +157,17 @@ function SearchBar(props) {
                                                 />
                                                 <label for="title-rating">rating</label>
                                                 <ul>
-                                                    {ratingList.map(({ label, id, value }) => {
+                                                    {ratingChecked.map(({ label, id, check }) => {
                                                         return (
-                                                            <div key={id} value={value}>
+                                                            <div key={id} >
                                                                 <li>
                                                                     <input 
                                                                         type="checkbox"
+                                                                        value={id}
                                                                         onChange={() => 
                                                                             handleRating(id)
                                                                         }
-                                                                        checked={
-                                                                            checked.indexOf(id) === -1 ?
-                                                                                false : true
-                                                                        }
+                                                                        checked={check}
                                                                     />
                                                                     {label}
                                                                 </li>
@@ -227,11 +186,18 @@ function SearchBar(props) {
                                                 />
                                                 <label for="title-price">price range</label>
                                                 <ul>
-                                                    {priceRangeList.map(({ label, id, value }) => {
+                                                    {priceChecked.map(({ label, id, check }) => {
                                                         return (
-                                                            <div key={id} value={value}>
+                                                            <div key={id} >
                                                                 <li>
-                                                                    <input type="checkbox"/>
+                                                                    <input 
+                                                                        type="checkbox"
+                                                                        value={id}
+                                                                        onChange={() => 
+                                                                            handlePriceRange(id)
+                                                                        }
+                                                                        checked={check}
+                                                                    />
                                                                     {label}
                                                                 </li>
                                                             </div>
@@ -322,10 +288,6 @@ function Post() {
 
 function Community() {
     const [location, setLocation] = useState("3000");
-    const [filters, setFilters] = useState({
-        rating: [],
-        price: []
-    });
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
         () => getCommunityRecent()
@@ -334,19 +296,55 @@ function Community() {
         "listOfReviewsByLikes",
         () => getCommunityMostLiked()
     );
-    const showFilteredResults = (filters) => {
-
-    };
-    const handleFilters = (filters, category) => {
-        const newFilters = {...filters}
-        newFilters[category] = filters
-        
-        if (category === "price") {
- 
+    const [ratingChecked, setRatingChecked] = useState([
+        {
+            id: 1,
+            label: "1-star",
+            check: false
+        },
+        {
+            id: 2,
+            label: "2-star",
+            check: false
+        },
+        {
+            id: 3,
+            label: "3-star",
+            check: false
+        },
+        {
+            id: 4,
+            label: "4-star",
+            check: false
+        },
+        {
+            id: 5,
+            label: "5-star",
+            check: false
         }
-        showFilteredResults(newFilters)
-        setFilters(newFilters)
-    };
+    ]);
+    const [priceChecked, setPriceChecked] = useState([
+        {
+            id: 1,
+            label: "$",
+            check: false
+        },
+        {
+            id: 2,
+            label: "$$",
+            check: false
+        },
+        {
+            id: 3,
+            label: "$$$",
+            check: false
+        },
+        {
+            id: 4,
+            label: "$$$$",
+            check: false
+        },
+    ]);
 
     return (
         <div className="content-Community">
@@ -393,7 +391,10 @@ function Community() {
                 </div>
             </span>
             <SearchBar 
-                handleFilters={filters => handleFilters(filters, "rating")}
+                ratingChecked={ratingChecked}
+                setRatingChecked={setRatingChecked}
+                priceChecked={priceChecked}
+                setPriceChecked={setPriceChecked}
             />
             <div className="line4" />
             {isLoading2 && <CircularProgress className="spinner" />}
@@ -426,10 +427,43 @@ function Community() {
                                     .filter(review => {
                                         const postcodeInput = Number(location);
                                         const reviewPostcode = review.address.postcode;
-
+                                        const filterInputRating = ratingChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+                                        const filterInputPriceRange = priceChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+            
+                                        const resRating = review.rating;
+                                        const resPriceRange = review.priceRange;
+                                            
+                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputRating.some(item => item !== null)) {
+                                            return (
+                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        }
                                         return (
-                                            postcodeInput &&
-                                            reviewPostcode === postcodeInput
+                                            postcodeInput && reviewPostcode === postcodeInput
                                         );
                                     })
                                     .slice(0, 9)
@@ -471,10 +505,43 @@ function Community() {
                                     .filter(review => {
                                         const postcodeInput = Number(location);
                                         const reviewPostcode = review.address.postcode;
-
+                                        const filterInputRating = ratingChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+                                        const filterInputPriceRange = priceChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+            
+                                        const resRating = review.rating;
+                                        const resPriceRange = review.priceRange;
+                                            
+                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputRating.some(item => item !== null)) {
+                                            return (
+                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        }
                                         return (
-                                            postcodeInput &&
-                                            reviewPostcode === postcodeInput
+                                            postcodeInput && reviewPostcode === postcodeInput
                                         );
                                     })
                                     .slice(0, 9)
@@ -484,7 +551,6 @@ function Community() {
                                                 <ReviewPeek reviewData={review} />
                                             </Grid>
                                         );
-                                        
                                     })
                                 }
                             </Grid>
@@ -526,10 +592,43 @@ function Community() {
                                     .filter(review => {
                                         const postcodeInput = Number(location);
                                         const reviewPostcode = review.address.postcode;
-
+                                        const filterInputRating = ratingChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+                                        const filterInputPriceRange = priceChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+            
+                                        const resRating = review.rating;
+                                        const resPriceRange = review.priceRange;
+                                            
+                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputRating.some(item => item !== null)) {
+                                            return (
+                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        }
                                         return (
-                                            postcodeInput &&
-                                            reviewPostcode === postcodeInput
+                                            postcodeInput && reviewPostcode === postcodeInput
                                         );
                                     })
                                     .map(review => {
@@ -569,10 +668,43 @@ function Community() {
                                     .filter(review => {
                                         const postcodeInput = Number(location);
                                         const reviewPostcode = review.address.postcode;
-
+                                        const filterInputRating = ratingChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+                                        const filterInputPriceRange = priceChecked.map((item) => {
+                                            if (item.check) {
+                                                return item.id;
+                                            } else {
+                                                return null;
+                                            }
+                                        });
+            
+                                        const resRating = review.rating;
+                                        const resPriceRange = review.priceRange;
+                                            
+                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                            return (
+                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        } else if (filterInputRating.some(item => item !== null)) {
+                                            return (
+                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
+                                                postcodeInput && reviewPostcode === postcodeInput
+                                            );
+                                        }
                                         return (
-                                            postcodeInput &&
-                                            reviewPostcode === postcodeInput
+                                            postcodeInput && reviewPostcode === postcodeInput
                                         );
                                     })
                                     .map(review => (
