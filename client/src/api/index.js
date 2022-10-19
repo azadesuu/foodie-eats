@@ -1,4 +1,5 @@
 import axios from "axios";
+require("dotenv").config();
 
 const SERVER_URL = PROCESS.ENV.SERVER_URL || "http://localhost:5000";
 
