@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updateReview, getReview, deleteReview } from "../../api";
+import { TagsInput } from "react-tag-input-component";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -34,6 +35,16 @@ function EditReview() {
         { enabled: !!reviewId }
     );
     const [currentPublicity, setPublicity] = useState(review.isPublic);
+    const [tags, setTags] = useState([]);
+    const confirmDelete = async () => {
+        const review = await deleteReview(reviewId);
+        if (review) {
+            alert("Review deleted.");
+            navigate("/my-reviews");
+        } else {
+            alert("An error occured, please try again later");
+        }
+    };
 
     useEffect(() => {
         if (review?.userId._id !== user?._id) {
@@ -41,16 +52,6 @@ function EditReview() {
             navigate(-1);
         }
     }, [user]);
-
-    const confirmDelete = async () => {
-        const review = await deleteReview(reviewId);
-        if (review) {
-            alert("review deleted.");
-            navigate("/my-reviews");
-        } else {
-            alert("An error occured, please try again later");
-        }
-    };
 
     const submitUpdatedReview = async (
         _id,
@@ -60,7 +61,8 @@ function EditReview() {
         rating,
         dateVisited,
         address,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -77,10 +79,9 @@ function EditReview() {
         } else if (!description) {
             alert("description is missing");
         } else if (
-            parseInt(address.postcode) < 3000 ||
-            parseInt(address.postcode) > 3999
+            !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
-            alert("postcode must be between 3000 and 3999");
+            alert("Postcode is invalid.");
         } else {
             const updatedReviewRecord = await updateReview({
                 _id: _id,
@@ -90,10 +91,11 @@ function EditReview() {
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: tags
             });
-            if (!updatedReviewRecord) {
-                alert("Update unsuccessful.");
+            if (!review) {
+                alert("update unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -127,6 +129,12 @@ function EditReview() {
                     <div className="Edit-title">
                         <h1>EDIT</h1>
                         <DeleteIcon
+                            sx={{
+                                fontSize: "35px",
+                                textAlign: "end",
+                                marginBottom: "10px",
+                                marginLeft: "40px"
+                            }}
                             onClick={e => {
                                 if (
                                     window.confirm(
@@ -134,12 +142,6 @@ function EditReview() {
                                     )
                                 )
                                     confirmDelete();
-                            }}
-                            sx={{
-                                fontSize: "35px",
-                                textAlign: "end",
-                                marginBottom: "10px",
-                                marginLeft: "40px"
                             }}
                         />
                     </div>
@@ -363,17 +365,25 @@ function EditReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    defaultValue={review.description}
-                                    onChange={e => {
-                                        review.description = e.target.value;
-                                    }}
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        defaultValue={review.description}
+                                        onChange={e => {
+                                            review.description = e.target.value;
+                                        }}
+                                    />
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={review.tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <button className="addImageButton">
                                     <img className="addImage" src={addImage} />
@@ -393,7 +403,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            tags
                                         );
                                     }}
                                 >
@@ -538,16 +549,27 @@ function EditReview() {
                                             }}
                                         />
                                     </div>
-
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            defaultValue={review.description}
-                                            onChange={e => {
-                                                review.description =
-                                                    e.target.value;
-                                            }}
-                                        />
+                                    <div className="description-tags">
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                defaultValue={
+                                                    review.description
+                                                }
+                                                onChange={e => {
+                                                    review.description =
+                                                        e.target.value;
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={review.tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="r3-content2">
@@ -682,7 +704,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            tags
                                         );
                                     }}
                                 >
@@ -694,7 +717,7 @@ function EditReview() {
                 </div>
             )}
             <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );

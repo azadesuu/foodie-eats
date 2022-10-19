@@ -1,5 +1,4 @@
 import "./ChangePassword.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -176,7 +175,6 @@ function ChangePassword() {
         <>
             {user ? (
                 <div className="content-ChangePassword">
-                    <NavLoggedIn />
                     <span className="smallScreen-ChangePassword">
                         <ChangePwDetails user={user} />
                     </span>

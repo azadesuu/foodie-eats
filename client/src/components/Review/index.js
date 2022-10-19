@@ -1,17 +1,17 @@
 import "./Review.css";
-import NavLoggedIn from "../LoggedInNavBar";
+
+import "@fontsource/martel-sans";
 
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
-
 import { useQuery } from "react-query";
-import "@fontsource/martel-sans";
-import { CircularProgress } from "@mui/material";
+import { TagsInput } from "react-tag-input-component";
 
 import addImage from "../../assets/images/addImage.png";
 import { getReview, toggleLike, toggleBookmark, getProfile } from "../../api";
 
+import { CircularProgress } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
@@ -108,7 +108,6 @@ function Review(props) {
 
     return (
         <div className="content-Review">
-            <NavLoggedIn />
             {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">
@@ -116,59 +115,68 @@ function Review(props) {
                     <span className="smallScreen-Review">
                         <div id="outer">
                             <div className="r1">
-                                <div className="switchContainer">
-                                    <FormControlLabel
-                                        sx={{
-                                            gap: "5px"
-                                        }}
-                                        control={
-                                            <Switch
-                                                sx={{
-                                                    width: 36,
-                                                    height: 20,
-                                                    padding: 0,
-                                                    gap: "10px",
-                                                    "& .MuiSwitch-switchBase": {
+                                {review.userId._id !== props.user?._id ? (
+                                    <>
+                                        <p> </p>
+                                    </>
+                                ) : (
+                                    <div className="switchContainer">
+                                        <FormControlLabel
+                                            sx={{
+                                                gap: "5px"
+                                            }}
+                                            control={
+                                                <Switch
+                                                    sx={{
+                                                        width: 36,
+                                                        height: 20,
                                                         padding: 0,
-                                                        margin: 0.3,
-                                                        transitionDuration:
-                                                            "300ms",
-                                                        "&.Mui-checked": {
-                                                            transform:
-                                                                "translateX(16px)",
-                                                            color: "#FFFCFB",
-                                                            "& + .MuiSwitch-track": {
-                                                                backgroundColor:
-                                                                    "#D9D9D9",
-                                                                opacity: 1,
-                                                                border: 0
-                                                            },
-                                                            "&.Mui-disabled + .MuiSwitch-track": {
-                                                                opacity: 0.5
+                                                        gap: "10px",
+                                                        "& .MuiSwitch-switchBase": {
+                                                            padding: 0,
+                                                            margin: 0.3,
+                                                            transitionDuration:
+                                                                "300ms",
+                                                            "&.Mui-checked": {
+                                                                transform:
+                                                                    "translateX(16px)",
+                                                                color:
+                                                                    "#FFFCFB",
+                                                                "& + .MuiSwitch-track": {
+                                                                    backgroundColor:
+                                                                        "#D9D9D9",
+                                                                    opacity: 1,
+                                                                    border: 0
+                                                                },
+                                                                "&.Mui-disabled + .MuiSwitch-track": {
+                                                                    opacity: 0.5
+                                                                }
                                                             }
+                                                        },
+                                                        "& .MuiSwitch-thumb": {
+                                                            boxSizing:
+                                                                "border-box",
+                                                            width: 16,
+                                                            height: 16
+                                                        },
+                                                        "& .MuiSwitch-track": {
+                                                            borderRadius:
+                                                                "10px",
+                                                            bgcolor: "#A9CABB",
+                                                            opacity: 1
                                                         }
-                                                    },
-                                                    "& .MuiSwitch-thumb": {
-                                                        boxSizing: "border-box",
-                                                        width: 16,
-                                                        height: 16
-                                                    },
-                                                    "& .MuiSwitch-track": {
-                                                        borderRadius: "10px",
-                                                        bgcolor: "#A9CABB",
-                                                        opacity: 1
-                                                    }
-                                                }}
-                                                checked={review.isPublic}
-                                            />
-                                        }
-                                        label={
-                                            review.isPublic
-                                                ? "Public"
-                                                : "Private"
-                                        }
-                                    />
-                                </div>
+                                                    }}
+                                                    checked={review.isPublic}
+                                                />
+                                            }
+                                            label={
+                                                review.isPublic
+                                                    ? "Public"
+                                                    : "Private"
+                                            }
+                                        />
+                                    </div>
+                                )}
                                 <div className="likes-bookmark">
                                     <div className="likes">
                                         {liked && (
@@ -323,14 +331,24 @@ function Review(props) {
                                 </div>
                             </div>
 
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    placeholder={review.description}
-                                    disabled
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        placeholder={review.description}
+                                        disabled
+                                    />
+                                </div>
+                                <div className="tags-input">
+                                    {review.tags.map(tag => {
+                                        return (
+                                            <div className="tags">
+                                                {tag}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <ImageIcon
                                     sx={{
@@ -343,8 +361,8 @@ function Review(props) {
                             <div className="line" />
                             <div className="r2">
                                 <p>
-                                    Date published{" "}
-                                    {Moment(review.dateReviewed).format(
+                                    Date visited{" "}
+                                    {Moment(review.dateVisited).format(
                                         "MMMM Do, YYYY"
                                     )}
                                 </p>
@@ -442,7 +460,15 @@ function Review(props) {
                                 {review.address.state} {review.address.postcode}
                             </h4>
                             <div className="review-tags">
-                                <p>Japanese</p>
+                                <div className="tags-input">
+                                    {review.tags.map(tag => {
+                                        return (
+                                            <div className="tags">
+                                                {tag}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
@@ -457,8 +483,8 @@ function Review(props) {
                         <div className="r1">
                             <div className="r2">
                                 <p>
-                                    Date published{" "}
-                                    {Moment(review.dateReviewed).format(
+                                    Date visited{" "}
+                                    {Moment(review.dateVisited).format(
                                         "MMMM Do, YYYY"
                                     )}
                                 </p>

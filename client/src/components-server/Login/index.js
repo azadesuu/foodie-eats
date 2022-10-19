@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect, useContext } from "react";
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { useHistory } from "react-router";
-import { loginUser } from "../../api";
+import { loginUser, setAuthToken } from "../../api";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
-
 function Login() {
     // state hook functions
     const [email, setEmail] = useState("");
@@ -20,6 +20,8 @@ function Login() {
             });
             // if token exists login is successful
             var token = localStorage.getItem("token");
+            console.log(token);
+            setAuthToken(token);
             token ? navigate("/") : navigate("/login");
             document.location.reload();
         } catch (err) {

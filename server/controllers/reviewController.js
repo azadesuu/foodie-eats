@@ -50,6 +50,26 @@ const getReviewsByLikes = async (req, res, next) => {
   }
 };
 
+const getAllReviews = async (req, res, next) => {
+  try {
+    const reviews = await Review.find()
+      .lean()
+      .populate("userId")
+      .sort({ $natural: -1 });
+
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getReviewsBySearch = async (req, res, next) => {
   try {
     const search = req.body.search;
@@ -126,6 +146,7 @@ const createReview = async (req, res, next) => {
   const newDateVisited = req.body.dateVisited;
   const newAddress = req.body.address;
   const newDescription = req.body.description;
+  const newTags = req.body.tags;
 
   const tempReview = new Review({
     userId: newUserId,
@@ -135,7 +156,8 @@ const createReview = async (req, res, next) => {
     rating: newRating,
     dateVisited: newDateVisited,
     address: newAddress,
-    description: newDescription
+    description: newDescription,
+    tags: newTags
   });
 
   try {
@@ -275,94 +297,13 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
-const uploadReviewImage = async (req, res, next) => {
-  try {
-    if (!req.file) {
-      return res.status(501).json("File not found");
-    }
-    // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(
-      req.file.path,
-      (err, result) => {
-        if (err) {
-          res.json("Cloudinary didn't upload error");
-          return;
-        }
-      }
-    );
-
-    let review = await Review.findById(req.params.reviewId);
-
-    if (!review) {
-      res.status(500).json(new Error("Review not found."));
-      return;
-    }
-    if (review.reviewImage !== "") {
-      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
-    }
-
-    await Review.findByIdAndUpdate(
-      req.params.reviewId,
-      {
-        $set: {
-          reviewImage: result.secure_url
-        }
-      },
-      (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
-  } catch (err) {
-    next(err);
-  }
-};
-
-const deleteReviewImage = async (req, res) => {
-  try {
-    let review = await Review.findById(req.params.reviewId);
-    if (review.reviewImage !== "") {
-      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
-    }
-
-    await Review.findByIdAndUpdate(
-      req.params.reviewId,
-      {
-        $set: {
-          reviewImage: ""
-        }
-      },
-      (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 module.exports = {
   getReviewsByRecent,
   getReviewsByLikes,
-  getReviewsBySearch,
+  getAllReviews,
   getOneReview,
   createReview,
   updateReview,
   toggleLike,
-  deleteReview,
-  uploadReviewImage,
-  deleteReviewImage
+  deleteReview
 };

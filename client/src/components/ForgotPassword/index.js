@@ -1,5 +1,4 @@
 import "./ForgotPassword.css";
-import NavBar from "../NavBar";
 
 import { useState } from "react";
 import React from "react";
@@ -26,7 +25,6 @@ function ForgotPassword() {
 
     return (
         <div className="content-ForgotPassword">
-            <NavBar />
             <h1>FORGET PASSWORD</h1>
             <form className="form-control-forgotpassword">
                 <input

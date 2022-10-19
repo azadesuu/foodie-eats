@@ -1,9 +1,9 @@
 import "./Theme.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import { useContext, useEffect, useState } from "react";
 import { changeTheme } from "../../api";
 import { UserContext } from "../../actions/UserContext";
+import { CircularProgress } from "@mui/material";
 
 import Blueberry from "../../assets/images/Blueberry.svg";
 import Boring from "../../assets/images/Boring.svg";
@@ -12,7 +12,6 @@ import HoneyDew from "../../assets/images/HoneyDew.svg";
 import Shokupan from "../../assets/images/Shokupan.svg";
 
 import Avatar from "@mui/material/Avatar";
-import { CircularProgress } from "@mui/material";
 
 function TopUser(props) {
     const userProfile = props.user;
@@ -22,7 +21,11 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
@@ -85,7 +88,6 @@ function MyTheme(props) {
             console.log(err);
         }
     };
-
     function toggleActiveTheme(theme) {
         if (theme === currTheme) {
             return "active-theme";
@@ -146,8 +148,6 @@ export default function Theme() {
 
     return (
         <div className="content-Theme">
-            <NavLoggedIn />
-
             {user ? (
                 <>
                     <span className="smallScreen-Theme">
@@ -172,9 +172,8 @@ export default function Theme() {
             ) : (
                 <CircularProgress className="spinner" />
             )}
-
             <div className="footer">
-                <p>Copyright Â© 2022 All-for-one</p>
+                <p>Copyright © 2022 All-for-one</p>
             </div>
         </div>
     );
