@@ -31,6 +31,10 @@ span.smallScreen-Review {
         max-width: 316px;
         margin-top: -30px;
     }
+    .content-Review .tags-input .tags {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
 }
 @media screen and (min-width: 1000px) { 
     .content-Review h1 {
@@ -279,6 +283,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 20px;
 }
 .content-Review .editReviewButton {
     padding: 3.89px 13px 3.89px 13px;
@@ -288,4 +293,46 @@ body {
     border-radius: 10px;
     color: #ffffff;
     border: none;
+}
+.content-Review .description-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+.content-Review .description-tags .tags-input {
+    margin-bottom: 14px;
+    margin-top: -57px;
+    width: 296px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.content-Review .review-tags .tags-input {
+    width: 296px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.content-Review .tags-input .rti--container {
+    background-color: #D9D9D9;
+}
+.content-Review .tags-input .rti--input {
+    background-color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.42);
+}
+.content-Review .review-tags .tags-input .rti--container {
+    background-color: transparent;
+}
+.content-Review .tags-input .tags {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.42);
+    border-radius: 10px;
+    padding-left: 7px;
+    padding-right: 7px;
+    color: rgba(0, 0, 0, 0.42);
+    height: 20px;
+    font-size: 14px;
 }

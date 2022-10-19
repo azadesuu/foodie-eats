@@ -1,12 +1,12 @@
 import "./PostReview.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import "@fontsource/martel-sans";
 
 import addImage from "../../assets/images/addImage.png";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { TagsInput } from "react-tag-input-component";
 import { UserContext } from "../../actions/UserContext";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -41,7 +41,7 @@ function PostReview() {
     const [currentRating, setRating] = useState("2");
     const [currentPublicity, setPublicity] = useState(false);
     const [currentPriceRange, setPriceRange] = useState("1");
-
+    const [tags, setTags] = useState([]);
     const postReview = async (
         restaurantName,
         isPublic,
@@ -52,7 +52,8 @@ function PostReview() {
         state,
         suburb,
         postcode,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -66,8 +67,8 @@ function PostReview() {
             alert("state is missing");
         } else if (!postcode) {
             alert("postcode is missing");
-        } else if (parseInt(postcode) < 3000 || parseInt(postcode) > 3999) {
-            alert("postcode must be between 3000 and 3999");
+        } else if (!/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(postcode)) {
+            alert("Postcode is invalid.");
         } else if (!description) {
             alert("description is missing");
         } else {
@@ -85,10 +86,11 @@ function PostReview() {
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: tags
             });
             if (!review) {
-                alert("creation unsucessful.");
+                alert("creation unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -115,7 +117,6 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
-            <NavLoggedIn />
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
@@ -345,18 +346,26 @@ function PostReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    placeholder="description..."
-                                    onChange={e => {
-                                        setDescription(e.target.value);
-                                    }}
-                                    required
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        placeholder="description..."
+                                        onChange={e => {
+                                            setDescription(e.target.value);
+                                        }}
+                                        required
+                                    />
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
                                 <p>Add your image</p>
                                 <button className="addImageButton">
@@ -378,7 +387,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >
@@ -525,15 +535,27 @@ function PostReview() {
                                         />
                                     </div>
 
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            placeholder="description..."
-                                            onChange={e => {
-                                                setDescription(e.target.value);
-                                            }}
-                                            required
-                                        />
+                                    <div className="description-tags">
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                placeholder="description..."
+                                                onChange={e => {
+                                                    setDescription(
+                                                        e.target.value
+                                                    );
+                                                }}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="r3-content2">
@@ -671,7 +693,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >

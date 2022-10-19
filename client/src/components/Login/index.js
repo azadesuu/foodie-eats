@@ -8,8 +8,6 @@ import "./Login.css";
 
 import "@fontsource/martel-sans";
 
-import Nav from "../NavBar";
-
 import LoginIcon from "@mui/icons-material/Login";
 
 import IconButton from "@mui/material/IconButton";
@@ -72,7 +70,6 @@ function Login() {
 
     return (
         <div className="content-Login">
-            <Nav />
             <Title />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">

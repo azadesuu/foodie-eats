@@ -9,7 +9,7 @@ span.smallScreen-MyBookmarks {
         font-size: 50px;
     }
 }
-@media screen and (max-width: 930px) {
+@media screen and (max-width: 930px) { 
     span.bigScreen-MyBookmarks {
         display: none;
     }

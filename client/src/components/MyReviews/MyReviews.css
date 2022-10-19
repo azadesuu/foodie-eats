@@ -4,12 +4,12 @@ span.bigScreen-MyReviews {
 span.smallScreen-MyReviews {
     display: none;
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 930px) {
     .content-MyReviews h1 {
         font-size: 50px;
     }
 }
-@media screen and (max-width: 750px) { 
+@media screen and (max-width: 930px) { 
     span.bigScreen-MyReviews {
         display: none;
     }
@@ -28,7 +28,7 @@ span.smallScreen-MyReviews {
         margin-top: 20px;
     }
 }
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 930px) {
     .content-MyReviews h1 {
         font-size: 60px;
     }
@@ -117,6 +117,10 @@ input:focus {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.reviews-smallScreen {
+    display: flex;
+    flex-direction: column;
 }
 .reviews {
     display: flex;

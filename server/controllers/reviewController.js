@@ -50,6 +50,26 @@ const getReviewsByLikes = async (req, res, next) => {
   }
 };
 
+const getAllReviews = async (req, res, next) => {
+  try {
+    const reviews = await Review.find()
+      .lean()
+      .populate("userId")
+      .sort({ $natural: -1 });
+
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getReviewsBySearch = async (req, res, next) => {
   try {
     const search = req.body.search;
@@ -126,6 +146,7 @@ const createReview = async (req, res, next) => {
   const newDateVisited = req.body.dateVisited;
   const newAddress = req.body.address;
   const newDescription = req.body.description;
+  const newTags = req.body.tags;
 
   const tempReview = new Review({
     userId: newUserId,
@@ -135,7 +156,8 @@ const createReview = async (req, res, next) => {
     rating: newRating,
     dateVisited: newDateVisited,
     address: newAddress,
-    description: newDescription
+    description: newDescription,
+    tags: newTags
   });
 
   try {
@@ -278,7 +300,7 @@ const deleteReview = async (req, res, next) => {
 module.exports = {
   getReviewsByRecent,
   getReviewsByLikes,
-  getReviewsBySearch,
+  getAllReviews,
   getOneReview,
   createReview,
   updateReview,
