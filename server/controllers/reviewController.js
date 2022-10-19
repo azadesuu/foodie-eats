@@ -50,6 +50,27 @@ const getReviewsByLikes = async (req, res, next) => {
   }
 };
 
+const getAllReviews = async (req, res, next) => {
+  try {
+    const reviews = await Review.find()
+      .lean()
+      .populate("userId")
+      .sort({ $natural: -1 });
+
+    if (!reviews) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 const getReviewsBySearch = async (req, res, next) => {
   try {
     const search = req.body.search;
@@ -357,6 +378,7 @@ const deleteReviewImage = async (req, res) => {
 module.exports = {
   getReviewsByRecent,
   getReviewsByLikes,
+  getAllReviews,
   getReviewsBySearch,
   getOneReview,
   createReview,

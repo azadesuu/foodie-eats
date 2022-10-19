@@ -6,8 +6,8 @@ const addressSchema = new mongoose.Schema({
   },
   postcode: {
     type: Number,
-    min: 3000,
-    max: 3999,
+    min: 0000,
+    max: 9999,
     default: 3000
   },
   state: {

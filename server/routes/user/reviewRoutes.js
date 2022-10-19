@@ -20,6 +20,10 @@ reviewRouter.get(
   reviewController.getReviewsByLikes
 );
 
+
+//GET one review by reviewId
+reviewRouter.get("/getAllReviews", reviewController.getAllReviews);
+
 //GET by search values -- restaurantname, rating, pricerange, postcode, tags
 reviewRouter.post("/search", reviewController.getReviewsBySearch);
 
