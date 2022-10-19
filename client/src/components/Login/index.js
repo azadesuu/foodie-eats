@@ -1,9 +1,6 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
-import { useHistory } from "react-router";
+import { useState } from "react";
 import { loginUser, setAuthToken } from "../../api";
-import { Navigate, useNavigate } from "react-router-dom";
-import { UserContext } from "../../actions/UserContext";
+import {  useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import "@fontsource/martel-sans";

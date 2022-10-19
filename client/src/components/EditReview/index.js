@@ -129,14 +129,6 @@ function EditReview() {
                     <div className="Edit-title">
                         <h1>EDIT</h1>
                         <DeleteIcon
-                            onClick={e => {
-                                if (
-                                    window.confirm(
-                                        "Are you sure you wish to delete this review?"
-                                    )
-                                )
-                                    confirmDelete();
-                            }}
                             sx={{
                                 fontSize: "35px",
                                 textAlign: "end",
