@@ -14,6 +14,7 @@ import ReviewPeek from "../ReviewPeek";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
@@ -21,6 +22,11 @@ import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
 
 function Post() {
     return (
@@ -90,6 +96,104 @@ function ReviewsSmallScreen(props) {
         getMyReviews(user?._id)
     );
     const [input, setInput] = useState("");
+    const [ratingChecked, setRatingChecked] = useState([
+        {
+            id: 1,
+            label: "1-star",
+            check: false
+        },
+        {
+            id: 2,
+            label: "2-star",
+            check: false
+        },
+        {
+            id: 3,
+            label: "3-star",
+            check: false
+        },
+        {
+            id: 4,
+            label: "4-star",
+            check: false
+        },
+        {
+            id: 5,
+            label: "5-star",
+            check: false
+        }
+    ]);
+    const [priceChecked, setPriceChecked] = useState([
+        {
+            id: 1,
+            label: "$",
+            check: false
+        },
+        {
+            id: 2,
+            label: "$$",
+            check: false
+        },
+        {
+            id: 3,
+            label: "$$$",
+            check: false
+        },
+        {
+            id: 4,
+            label: "$$$$",
+            check: false
+        },
+    ]);
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    function handleListKeyDown(event) {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === "Escape") {
+            setOpen(false);
+        }
+    }
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current.focus();
+        }
+        prevOpen.current = open;
+    }, [open]);
+    const handleRating = (id) => {
+        setRatingChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
+    const handlePriceRange = (id) => {
+        setPriceChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
 
     return (
         <div>
@@ -105,7 +209,120 @@ function ReviewsSmallScreen(props) {
                             setInput(e.target.value)
                         }
                     />
-                    <FilterAltIcon />
+                    <IconButton
+                        sx={{
+                            color: "#000000"
+                        }}
+                        ref={anchorRef}
+                        aria-controls={open ? "composition-menu" : undefined}
+                        aria-expanded={open ? "true" : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                    >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Popper
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        placement="bottom-end"
+                        transition
+                        disablePortal
+                        sx={{
+                            zIndex: 95,
+                        }}
+                    >
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin:
+                                    placement === "bottom-end" ? "right top" : "left bottom",
+                                }}
+                            >
+                                <Paper
+                                    sx={{
+                                        border: "2px solid #BEE5B0",
+                                        borderTopRightRadius: "10px",
+                                        borderBottomRightRadius: "10px",
+                                        borderBottomLeftRadius: "10px",
+                                        marginTop: "5px",
+                                        marginRight: "-5px",
+                                        minHeight: "139px",
+                                        width: "130px"
+                                    }}
+                                >
+                                    <ClickAwayListener onClickAway={handleClose}>
+                                        <MenuList
+                                            autoFocusItem={open}
+                                            onKeyDown={handleListKeyDown}
+                                        >
+                                            <div className="multi-level">
+                                                <div className="item">
+                                                    <input type="checkbox" id="title-rating"/>
+                                                    <ArrowRightIcon
+                                                        id="arrow"
+                                                        sx={{
+                                                            margin: "10px 0 -7px 0",                                                    
+                                                        }}
+                                                    />
+                                                    <label for="title-rating">rating</label>
+                                                    <ul>
+                                                        {ratingChecked.map(({ label, id, check }) => {
+                                                            return (
+                                                                <div key={id} >
+                                                                    <li>
+                                                                        <input 
+                                                                            type="checkbox"
+                                                                            value={id}
+                                                                            onChange={() => 
+                                                                                handleRating(id)
+                                                                            }
+                                                                            checked={check}
+                                                                        />
+                                                                        {label}
+                                                                    </li>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                                <div className="item">
+                                                    <input type="checkbox" id="title-price"/>
+                                                    <ArrowRightIcon
+                                                        id="arrow"
+                                                        sx={{
+                                                            margin: "10px 0 -7px 0"
+                                                        }}
+                                                    />
+                                                    <label for="title-price">price range</label>
+                                                    <ul>
+                                                        {priceChecked.map(({ label, id, check }) => {
+                                                            return (
+                                                                <div key={id} >
+                                                                    <li>
+                                                                        <input 
+                                                                            type="checkbox"
+                                                                            value={id}
+                                                                            onChange={() => 
+                                                                                handlePriceRange(id)
+                                                                            }
+                                                                            checked={check}
+                                                                        />
+                                                                        {label}
+                                                                    </li>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
                 </div>
             </div>
             <div className="line" />
@@ -136,15 +353,57 @@ function ReviewsSmallScreen(props) {
                                     <div>
                                         {listReviews
                                             .filter(review => {
-                                            const searchInput = input.toLowerCase();
-                                            const resName = review.restaurantName.toLowerCase();
+                                                const searchInput = input.toLowerCase();
+                                                const resName = review.restaurantName.toLowerCase();
+                                                const tagNames = review.tags;
+                                                const filterInputRating = ratingChecked.map((item) => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
+                                                    }
+                                                });
+                                                const filterInputPriceRange = priceChecked.map((item) => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
+                                                    }
+                                                });
+                    
+                                                const resRating = review.rating;
+                                                const resPriceRange = review.priceRange;
+                                                    
+                                                if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                                    return (
+                                                        (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                        (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price))
+                                                    );
+                                                } else if (filterInputPriceRange.some(item => item !== null)) {
+                                                    return (
+                                                        filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)
+                                                    );
+                                                } else if (filterInputRating.some(item => item !== null)) {
+                                                    return (
+                                                        filterInputRating && filterInputRating.some(rating => resRating === rating)
+                                                    );
+                                                }
 
-                                            return resName.startsWith(searchInput)
-                                        }).map(review => {
-                                            return (
-                                                <ReviewPeek reviewData={review} />
-                                            );
-                                        })}
+                                                if (input.startsWith("#")) {
+                                                    return (
+                                                        tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                                    );
+                                                } else {
+                                                    return (
+                                                        resName.startsWith(searchInput)
+                                                    );
+                                                }
+                                            }).map(review => {
+                                                return (
+                                                    <ReviewPeek reviewData={review} />
+                                                );
+                                            })
+                                        }
                                     </div>
                                 ) : (
                                     // If the info can't be loaded, then display a message
@@ -169,6 +428,104 @@ function ReviewsBigScreen(props) {
         { enabled: !!user }
     );
     const [input, setInput] = useState("");
+    const [ratingChecked, setRatingChecked] = useState([
+        {
+            id: 1,
+            label: "1-star",
+            check: false
+        },
+        {
+            id: 2,
+            label: "2-star",
+            check: false
+        },
+        {
+            id: 3,
+            label: "3-star",
+            check: false
+        },
+        {
+            id: 4,
+            label: "4-star",
+            check: false
+        },
+        {
+            id: 5,
+            label: "5-star",
+            check: false
+        }
+    ]);
+    const [priceChecked, setPriceChecked] = useState([
+        {
+            id: 1,
+            label: "$",
+            check: false
+        },
+        {
+            id: 2,
+            label: "$$",
+            check: false
+        },
+        {
+            id: 3,
+            label: "$$$",
+            check: false
+        },
+        {
+            id: 4,
+            label: "$$$$",
+            check: false
+        },
+    ]);
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+    };
+    function handleListKeyDown(event) {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            setOpen(false);
+        } else if (event.key === "Escape") {
+            setOpen(false);
+        }
+    }
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current.focus();
+        }
+        prevOpen.current = open;
+    }, [open]);
+    const handleRating = (id) => {
+        setRatingChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
+    const handlePriceRange = (id) => {
+        setPriceChecked(prev => {
+            return prev.map(item => {
+                if (item.id === id) {
+                    return {...item, check:!item.check};
+                } else {
+                    return {...item};
+                }
+            })
+        })
+    };
 
     return (
         <div className="reviews">
@@ -186,7 +543,120 @@ function ReviewsBigScreen(props) {
                                 setInput(e.target.value)
                             }
                         />
-                        <FilterAltIcon />
+                        <IconButton
+                            sx={{
+                                color: "#000000"
+                            }}
+                            ref={anchorRef}
+                            aria-controls={open ? "composition-menu" : undefined}
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            onClick={handleToggle}
+                        >
+                            <FilterAltIcon />
+                        </IconButton>
+                        <Popper
+                            open={open}
+                            anchorEl={anchorRef.current}
+                            role={undefined}
+                            placement="bottom-end"
+                            transition
+                            disablePortal
+                            sx={{
+                                zIndex: 95,
+                            }}
+                        >
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    style={{
+                                        transformOrigin:
+                                        placement === "bottom-end" ? "right top" : "left bottom",
+                                    }}
+                                >
+                                    <Paper
+                                        sx={{
+                                            border: "2px solid #BEE5B0",
+                                            borderTopRightRadius: "10px",
+                                            borderBottomRightRadius: "10px",
+                                            borderBottomLeftRadius: "10px",
+                                            marginTop: "5px",
+                                            marginRight: "-5px",
+                                            minHeight: "139px",
+                                            width: "130px"
+                                        }}
+                                    >
+                                        <ClickAwayListener onClickAway={handleClose}>
+                                            <MenuList
+                                                autoFocusItem={open}
+                                                onKeyDown={handleListKeyDown}
+                                            >
+                                                <div className="multi-level">
+                                                    <div className="item">
+                                                        <input type="checkbox" id="title-rating"/>
+                                                        <ArrowRightIcon
+                                                            id="arrow"
+                                                            sx={{
+                                                                margin: "10px 0 -7px 0",                                                    
+                                                            }}
+                                                        />
+                                                        <label for="title-rating">rating</label>
+                                                        <ul>
+                                                            {ratingChecked.map(({ label, id, check }) => {
+                                                                return (
+                                                                    <div key={id} >
+                                                                        <li>
+                                                                            <input 
+                                                                                type="checkbox"
+                                                                                value={id}
+                                                                                onChange={() => 
+                                                                                    handleRating(id)
+                                                                                }
+                                                                                checked={check}
+                                                                            />
+                                                                            {label}
+                                                                        </li>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                    <div className="item">
+                                                        <input type="checkbox" id="title-price"/>
+                                                        <ArrowRightIcon
+                                                            id="arrow"
+                                                            sx={{
+                                                                margin: "10px 0 -7px 0"
+                                                            }}
+                                                        />
+                                                        <label for="title-price">price range</label>
+                                                        <ul>
+                                                            {priceChecked.map(({ label, id, check }) => {
+                                                                return (
+                                                                    <div key={id} >
+                                                                        <li>
+                                                                            <input 
+                                                                                type="checkbox"
+                                                                                value={id}
+                                                                                onChange={() => 
+                                                                                    handlePriceRange(id)
+                                                                                }
+                                                                                checked={check}
+                                                                            />
+                                                                            {label}
+                                                                        </li>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </MenuList>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
                     </div>
                 </div>
             </div>
@@ -218,13 +688,55 @@ function ReviewsBigScreen(props) {
                                         .filter(review => {
                                             const searchInput = input.toLowerCase();
                                             const resName = review.restaurantName.toLowerCase();
+                                            const tagNames = review.tags;
+                                            const filterInputRating = ratingChecked.map((item) => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
+                                            });
+                                            const filterInputPriceRange = priceChecked.map((item) => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
+                                            });
+                
+                                            const resRating = review.rating;
+                                            const resPriceRange = review.priceRange;
+                                                
+                                            if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                                return (
+                                                    (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
+                                                    (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price))
+                                                );
+                                            } else if (filterInputPriceRange.some(item => item !== null)) {
+                                                return (
+                                                    filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)
+                                                );
+                                            } else if (filterInputRating.some(item => item !== null)) {
+                                                return (
+                                                    filterInputRating && filterInputRating.some(rating => resRating === rating)
+                                                );
+                                            }
 
-                                            return resName.startsWith(searchInput)
+                                            if (input.startsWith("#")) {
+                                                return (
+                                                    tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                                );
+                                            } else {
+                                                return (
+                                                    resName.startsWith(searchInput)
+                                                );
+                                            }
                                         }).map(review => (
                                             <Grid item xs={6} key={review}>
                                                 <ReviewPeek reviewData={review} />
                                             </Grid>
-                                    ))}
+                                        ))
+                                    }
                                 </Grid>
                             </div>
                         ) : (
