@@ -27,7 +27,6 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuList from "@mui/material/MenuList";
 
-
 function Post() {
     return (
         <div className="postButton">

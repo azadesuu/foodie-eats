@@ -53,6 +53,16 @@ function EditReview() {
         }
     }, [user]);
 
+    const confirmDelete = async () => {
+        const review = await deleteReview(reviewId);
+        if (review) {
+            alert("review deleted.");
+            navigate("/my-reviews");
+        } else {
+            alert("An error occured, please try again later");
+        }
+    };
+
     const submitUpdatedReview = async (
         _id,
         restaurantName,
@@ -129,6 +139,14 @@ function EditReview() {
                     <div className="Edit-title">
                         <h1>EDIT</h1>
                         <DeleteIcon
+                            onClick={e => {
+                                if (
+                                    window.confirm(
+                                        "Are you sure you wish to delete this review?"
+                                    )
+                                )
+                                    confirmDelete();
+                            }}
                             sx={{
                                 fontSize: "35px",
                                 textAlign: "end",
@@ -549,7 +567,6 @@ function EditReview() {
                                             }}
                                         />
                                     </div>
-
                                     <div className="description-tags">
                                         <div className="details-container">
                                             <textarea

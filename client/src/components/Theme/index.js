@@ -12,6 +12,7 @@ import HoneyDew from "../../assets/images/HoneyDew.svg";
 import Shokupan from "../../assets/images/Shokupan.svg";
 
 import Avatar from "@mui/material/Avatar";
+import { CircularProgress } from "@mui/material";
 
 function TopUser(props) {
     const userProfile = props.user;
@@ -88,7 +89,6 @@ function MyTheme(props) {
             console.log(err);
         }
     };
-
     function toggleActiveTheme(theme) {
         if (theme === currTheme) {
             return "active-theme";

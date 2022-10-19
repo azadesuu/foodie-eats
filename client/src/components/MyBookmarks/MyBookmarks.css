@@ -54,7 +54,7 @@ span.smallScreen-MyBookmarks {
 }
 body {
     margin-top: 230px;
-    background-color: #FFFEEC;
+    background-color: #fffeec;
     padding: 1%;
     font-family: "Martel Sans";
     display: flex;
@@ -92,7 +92,7 @@ body {
 }
 .searchbar input {
     border: none;
-    background: #D9D9D9;
+    background: #d9d9d9;
     padding: 8px;
     font-size: 20px;
     width: 95%;
@@ -100,7 +100,7 @@ body {
 .searchrow {
     display: flex;
     gap: 6px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border-radius: 20px;
     gap: 1px;
     align-items: center;
@@ -131,7 +131,7 @@ input:focus {
     width: 93%;
 }
 .reviews-content {
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;

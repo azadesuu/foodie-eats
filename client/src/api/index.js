@@ -87,8 +87,7 @@ export const signupUser = async user => {
         // show error message
         alert(data.message);
     } else {
-        // store token locally
-        localStorage.setItem("token", data);
+        //do nothing
     }
 };
 

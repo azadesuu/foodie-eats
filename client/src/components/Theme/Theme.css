@@ -4,26 +4,26 @@ span.bigScreen-Theme {
 span.smallScreen-Theme {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-Theme {
-      display: none;
+        display: none;
     }
     span.smallScreen-Theme {
-      display: inline;
-      width: 98%;
+        display: inline;
+        width: 98%;
     }
     .content-Theme h1 {
-      font-size: 50px;
+        font-size: 50px;
     }
 }
 @media screen and (min-width: 1000px) {
     .content-Theme h1 {
-      font-size: 60px;
+        font-size: 60px;
     }
 }
 body {
     margin-top: 230px;
-    background-color: #FFFEEC;
+    background-color: #fffeec;
     padding: 1%;
     font-family: "Martel Sans";
     display: flex;
