@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = PROCESS.ENV.SERVER_URL || "http://localhost:5000";
 
 // add token to every request made to API
 axios.interceptors.request.use(
