@@ -69,81 +69,14 @@ accountRouter.get("/getUsers", async (req, res, next) => {
 
 // images
 accountRouter.patch(
-  "/uploadProfilePicture/:id",
+  "/uploadProfileImage/:id",
   upload.single("image"),
-  async (req, res, next) => {
-    try {
-      console.log(req.file);
-
-      // Upload image to cloudinary
-
-      const result = await cloudinary.uploader.upload(
-        req.file.path,
-        (err, result) => {
-          if (err) {
-            res.json("cloudinary didn't upload error");
-            return;
-          }
-          console.log(result);
-        }
-      );
-      const user = await User.findById(req.params.id);
-      //deleting current profile image from database
-      if (user.profileImage !== "") {
-        await cloudinary.uploader.destroy(utils.getPublicId(user.profileImage));
-      }
-      await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: {
-            profileImage: result.secure_url
-          }
-        },
-        (err, result) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: result
-          });
-        }
-      ).clone();
-    } catch (err) {
-      next(err);
-    }
-  }
+  accountController.uploadProfileImage
 );
 
-accountRouter.patch("/deleteProfilePicture/:id", async (req, res) => {
-  try {
-    let user = await User.findById(req.params.id);
-    if (user.profileImage !== "") {
-      await cloudinary.uploader.destroy(utils.getPublicId(user.profileImage));
-    }
-
-    await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          profileImage: ""
-        }
-      },
-      (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
-  } catch (err) {
-    console.log(err);
-  }
-});
+accountRouter.patch(
+  "/deleteProfileImage/:id",
+  accountController.deleteProfileImage
+);
 
 module.exports = accountRouter;

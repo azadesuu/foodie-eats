@@ -49,7 +49,7 @@ function Location() {
                 placeholder="Select your postcode here"
                 name="location"
                 id="location"
-                // value="3000 Melbourne, Australia"
+                // value="3000 Melbourne, Australia" 
                 required
             />
         </div>

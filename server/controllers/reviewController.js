@@ -275,6 +275,85 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
+const uploadReviewImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(501).json("File not found");
+    }
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(
+      req.file.path,
+      (err, result) => {
+        if (err) {
+          res.json("Cloudinary didn't upload error");
+          return;
+        }
+      }
+    );
+
+    let review = await Review.findById(req.params.reviewId);
+
+    if (!review) {
+      res.status(500).json(new Error("Review not found."));
+      return;
+    }
+    if (review.reviewImage !== "") {
+      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
+    }
+
+    await Review.findByIdAndUpdate(
+      req.params.reviewId,
+      {
+        $set: {
+          reviewImage: result.secure_url
+        }
+      },
+      (err, result) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
+      }
+    ).clone();
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteReviewImage = async (req, res) => {
+  try {
+    let review = await Review.findById(req.params.reviewId);
+    if (review.reviewImage !== "") {
+      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
+    }
+
+    await Review.findByIdAndUpdate(
+      req.params.reviewId,
+      {
+        $set: {
+          reviewImage: ""
+        }
+      },
+      (err, result) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
+      }
+    ).clone();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getReviewsByRecent,
   getReviewsByLikes,
@@ -283,5 +362,7 @@ module.exports = {
   createReview,
   updateReview,
   toggleLike,
-  deleteReview
+  deleteReview,
+  uploadReviewImage,
+  deleteReviewImage
 };

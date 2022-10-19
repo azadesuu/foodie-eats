@@ -5,6 +5,10 @@ const Review = require("../../models/review");
 const User = require("../../models/user");
 const reviewController = require("../../controllers/reviewController");
 
+const { cloudinary } = require("../../config/cloudinary");
+const upload = require("../../config/multer");
+const utils = require("../utility");
+
 //GET reviews by recent
 reviewRouter.get(
   "/getReviewsByRecent/:postcode",
@@ -33,6 +37,18 @@ reviewRouter.patch("/like/:userId/:reviewId", reviewController.toggleLike);
 
 //delete review
 reviewRouter.delete("/delete/:reviewId", reviewController.deleteReview);
+
+// images
+reviewRouter.patch(
+  "/uploadReviewImage/:reviewId",
+  upload.single("image"),
+  reviewController.uploadReviewImage
+);
+
+reviewRouter.patch(
+  "/deleteReviewImage/:reviewId",
+  reviewController.deleteReviewImage
+);
 
 //PATCH review according to flag boolean -- toggle flag // might be removed
 reviewRouter.patch("/flag/:userId/:reviewId", async (req, res, next) => {
@@ -90,18 +106,4 @@ reviewRouter.patch("/flag/:userId/:reviewId", async (req, res, next) => {
   }
 });
 
-// GET most recent  review -- for testing purposes
-reviewRouter.get("/getReview", (req, res, next) => {
-  Review.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-      return;
-    } else {
-      res.json(result);
-    }
-  })
-    .sort({ $natural: -1 })
-    .populate("userId")
-    .limit(1);
-});
 module.exports = reviewRouter;
