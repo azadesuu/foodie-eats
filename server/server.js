@@ -13,7 +13,8 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    process.env.BASE_URL || "https://foodie-eats.herokuapp.com",
+    "http://foodie-eats.netlify.app/",
+    "http://foodie-eats-beta.netlify.app/",
     "http://localhost:3000"
   ];
   const origin = req.headers.origin;

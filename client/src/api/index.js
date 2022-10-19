@@ -242,3 +242,36 @@ export const changeTheme = async data => {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
+
+// imageUploads
+export const uploadProfileImage = async data => {
+    const { file, userId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/account/uploadProfileImage/${userId}`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteProfileImage = async data => {
+    const { userId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/account/deleteProfileImage/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const uploadReviewImage = async data => {
+    const { file, reviewId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/uploadReviewImage/${reviewId}`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteReviewImage = async data => {
+    const { reviewId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/deleteReviewImage/${reviewId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
