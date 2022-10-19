@@ -172,9 +172,6 @@ export default function Theme() {
             ) : (
                 <CircularProgress className="spinner" />
             )}
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

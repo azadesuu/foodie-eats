@@ -118,9 +118,6 @@ function Login() {
             <a className="signup" href="signup">
                 SIGN UP
             </a>
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

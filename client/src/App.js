@@ -20,6 +20,7 @@ import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
 import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
+import Footer from "./components/Footer";
 
 import NavBar from "./components/NavBar";
 import LoggedInNavBar from "./components/LoggedInNavBar";
@@ -70,13 +71,13 @@ function App() {
                             path="/review/:reviewId"
                             element={<Review user={user} />}
                         />
-                        <Route 
-                            path="/profile/:username" 
+                        <Route
+                            path="/profile/:username"
                             element={<Profile />}
                         />
-                        <Route 
-                            path="/profile/:username/reviews" 
-                            element={<ProfileReviews />} 
+                        <Route
+                            path="/profile/:username/reviews"
+                            element={<ProfileReviews />}
                         />
                         <Route path="*" element={<PageNotFound />} />
 
@@ -129,6 +130,7 @@ function App() {
                         />
                     </Routes>
                 </div>
+                <Footer />
             </UserContext.Provider>
         </QueryClientProvider>
     );

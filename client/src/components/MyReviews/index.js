@@ -55,11 +55,15 @@ function TopUser(props) {
     return (
         <div className="top-user">
             <div className="top-user-r1">
-                {/* <Avatar
+                <Avatar
                     alt="user-profile-image"
-                    src={userProfile.profileImage}
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
                     sx={{ height: 130, width: 130 }}
-                /> */}
+                />
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -143,14 +147,14 @@ function ReviewsSmallScreen(props) {
             id: 4,
             label: "$$$$",
             check: false
-        },
+        }
     ]);
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+        setOpen(prevOpen => !prevOpen);
     };
-    const handleClose = (event) => {
+    const handleClose = event => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
@@ -172,27 +176,27 @@ function ReviewsSmallScreen(props) {
         }
         prevOpen.current = open;
     }, [open]);
-    const handleRating = (id) => {
+    const handleRating = id => {
         setRatingChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
-    const handlePriceRange = (id) => {
+    const handlePriceRange = id => {
         setPriceChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
 
     return (
@@ -205,9 +209,7 @@ function ReviewsSmallScreen(props) {
                         placeholder="Search"
                         name="search"
                         id="search"
-                        onChange={(e) =>
-                            setInput(e.target.value)
-                        }
+                        onChange={e => setInput(e.target.value)}
                     />
                     <IconButton
                         sx={{
@@ -229,7 +231,7 @@ function ReviewsSmallScreen(props) {
                         transition
                         disablePortal
                         sx={{
-                            zIndex: 95,
+                            zIndex: 95
                         }}
                     >
                         {({ TransitionProps, placement }) => (
@@ -237,7 +239,9 @@ function ReviewsSmallScreen(props) {
                                 {...TransitionProps}
                                 style={{
                                     transformOrigin:
-                                    placement === "bottom-end" ? "right top" : "left bottom",
+                                        placement === "bottom-end"
+                                            ? "right top"
+                                            : "left bottom"
                                 }}
                             >
                                 <Paper
@@ -252,68 +256,114 @@ function ReviewsSmallScreen(props) {
                                         width: "130px"
                                     }}
                                 >
-                                    <ClickAwayListener onClickAway={handleClose}>
+                                    <ClickAwayListener
+                                        onClickAway={handleClose}
+                                    >
                                         <MenuList
                                             autoFocusItem={open}
                                             onKeyDown={handleListKeyDown}
                                         >
                                             <div className="multi-level">
                                                 <div className="item">
-                                                    <input type="checkbox" id="title-rating"/>
+                                                    <input
+                                                        type="checkbox"
+                                                        id="title-rating"
+                                                    />
                                                     <ArrowRightIcon
                                                         id="arrow"
                                                         sx={{
-                                                            margin: "10px 0 -7px 0",                                                    
+                                                            margin:
+                                                                "10px 0 -7px 0"
                                                         }}
                                                     />
-                                                    <label for="title-rating">rating</label>
+                                                    <label for="title-rating">
+                                                        rating
+                                                    </label>
                                                     <ul>
-                                                        {ratingChecked.map(({ label, id, check }) => {
-                                                            return (
-                                                                <div key={id} >
-                                                                    <li>
-                                                                        <input 
-                                                                            type="checkbox"
-                                                                            value={id}
-                                                                            onChange={() => 
-                                                                                handleRating(id)
+                                                        {ratingChecked.map(
+                                                            ({
+                                                                label,
+                                                                id,
+                                                                check
+                                                            }) => {
+                                                                return (
+                                                                    <div
+                                                                        key={id}
+                                                                    >
+                                                                        <li>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                value={
+                                                                                    id
+                                                                                }
+                                                                                onChange={() =>
+                                                                                    handleRating(
+                                                                                        id
+                                                                                    )
+                                                                                }
+                                                                                checked={
+                                                                                    check
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                label
                                                                             }
-                                                                            checked={check}
-                                                                        />
-                                                                        {label}
-                                                                    </li>
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                        </li>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
                                                     </ul>
                                                 </div>
                                                 <div className="item">
-                                                    <input type="checkbox" id="title-price"/>
+                                                    <input
+                                                        type="checkbox"
+                                                        id="title-price"
+                                                    />
                                                     <ArrowRightIcon
                                                         id="arrow"
                                                         sx={{
-                                                            margin: "10px 0 -7px 0"
+                                                            margin:
+                                                                "10px 0 -7px 0"
                                                         }}
                                                     />
-                                                    <label for="title-price">price range</label>
+                                                    <label for="title-price">
+                                                        price range
+                                                    </label>
                                                     <ul>
-                                                        {priceChecked.map(({ label, id, check }) => {
-                                                            return (
-                                                                <div key={id} >
-                                                                    <li>
-                                                                        <input 
-                                                                            type="checkbox"
-                                                                            value={id}
-                                                                            onChange={() => 
-                                                                                handlePriceRange(id)
+                                                        {priceChecked.map(
+                                                            ({
+                                                                label,
+                                                                id,
+                                                                check
+                                                            }) => {
+                                                                return (
+                                                                    <div
+                                                                        key={id}
+                                                                    >
+                                                                        <li>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                value={
+                                                                                    id
+                                                                                }
+                                                                                onChange={() =>
+                                                                                    handlePriceRange(
+                                                                                        id
+                                                                                    )
+                                                                                }
+                                                                                checked={
+                                                                                    check
+                                                                                }
+                                                                            />
+                                                                            {
+                                                                                label
                                                                             }
-                                                                            checked={check}
-                                                                        />
-                                                                        {label}
-                                                                    </li>
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                        </li>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -356,54 +406,98 @@ function ReviewsSmallScreen(props) {
                                                 const searchInput = input.toLowerCase();
                                                 const resName = review.restaurantName.toLowerCase();
                                                 const tagNames = review.tags;
-                                                const filterInputRating = ratingChecked.map((item) => {
-                                                    if (item.check) {
-                                                        return item.id;
-                                                    } else {
-                                                        return null;
+                                                const filterInputRating = ratingChecked.map(
+                                                    item => {
+                                                        if (item.check) {
+                                                            return item.id;
+                                                        } else {
+                                                            return null;
+                                                        }
                                                     }
-                                                });
-                                                const filterInputPriceRange = priceChecked.map((item) => {
-                                                    if (item.check) {
-                                                        return item.id;
-                                                    } else {
-                                                        return null;
+                                                );
+                                                const filterInputPriceRange = priceChecked.map(
+                                                    item => {
+                                                        if (item.check) {
+                                                            return item.id;
+                                                        } else {
+                                                            return null;
+                                                        }
                                                     }
-                                                });
-                    
+                                                );
+
                                                 const resRating = review.rating;
-                                                const resPriceRange = review.priceRange;
-                                                    
-                                                if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                                const resPriceRange =
+                                                    review.priceRange;
+
+                                                if (
+                                                    filterInputRating.some(
+                                                        item => item !== null
+                                                    ) &&
+                                                    filterInputPriceRange.some(
+                                                        item => item !== null
+                                                    )
+                                                ) {
                                                     return (
-                                                        (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                        (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price))
+                                                        filterInputRating &&
+                                                        filterInputRating.some(
+                                                            rating =>
+                                                                resRating ===
+                                                                rating
+                                                        ) &&
+                                                        filterInputPriceRange &&
+                                                            filterInputPriceRange.some(
+                                                                price =>
+                                                                    resPriceRange ===
+                                                                    price
+                                                            )
                                                     );
-                                                } else if (filterInputPriceRange.some(item => item !== null)) {
+                                                } else if (
+                                                    filterInputPriceRange.some(
+                                                        item => item !== null
+                                                    )
+                                                ) {
                                                     return (
-                                                        filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)
+                                                        filterInputPriceRange &&
+                                                        filterInputPriceRange.some(
+                                                            price =>
+                                                                resPriceRange ===
+                                                                price
+                                                        )
                                                     );
-                                                } else if (filterInputRating.some(item => item !== null)) {
+                                                } else if (
+                                                    filterInputRating.some(
+                                                        item => item !== null
+                                                    )
+                                                ) {
                                                     return (
-                                                        filterInputRating && filterInputRating.some(rating => resRating === rating)
+                                                        filterInputRating &&
+                                                        filterInputRating.some(
+                                                            rating =>
+                                                                resRating ===
+                                                                rating
+                                                        )
                                                     );
                                                 }
 
                                                 if (input.startsWith("#")) {
-                                                    return (
-                                                        tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                                    return tagNames.some(tag =>
+                                                        searchInput
+                                                            .substring(1)
+                                                            .startsWith(tag)
                                                     );
                                                 } else {
-                                                    return (
-                                                        resName.startsWith(searchInput)
+                                                    return resName.startsWith(
+                                                        searchInput
                                                     );
                                                 }
-                                            }).map(review => {
-                                                return (
-                                                    <ReviewPeek reviewData={review} />
-                                                );
                                             })
-                                        }
+                                            .map(review => {
+                                                return (
+                                                    <ReviewPeek
+                                                        reviewData={review}
+                                                    />
+                                                );
+                                            })}
                                     </div>
                                 ) : (
                                     // If the info can't be loaded, then display a message
@@ -475,14 +569,14 @@ function ReviewsBigScreen(props) {
             id: 4,
             label: "$$$$",
             check: false
-        },
+        }
     ]);
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+        setOpen(prevOpen => !prevOpen);
     };
-    const handleClose = (event) => {
+    const handleClose = event => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
@@ -504,27 +598,27 @@ function ReviewsBigScreen(props) {
         }
         prevOpen.current = open;
     }, [open]);
-    const handleRating = (id) => {
+    const handleRating = id => {
         setRatingChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
-    const handlePriceRange = (id) => {
+    const handlePriceRange = id => {
         setPriceChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
 
     return (
@@ -539,16 +633,16 @@ function ReviewsBigScreen(props) {
                             placeholder="Search"
                             name="search"
                             id="search"
-                            onChange={(e) =>
-                                setInput(e.target.value)
-                            }
+                            onChange={e => setInput(e.target.value)}
                         />
                         <IconButton
                             sx={{
                                 color: "#000000"
                             }}
                             ref={anchorRef}
-                            aria-controls={open ? "composition-menu" : undefined}
+                            aria-controls={
+                                open ? "composition-menu" : undefined
+                            }
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
                             onClick={handleToggle}
@@ -563,7 +657,7 @@ function ReviewsBigScreen(props) {
                             transition
                             disablePortal
                             sx={{
-                                zIndex: 95,
+                                zIndex: 95
                             }}
                         >
                             {({ TransitionProps, placement }) => (
@@ -571,7 +665,9 @@ function ReviewsBigScreen(props) {
                                     {...TransitionProps}
                                     style={{
                                         transformOrigin:
-                                        placement === "bottom-end" ? "right top" : "left bottom",
+                                            placement === "bottom-end"
+                                                ? "right top"
+                                                : "left bottom"
                                     }}
                                 >
                                     <Paper
@@ -586,68 +682,118 @@ function ReviewsBigScreen(props) {
                                             width: "130px"
                                         }}
                                     >
-                                        <ClickAwayListener onClickAway={handleClose}>
+                                        <ClickAwayListener
+                                            onClickAway={handleClose}
+                                        >
                                             <MenuList
                                                 autoFocusItem={open}
                                                 onKeyDown={handleListKeyDown}
                                             >
                                                 <div className="multi-level">
                                                     <div className="item">
-                                                        <input type="checkbox" id="title-rating"/>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="title-rating"
+                                                        />
                                                         <ArrowRightIcon
                                                             id="arrow"
                                                             sx={{
-                                                                margin: "10px 0 -7px 0",                                                    
+                                                                margin:
+                                                                    "10px 0 -7px 0"
                                                             }}
                                                         />
-                                                        <label for="title-rating">rating</label>
+                                                        <label for="title-rating">
+                                                            rating
+                                                        </label>
                                                         <ul>
-                                                            {ratingChecked.map(({ label, id, check }) => {
-                                                                return (
-                                                                    <div key={id} >
-                                                                        <li>
-                                                                            <input 
-                                                                                type="checkbox"
-                                                                                value={id}
-                                                                                onChange={() => 
-                                                                                    handleRating(id)
+                                                            {ratingChecked.map(
+                                                                ({
+                                                                    label,
+                                                                    id,
+                                                                    check
+                                                                }) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                id
+                                                                            }
+                                                                        >
+                                                                            <li>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    value={
+                                                                                        id
+                                                                                    }
+                                                                                    onChange={() =>
+                                                                                        handleRating(
+                                                                                            id
+                                                                                        )
+                                                                                    }
+                                                                                    checked={
+                                                                                        check
+                                                                                    }
+                                                                                />
+                                                                                {
+                                                                                    label
                                                                                 }
-                                                                                checked={check}
-                                                                            />
-                                                                            {label}
-                                                                        </li>
-                                                                    </div>
-                                                                );
-                                                            })}
+                                                                            </li>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
                                                         </ul>
                                                     </div>
                                                     <div className="item">
-                                                        <input type="checkbox" id="title-price"/>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="title-price"
+                                                        />
                                                         <ArrowRightIcon
                                                             id="arrow"
                                                             sx={{
-                                                                margin: "10px 0 -7px 0"
+                                                                margin:
+                                                                    "10px 0 -7px 0"
                                                             }}
                                                         />
-                                                        <label for="title-price">price range</label>
+                                                        <label for="title-price">
+                                                            price range
+                                                        </label>
                                                         <ul>
-                                                            {priceChecked.map(({ label, id, check }) => {
-                                                                return (
-                                                                    <div key={id} >
-                                                                        <li>
-                                                                            <input 
-                                                                                type="checkbox"
-                                                                                value={id}
-                                                                                onChange={() => 
-                                                                                    handlePriceRange(id)
+                                                            {priceChecked.map(
+                                                                ({
+                                                                    label,
+                                                                    id,
+                                                                    check
+                                                                }) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                id
+                                                                            }
+                                                                        >
+                                                                            <li>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    value={
+                                                                                        id
+                                                                                    }
+                                                                                    onChange={() =>
+                                                                                        handlePriceRange(
+                                                                                            id
+                                                                                        )
+                                                                                    }
+                                                                                    checked={
+                                                                                        check
+                                                                                    }
+                                                                                />
+                                                                                {
+                                                                                    label
                                                                                 }
-                                                                                checked={check}
-                                                                            />
-                                                                            {label}
-                                                                        </li>
-                                                                    </div>
-                                                                );
-                                                            })}
+                                                                            </li>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -689,54 +835,96 @@ function ReviewsBigScreen(props) {
                                             const searchInput = input.toLowerCase();
                                             const resName = review.restaurantName.toLowerCase();
                                             const tagNames = review.tags;
-                                            const filterInputRating = ratingChecked.map((item) => {
-                                                if (item.check) {
-                                                    return item.id;
-                                                } else {
-                                                    return null;
+                                            const filterInputRating = ratingChecked.map(
+                                                item => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
+                                                    }
                                                 }
-                                            });
-                                            const filterInputPriceRange = priceChecked.map((item) => {
-                                                if (item.check) {
-                                                    return item.id;
-                                                } else {
-                                                    return null;
+                                            );
+                                            const filterInputPriceRange = priceChecked.map(
+                                                item => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
+                                                    }
                                                 }
-                                            });
-                
+                                            );
+
                                             const resRating = review.rating;
-                                            const resPriceRange = review.priceRange;
-                                                
-                                            if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+                                            const resPriceRange =
+                                                review.priceRange;
+
+                                            if (
+                                                filterInputRating.some(
+                                                    item => item !== null
+                                                ) &&
+                                                filterInputPriceRange.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
                                                 return (
-                                                    (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                    (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price))
+                                                    filterInputRating &&
+                                                    filterInputRating.some(
+                                                        rating =>
+                                                            resRating === rating
+                                                    ) &&
+                                                    filterInputPriceRange &&
+                                                        filterInputPriceRange.some(
+                                                            price =>
+                                                                resPriceRange ===
+                                                                price
+                                                        )
                                                 );
-                                            } else if (filterInputPriceRange.some(item => item !== null)) {
+                                            } else if (
+                                                filterInputPriceRange.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
                                                 return (
-                                                    filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)
+                                                    filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    )
                                                 );
-                                            } else if (filterInputRating.some(item => item !== null)) {
+                                            } else if (
+                                                filterInputRating.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
                                                 return (
-                                                    filterInputRating && filterInputRating.some(rating => resRating === rating)
+                                                    filterInputRating &&
+                                                    filterInputRating.some(
+                                                        rating =>
+                                                            resRating === rating
+                                                    )
                                                 );
                                             }
 
                                             if (input.startsWith("#")) {
-                                                return (
-                                                    tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                                return tagNames.some(tag =>
+                                                    searchInput
+                                                        .substring(1)
+                                                        .startsWith(tag)
                                                 );
                                             } else {
-                                                return (
-                                                    resName.startsWith(searchInput)
+                                                return resName.startsWith(
+                                                    searchInput
                                                 );
                                             }
-                                        }).map(review => (
+                                        })
+                                        .map(review => (
                                             <Grid item xs={6} key={review}>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                             </Grid>
-                                        ))
-                                    }
+                                        ))}
                                 </Grid>
                             </div>
                         ) : (
@@ -754,7 +942,7 @@ function ReviewsBigScreen(props) {
 
 function MyReviews() {
     const [user] = useContext(UserContext);
-    
+
     return (
         <>
             {user ? (
@@ -773,9 +961,6 @@ function MyReviews() {
                             <ReviewsBigScreen user={user} />
                         </div>
                     </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
                 </div>
             ) : (
                 <CircularProgress className="spinner" />

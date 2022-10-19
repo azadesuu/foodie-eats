@@ -2,16 +2,24 @@ import React from "react";
 
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
 import { UserContext } from "../../actions/UserContext";
-import { uploadProfileImage, deleteProfileImage, getProfile } from "../../api";
+import {
+    uploadProfileImage,
+    deleteProfileImage,
+    uploadReviewImage,
+    deleteReviewImage
+} from "../../api";
 
-export default function ImageUpload() {
-    const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading, refetch } = useQuery(
-        "profile",
-        () => getProfile(user?.username),
-        { enabled: !!user }
-    );
+export default function ImageUpload(props) {
+    const navigate = useNavigate();
+    if (
+        (!props.userId && !props.reviewId) ||
+        (props.userId && props.reviewId)
+    ) {
+        navigate(-1);
+    }
+
     const [image, setImage] = useState({});
     const [previewImage, setPreviewImage, getPreviewImage] = useState("");
 
@@ -21,20 +29,29 @@ export default function ImageUpload() {
             formData.set("image", image);
             if (!formData.get("image")) {
                 alert("Image not selected!");
-            } else if (!user?._id) {
-                alert("User not found!");
             } else if (image.size / 1024 / 1024 > 10) {
                 alert("Image exceeds upload limit!");
-            } else {
+            }
+
+            if (props.userId) {
                 const result = await uploadProfileImage({
                     file: formData,
-                    userId: user?._id
+                    userId: props.userId
                 });
                 if (result) {
-                    refetch();
                     alert("Profile image was changed.");
                 } else {
                     alert("error occured, profile image was not changed.");
+                }
+            } else {
+                const result = await uploadReviewImage({
+                    file: formData,
+                    reviewId: props.reviewId
+                });
+                if (result) {
+                    alert("Review image was changed.");
+                } else {
+                    alert("Error occured, review image was not changed.");
                 }
             }
         } catch (err) {
@@ -42,7 +59,10 @@ export default function ImageUpload() {
         }
     }
     async function deleteHandler() {
-        deleteProfileImage({ userId: user?._id });
+        if (props.userId) deleteProfileImage({ userId: props.userId });
+        else {
+            deleteReviewImage({ reviewId: props.reviewId });
+        }
     }
 
     const onImageChange = async event => {
@@ -54,7 +74,7 @@ export default function ImageUpload() {
 
     return (
         <>
-            {user && userProfile ? (
+            {props.userId || props.reviewId ? (
                 <>
                     <label>
                         Your Image File
@@ -75,13 +95,8 @@ export default function ImageUpload() {
                         />
                         <br />
                     </label>
-                    <button onClick={submitHandler}>Confirm</button>
+                    <button onClick={submitHandler}>Confirm Upload</button>
                     <br />
-                    <img
-                        src={userProfile.profileImage}
-                        width={100}
-                        height={100}
-                    />
                     <button onClick={deleteHandler}>Delete</button>
                 </>
             ) : (

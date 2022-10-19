@@ -523,9 +523,6 @@ function Review(props) {
                     <h1>Review Not Found.</h1>
                 </div>
             )}
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

@@ -19,7 +19,11 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
@@ -77,9 +81,9 @@ function ProfileDetails(props) {
                                     bgcolor: "#FFFEEC"
                                 },
                                 left: "30px",
-                                bottom: "40px",
+                                bottom: "40px"
                             }}
-                        >   
+                        >
                             <EditIcon
                                 sx={{
                                     color: "black",
@@ -88,17 +92,17 @@ function ProfileDetails(props) {
                                         bgcolor: "#FFFEEC"
                                     }
                                 }}
-                            />  
+                            />
                         </IconButton>
                     </div>
                     <Avatar
                         alt="user-profile-image"
                         // src={user.profileImage}
-                        sx={{ 
-                            height: 110, 
-                            width:  110,
+                        sx={{
+                            height: 110,
+                            width: 110,
                             ml: "35px",
-                            mt: "-40px",
+                            mt: "-40px"
                         }}
                     />
                 </span>
@@ -110,9 +114,9 @@ function ProfileDetails(props) {
                             "&:hover": {
                                 bgcolor: "#FFFEEC"
                             },
-                            bottom: "5px",
+                            bottom: "5px"
                         }}
-                    >   
+                    >
                         <EditIcon
                             sx={{
                                 color: "black",
@@ -121,7 +125,7 @@ function ProfileDetails(props) {
                                     bgcolor: "#FFFEEC"
                                 }
                             }}
-                        />  
+                        />
                     </IconButton>
                 </span>
             </div>
@@ -206,9 +210,6 @@ function MyProfile() {
                             </div>
                         </div>
                     </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
                 </div>
             ) : (
                 <CircularProgress className="spinner" />

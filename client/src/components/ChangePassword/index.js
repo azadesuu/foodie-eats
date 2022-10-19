@@ -18,7 +18,7 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={userProfile.profileImage}
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
@@ -54,7 +54,7 @@ function Sidebar() {
 function ChangePwDetails(props) {
     const user = props.user;
     const navigate = useNavigate();
-    
+
     const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
@@ -165,7 +165,7 @@ function ChangePwDetails(props) {
                 <h1>No user found</h1>
             )}
         </div>
-    )
+    );
 }
 
 function ChangePassword() {
@@ -187,9 +187,6 @@ function ChangePassword() {
                             <ChangePwDetails user={user} />
                         </div>
                     </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
                 </div>
             ) : (
                 <CircularProgress className="spinner" />

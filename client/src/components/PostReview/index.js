@@ -705,9 +705,6 @@ function PostReview() {
                     </span>
                 </div>
             )}
-            <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }
