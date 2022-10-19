@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { useHistory } from "react-router";
-import { loginUser } from "../../api";
+import { loginUser, setAuthToken } from "../../api";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 import "./Login.css";
@@ -62,6 +62,7 @@ function Login() {
                 password: password
             });
             var token = localStorage.getItem("token");
+            setAuthToken(token);
             token ? document.location.reload() : navigate("/login");
         } catch (err) {
             alert(err);
