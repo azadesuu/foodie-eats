@@ -321,6 +321,84 @@ const changeTheme = async (req, res, next) => {
   }
 };
 
+const uploadProfileImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(501).json("File not found");
+    }
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(
+      req.file.path,
+      (err, result) => {
+        if (err) {
+          res.json("cloudinary didn't upload error");
+          return;
+        }
+      }
+    );
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      res.status(500).json(new Error("User not found."));
+      return;
+    }
+    //deleting current profile image from database
+    if (user.profileImage !== "") {
+      await cloudinary.uploader.destroy(utils.getPublicId(user.profileImage));
+    }
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          profileImage: result.secure_url
+        }
+      },
+      (err, result) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
+      }
+    ).clone();
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteProfileImage = async (req, res, next) => {
+  try {
+    let user = await User.findById(req.params.id);
+    if (user.profileImage !== "") {
+      await cloudinary.uploader.destroy(utils.getPublicId(user.profileImage));
+    }
+
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          profileImage: ""
+        }
+      },
+      (err, result) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+        res.status(200).json({
+          success: true,
+          data: result
+        });
+      }
+    ).clone();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getUser,
   getProfile,
@@ -332,5 +410,7 @@ module.exports = {
   bookmarkReview,
   updateUser,
   updatePassword,
-  changeTheme
+  changeTheme,
+  uploadProfileImage,
+  deleteProfileImage
 };

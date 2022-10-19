@@ -18,6 +18,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
+import ImageUpload from "./components-server/ImageUpload";
 import Theme from "./components/Theme";
 import Logout from "./components-server/Logout";
 
@@ -118,6 +119,10 @@ function App() {
                         <Route
                             path="/review/:reviewId/edit"
                             element={<Private Component={EditReview} />}
+                        />
+                        <Route
+                            path="/account/image-upload-test"
+                            element={<Private Component={ImageUpload} />}
                         />
                     </Routes>
                 </div>

@@ -60,9 +60,9 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  images: {
-    type: [String],
-    default: []
+  reviewImage: {
+    type: String,
+    default: ""
   },
   isPublic: {
     type: Boolean,

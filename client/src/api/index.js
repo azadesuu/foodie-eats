@@ -1,12 +1,22 @@
 import axios from "axios";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = PROCESS.ENV.SERVER_URL || "http://localhost:5000";
 
-export const setAuthToken = async token => {
-    if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else delete axios.defaults.headers.common["Authorization"];
-};
+// add token to every request made to API
+axios.interceptors.request.use(
+    config => {
+        const { origin } = new URL(config.url);
+        const allowedOrigins = [SERVER_URL];
+        const token = localStorage.getItem("token");
+        if (allowedOrigins.includes(origin)) {
+            config.headers.authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export const loginUser = async user => {
@@ -240,6 +250,39 @@ export const changeTheme = async data => {
 
     return await axios
         .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+// imageUploads
+export const uploadProfileImage = async data => {
+    const { file, userId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/account/uploadProfileImage/${userId}`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteProfileImage = async data => {
+    const { userId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/account/deleteProfileImage/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const uploadReviewImage = async data => {
+    const { file, reviewId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/uploadReviewImage/${reviewId}`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteReviewImage = async data => {
+    const { reviewId } = data;
+    return await axios
+        .patch(`${SERVER_URL}/review/deleteReviewImage/${reviewId}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
