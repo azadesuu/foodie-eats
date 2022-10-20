@@ -29,7 +29,7 @@ const loginUser = async (req, res, next) => {
           if (error) return next(error);
 
           const { _id, email, username, bio, theme, profileImage } = user;
-          const body = { _id, email, username, bio, theme, profileImage };
+          const body = { _id, email, username, theme };
 
           // sign the JWT token and populate the payload with the user details
           const token = jwt.sign({ body }, process.env.PASSPORT_KEY);

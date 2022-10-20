@@ -445,11 +445,11 @@ function ReviewsSmallScreen(props) {
                                                                 rating
                                                         ) &&
                                                         filterInputPriceRange &&
-                                                            filterInputPriceRange.some(
-                                                                price =>
-                                                                    resPriceRange ===
-                                                                    price
-                                                            )
+                                                        filterInputPriceRange.some(
+                                                            price =>
+                                                                resPriceRange ===
+                                                                price
+                                                        )
                                                     );
                                                 } else if (
                                                     filterInputPriceRange.some(
@@ -873,11 +873,11 @@ function ReviewsBigScreen(props) {
                                                             resRating === rating
                                                     ) &&
                                                     filterInputPriceRange &&
-                                                        filterInputPriceRange.some(
-                                                            price =>
-                                                                resPriceRange ===
-                                                                price
-                                                        )
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    )
                                                 );
                                             } else if (
                                                 filterInputPriceRange.some(
@@ -942,23 +942,27 @@ function ReviewsBigScreen(props) {
 
 function MyReviews() {
     const [user] = useContext(UserContext);
-
+    const { data: userProfile, isLoading } = useQuery(
+        "bookmarks",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
     return (
         <>
-            {user ? (
+            {userProfile ? (
                 <div className="content-MyReviews">
                     <span className="smallScreen-MyReviews">
                         <h1>MY REVIEWS</h1>
-                        <ReviewsSmallScreen user={user} />
+                        <ReviewsSmallScreen user={userProfile} />
                         <Post />
                     </span>
                     <span className="bigScreen-MyReviews">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            <ReviewsBigScreen user={user} />
+                            <ReviewsBigScreen user={userProfile} />
                         </div>
                     </span>
                 </div>

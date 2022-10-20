@@ -145,17 +145,21 @@ function MyTheme(props) {
 
 export default function Theme() {
     const [user] = useContext(UserContext);
-
+    const { data: userProfile, isLoading } = useQuery(
+        "bookmarks",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
     return (
         <div className="content-Theme">
-            {user ? (
+            {userProfile ? (
                 <>
                     <span className="smallScreen-Theme">
                         <h1>THEME</h1>
-                        <MyTheme user={user} />
+                        <MyTheme user={userProfile} />
                     </span>
                     <span className="bigScreen-Theme">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
@@ -163,7 +167,7 @@ export default function Theme() {
                                 <div className="line6" />
                                 <div className="c1">
                                     <h2>theme</h2>
-                                    <MyTheme user={user} />
+                                    <MyTheme user={userProfile} />
                                 </div>
                             </div>
                         </div>
