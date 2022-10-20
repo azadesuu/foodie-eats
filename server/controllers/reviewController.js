@@ -1,5 +1,6 @@
 const Review = require("../models/review");
-const User = require("../models/user");
+const utils = require("../routes/utility");
+const { cloudinary } = require("../config/cloudinary");
 
 const getReviewsByRecent = async (req, res, next) => {
   try {
@@ -69,7 +70,6 @@ const getAllReviews = async (req, res, next) => {
     next(err);
   }
 };
-
 
 const getReviewsBySearch = async (req, res, next) => {
   try {
@@ -143,6 +143,7 @@ const createReview = async (req, res, next) => {
   const newRestaurantName = req.body.restaurantName;
   const newIsPublic = req.body.isPublic;
   const newPriceRange = req.body.priceRange;
+  const newImage = req.body.reviewImage;
   const newRating = req.body.rating;
   const newDateVisited = req.body.dateVisited;
   const newAddress = req.body.address;
@@ -151,6 +152,7 @@ const createReview = async (req, res, next) => {
   const tempReview = new Review({
     userId: newUserId,
     restaurantName: newRestaurantName,
+    reviewImage: newImage,
     isPublic: newIsPublic,
     priceRange: newPriceRange,
     rating: newRating,
@@ -184,6 +186,7 @@ const updateReview = async (req, res, next) => {
       priceRange,
       rating,
       dateVisited,
+      reviewImage,
       description,
       images,
       address,
@@ -203,7 +206,7 @@ const updateReview = async (req, res, next) => {
           rating: rating,
           dateVisited: dateVisited,
           description: description,
-          images: images,
+          reviewImage: reviewImage,
           address: address,
           tags: tags
         }
@@ -297,81 +300,43 @@ const deleteReview = async (req, res, next) => {
 };
 
 const uploadReviewImage = async (req, res, next) => {
+  const _id = req.params.reviewId;
+  const url = req.body.url;
+  if (!url) {
+    return res.status(501).json("URL not found");
+  }
   try {
-    if (!req.file) {
-      return res.status(501).json("File not found");
-    }
-    // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(
-      req.file.path,
-      (err, result) => {
-        if (err) {
-          res.json("Cloudinary didn't upload error");
-          return;
-        }
+    const result = await Review.findByIdAndUpdate(_id, {
+      $set: {
+        reviewImage: url
       }
-    );
-
-    let review = await Review.findById(req.params.reviewId);
-
-    if (!review) {
-      res.status(500).json(new Error("Review not found."));
-      return;
+    });
+    if (result) {
+      return res.status(200).json({
+        success: true,
+        data: result
+      });
     }
-    if (review.reviewImage !== "") {
-      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
-    }
-
-    await Review.findByIdAndUpdate(
-      req.params.reviewId,
-      {
-        $set: {
-          reviewImage: result.secure_url
-        }
-      },
-      (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
   } catch (err) {
-    next(err);
+    return res.status(500).json(err);
   }
 };
 
 const deleteReviewImage = async (req, res) => {
   try {
-    let review = await Review.findById(req.params.reviewId);
-    if (review.reviewImage !== "") {
-      await cloudinary.uploader.destroy(utils.getPublicId(review.reviewImage));
-    }
-
-    await Review.findByIdAndUpdate(
-      req.params.reviewId,
-      {
-        $set: {
-          reviewImage: ""
-        }
-      },
-      (err, result) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
+    const result = await Review.findByIdAndUpdate(req.params.id, {
+      $set: {
+        reviewImage: ""
       }
-    ).clone();
+    });
+    if (result) {
+      return res.status(200).json({
+        success: true,
+        data: result
+      });
+    }
   } catch (err) {
-    console.log(err);
+    return res.status(500).json(err);
   }
 };
 

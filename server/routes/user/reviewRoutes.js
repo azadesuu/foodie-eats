@@ -5,9 +5,9 @@ const Review = require("../../models/review");
 const User = require("../../models/user");
 const reviewController = require("../../controllers/reviewController");
 
+const utils = require("../utility");
 const { cloudinary } = require("../../config/cloudinary");
 const upload = require("../../config/multer");
-const utils = require("../utility");
 
 //GET reviews by recent
 reviewRouter.get(

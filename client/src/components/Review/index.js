@@ -472,11 +472,7 @@ function Review(props) {
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
-                                <ImageIcon
-                                    sx={{
-                                        fontSize: "170px"
-                                    }}
-                                />
+                                <img src={review.reviewImage? review.reviewImage:null}/>
                             </div>
                         </div>
                         <div className="line5" />

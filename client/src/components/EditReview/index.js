@@ -23,10 +23,17 @@ import {
     CircularProgress
 } from "@mui/material";
 import NavLoggedIn from "../LoggedInNavBar";
+import {
+    getProfile,
+    deleteNewImage,
+    deleteProfileImage,
+    uploadNewImage,
+    uploadProfileImage
+} from "../../api";
 
 function EditReview() {
     const navigate = useNavigate();
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
@@ -34,8 +41,62 @@ function EditReview() {
         () => getReview(reviewId),
         { enabled: !!reviewId }
     );
-    const [currentPublicity, setPublicity] = useState(review.isPublic);
+    const [currentPublicity, setPublicity] = useState(false);
     const [tags, setTags] = useState([]);
+
+    //images
+    const [previousImage, setPreviousImage] = useState(null);
+    const [newImage, setNewImage] = useState(false);
+    const [image, setImage] = useState({});
+    const [previewImage, setPreviewImage] = useState("");
+
+    useEffect(() => {
+        if (review?.userId._id !== user?._id) {
+            alert("You have no permission to edit this review.");
+            navigate(-1);
+        }
+        setPublicity(review?.isPublic);
+        setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
+        setPreviewImage(review?.reviewImage ? review?.reviewImage : "");
+    }, [review&& user]);
+
+    const imageHandler = async () => {
+        try {
+            if (!newImage) return previousImage;
+            else await deleteImageHandler(previousImage);
+
+            if (!image) return "";
+            else {
+                const formData = new FormData();
+                formData.set("image", image);
+                const result = await uploadNewImage({
+                    file: formData
+                });
+                return result;
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+
+    async function deleteImageHandler(url) {
+        if (url !== "" || url !== undefined) {
+            const deleted = await deleteNewImage({ url: url });
+            if (deleted) {
+                return true;
+            } else {
+                alert("Error occured, image was not deleted.");
+            }
+        }
+    }
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            await setImage(event.target.files[0]);
+            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
+            await setNewImage(true);
+        }
+    };
+
     const confirmDelete = async () => {
         const review = await deleteReview(reviewId);
         if (review) {
@@ -45,13 +106,6 @@ function EditReview() {
             alert("An error occured, please try again later");
         }
     };
-
-    useEffect(() => {
-        if (review?.userId._id !== user?._id) {
-            alert("You have no permission to edit this review");
-            navigate(-1);
-        }
-    }, [user]);
 
     const submitUpdatedReview = async (
         _id,
@@ -82,11 +136,16 @@ function EditReview() {
             !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
             alert("Postcode is invalid.");
+        } else if (image.size / 1024 / 1024 > 10) {
+            alert("image is too big!");
         } else {
+            const url = await imageHandler();
+
             const updatedReviewRecord = await updateReview({
                 _id: _id,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
+                reviewImage: url,
                 priceRange: priceRange,
                 rating: rating,
                 dateVisited: dateVisited,
@@ -94,7 +153,7 @@ function EditReview() {
                 description: description,
                 tags: tags
             });
-            if (!review) {
+            if (!updatedReviewRecord) {
                 alert("update unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
@@ -124,7 +183,7 @@ function EditReview() {
         <div className="content-EditReview">
             <NavLoggedIn />
             {isLoading && <CircularProgress className="spinner" />}
-            {review && (
+            {review && user && (
                 <div className="user-container">
                     <div className="Edit-title">
                         <h1>EDIT</h1>
@@ -690,7 +749,34 @@ function EditReview() {
                                     </div>
                                 </div>
                             </div>
-
+                            <div>
+                                <label>
+                                    Your Image File.
+                                    <br /> Click upload again to remove image.
+                                    <br />
+                                    <input
+                                        type="file"
+                                        name="myImage"
+                                        onChange={event => onImageChange(event)}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        onClick={e => {
+                                            e.target.value = null;
+                                            setNewImage(true);
+                                            setPreviewImage(null);
+                                        }}
+                                        required
+                                    />
+                                </label>
+                                <label>
+                                    <img
+                                        src={previewImage}
+                                        alt="preview image"
+                                        width={100}
+                                        height={100}
+                                    />
+                                    <br />
+                                </label>
+                            </div>
                             <div>
                                 <button
                                     className="editReviewButton"
@@ -716,9 +802,6 @@ function EditReview() {
                     </span>
                 </div>
             )}
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

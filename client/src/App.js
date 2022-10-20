@@ -26,6 +26,7 @@ import NavBar from "./components/NavBar";
 import LoggedInNavBar from "./components/LoggedInNavBar";
 
 import { isLoggedIn } from "./utils";
+import NewImageUpload from "./components/NewImageUpload";
 
 function App() {
     const queryClient = new QueryClient();
@@ -127,6 +128,10 @@ function App() {
                         <Route
                             path="/review/:reviewId/edit"
                             element={<Private Component={EditReview} />}
+                        />
+                        <Route
+                            path="/image-upload"
+                            element={<Private Component={NewImageUpload} />}
                         />
                     </Routes>
                 </div>

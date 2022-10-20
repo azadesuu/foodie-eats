@@ -1,6 +1,7 @@
 import "./MyProfile.css";
 
 import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { CircularProgress } from "@mui/material";
 
@@ -10,10 +11,129 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
 import EditProfile from "../EditProfile";
+import NewImageUpload from "../NewImageUpload";
+import {
+    getProfile,
+    deleteNewImage,
+    deleteProfileImage,
+    uploadNewImage,
+    uploadProfileImage
+} from "../../api";
+
+const ProfileImageUpload = props => {
+    const userProfile = props.user;
+    const [image, setImage] = useState({});
+    const [previewImage, setPreviewImage] = useState(null);
+    const [imageURL, setImageURL] = useState(
+        userProfile?.profileImage ? userProfile.profileImage : null
+    );
+    async function submitHandler() {
+        try {
+            const formData = new FormData();
+            formData.set("image", image);
+            if (!formData.get("image")) {
+                alert("Image not selected!");
+            } else if (image.size / 1024 / 1024 > 10) {
+                alert("Image exceeds upload limit!");
+            } else if (image) {
+                if (imageURL) {
+                    await deleteHandler(imageURL);
+                    setImageURL(null);
+                }
+                await uploadNewImage({
+                    file: formData
+                })
+                    .then(result => {
+                        setImageURL(result);
+                        uploadProfileImage({
+                            userId: userProfile?._id,
+                            url: result
+                        });
+                        alert("Image was uploaded!");
+                    })
+                    .catch(err => {
+                        alert(err);
+                    });
+            }
+        } catch (err) {
+            alert(err);
+        }
+    }
+
+    async function deleteHandler(url) {
+        if (url !== "" || url !== undefined) {
+            const deleted = await deleteNewImage({ url: url });
+            if (deleted) {
+                return true;
+            } else {
+                alert("Error occured, image was not deleted.");
+            }
+        }
+    }
+    async function deleteProfileImageHandler() {
+        const deleted = await deleteHandler(userProfile.profileImage);
+        const removedProfileImage = await deleteProfileImage({
+            userId: userProfile._id
+        });
+        if (removedProfileImage) {
+            return true;
+        } else {
+            alert("Error occured, image was not deleted.");
+        }
+    }
+
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            await setImage(event.target.files[0]);
+            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
+        }
+    };
+
+    return (
+        <div>
+            <label>
+                Your Image File
+                <br />
+                <input
+                    type="file"
+                    name="myImage"
+                    onChange={event => onImageChange(event)}
+                    accept="image/png, image/jpg, image/jpeg"
+                    required
+                />
+            </label>
+            <label>
+                <img
+                    src={previewImage}
+                    alt="preview image"
+                    width={100}
+                    height={100}
+                />
+                <br />
+                <img
+                    src={imageURL}
+                    alt="uploaded image"
+                    width={100}
+                    height={100}
+                />
+            </label>
+            <button onClick={submitHandler}>Confirm Upload</button>
+            <br />
+            <br />
+            <button
+                onClick={() => {
+                    deleteProfileImageHandler(imageURL);
+                }}
+            >
+                Remove Profile Picture
+            </button>
+        </div>
+    );
+};
 
 function TopUser(props) {
     const userProfile = props.user;
-
+    const [showUpload, setShowUpload] = useState(false);
     return (
         <div className="top-user">
             <div className="top-user-r1">
@@ -26,6 +146,14 @@ function TopUser(props) {
                     }
                     sx={{ height: 130, width: 130 }}
                 />
+                <button onClick={() => setShowUpload(!showUpload)}>Show</button>
+                {showUpload && <ProfileImageUpload user={userProfile} />}
+                {showUpload && (
+                    <button onClick={() => setShowUpload(!showUpload)}>
+                        Cancel Upload
+                    </button>
+                )}
+
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -97,7 +225,11 @@ function ProfileDetails(props) {
                     </div>
                     <Avatar
                         alt="user-profile-image"
-                        // src={user.profileImage}
+                        src={
+                            userProfile.profileImage !== ""
+                                ? userProfile.profileImage
+                                : null
+                        }
                         sx={{
                             height: 110,
                             width: 110,
@@ -190,23 +322,27 @@ function ProfileDetails(props) {
 }
 
 function MyProfile() {
-    const [user, setUser] = useContext(UserContext);
-
+    const [user] = useContext(UserContext);
+    const { data: userProfile, isLoading } = useQuery(
+        "bookmarks",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
     return (
         <>
-            {user ? (
+            {userProfile && !isLoading ? (
                 <div className="content-MyProfile">
                     <span className="smallScreen-MyProfile">
-                        <ProfileDetails user={user} />
+                        <ProfileDetails user={userProfile} />
                     </span>
                     <span className="bigScreen-MyProfile">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="r3">
                                 <div className="line6" />
-                                <ProfileDetails user={user} />
+                                <ProfileDetails user={userProfile} />
                             </div>
                         </div>
                     </span>

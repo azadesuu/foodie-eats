@@ -2,10 +2,7 @@ const express = require("express");
 const accountRouter = express.Router();
 const User = require("../../models/user");
 const accountController = require("../../controllers/accountController");
-
-const { cloudinary } = require("../../config/cloudinary");
 const upload = require("../../config/multer");
-const utils = require("../utility");
 
 // GET User by Id --- returns a user if they exist in the database
 accountRouter.get("/:userId", accountController.getUser);
@@ -68,15 +65,22 @@ accountRouter.get("/getUsers", async (req, res, next) => {
 });
 
 // images
-accountRouter.patch(
+accountRouter.post(
   "/uploadProfileImage/:id",
-  upload.single("image"),
   accountController.uploadProfileImage
 );
 
-accountRouter.patch(
+accountRouter.post(
   "/deleteProfileImage/:id",
   accountController.deleteProfileImage
 );
+
+accountRouter.post(
+  "/uploadNewImage",
+  upload.single("image"),
+  accountController.uploadNewImage
+);
+
+accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
 module.exports = accountRouter;

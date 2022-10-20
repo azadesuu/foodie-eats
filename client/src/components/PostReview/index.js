@@ -18,6 +18,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { createReview, getProfile } from "../../api";
 
+import { uploadNewImage } from "../../api";
+
 function PostReview() {
     const [user1] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
@@ -42,6 +44,33 @@ function PostReview() {
     const [currentPublicity, setPublicity] = useState(false);
     const [currentPriceRange, setPriceRange] = useState("1");
     const [tags, setTags] = useState([]);
+
+    //images
+    const [image, setImage] = useState({});
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const imageHandler = async () => {
+        try {
+            if (!image) return "";
+            else {
+                const formData = new FormData();
+                formData.set("image", image);
+                const result = await uploadNewImage({
+                    file: formData
+                });
+                return result;
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            await setImage(event.target.files[0]);
+            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
+        }
+    };
+
     const postReview = async (
         restaurantName,
         isPublic,
@@ -71,6 +100,8 @@ function PostReview() {
             alert("Postcode is invalid.");
         } else if (!description) {
             alert("description is missing");
+        } else if (image.size / 1024 / 1024 > 10) {
+            alert("image is too big!");
         } else {
             const address = {
                 streetAddress: streetAddress,
@@ -78,10 +109,14 @@ function PostReview() {
                 state: state,
                 suburb: suburb
             };
+
+            const url = await imageHandler();
+
             const review = await createReview({
                 userId: user1?._id,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
+                reviewImage: url,
                 priceRange: priceRange,
                 rating: rating,
                 dateVisited: dateVisited,
@@ -676,6 +711,34 @@ function PostReview() {
                                         <a href="#">Click to add your images</a>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label>
+                                    Your Image File.
+                                    <br /> Click upload again to remove image.
+                                    <br />
+                                    <input
+                                        type="file"
+                                        name="myImage"
+                                        onChange={event => onImageChange(event)}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        onClick={e => {
+                                            e.target.value = null;
+                                            setPreviewImage(null);
+                                        }}
+                                        required
+                                    />
+                                </label>
+                                <label>
+                                    <img
+                                        src={previewImage}
+                                        alt="preview image"
+                                        width={100}
+                                        height={100}
+                                    />
+                                    <br />
+                                </label>
                             </div>
 
                             <div>
