@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
 import EditProfile from "../EditProfile";
-import NewImageUpload from "../NewImageUpload";
 import {
     getProfile,
     deleteNewImage,
@@ -19,6 +18,7 @@ import {
     uploadNewImage,
     uploadProfileImage
 } from "../../api";
+import { useNavigate } from "react-router";
 
 const ProfileImageUpload = props => {
     const userProfile = props.user;
@@ -186,7 +186,7 @@ function Sidebar() {
 
 function ProfileDetails(props) {
     const userProfile = props.user;
-
+    const navigate = useNavigate();
     const [editButton, setEditButton] = useState(false);
     const updateUser = () => {
         setEditButton(!editButton);
@@ -315,6 +315,7 @@ function ProfileDetails(props) {
                     email={userProfile.email}
                     bio={userProfile.bio}
                     profileImage={userProfile.profileImage}
+                    navigation={navigate}
                 />
             )}
         </div>

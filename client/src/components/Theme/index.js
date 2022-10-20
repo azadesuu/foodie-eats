@@ -1,9 +1,10 @@
 import "./Theme.css";
 
 import { useContext, useEffect, useState } from "react";
-import { changeTheme } from "../../api";
+import { changeTheme, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 import { CircularProgress } from "@mui/material";
+import { useQuery } from "react-query";
 
 import Blueberry from "../../assets/images/Blueberry.svg";
 import Boring from "../../assets/images/Boring.svg";
@@ -79,10 +80,9 @@ function MyTheme(props) {
             if (!oldUser) {
                 alert("An error occured. Please try again.");
             } else {
-                alert(
-                    `Theme changed from ${oldUser.theme} to ${theme}, re-login to save changes`
-                );
+                alert(`Theme changed from ${oldUser.theme} to ${theme}.`);
                 setCurrTheme(theme);
+                localStorage.setItem("theme", theme);
             }
         } catch (err) {
             console.log(err);
@@ -146,7 +146,7 @@ function MyTheme(props) {
 export default function Theme() {
     const [user] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
-        "bookmarks",
+        "profile-theme",
         () => getProfile(user?.username),
         { enabled: !!user }
     );

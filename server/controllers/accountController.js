@@ -244,33 +244,32 @@ const updateUser = async (req, res, next) => {
   const _id = req.params.userId;
   const newUsername = req.body.username;
   const newEmail = req.body.email;
-  const newImage = req.body.image;
   const newBio = req.body.bio;
 
   try {
-    await User.findByIdAndUpdate(
+    const oneUser = await User.findOne({
+      $or: [{ username: req.body.username }, { email: req.body.email }]
+    });
+    if (oneUser) {
+      throw "Username or email is taken.";
+    }
+    const newUser = await User.findByIdAndUpdate(
       _id,
       {
         $set: {
           username: newUsername,
           email: newEmail,
-          bio: newBio,
-          image: newImage
+          bio: newBio
         }
       },
-      (err, result, next) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
+      { new: false }
+    );
+    res.status(200).json({
+      success: true,
+      data: newUser
+    });
   } catch (err) {
-    next(err);
+    return res.status(500).json(err);
   }
 };
 
