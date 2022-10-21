@@ -16,20 +16,8 @@ accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 // GET reviews by Id --- returns list of reviews with the associated user ID
 accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 
-//GET my reviews by search values -- restaurantname, rating, pricerange, postcode, tags
-accountRouter.post(
-  "/my-reviews/:userId/search",
-  accountController.getMyReviewsSearch
-);
-
 // GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
 accountRouter.post("/my-bookmarks/get", accountController.getMyBookmarks);
-
-//GET my reviews by search values -- restaurantname, rating, pricerange, postcode, tags
-accountRouter.post(
-  "/my-bookmarks/:userId/search",
-  accountController.getMyBookmarksSearch
-);
 
 // PATCH user to add bookmarks to array if boolean is true
 accountRouter.patch(

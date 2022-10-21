@@ -43,24 +43,17 @@ const getProfile = async (req, res, next) => {
 
 const getReviews = async (req, res, next) => {
   try {
-    await Review.find(
-      { userId: req.params.userId, isPublic: true },
-      (err, result) => {
-        if (err) {
-          res.json(err);
-          return;
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
-        }
-      }
-    )
+    const reviews = await Review.find({
+      userId: req.params.userId,
+      isPublic: true
+    })
       .sort({ $natural: -1 })
       .populate("userId")
-      .lean()
-      .clone();
+      .lean();
+    res.status(200).json({
+      success: true,
+      data: reviews
+    });
   } catch (err) {
     next(err);
   }
@@ -68,59 +61,12 @@ const getReviews = async (req, res, next) => {
 
 const getMyReviews = async (req, res, next) => {
   try {
-    await Review.find({ userId: req.params.userId }, (err, result) => {
-      if (err) {
-        res.json(err);
-        return;
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
+    const reviews = await Review.find({
+      userId: req.params.userId
     })
       .sort({ $natural: -1 })
       .populate("userId")
-      .lean()
-      .clone();
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getMyReviewsSearch = async (req, res, next) => {
-  try {
-    const search = req.body.search;
-    const rating = req.body.rating;
-    const priceRange = req.body.priceRange;
-    const tags = req.body.tags;
-
-    const oriQuery = {
-      userId: req.params.userId,
-      restaurantName: { $regex: search, $options: "i" },
-      rating: rating,
-      priceRange: priceRange,
-      tags: { $in: tags.map(t => new RegExp(t)) }
-    };
-
-    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
-      if (key === "tags" && tags.length === 0) {
-        //do nothing
-      } else if (value !== undefined && value !== null && value !== []) {
-        qry[key] = value;
-      }
-      return qry;
-    }, {});
-
-    const reviews = await Review.find(query)
-      .populate("userId")
-      .lean()
-      .sort({ $natural: -1 });
-
-    if (!reviews) {
-      next({ name: "CastError" });
-      return;
-    }
+      .lean();
     res.status(200).json({
       success: true,
       data: reviews
@@ -152,50 +98,6 @@ const getMyBookmarks = async (req, res, next) => {
   }
 };
 
-const getMyBookmarksSearch = async (req, res, next) => {
-  try {
-    const search = req.body.search;
-    const rating = req.body.rating;
-    const priceRange = req.body.priceRange;
-    const tags = req.body.tags;
-    const postcode = req.body.postcode;
-
-    const oriQuery = {
-      _id: { $in: bookmarks },
-      restaurantName: { $regex: search, $options: "i" },
-      rating: rating,
-      priceRange: priceRange,
-      tags: { $in: tags.map(t => new RegExp(t)) },
-      postcode: postcode
-    };
-
-    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
-      if (key === "tags" && tags.length === 0) {
-        //do nothing
-      } else if (value !== undefined && value !== null && value !== []) {
-        qry[key] = value;
-      }
-      return qry;
-    }, {});
-
-    const reviews = await Review.find(query)
-      .populate("userId")
-      .lean()
-      .sort({ $natural: -1 });
-
-    if (!reviews) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
 const bookmarkReview = async (req, res, next) => {
   try {
     const reviewId = [req.params.reviewId];
@@ -204,36 +106,22 @@ const bookmarkReview = async (req, res, next) => {
 
     if (!bookmarkedBool) {
       //add to bookmarks array
-      await User.findByIdAndUpdate(
-        userId,
-        { $addToSet: { bookmarks: reviewId } },
-        (err, updatedUser, next) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedUser
-          });
-        }
-      ).clone();
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $addToSet: { bookmarks: reviewId }
+      });
+      res.status(200).json({
+        success: true,
+        data: updatedUser
+      });
     } else {
       //remove from bookmarks array
-      await User.findByIdAndUpdate(
-        userId,
-        { $pullAll: { bookmarks: reviewId } },
-        (err, updatedUser, next) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedUser
-          });
-        }
-      ).clone();
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $pullAll: { bookmarks: reviewId }
+      });
+      res.status(200).json({
+        success: true,
+        data: updatedUser
+      });
     }
   } catch (err) {
     next(err);
@@ -348,18 +236,13 @@ const deleteNewImage = async (req, res, next) => {
       return res.status(501).json("URL not found.");
     }
     // Upload image to cloudinary
-    await cloudinary.uploader.destroy(
-      utils.getPublicId(req.body.url),
-      (err, result) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
+    const result = await cloudinary.uploader.destroy(
+      utils.getPublicId(req.body.url)
     );
+    res.status(200).json({
+      success: true,
+      data: result
+    });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -411,9 +294,7 @@ module.exports = {
   getProfile,
   getReviews,
   getMyReviews,
-  getMyReviewsSearch,
   getMyBookmarks,
-  getMyBookmarksSearch,
   bookmarkReview,
   updateUser,
   updatePassword,

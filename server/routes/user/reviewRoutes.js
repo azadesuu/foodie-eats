@@ -20,7 +20,6 @@ reviewRouter.get(
   reviewController.getReviewsByLikes
 );
 
-
 //GET one review by reviewId
 reviewRouter.get("/getAllReviews", reviewController.getAllReviews);
 
@@ -42,72 +41,5 @@ reviewRouter.patch("/like/:userId/:reviewId", reviewController.toggleLike);
 //delete review
 reviewRouter.delete("/delete/:reviewId", reviewController.deleteReview);
 
-// images
-reviewRouter.patch(
-  "/uploadReviewImage/:reviewId",
-  upload.single("image"),
-  reviewController.uploadReviewImage
-);
-
-reviewRouter.patch(
-  "/deleteReviewImage/:reviewId",
-  reviewController.deleteReviewImage
-);
-
-//PATCH review according to flag boolean -- toggle flag // might be removed
-reviewRouter.patch("/flag/:userId/:reviewId", async (req, res, next) => {
-  try {
-    const reviewId = req.params.reviewId;
-    const userId = [req.params.userId];
-    const flagBool = req.body.flagBool;
-
-    if (!flagBool) {
-      //add to flagged array and increment flag  count
-      await Review.findOneAndUpdate(
-        { _id: reviewId, flagged: { $ne: userId } },
-        {
-          $addToSet: { flagged: userId },
-          $inc: { flagCount: 1 }
-        },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          console.log(updatedReview);
-
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
-    } else {
-      //remove from flagged array and decrement flag count
-      await Review.findOneAndUpdate(
-        { _id: reviewId, flagged: { $in: userId } },
-        {
-          $pullAll: { flagged: userId },
-          $inc: { flagCount: -1 }
-        },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          console.log(updatedReview);
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
-    }
-  } catch (err) {
-    next(err);
-  }
-});
 
 module.exports = reviewRouter;

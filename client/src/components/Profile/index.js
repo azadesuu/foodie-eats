@@ -1,5 +1,4 @@
 import "./Profile.css";
-
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
 import { useParams, useNavigate } from "react-router-dom";
@@ -53,8 +52,9 @@ function Sidebar(props) {
     return (
         <div className="sidebar-content">
             <div id="current">
-                <a onClick={() => {
-                    navigate(`/profile/${userProfile.username}/reviews`);
+                <a
+                    onClick={() => {
+                        navigate(`/profile/${userProfile.username}/reviews`);
                     }}
                 >
                     reviews
@@ -85,9 +85,7 @@ function ReviewsBigScreen(props) {
                             placeholder="Search"
                             name="search"
                             id="search"
-                            onChange={(e) =>
-                                setInput(e.target.value)
-                            }
+                            onChange={e => setInput(e.target.value)}
                         />
                         <FilterAltIcon />
                     </div>
@@ -122,12 +120,17 @@ function ReviewsBigScreen(props) {
                                             const searchInput = input.toLowerCase();
                                             const resName = review.restaurantName.toLowerCase();
 
-                                            return resName.startsWith(searchInput)
-                                        }).map(review => (
+                                            return resName.startsWith(
+                                                searchInput
+                                            );
+                                        })
+                                        .map(review => (
                                             <Grid item xs={6} key={review}>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                             </Grid>
-                                    ))}
+                                        ))}
                                 </Grid>
                             </div>
                         ) : (
@@ -176,10 +179,10 @@ function Profile() {
                             <Avatar
                                 alt="user-profile-image"
                                 // src={user.profileImage}
-                                sx={{ 
-                                    height: 110, 
-                                    width:  110,
-                                    mt: "-40px",
+                                sx={{
+                                    height: 110,
+                                    width: 110,
+                                    mt: "-40px"
                                 }}
                             />
                             {userProfile ? (
@@ -206,14 +209,17 @@ function Profile() {
                                     </div>
                                     <span className="smallScreen-Profile">
                                         <div className="viewallreviews">
-                                            <a onClick={() => {
-                                                navigate(`/profile/${userProfile.username}/reviews`);
-                                            }}>
+                                            <a
+                                                onClick={() => {
+                                                    navigate(
+                                                        `/profile/${userProfile.username}/reviews`
+                                                    );
+                                                }}
+                                            >
                                                 View their reviews
                                             </a>
                                         </div>
                                     </span>
-
                                 </div>
                             ) : (
                                 <div>Error</div>

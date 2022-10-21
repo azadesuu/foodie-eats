@@ -237,44 +237,32 @@ const toggleLike = async (req, res, next) => {
 
     if (!likeBool) {
       //add to userlikes array and increment like count
-      await Review.findOneAndUpdate(
+      const updatedReview = await Review.findOneAndUpdate(
         { _id: reviewId, userLikes: { $ne: userId } },
         {
           $addToSet: { userLikes: userId },
           $inc: { likeCount: 1 }
         },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        data: updatedReview
+      });
     } else {
       //remove from userlikes array and decrement like count
-      await Review.findOneAndUpdate(
+      const updatedReview = await Review.findOneAndUpdate(
         { _id: reviewId, userLikes: { $in: userId } },
         {
           $pullAll: { userLikes: userId },
           $inc: { likeCount: -1 }
         },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        data: updatedReview
+      });
     }
   } catch (err) {
     next(err);
@@ -284,55 +272,21 @@ const toggleLike = async (req, res, next) => {
 const deleteReview = async (req, res, next) => {
   try {
     const reviewId = req.params.reviewId;
-    await Review.findByIdAndRemove(reviewId, (err, review) => {
-      if (err) {
-        res.json(err);
-        return;
+    const review = await Review.findByIdAndDelete(reviewId);
+    if (review) {
+      if (
+        review.reviewImage &&
+        (review.reviewImage !== "" ||
+          review.reviewImage !== undefined ||
+          review.reviewImage !== null)
+      ) {
+        await cloudinary.uploader.destroy(
+          utils.getPublicId(review.reviewImage)
+        );
       }
       res.status(200).json({
         success: true,
         data: review
-      });
-    }).clone();
-  } catch (err) {
-    next(err);
-  }
-};
-
-const uploadReviewImage = async (req, res, next) => {
-  const _id = req.params.reviewId;
-  const url = req.body.url;
-  if (!url) {
-    return res.status(501).json("URL not found");
-  }
-  try {
-    const result = await Review.findByIdAndUpdate(_id, {
-      $set: {
-        reviewImage: url
-      }
-    });
-    if (result) {
-      return res.status(200).json({
-        success: true,
-        data: result
-      });
-    }
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-};
-
-const deleteReviewImage = async (req, res) => {
-  try {
-    const result = await Review.findByIdAndUpdate(req.params.id, {
-      $set: {
-        reviewImage: ""
-      }
-    });
-    if (result) {
-      return res.status(200).json({
-        success: true,
-        data: result
       });
     }
   } catch (err) {
@@ -349,7 +303,5 @@ module.exports = {
   createReview,
   updateReview,
   toggleLike,
-  deleteReview,
-  uploadReviewImage,
-  deleteReviewImage
+  deleteReview
 };
