@@ -402,10 +402,34 @@ function PostReview() {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <p>Add your image</p>
-                                <button className="addImageButton">
-                                    <img className="addImage" src={addImage} />
-                                </button>
+                                <label>
+                                    Add your images here
+                                    <br /> Click upload again to remove image.
+                                    <input
+                                        type="file"
+                                        name="myImage"
+                                        onChange={event => onImageChange(event)}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        onClick={e => {
+                                            e.target.value = null;
+                                            setPreviewImage(null);
+                                        }}
+                                        required
+                                    />
+                                </label>
+                                {previewImage ? (
+                                    <label>
+                                        <img
+                                            src={previewImage}
+                                            alt="preview image"
+                                            width={100}
+                                            height={100}
+                                        />
+                                        <br />
+                                    </label> 
+                                ) : (
+                                    <p></p>
+                                )}
                             </div>
                             <div>
                                 <button
@@ -708,37 +732,36 @@ function PostReview() {
                                     </div>
 
                                     <div className="add-image">
-                                        <a href="#">Click to add your images</a>
+                                        <label>
+                                            Add your images here
+                                            <br /> Click upload again to remove image.
+                                            <input
+                                                type="file"
+                                                name="myImage"
+                                                onChange={event => onImageChange(event)}
+                                                accept="image/png, image/jpg, image/jpeg"
+                                                onClick={e => {
+                                                    e.target.value = null;
+                                                    setPreviewImage(null);
+                                                }}
+                                                required
+                                            />
+                                        </label>
+                                        {previewImage ? (
+                                           <label>
+                                            <img
+                                                src={previewImage}
+                                                alt="preview image"
+                                                width={100}
+                                                height={100}
+                                            />
+                                            <br />
+                                        </label> 
+                                        ) : (
+                                            <p></p>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
-
-                            <div>
-                                <label>
-                                    Your Image File.
-                                    <br /> Click upload again to remove image.
-                                    <br />
-                                    <input
-                                        type="file"
-                                        name="myImage"
-                                        onChange={event => onImageChange(event)}
-                                        accept="image/png, image/jpg, image/jpeg"
-                                        onClick={e => {
-                                            e.target.value = null;
-                                            setPreviewImage(null);
-                                        }}
-                                        required
-                                    />
-                                </label>
-                                <label>
-                                    <img
-                                        src={previewImage}
-                                        alt="preview image"
-                                        width={100}
-                                        height={100}
-                                    />
-                                    <br />
-                                </label>
                             </div>
 
                             <div>
