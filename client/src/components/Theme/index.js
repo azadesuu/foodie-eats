@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./Theme.css";
 
 import { useContext, useEffect, useState } from "react";
@@ -152,6 +154,7 @@ export default function Theme() {
     );
     return (
         <div className="content-Theme">
+            <SEO data={allSEO.mytheme} />
             {userProfile ? (
                 <>
                     <span className="smallScreen-Theme">

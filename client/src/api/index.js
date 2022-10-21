@@ -178,13 +178,6 @@ export const getBookmarks = async data => {
         .catch(err => console.log(err));
 };
 
-export const getBookmarksSearch = async data => {
-    return await axios
-        .post(`${SERVER_URL}/account/my-bookmarks/search`, data)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // // ------ Profiles
 
 export const getProfile = async username => {
@@ -206,14 +199,6 @@ export const getOtherReviews = async userId => {
 export const getMyReviews = async userId => {
     return await axios
         .get(`${SERVER_URL}/account/my-reviews/${userId}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getMyReviewsSearch = async data => {
-    const { userId } = data;
-    return await axios
-        .post(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -245,7 +230,7 @@ export const changeTheme = async data => {
 
 // imageUploads
 export const uploadProfileImage = async data => {
-    const { userId, url } = data;
+    const { userId } = data;
     return await axios
         .post(`${SERVER_URL}/account/uploadProfileImage/${userId}`, data)
         .then(res => res?.data?.data)
@@ -264,14 +249,6 @@ export const uploadReviewImage = async data => {
     const { file, reviewId } = data;
     return await axios
         .post(`${SERVER_URL}/review/uploadReviewImage/${reviewId}`, file)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const deleteReviewImage = async data => {
-    const { reviewId } = data;
-    return await axios
-        .post(`${SERVER_URL}/review/deleteReviewImage/${reviewId}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

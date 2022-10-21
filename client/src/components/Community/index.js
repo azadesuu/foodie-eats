@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./Community.css";
-
 import React from "react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -40,9 +41,9 @@ function SearchBar(props) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+        setOpen(prevOpen => !prevOpen);
     };
-    const handleClose = (event) => {
+    const handleClose = event => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
@@ -64,27 +65,27 @@ function SearchBar(props) {
         }
         prevOpen.current = open;
     }, [open]);
-    const handleRating = (id) => {
+    const handleRating = id => {
         setRatingChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
-    const handlePriceRange = (id) => {
+    const handlePriceRange = id => {
         setPriceChecked(prev => {
             return prev.map(item => {
                 if (item.id === id) {
-                    return {...item, check:!item.check};
+                    return { ...item, check: !item.check };
                 } else {
-                    return {...item};
+                    return { ...item };
                 }
-            })
-        })
+            });
+        });
     };
     return (
         <div className="searchbar">
@@ -118,7 +119,7 @@ function SearchBar(props) {
                     transition
                     disablePortal
                     sx={{
-                        zIndex: 95,
+                        zIndex: 95
                     }}
                 >
                     {({ TransitionProps, placement }) => (
@@ -126,7 +127,9 @@ function SearchBar(props) {
                             {...TransitionProps}
                             style={{
                                 transformOrigin:
-                                placement === "bottom-end" ? "right top" : "left bottom",
+                                    placement === "bottom-end"
+                                        ? "right top"
+                                        : "left bottom"
                             }}
                         >
                             <Paper
@@ -148,61 +151,95 @@ function SearchBar(props) {
                                     >
                                         <div className="multi-level">
                                             <div className="item">
-                                                <input type="checkbox" id="title-rating"/>
-                                                <ArrowRightIcon
-                                                    id="arrow"
-                                                    sx={{
-                                                        margin: "10px 0 -7px 0",                                                    
-                                                    }}
+                                                <input
+                                                    type="checkbox"
+                                                    id="title-rating"
                                                 />
-                                                <label for="title-rating">rating</label>
-                                                <ul>
-                                                    {ratingChecked.map(({ label, id, check }) => {
-                                                        return (
-                                                            <div key={id} >
-                                                                <li>
-                                                                    <input 
-                                                                        type="checkbox"
-                                                                        value={id}
-                                                                        onChange={() => 
-                                                                            handleRating(id)
-                                                                        }
-                                                                        checked={check}
-                                                                    />
-                                                                    {label}
-                                                                </li>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </ul>
-                                            </div>
-                                            <div className="item">
-                                                <input type="checkbox" id="title-price"/>
                                                 <ArrowRightIcon
                                                     id="arrow"
                                                     sx={{
                                                         margin: "10px 0 -7px 0"
                                                     }}
                                                 />
-                                                <label for="title-price">price range</label>
+                                                <label for="title-rating">
+                                                    rating
+                                                </label>
                                                 <ul>
-                                                    {priceChecked.map(({ label, id, check }) => {
-                                                        return (
-                                                            <div key={id} >
-                                                                <li>
-                                                                    <input 
-                                                                        type="checkbox"
-                                                                        value={id}
-                                                                        onChange={() => 
-                                                                            handlePriceRange(id)
-                                                                        }
-                                                                        checked={check}
-                                                                    />
-                                                                    {label}
-                                                                </li>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                    {ratingChecked.map(
+                                                        ({
+                                                            label,
+                                                            id,
+                                                            check
+                                                        }) => {
+                                                            return (
+                                                                <div key={id}>
+                                                                    <li>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={
+                                                                                id
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handleRating(
+                                                                                    id
+                                                                                )
+                                                                            }
+                                                                            checked={
+                                                                                check
+                                                                            }
+                                                                        />
+                                                                        {label}
+                                                                    </li>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
+                                                </ul>
+                                            </div>
+                                            <div className="item">
+                                                <input
+                                                    type="checkbox"
+                                                    id="title-price"
+                                                />
+                                                <ArrowRightIcon
+                                                    id="arrow"
+                                                    sx={{
+                                                        margin: "10px 0 -7px 0"
+                                                    }}
+                                                />
+                                                <label for="title-price">
+                                                    price range
+                                                </label>
+                                                <ul>
+                                                    {priceChecked.map(
+                                                        ({
+                                                            label,
+                                                            id,
+                                                            check
+                                                        }) => {
+                                                            return (
+                                                                <div key={id}>
+                                                                    <li>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={
+                                                                                id
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handlePriceRange(
+                                                                                    id
+                                                                                )
+                                                                            }
+                                                                            checked={
+                                                                                check
+                                                                            }
+                                                                        />
+                                                                        {label}
+                                                                    </li>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
                                                 </ul>
                                             </div>
                                         </div>
@@ -228,7 +265,7 @@ function SearchBar(props) {
                                 borderRadius: "10px",
                                 maxHeight: "4px"
                             },
-                            transition: "all 0.5s ease",
+                            transition: "all 0.5s ease"
                         }}
                     >
                         {allReviews
@@ -239,11 +276,17 @@ function SearchBar(props) {
 
                                 if (input.startsWith("#")) {
                                     return (
-                                        searchInput && tagNames.some(tag => searchInput.substring(1).startsWith(tag))
+                                        searchInput &&
+                                        tagNames.some(tag =>
+                                            searchInput
+                                                .substring(1)
+                                                .startsWith(tag)
+                                        )
                                     );
                                 } else {
                                     return (
-                                        searchInput && resName.startsWith(searchInput)
+                                        searchInput &&
+                                        resName.startsWith(searchInput)
                                     );
                                 }
                             })
@@ -254,8 +297,7 @@ function SearchBar(props) {
                                         <div className="line5"></div>
                                     </div>
                                 );
-                            })
-                        }
+                            })}
                     </List>
                 </div>
             )}
@@ -343,11 +385,13 @@ function Community() {
             id: 4,
             label: "$$$$",
             check: false
-        },
+        }
     ]);
 
     return (
         <div className="content-Community">
+            <SEO data={allSEO.community} />
+
             <span className="bigScreen-Community">
                 <div className="location">
                     <LocationOnIcon
@@ -390,7 +434,7 @@ function Community() {
                     />
                 </div>
             </span>
-            <SearchBar 
+            <SearchBar
                 ratingChecked={ratingChecked}
                 setRatingChecked={setRatingChecked}
                 priceChecked={priceChecked}
@@ -426,56 +470,98 @@ function Community() {
                                 {listLikes
                                     .filter(review => {
                                         const postcodeInput = Number(location);
-                                        const reviewPostcode = review.address.postcode;
-                                        const filterInputRating = ratingChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        const reviewPostcode =
+                                            review.address.postcode;
+                                        const filterInputRating = ratingChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-                                        const filterInputPriceRange = priceChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        );
+                                        const filterInputPriceRange = priceChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-            
+                                        );
+
                                         const resRating = review.rating;
                                         const resPriceRange = review.priceRange;
-                                            
-                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+
+                                        if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            ) &&
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputPriceRange &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputRating.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
                                         }
                                         return (
-                                            postcodeInput && reviewPostcode === postcodeInput
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
                                         );
                                     })
                                     .slice(0, 9)
                                     .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review}/>
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                    })
-                                }
+                                    })}
                             </List>
                         </div>
                     </span>
@@ -504,55 +590,97 @@ function Community() {
                                 {listLikes
                                     .filter(review => {
                                         const postcodeInput = Number(location);
-                                        const reviewPostcode = review.address.postcode;
-                                        const filterInputRating = ratingChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        const reviewPostcode =
+                                            review.address.postcode;
+                                        const filterInputRating = ratingChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-                                        const filterInputPriceRange = priceChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        );
+                                        const filterInputPriceRange = priceChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-            
+                                        );
+
                                         const resRating = review.rating;
                                         const resPriceRange = review.priceRange;
-                                            
-                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+
+                                        if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            ) &&
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputPriceRange &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputRating.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
                                         }
                                         return (
-                                            postcodeInput && reviewPostcode === postcodeInput
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
                                         );
                                     })
                                     .slice(0, 9)
                                     .map(review => {
-                                        return (    
+                                        return (
                                             <Grid item xs={4} key={review}>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                             </Grid>
                                         );
-                                    })
-                                }
+                                    })}
                             </Grid>
                         </Box>
                     </span>
@@ -591,55 +719,97 @@ function Community() {
                                 {listReviewsRecent
                                     .filter(review => {
                                         const postcodeInput = Number(location);
-                                        const reviewPostcode = review.address.postcode;
-                                        const filterInputRating = ratingChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        const reviewPostcode =
+                                            review.address.postcode;
+                                        const filterInputRating = ratingChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-                                        const filterInputPriceRange = priceChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        );
+                                        const filterInputPriceRange = priceChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-            
+                                        );
+
                                         const resRating = review.rating;
                                         const resPriceRange = review.priceRange;
-                                            
-                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+
+                                        if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            ) &&
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputPriceRange &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputRating.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
                                         }
                                         return (
-                                            postcodeInput && reviewPostcode === postcodeInput
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
                                         );
                                     })
                                     .map(review => {
                                         return (
                                             <div>
-                                                <ReviewPeek reviewData={review}/>
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                                 <div className="line3"></div>
                                             </div>
                                         );
-                                    })
-                                }
+                                    })}
                             </List>
                         </div>
                     </span>
@@ -667,52 +837,92 @@ function Community() {
                                 {listReviewsRecent
                                     .filter(review => {
                                         const postcodeInput = Number(location);
-                                        const reviewPostcode = review.address.postcode;
-                                        const filterInputRating = ratingChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        const reviewPostcode =
+                                            review.address.postcode;
+                                        const filterInputRating = ratingChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-                                        const filterInputPriceRange = priceChecked.map((item) => {
-                                            if (item.check) {
-                                                return item.id;
-                                            } else {
-                                                return null;
+                                        );
+                                        const filterInputPriceRange = priceChecked.map(
+                                            item => {
+                                                if (item.check) {
+                                                    return item.id;
+                                                } else {
+                                                    return null;
+                                                }
                                             }
-                                        });
-            
+                                        );
+
                                         const resRating = review.rating;
                                         const resPriceRange = review.priceRange;
-                                            
-                                        if (filterInputRating.some(item => item !== null) && filterInputPriceRange.some(item => item !== null)) {
+
+                                        if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            ) &&
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                (filterInputRating && filterInputRating.some(rating => resRating === rating)) &&
-                                                (filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price)) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputPriceRange.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputPriceRange.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputPriceRange && filterInputPriceRange.some(price => resPriceRange === price) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputPriceRange &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
-                                        } else if (filterInputRating.some(item => item !== null)) {
+                                        } else if (
+                                            filterInputRating.some(
+                                                item => item !== null
+                                            )
+                                        ) {
                                             return (
-                                                filterInputRating && filterInputRating.some(rating => resRating === rating) &&
-                                                postcodeInput && reviewPostcode === postcodeInput
+                                                filterInputRating &&
+                                                filterInputRating.some(
+                                                    rating =>
+                                                        resRating === rating
+                                                ) &&
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
                                             );
                                         }
                                         return (
-                                            postcodeInput && reviewPostcode === postcodeInput
+                                            postcodeInput &&
+                                            reviewPostcode === postcodeInput
                                         );
                                     })
                                     .map(review => (
                                         <Grid item xs={4} key={review}>
                                             <ReviewPeek reviewData={review} />
                                         </Grid>
-                                    ))
-                                }
+                                    ))}
                             </Grid>
                         </Box>
                     </span>
@@ -723,9 +933,6 @@ function Community() {
             )}
             {/* if logged in */}
             <Post />
-            <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

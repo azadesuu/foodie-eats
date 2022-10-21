@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./PostReview.css";
 
 import "@fontsource/martel-sans";
@@ -152,6 +154,8 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
+            <SEO data={allSEO.postreview} />
+
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">

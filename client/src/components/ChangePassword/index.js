@@ -1,5 +1,7 @@
-import "./ChangePassword.css";
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 
+import "./ChangePassword.css";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -173,6 +175,7 @@ function ChangePassword() {
 
     return (
         <>
+            <SEO data={allSEO.changepassword} />
             {user ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">

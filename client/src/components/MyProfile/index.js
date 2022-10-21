@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./MyProfile.css";
-
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
@@ -333,6 +334,7 @@ function MyProfile() {
         <>
             {userProfile && !isLoading ? (
                 <div className="content-MyProfile">
+                    <SEO data={allSEO.myprofile} />
                     <span className="smallScreen-MyProfile">
                         <ProfileDetails user={userProfile} />
                     </span>

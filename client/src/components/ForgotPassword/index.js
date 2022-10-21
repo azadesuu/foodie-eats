@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./ForgotPassword.css";
-
 import { useState } from "react";
 import React from "react";
 import { forgotPassword } from "../../api";
@@ -25,7 +26,8 @@ function ForgotPassword() {
 
     return (
         <div className="content-ForgotPassword">
-            <h1>FORGET PASSWORD</h1>
+            <SEO data={allSEO.forgotpassword} />
+            <h1>FORGOT PASSWORD</h1>
             <form className="form-control-forgotpassword">
                 <input
                     type="text"
@@ -37,7 +39,9 @@ function ForgotPassword() {
                         setEmail(event.target.value);
                     }}
                 />
-                <button id="submit-btn" onClick={onSubmit}>SUBMIT</button>
+                <button id="submit-btn" onClick={onSubmit}>
+                    SUBMIT
+                </button>
             </form>
         </div>
     );

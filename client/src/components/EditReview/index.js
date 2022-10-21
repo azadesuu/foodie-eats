@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./EditReview.css";
 import "@fontsource/martel-sans";
 import addImage from "../../assets/images/addImage.png";
@@ -23,20 +25,13 @@ import {
     CircularProgress
 } from "@mui/material";
 import NavLoggedIn from "../LoggedInNavBar";
-import {
-    getProfile,
-    deleteNewImage,
-    deleteProfileImage,
-    uploadNewImage,
-    uploadProfileImage
-} from "../../api";
+import { deleteNewImage, uploadNewImage } from "../../api";
 
 function EditReview() {
     const navigate = useNavigate();
     const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
-    console.log(reviewId);
     const { data: review, isLoading, refetch } = useQuery(
         "view-review",
         () => getReview(reviewId),
@@ -184,7 +179,7 @@ function EditReview() {
 
     return (
         <div className="content-EditReview">
-            <NavLoggedIn />
+            <SEO data={allSEO.editreview} />
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && review && user && (
                 <div className="user-container">

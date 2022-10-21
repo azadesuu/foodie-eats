@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./SignUp.css";
-
 import React from "react";
 import { useState } from "react";
 import { signupUser } from "../../api";
@@ -19,14 +20,13 @@ function Register() {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const user = await signupUser({
+                await signupUser({
                     username: username,
                     email: email,
                     password: password
                 });
                 alert("Signup successful. Please Login.");
                 navigate("/login");
-                
             } catch (err) {
                 alert(err);
             }
@@ -38,6 +38,7 @@ function Register() {
     return (
         <div className="content-register">
             <Login />
+            <SEO data={allSEO.signup} />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">
                     <label>Email </label>
