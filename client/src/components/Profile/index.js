@@ -1,5 +1,4 @@
 import "./Profile.css";
-import SEO from "../SEO";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
 import { useParams, useNavigate } from "react-router-dom";
