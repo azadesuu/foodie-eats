@@ -235,13 +235,11 @@ body {
     margin-top: -10px;
 }
 .content-EditReview .add-image {
-    margin-top: 20px;
     text-align: left;
     font-size: 11.5px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 20px;
 }
 .content-EditReview .editReviewButton {
     padding: 3.89px 13px 3.89px 13px;
