@@ -25,7 +25,11 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
