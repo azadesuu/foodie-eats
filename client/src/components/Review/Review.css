@@ -35,6 +35,10 @@ span.smallScreen-Review {
         padding-left: 7px;
         padding-right: 7px;
     }
+    .content-Review .add-image img{
+        height: 100px;
+        width: 100px;
+    }
 }
 @media screen and (min-width: 1000px) { 
     .content-Review h1 {
@@ -60,6 +64,10 @@ span.smallScreen-Review {
     }
     .content-Review .ratingContainer {
         margin-top: 10px;
+    }
+    .content-Review .add-image img{
+        height: 150px;
+        width: 150px;
     }
 }
 body {
@@ -285,6 +293,9 @@ body {
     align-items: flex-start;
     margin-top: 20px;
 }
+.content-Review .add-image img{
+    border-radius: 10px;
+}
 .content-Review .editReviewButton {
     padding: 3.89px 13px 3.89px 13px;
     display: inline-block;
@@ -335,4 +346,19 @@ body {
     color: rgba(0, 0, 0, 0.42);
     height: 20px;
     font-size: 14px;
+}
+.content-Review .resName-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    max-width: 130px;
+}
+.content-Review .resName-price .price-range .input {
+    border-radius: 10px;
+    background-color: #E4F3D3;
+    border: none;
+    font-size: 20px;
+    padding: 0 7px;
+    text-align: center;
 }

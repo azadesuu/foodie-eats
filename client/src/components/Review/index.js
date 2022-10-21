@@ -350,13 +350,7 @@ function Review(props) {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <ImageIcon
-                                    sx={{
-                                        fontSize: "72px",
-                                        bgcolor: "#D9D9D9",
-                                        borderRadius: "10px"
-                                    }}
-                                />
+                                <img src={review.reviewImage? review.reviewImage:null}/>
                             </div>
                             <div className="line" />
                             <div className="r2">
@@ -454,7 +448,20 @@ function Review(props) {
                             </div>
                         </div>
                         <div className="review-container">
-                            <h3>{review.restaurantName}</h3>
+                            <div className="resName-price">
+                                <h3>{review.restaurantName}</h3>
+                                {marks.map(({ label, value }) => {
+                                    if (value === review.priceRange) {
+                                        return (
+                                            <div className="price-range" key={value}>
+                                                <span className="input">
+                                                    {label}
+                                                </span>
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
                             <h4>
                                 {review.address.streetAddress}{" "}
                                 {review.address.state} {review.address.postcode}
