@@ -80,8 +80,3 @@ export const allSEO = {
         link: "/my-theme"
     }
 };
-// import { allSEO } from "../../utils/allSEO";
-// import SEO from "../SEO";
-{
-    /* <SEO data={allSEO.signup} /> */
-}
