@@ -36,7 +36,8 @@ function EditReview() {
     const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
-    const { data: review, isLoading } = useQuery(
+    console.log(reviewId);
+    const { data: review, isLoading, refetch } = useQuery(
         "view-review",
         () => getReview(reviewId),
         { enabled: !!reviewId }
@@ -47,18 +48,20 @@ function EditReview() {
     //images
     const [previousImage, setPreviousImage] = useState(null);
     const [newImage, setNewImage] = useState(false);
-    const [image, setImage] = useState({});
+    const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
 
     useEffect(() => {
-        if (review?.userId._id !== user?._id) {
+        if (!review || !user) {
+            navigate(-1);
+        } else if (review?.userId._id !== user?._id) {
             alert("You have no permission to edit this review.");
             navigate(-1);
         }
         setPublicity(review?.isPublic);
         setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
         setPreviewImage(review?.reviewImage ? review?.reviewImage : "");
-    }, [review&& user]);
+    }, [review && user]);
 
     const imageHandler = async () => {
         try {
@@ -80,7 +83,7 @@ function EditReview() {
     };
 
     async function deleteImageHandler(url) {
-        if (url !== "" || url !== undefined) {
+        if (url && (url !== "" || url !== undefined || url != null)) {
             const deleted = await deleteNewImage({ url: url });
             if (deleted) {
                 return true;
@@ -103,7 +106,7 @@ function EditReview() {
             alert("Review deleted.");
             navigate("/my-reviews");
         } else {
-            alert("An error occured, please try again later");
+            alert("An error occured, please try again later.");
         }
     };
 
@@ -136,7 +139,7 @@ function EditReview() {
             !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
             alert("Postcode is invalid.");
-        } else if (image.size / 1024 / 1024 > 10) {
+        } else if (image?.size / 1024 / 1024 > 10) {
             alert("image is too big!");
         } else {
             const url = await imageHandler();
@@ -183,7 +186,7 @@ function EditReview() {
         <div className="content-EditReview">
             <NavLoggedIn />
             {isLoading && <CircularProgress className="spinner" />}
-            {review && user && (
+            {!isLoading && review && user && (
                 <div className="user-container">
                     <div className="Edit-title">
                         <h1>EDIT</h1>
@@ -402,7 +405,7 @@ function EditReview() {
                                 <div className="postcode-container">
                                     <input
                                         type="text"
-                                        maxlength="4"
+                                        maxLength="4"
                                         defaultValue={review.address.postcode}
                                         onKeyPress={event => {
                                             if (!/[0-9]/.test(event.key)) {
@@ -714,7 +717,7 @@ function EditReview() {
                                         <div className="postcode-container">
                                             <input
                                                 type="text"
-                                                maxlength="4"
+                                                maxLength="4"
                                                 defaultValue={
                                                     review.address.postcode
                                                 }
