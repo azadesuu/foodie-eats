@@ -18,25 +18,41 @@ const EditProfile = data => {
 
     const editProfile = async e => {
         try {
-            const user = await updateUser({
+            const data = {
                 userId: _id,
                 username: usernameEdit,
                 email: emailEdit,
                 bio: bioEdit
-            });
-            if (user) {
-                if (user.username === username && user.email === email) {
-                    // if username and email are not changed
-                    alert("Successfully updated.");
+            };
+            if (username === usernameEdit) {
+                delete data["username"];
+            }
+            if (email === emailEdit) {
+                delete data["email"];
+            }
+            if (bio === bioEdit) {
+                delete data["bio"];
+            }
+            if (Object.keys(data).length == 1) {
+                alert("Nothing was updated.");
+            } else {
+                const user = await updateUser(data);
+                if (user) {
+                    if (user.username === username && user.email === email) {
+                        // if username and email are not changed
+                        alert("Successfully updated.");
+                    } else {
+                        alert(
+                            "Successfully updated, please re-enter your login credentials."
+                        );
+                        handleLogOut(); //must logout and login to reset token (temp)
+                    }
                 } else {
-                    alert(
-                        "Successfully updated, please re-enter your login credentials."
-                    );
-                    handleLogOut(); //must logout and login to reset token (temp)
+                    alert("Username/Email is taken.");
                 }
             }
         } catch (err) {
-            alert(err.response.data);
+            alert(err.message);
         }
     };
 
@@ -83,9 +99,9 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <a className="edit-profile-done" onClick={editProfile}>
+                    <button className="edit-profile-done" onClick={editProfile}>
                         DONE
-                    </a>
+                    </button>
                 </div>
             ) : (
                 <h1>User not found.</h1>
