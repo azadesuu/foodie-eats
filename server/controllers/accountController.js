@@ -79,20 +79,14 @@ const getMyReviews = async (req, res, next) => {
 const getMyBookmarks = async (req, res, next) => {
   const bookmarks = req.body.bookmarks;
   try {
-    await Review.find({ _id: { $in: bookmarks } }, function(err, result) {
-      if (err) {
-        res.json("bookmarks not found");
-        return;
-      }
-      res.status(200).json({
-        success: true,
-        data: result
-      });
-    })
-      .clone()
+    const bookmarksList = await Review.find({ _id: { $in: bookmarks } })
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
+    res.status(200).json({
+      success: true,
+      data: bookmarksList
+    });
   } catch (err) {
     next(err);
   }
@@ -166,20 +160,17 @@ const updatePassword = async (req, res, next) => {
   const newPassword = req.body.password;
 
   try {
-    await User.findByIdAndUpdate(
-      _id,
-      { password: User.generateHash(newPassword) },
-      function(err, result) {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
+    await User.findByIdAndUpdate(_id, {
+      password: User.generateHash(newPassword)
+    });
+    if (!result) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: result
+    });
   } catch (err) {
     next(err);
   }
@@ -190,21 +181,19 @@ const changeTheme = async (req, res, next) => {
   const newTheme = req.body.newTheme;
 
   try {
-    await User.findByIdAndUpdate(
+    const result = await User.findByIdAndUpdate(
       _id,
       { $set: { theme: newTheme } },
-      { new: false },
-      (err, result) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
+      { new: false }
+    );
+    if (!result) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: result
+    });
   } catch (err) {
     next(err);
   }
@@ -216,14 +205,14 @@ const uploadNewImage = async (req, res, next) => {
       return res.status(501).json("File not found.");
     }
     // Upload image to cloudinary
-    await cloudinary.uploader.upload(req.file.path, (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      res.status(200).json({
-        success: true,
-        data: result.secure_url
-      });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    if (!result) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: result.secure_url
     });
   } catch (err) {
     next(err);
@@ -233,12 +222,16 @@ const uploadNewImage = async (req, res, next) => {
 const deleteNewImage = async (req, res, next) => {
   try {
     if (!req.body.url) {
-      return res.status(501).json("URL not found.");
+      return res.status(401).json("URL not found.");
     }
     // Upload image to cloudinary
     const result = await cloudinary.uploader.destroy(
       utils.getPublicId(req.body.url)
     );
+    if (!result) {
+      next({ name: "CastError" });
+      return;
+    }
     res.status(200).json({
       success: true,
       data: result
@@ -260,12 +253,14 @@ const uploadProfileImage = async (req, res, next) => {
         profileImage: url
       }
     });
-    if (result) {
-      return res.status(200).json({
-        success: true,
-        data: result
-      });
+    if (!result) {
+      next({ name: "CastError" });
+      return;
     }
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -278,12 +273,15 @@ const deleteProfileImage = async (req, res, next) => {
         profileImage: ""
       }
     });
-    if (result) {
-      res.status(200).json({
-        success: true,
-        data: result
-      });
+
+    if (!result) {
+      next({ name: "CastError" });
+      return;
     }
+    res.status(200).json({
+      success: true,
+      data: result
+    });
   } catch (err) {
     return res.status(500).json(err);
   }

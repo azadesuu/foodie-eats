@@ -6,8 +6,9 @@ const getReviewsByRecent = async (req, res, next) => {
   try {
     const query =
       req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode, publicBool: true }
+        ? { "address.postcode": req.params.postcode, isPublic: true }
         : { isPublic: true };
+
     const reviews = await Review.find(query)
       .populate("userId")
       .lean()
@@ -30,14 +31,14 @@ const getReviewsByLikes = async (req, res, next) => {
   try {
     const query =
       req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode, publicBool: true }
+        ? { "address.postcode": req.params.postcode, isPublic: true }
         : { isPublic: true };
+
     const reviews = await Review.find(query)
       .lean()
       .limit(10)
       .populate("userId")
       .sort({ likeCount: -1 });
-
     if (!reviews) {
       next({ name: "CastError" });
       return;
@@ -162,15 +163,14 @@ const createReview = async (req, res, next) => {
   });
 
   try {
-    await tempReview.save(function(err, result) {
-      if (err) {
-        res.send(err);
-        return;
-      }
-      res.status(200).json({
-        success: true,
-        data: result
-      });
+    const result = await tempReview.save();
+    if (!result) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: result
     });
   } catch {
     next(err);
@@ -193,7 +193,7 @@ const updateReview = async (req, res, next) => {
       tags
     } = req.body;
 
-    await Review.findByIdAndUpdate(
+    const updatedReview = await Review.findByIdAndUpdate(
       _id,
       {
         $currentDate: {
@@ -211,19 +211,16 @@ const updateReview = async (req, res, next) => {
           tags: tags
         }
       },
-      { new: true },
-
-      (err, updatedReview) => {
-        if (err) {
-          res.json(err);
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: updatedReview
-        });
-      }
-    ).clone();
+      { new: true }
+    );
+    if (!updatedReview) {
+      next({ name: "CastError" });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: updatedReview
+    });
   } catch (err) {
     next(err);
   }
@@ -290,7 +287,7 @@ const deleteReview = async (req, res, next) => {
       });
     }
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json({});
   }
 };
 

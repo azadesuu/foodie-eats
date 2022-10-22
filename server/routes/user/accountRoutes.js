@@ -3,8 +3,9 @@ const accountRouter = express.Router();
 const User = require("../../models/user");
 const accountController = require("../../controllers/accountController");
 const upload = require("../../config/multer");
+const passport = require('passport');
+const authMiddleware = require('../../config/auth.js');
 
-// GET User by Id --- returns a user if they exist in the database
 accountRouter.get("/:userId", accountController.getUser);
 
 // GET profile by username --- returns a user if they exist in the database
@@ -33,24 +34,6 @@ accountRouter.put("/updatePassword", accountController.updatePassword);
 
 // PATCH profile by userId -- Updates the user profile with new theme  and returns updated profile
 accountRouter.patch("/changeTheme/:userId", accountController.changeTheme);
-
-// gets a random user (for testing purposes)
-accountRouter.get("/getUsers", async (req, res, next) => {
-  try {
-    await User.find({}, (err, result) => {
-      if (err) {
-        res.json(err);
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    }).limit(1);
-  } catch (err) {
-    next(err);
-  }
-});
 
 // images
 accountRouter.post(

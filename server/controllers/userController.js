@@ -28,7 +28,7 @@ const loginUser = async (req, res, next) => {
         req.logIn(user, { session: false }, async error => {
           if (error) return next(error);
 
-          const { _id, email, username, bio, theme, profileImage } = user;
+          const { _id, email, username, theme } = user;
           const body = { _id, email, username, theme };
 
           // sign the JWT token and populate the payload with the user details
@@ -122,7 +122,10 @@ const resetPassword = async (req, res) => {
 
     res.status(200).send({ message: "Password reset successfully" });
   } catch (error) {
-    res.status(500).send({ message: "Internal server error " });
+    res.status(500).json({
+      status: "An error has occurred trying to reset password.",
+      err: error
+    });
   }
 };
 

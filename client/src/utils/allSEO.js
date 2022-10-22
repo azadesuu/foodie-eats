@@ -1,5 +1,13 @@
 const site = "FoodieEats";
 export const allSEO = {
+    default: {
+        title: `${site}`,
+        description: "FoodieEats: Your food, your choice."
+    },
+    pagenotfound: {
+        title: `PageNotFound | ${site}`,
+        description: "Error 404: Page not found."
+    },
     login: {
         title: `${site} | Login`,
         description: "Login to your account.",

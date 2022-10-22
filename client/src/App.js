@@ -1,3 +1,5 @@
+import { allSEO } from "./utils/allSEO";
+import SEO from "./components/SEO";
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Navigate, Outlet } from "react-router-dom";
@@ -30,6 +32,7 @@ import { isLoggedIn } from "./utils";
 function App() {
     const queryClient = new QueryClient();
     const [user, setUser] = useState(null);
+    const currTheme = localStorage.getItem("theme");
 
     useEffect(() => {
         const jwt = localStorage.getItem("token");
@@ -38,13 +41,16 @@ function App() {
         //gets the user from the signed jwt token
         const getUserWithJwt = async () => {
             const newUser = await getUser(jwt);
-            setUser(newUser?.body);
-            return newUser;
+            if (newUser) {
+                setUser(newUser?.body);
+                if (!currTheme) {
+                    localStorage.setItem("theme", newUser.body.theme);
+                }
+            }
         };
         //console log user
         getUserWithJwt();
     }, [setUser]);
-
     const NavigationBar = props => {
         if (isLoggedIn()) {
             return <LoggedInNavBar />;
@@ -60,6 +66,7 @@ function App() {
     };
     return (
         <QueryClientProvider client={queryClient}>
+            <SEO data={allSEO.default} />
             <UserContext.Provider value={[user, setUser, getUser]}>
                 <NavigationBar />
                 <div>

@@ -126,7 +126,9 @@ function MyTheme(props) {
                     <button
                         className={toggleActiveTheme("boring")}
                         value="boring"
-                        onClick={() => updateTheme("boring")}
+                        onClick={() => {
+                            updateTheme("boring");
+                        }}
                     >
                         <img id="boring" src={Boring} />
                     </button>
@@ -152,6 +154,7 @@ export default function Theme() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
+
     return (
         <div className="content-Theme">
             <SEO data={allSEO.mytheme} />
