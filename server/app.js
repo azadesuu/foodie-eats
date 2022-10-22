@@ -1,11 +1,4 @@
 require("dotenv").config();
-let port = 5000;
-if (!process.env.TEST) require("./db");
-else {
-}
-const { connectDB, dropDB, dropCollections } = require("./test/testdb");
-
-const http = require("http");
 const express = require("express");
 const app = express();
 const session = require("express-session");
@@ -30,6 +23,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   return next();
 });
+
 // setup a session store signing the contents using the secret key
 app.use(
   session({
@@ -92,14 +86,6 @@ app.use((err, req, res, _) => {
   });
 });
 
-// initialise express server
-// enable cors for use of api in client
-const server = http.createServer(app);
-server.listen(port, () => {
-  console.log(`The server is listening on port ${port}!`);
-});
-
 module.exports = {
-  app,
-  server
+  app
 };

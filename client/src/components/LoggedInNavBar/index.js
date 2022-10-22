@@ -48,6 +48,7 @@ function NavLoggedIn() {
     function handleLogOut() {
         // remove token from the local storage
         localStorage.removeItem("token");
+        localStorage.removeItem("theme");
         setUser({});
         navigate("/login");
     }
@@ -91,9 +92,7 @@ function NavLoggedIn() {
                                             aria-controls="menu-appbar"
                                             aria-haspopup="true"
                                             sx={{ mr: 2 }}
-                                            onClick={() =>
-                                                setIsOpen(!isOpen)    
-                                            }
+                                            onClick={() => setIsOpen(!isOpen)}
                                         >
                                             <MenuIcon
                                                 sx={{
@@ -117,9 +116,12 @@ function NavLoggedIn() {
                                                             tag={Link}
                                                             to="/home"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             community
@@ -127,9 +129,12 @@ function NavLoggedIn() {
                                                         <NavLink
                                                             to="/create-review"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             post a review
@@ -138,9 +143,12 @@ function NavLoggedIn() {
                                                             tag={Link}
                                                             to="/my-reviews"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             my reviews
@@ -149,9 +157,12 @@ function NavLoggedIn() {
                                                             tag={Link}
                                                             to="/my-bookmarks"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             my bookmarks
@@ -160,9 +171,12 @@ function NavLoggedIn() {
                                                             tag={Link}
                                                             to="/my-profile"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             profile
@@ -171,35 +185,46 @@ function NavLoggedIn() {
                                                             tag={Link}
                                                             to="/my-theme"
                                                             style={{
-                                                                fontSize: "20px",
-                                                                color: "#000000",
-                                                                fontFamily: "Martel Sans", 
+                                                                fontSize:
+                                                                    "20px",
+                                                                color:
+                                                                    "#000000",
+                                                                fontFamily:
+                                                                    "Martel Sans"
                                                             }}
                                                         >
                                                             theme
                                                         </NavLink>
-                                                        {user &&
+                                                        {user && (
                                                             <NavLink
                                                                 tag={Link}
                                                                 to="/login"
                                                                 style={{
-                                                                    fontSize: "20px",
-                                                                    color: "#000000",
-                                                                    fontFamily: "Martel Sans", 
+                                                                    fontSize:
+                                                                        "20px",
+                                                                    color:
+                                                                        "#000000",
+                                                                    fontFamily:
+                                                                        "Martel Sans"
                                                                 }}
-                                                                onClick={handleLogOut}
+                                                                onClick={
+                                                                    handleLogOut
+                                                                }
                                                             >
                                                                 logout
                                                             </NavLink>
-                                                        }
+                                                        )}
                                                     </div>
                                                     <div className="MenuClose">
                                                         <Button
                                                             sx={{
-                                                                display: "contents"
+                                                                display:
+                                                                    "contents"
                                                             }}
                                                             onClick={() => {
-                                                                setIsOpen(!isOpen)
+                                                                setIsOpen(
+                                                                    !isOpen
+                                                                );
                                                             }}
                                                         >
                                                             <ArrowBackIosNewIcon
@@ -268,8 +293,8 @@ function NavLoggedIn() {
                             }}
                         >
                             <Toolbar>
-                                <Button 
-                                    href='/home' 
+                                <Button
+                                    href="/home"
                                     color="inherit"
                                     sx={{
                                         "&:hover": {
@@ -277,7 +302,7 @@ function NavLoggedIn() {
                                         }
                                     }}
                                 >
-                                    <img src={ WebLogo } width="70px"/>
+                                    <img src={WebLogo} width="70px" />
                                 </Button>
                                 <Grid container justifyContent="space-between">
                                     <div className="nav1">
@@ -291,17 +316,21 @@ function NavLoggedIn() {
                                                 className="active-link"
                                                 tag={Link}
                                                 to="/home"
-                                                style={
-                                                    ({isActive}) => ({
-                                                        fontSize: "20px",
-                                                        color: "#000000",
-                                                        fontFamily: "Martel Sans", 
-                                                        height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
-                                                        display: isActive ? "flex" :  "",
-                                                        alignItems: isActive ? "center" : "",
-                                                    })
-                                                }
+                                                style={({ isActive }) => ({
+                                                    fontSize: "20px",
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans",
+                                                    height: isActive ? 100 : "",
+                                                    borderBottom: isActive
+                                                        ? "2px solid #000000"
+                                                        : "",
+                                                    display: isActive
+                                                        ? "flex"
+                                                        : "",
+                                                    alignItems: isActive
+                                                        ? "center"
+                                                        : ""
+                                                })}
                                             >
                                                 community
                                             </NavLink>
@@ -309,24 +338,28 @@ function NavLoggedIn() {
                                         <Box
                                             sx={{
                                                 alignItems: "center",
-                                                display: "flex",
+                                                display: "flex"
                                             }}
                                         >
                                             <NavLink
                                                 className="active-link"
                                                 tag={Link}
                                                 to="/my-reviews"
-                                                style={
-                                                    ({isActive}) => ({
-                                                        fontSize: "20px",
-                                                        color: "#000000",
-                                                        fontFamily: "Martel Sans", 
-                                                        height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
-                                                        display: isActive ? "flex" :  "",
-                                                        alignItems: isActive ? "center" : "",
-                                                    })
-                                                }
+                                                style={({ isActive }) => ({
+                                                    fontSize: "20px",
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans",
+                                                    height: isActive ? 100 : "",
+                                                    borderBottom: isActive
+                                                        ? "2px solid #000000"
+                                                        : "",
+                                                    display: isActive
+                                                        ? "flex"
+                                                        : "",
+                                                    alignItems: isActive
+                                                        ? "center"
+                                                        : ""
+                                                })}
                                             >
                                                 my reviews
                                             </NavLink>
@@ -341,17 +374,21 @@ function NavLoggedIn() {
                                                 className="active-link"
                                                 tag={Link}
                                                 to="/my-bookmarks"
-                                                style={
-                                                    ({isActive}) => ({
-                                                        fontSize: "20px",
-                                                        color: "#000000",
-                                                        fontFamily: "Martel Sans", 
-                                                        height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
-                                                        display: isActive ? "flex" :  "",
-                                                        alignItems: isActive ? "center" : "",
-                                                    })
-                                                }
+                                                style={({ isActive }) => ({
+                                                    fontSize: "20px",
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans",
+                                                    height: isActive ? 100 : "",
+                                                    borderBottom: isActive
+                                                        ? "2px solid #000000"
+                                                        : "",
+                                                    display: isActive
+                                                        ? "flex"
+                                                        : "",
+                                                    alignItems: isActive
+                                                        ? "center"
+                                                        : ""
+                                                })}
                                             >
                                                 my bookmarks
                                             </NavLink>
@@ -366,23 +403,27 @@ function NavLoggedIn() {
                                                 className="active-link"
                                                 tag={Link}
                                                 to="/create-review"
-                                                style={
-                                                    ({isActive}) => ({
-                                                        fontSize: "20px",
-                                                        color: "#000000",
-                                                        fontFamily: "Martel Sans", 
-                                                        height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
-                                                        display: isActive ? "flex" :  "",
-                                                        alignItems: isActive ? "center" : "",
-                                                    })
-                                                }
+                                                style={({ isActive }) => ({
+                                                    fontSize: "20px",
+                                                    color: "#000000",
+                                                    fontFamily: "Martel Sans",
+                                                    height: isActive ? 100 : "",
+                                                    borderBottom: isActive
+                                                        ? "2px solid #000000"
+                                                        : "",
+                                                    display: isActive
+                                                        ? "flex"
+                                                        : "",
+                                                    alignItems: isActive
+                                                        ? "center"
+                                                        : ""
+                                                })}
                                             >
                                                 post a review
                                             </NavLink>
                                         </Box>
                                     </div>
-                                    
+
                                     <div className="nav2">
                                         <Box
                                             sx={{
@@ -390,7 +431,7 @@ function NavLoggedIn() {
                                                 display: "flex"
                                             }}
                                         >
-                                            {user &&
+                                            {user && (
                                                 <NavLink
                                                     className="active-link"
                                                     tag={Link}
@@ -398,26 +439,27 @@ function NavLoggedIn() {
                                                     style={{
                                                         fontSize: "20px",
                                                         color: "#000000",
-                                                        fontFamily: "Martel Sans", 
+                                                        fontFamily:
+                                                            "Martel Sans"
                                                     }}
                                                     onClick={handleLogOut}
                                                 >
                                                     logout
                                                 </NavLink>
-                                            }
+                                            )}
                                         </Box>
                                         <Box
-                                        sx={{
-                                            alignItems: "center",
-                                            display: "flex"
-                                        }}
+                                            sx={{
+                                                alignItems: "center",
+                                                display: "flex"
+                                            }}
                                         >
                                             <IconButton href="/my-profile">
                                                 <AccountCircleIcon
                                                     color="black"
                                                     sx={{
                                                         fontSize: 50,
-                                                        color: "black",
+                                                        color: "black"
                                                     }}
                                                 />
                                             </IconButton>

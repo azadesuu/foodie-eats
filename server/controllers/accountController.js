@@ -1,46 +1,82 @@
 const Review = require("../models/review");
 const User = require("../models/user");
-
 const utils = require("../routes/utility");
 const { cloudinary } = require("../config/cloudinary");
-const getUser = async (req, res, next) => {
-  try {
-    const userInfo = await User.findOne({
-      _id: req.params.userId
-    }).lean();
 
-    if (!userInfo) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: { username: userInfo.username }
+//regexs
+const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
+const validUsername = new RegExp(
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+);
+const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+const checkUserParams = async (req, res, next) => {
+  if (!req.params.userId) {
+    res.status(400).json({
+      success: false,
+      message: "Review Id was not received.",
+      data: undefined
     });
-  } catch (err) {
-    next(err);
+    return;
   }
+  next();
 };
 
+const checkUsernameParams = async (req, res, next) => {
+  if (!req.params.username) {
+    res.status(400).json({
+      success: false,
+      message: "Username was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+const checkReviewParams = async (req, res, next) => {
+  if (!req.params.reviewId) {
+    res.status(400).json({
+      success: false,
+      message: "Review Id was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+// checkUsernameParams
 const getProfile = async (req, res, next) => {
   try {
     const userInfo = await User.findOne({
       username: req.params.username
     }).lean();
-
     if (!userInfo) {
-      next({ name: "CastError" });
+      res.status(204).json({
+        success: true,
+        message: "No user was found using username.",
+        data: {}
+      });
       return;
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User was found by username",
+        data: userInfo
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: userInfo
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting profile by username",
+      err: err
+    });
   }
 };
 
+// check userId
+// public only
 const getReviews = async (req, res, next) => {
   try {
     const reviews = await Review.find({
@@ -50,15 +86,30 @@ const getReviews = async (req, res, next) => {
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
+    if (!reviews) {
+      res.status(204).json({
+        success: true,
+        message: "No reviews found in other reviews.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Other reviews found.",
+        data: reviews
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting other reviews by id",
+      err: err
+    });
   }
 };
 
+// needs user auth
+// checkUserParams
 const getMyReviews = async (req, res, next) => {
   try {
     const reviews = await Review.find({
@@ -67,13 +118,38 @@ const getMyReviews = async (req, res, next) => {
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
+    if (!reviews) {
+      res.status(204).json({
+        success: true,
+        message: "No reviews found in my reviews.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "My reviews found.",
+        data: reviews
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting my reviews by id",
+      err: err
+    });
   }
+};
+
+const checkBookmarks = async (req, res, next) => {
+  if (!req.body.bookmarks) {
+    res.status(400).json({
+      success: false,
+      message: "No list was received",
+      data: undefined
+    });
+    return;
+  }
+  next();
 };
 
 const getMyBookmarks = async (req, res, next) => {
@@ -83,13 +159,38 @@ const getMyBookmarks = async (req, res, next) => {
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
-    res.status(200).json({
-      success: true,
-      data: bookmarksList
-    });
+    if (!bookmarksList) {
+      res.status(204).json({
+        success: true,
+        message: "No bookmarks found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "My bookmarks found.",
+        data: reviews
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting my bookmarks.",
+      err: err
+    });
   }
+};
+
+const checkBookmarkReview = async (req, res, next) => {
+  if (!req.body.bookmarkedBool) {
+    res.status(400).json({
+      success: false,
+      message: "Bookmarked bool was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
 };
 
 const bookmarkReview = async (req, res, next) => {
@@ -97,62 +198,150 @@ const bookmarkReview = async (req, res, next) => {
     const reviewId = [req.params.reviewId];
     const userId = req.params.userId;
     const bookmarkedBool = req.body.bookmarkedBool;
-
     if (!bookmarkedBool) {
       //add to bookmarks array
       const updatedUser = await User.findByIdAndUpdate(userId, {
         $addToSet: { bookmarks: reviewId }
       });
-      res.status(200).json({
-        success: true,
-        data: updatedUser
-      });
+      if (!updatedUser) {
+        res.status(204).json({
+          success: true,
+          message: "No user found.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Review was bookmarked.",
+          data: updatedUser
+        });
+      }
     } else {
       //remove from bookmarks array
       const updatedUser = await User.findByIdAndUpdate(userId, {
         $pullAll: { bookmarks: reviewId }
       });
-      res.status(200).json({
-        success: true,
-        data: updatedUser
-      });
+      if (!updatedUser) {
+        res.status(204).json({
+          success: true,
+          message: "No user found.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Review was un-bookmarked.",
+          data: updatedUser
+        });
+      }
     }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while toggling bookmark.",
+      err: err
+    });
   }
+};
+const checkUpdateUser = async (req, res, next) => {
+  const { username, email, bio } = req.body;
+  //check if username and email is valid
+  if (!username || !email || !bio) {
+    res.status(400).json({
+      success: false,
+      message: "Username/Email/Bio is not defined.",
+      data: undefined
+    });
+  } else if (
+    !(
+      validUsername.match(username.toLowerCase().trim()) &&
+      validEmail.match(email.toLowerCase().trim())
+    )
+  ) {
+    res.status(400).json({
+      success: false,
+      message: "Username/Email is not valid.",
+      data: undefined
+    });
+  }
+  // check if bio is over the limit
+  else if (bio) {
+    if (bio.length > 150) {
+      res.status(400).json({
+        success: false,
+        message: `Bio is over the character limit at ${bio.length}.`,
+        data: undefined
+      });
+    }
+  } else {
+    // check if there is an existing user with the email
+    const oneUser = await User.findOne({
+      $or: [
+        { username: username.toLowerCase() },
+        { email: email.toLowerCase() }
+      ]
+    });
+    if (oneUser) {
+      res.status(400).json({
+        success: false,
+        message: `Existing user with entered username/email.`,
+        data: undefined
+      });
+    }
+  }
+  next();
 };
 
 const updateUser = async (req, res, next) => {
   const _id = req.params.userId;
-  const newUsername = req.body.username;
-  const newEmail = req.body.email;
-  const newBio = req.body.bio;
+  const { username, email, bio } = req.body;
 
   try {
-    const oneUser = await User.findOne({
-      $or: [{ username: req.body.username }, { email: req.body.email }]
+    const newUser = await User.findByIdAndUpdate(_id, {
+      $set: {
+        username: username.toLowerCase(),
+        email: email.toLowerCase(),
+        bio: bio
+      }
     });
-    if (oneUser) {
-      throw "Username or email is taken.";
+    if (!newUser) {
+      res.status(204).json({
+        success: true,
+        message: "No user updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated user.",
+        data: newUser
+      });
     }
-    const newUser = await User.findByIdAndUpdate(
-      _id,
-      {
-        $set: {
-          username: newUsername,
-          email: newEmail,
-          bio: newBio
-        }
-      },
-      { new: false }
-    );
-    res.status(200).json({
-      success: true,
-      data: newUser
-    });
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating user.",
+      err: err
+    });
   }
+};
+
+const checkUpdatePassword = async (req, res, next) => {
+  const { id, password } = req.body;
+  if (!id || !password) {
+    res.status(400).json({
+      success: false,
+      message: "User/password is not defined.",
+      data: undefined
+    });
+  } else if (!strongPassword.match(password)) {
+    res.status(400).json({
+      success: false,
+      message: "Password is not strong enough.",
+      data: undefined
+    });
+  }
+  next();
 };
 
 const updatePassword = async (req, res, next) => {
@@ -160,20 +349,41 @@ const updatePassword = async (req, res, next) => {
   const newPassword = req.body.password;
 
   try {
-    await User.findByIdAndUpdate(_id, {
+    const result = await User.findByIdAndUpdate(_id, {
       password: User.generateHash(newPassword)
     });
-    if (!result) {
-      next({ name: "CastError" });
-      return;
+    if (!newUser) {
+      res.status(204).json({
+        success: true,
+        message: "No user found, password not updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated password.",
+        data: result
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating password.",
+      err: err
+    });
   }
+};
+
+const checkChangeTheme = async (req, res, next) => {
+  const { newTheme } = req.body;
+  if (!newTheme) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not defined.",
+      data: undefined
+    });
+  }
+  next();
 };
 
 const changeTheme = async (req, res, next) => {
@@ -186,119 +396,183 @@ const changeTheme = async (req, res, next) => {
       { $set: { theme: newTheme } },
       { new: false }
     );
-    if (!result) {
-      next({ name: "CastError" });
-      return;
+    if (!newUser) {
+      res.status(204).json({
+        success: true,
+        message: "No user found, theme not updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated theme.",
+        data: result
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating theme.",
+      err: err
+    });
   }
 };
-
+const checkUploadImage = async (req, res, next) => {
+  if (!req.file) {
+    res.status(400).json({
+      success: false,
+      message: "Image file was not defined.",
+      data: undefined
+    });
+  }
+  next();
+};
 const uploadNewImage = async (req, res, next) => {
   try {
-    if (!req.file) {
-      return res.status(501).json("File not found.");
-    }
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
     if (!result) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "File was not valid. Nothing was uploaded",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully uploaded. URL is returned.",
+        data: result
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result.secure_url
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while uploading image.",
+      err: err
+    });
   }
+};
+
+const checkImageURL = async (req, res, next) => {
+  if (!req.body.url) {
+    res.status(400).json({
+      success: false,
+      message: "Image url was not defined.",
+      data: undefined
+    });
+  }
+  next();
 };
 
 const deleteNewImage = async (req, res, next) => {
   try {
-    if (!req.body.url) {
-      return res.status(401).json("URL not found.");
-    }
     // Upload image to cloudinary
     const result = await cloudinary.uploader.destroy(
       utils.getPublicId(req.body.url)
     );
     if (!result) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No image found from cloudinary.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Image deleted from cloudinary.",
+        data: result
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result
-    });
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while deleting image.",
+      err: err
+    });
   }
 };
 
 const uploadProfileImage = async (req, res, next) => {
-  const _id = req.params.id;
   const url = req.body.url;
-  if (!url) {
-    return res.status(501).json("URL not found");
-  }
   try {
-    const result = await User.findByIdAndUpdate(_id, {
+    const result = await User.findByIdAndUpdate(req.params.userId, {
       $set: {
         profileImage: url
       }
     });
     if (!result) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No user found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Image was uploaded successfully",
+        data: result
+      });
     }
-    return res.status(200).json({
-      success: true,
-      data: result
-    });
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while uploading image.",
+      err: err
+    });
   }
 };
 
 const deleteProfileImage = async (req, res, next) => {
   try {
-    const result = await User.findByIdAndUpdate(req.params.id, {
+    const result = await User.findByIdAndUpdate(req.params.userId, {
       $set: {
         profileImage: ""
       }
     });
 
     if (!result) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No user found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User image was deleted successfully",
+        data: result
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result
-    });
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while deleting image.",
+      err: err
+    });
   }
 };
 
 module.exports = {
-  getUser,
+  checkUserParams,
+  checkUsernameParams,
+  checkReviewParams,
   getProfile,
   getReviews,
   getMyReviews,
+  checkBookmarks,
   getMyBookmarks,
+  checkBookmarkReview,
   bookmarkReview,
+  checkUpdateUser,
   updateUser,
+  checkUpdatePassword,
   updatePassword,
+  checkChangeTheme,
   changeTheme,
+  checkUploadImage,
   uploadNewImage,
   deleteNewImage,
+  checkImageURL,
   uploadProfileImage,
   deleteProfileImage
 };

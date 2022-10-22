@@ -2,6 +2,30 @@ const Review = require("../models/review");
 const utils = require("../routes/utility");
 const { cloudinary } = require("../config/cloudinary");
 
+const checkUserParams = async (req, res, next) => {
+  if (!req.params.userId) {
+    res.status(400).json({
+      success: false,
+      message: "User Id was not defined.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+const checkReviewParams = async (req, res, next) => {
+  if (!req.params.reviewId) {
+    res.status(400).json({
+      success: false,
+      message: "Review Id was not defined.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
 const getReviewsByRecent = async (req, res, next) => {
   try {
     const query =
@@ -15,15 +39,24 @@ const getReviewsByRecent = async (req, res, next) => {
       .sort({ $natural: -1 });
 
     if (!reviews) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No recent reviews found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Recent reviews found",
+        data: reviews
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting recent reviews",
+      err: err
+    });
   }
 };
 
@@ -39,84 +72,55 @@ const getReviewsByLikes = async (req, res, next) => {
       .limit(10)
       .populate("userId")
       .sort({ likeCount: -1 });
+
     if (!reviews) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No most liked reviews found.",
+        data: {}
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Error occured while getting recent reviews",
+        err: err
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting most liked reviews",
+      err: err
+    });
   }
 };
 
 const getAllReviews = async (req, res, next) => {
   try {
-    const reviews = await Review.find()
+    const reviews = await Review.find({ isPublic: true })
       .lean()
       .populate("userId")
       .sort({ $natural: -1 });
 
     if (!reviews) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No reviews found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "All reviews found",
+        data: reviews
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
   } catch (err) {
-    next(err);
-  }
-};
-
-const getReviewsBySearch = async (req, res, next) => {
-  try {
-    const search = req.body.search;
-    const rating = req.body.rating;
-    const priceRange = req.body.priceRange;
-    const tags = req.body.tags;
-    const postcode = req.params.postcode;
-
-    const oriQuery = {
-      restaurantName: { $regex: search, $options: "i" },
-      rating: rating,
-      priceRange: priceRange,
-      tags: { $in: tags.map(t => new RegExp(t)) },
-      postcode: postcode
-    };
-
-    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
-      if (key === "tags" && tags.length === 0) {
-        //
-      } else if (
-        value !== undefined &&
-        value !== "undefined" &&
-        value !== null &&
-        value !== []
-      ) {
-        qry[key] = value;
-      }
-      return qry;
-    }, {});
-
-    const reviews = await Review.find(query)
-      .populate("userId")
-      .lean()
-      .sort({ $natural: -1 });
-
-    if (!reviews) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: reviews
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting recent reviews",
+      err: err
     });
-  } catch (err) {
-    next(err);
   }
 };
 
@@ -127,18 +131,59 @@ const getOneReview = async (req, res, next) => {
       .lean();
 
     if (!review) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No review found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Review found",
+        data: review
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: review
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting the review.",
+      err: err
+    });
   }
 };
+const checkCreateReview = async (req, res, next) => {
+  const {
+    userId,
+    restaurantName,
+    isPublic,
+    priceRange,
+    rating,
+    dateVisited,
+    address,
+    description
+  } = req.body;
 
+  console.log("testing input");
+  if (
+    !(
+      userId &&
+      restaurantName &&
+      isPublic &&
+      priceRange &&
+      rating &&
+      dateVisited &&
+      address
+    )
+  ) {
+    res.status(400).json({
+      success: false,
+      message: "Some important fields are missing. Review was not created.",
+      data: {}
+    });
+    return;
+  }
+  next();
+};
 const createReview = async (req, res, next) => {
   const newUserId = req.body.userId;
   const newRestaurantName = req.body.restaurantName;
@@ -148,6 +193,7 @@ const createReview = async (req, res, next) => {
   const newRating = req.body.rating;
   const newDateVisited = req.body.dateVisited;
   const newAddress = req.body.address;
+  const newTags = req.body.tags;
   const newDescription = req.body.description;
 
   const tempReview = new Review({
@@ -159,24 +205,66 @@ const createReview = async (req, res, next) => {
     rating: newRating,
     dateVisited: newDateVisited,
     address: newAddress,
+    tags: newTags,
     description: newDescription
   });
 
   try {
     const result = await tempReview.save();
+    console.log("saving input");
+
     if (!result) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: false,
+        message: "No review created.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Review created.",
+        data: reviews
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: result
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error occured while creating the review.",
+      err: err
     });
-  } catch {
-    next(err);
   }
 };
+const checkUpdateReview = async (req, res, next) => {
+  const {
+    _id,
+    restaurantName,
+    isPublic,
+    priceRange,
+    rating,
+    dateVisited,
+    address,
+    description
+  } = req.body;
 
+  if (
+    !(
+      _id &&
+      restaurantName &&
+      isPublic &&
+      priceRange &&
+      rating &&
+      dateVisited &&
+      address
+    )
+  ) {
+    res.status(400).json({
+      success: false,
+      message: "Some important fields are missing. Review was not created.",
+      data: {}
+    });
+  }
+  next();
+};
 const updateReview = async (req, res, next) => {
   try {
     const {
@@ -188,7 +276,6 @@ const updateReview = async (req, res, next) => {
       dateVisited,
       reviewImage,
       description,
-      images,
       address,
       tags
     } = req.body;
@@ -213,17 +300,39 @@ const updateReview = async (req, res, next) => {
       },
       { new: true }
     );
-    if (!updatedReview) {
-      next({ name: "CastError" });
-      return;
+    if (!result) {
+      res.status(500).json({
+        success: false,
+        message: "No review updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Review updated.",
+        data: reviews
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: updatedReview
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating the review.",
+      err: err
+    });
   }
+};
+
+const checkToggleLike = async (req, res, next) => {
+  const likeBool = req.body.likeBool;
+  if (!likeBool) {
+    res.status(400).json({
+      success: false,
+      message: "Like boolean was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
 };
 
 const toggleLike = async (req, res, next) => {
@@ -242,10 +351,19 @@ const toggleLike = async (req, res, next) => {
         },
         { new: true }
       );
-      res.status(200).json({
-        success: true,
-        data: updatedReview
-      });
+      if (!updatedReview) {
+        res.status(200).json({
+          success: true,
+          message: "No review found during liking.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Successfully liked the review",
+          data: updatedReview
+        });
+      }
     } else {
       //remove from userlikes array and decrement like count
       const updatedReview = await Review.findOneAndUpdate(
@@ -256,13 +374,26 @@ const toggleLike = async (req, res, next) => {
         },
         { new: true }
       );
-      res.status(200).json({
-        success: true,
-        data: updatedReview
-      });
+      if (!updatedReview) {
+        res.status(200).json({
+          success: true,
+          message: "No review found during un-liking.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Successfully unliked the review",
+          data: updatedReview
+        });
+      }
     }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while un/liking the review.",
+      err: err
+    });
   }
 };
 
@@ -283,22 +414,37 @@ const deleteReview = async (req, res, next) => {
       }
       res.status(200).json({
         success: true,
+        message: "Review deleted.",
         data: review
+      });
+    } else {
+      res.status(204).json({
+        success: true,
+        message: "Review not found during deletion.",
+        data: {}
       });
     }
   } catch (err) {
-    res.status(500).json({});
+    res.status(500).json({
+      success: false,
+      message: "Error occured while deleting the review.",
+      err: err
+    });
   }
 };
 
 module.exports = {
+  checkUserParams,
+  checkReviewParams,
   getReviewsByRecent,
   getReviewsByLikes,
   getAllReviews,
-  getReviewsBySearch,
   getOneReview,
+  checkCreateReview,
   createReview,
+  checkUpdateReview,
   updateReview,
+  checkToggleLike,
   toggleLike,
   deleteReview
 };

@@ -1,13 +1,7 @@
 const express = require("express");
 // const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
-const Review = require("../../models/review");
-const User = require("../../models/user");
 const reviewController = require("../../controllers/reviewController");
-
-const utils = require("../utility");
-const { cloudinary } = require("../../config/cloudinary");
-const upload = require("../../config/multer");
 
 //GET reviews by recent
 reviewRouter.get(
@@ -23,23 +17,31 @@ reviewRouter.get(
 //GET one review by reviewId
 reviewRouter.get("/getAllReviews", reviewController.getAllReviews);
 
-//GET by search values -- restaurantname, rating, pricerange, postcode, tags
-reviewRouter.post("/search", reviewController.getReviewsBySearch);
-
 //GET one review by reviewId
-reviewRouter.get("/getReview/:reviewId", reviewController.getOneReview);
+reviewRouter.use("/getReview/:reviewId", reviewController.checkReviewParams);
+reviewRouter.route("/getReview/:reviewId").get(reviewController.getOneReview);
 
 //PUT review upon creation
-reviewRouter.put("/createReview", reviewController.createReview);
+// need user auth
+reviewRouter.use("/createReview", reviewController.checkCreateReview);
+reviewRouter.get("/createReview", reviewController.createReview);
 
 // PATCH a review by id upon edit
+// need user auth
+reviewRouter.use("/updateReview", reviewController.checkUserParams);
+reviewRouter.use("/updateReview", reviewController.checkUpdateReview);
 reviewRouter.patch("/updateReview", reviewController.updateReview);
 
 //PATCH review according to like boolean -- toggle like
+// need user auth
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkUserParams);
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkReviewParams);
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkToggleLike);
 reviewRouter.patch("/like/:userId/:reviewId", reviewController.toggleLike);
 
 //delete review
+// need user auth
+reviewRouter.use("/delete/:reviewId", reviewController.checkReviewParams);
 reviewRouter.delete("/delete/:reviewId", reviewController.deleteReview);
-
 
 module.exports = reviewRouter;

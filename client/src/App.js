@@ -1,5 +1,3 @@
-import { allSEO } from "./utils/allSEO";
-import SEO from "./components/SEO";
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Navigate, Outlet } from "react-router-dom";
@@ -66,7 +64,6 @@ function App() {
     };
     return (
         <QueryClientProvider client={queryClient}>
-            <SEO data={allSEO.default} />
             <UserContext.Provider value={[user, setUser, getUser]}>
                 <NavigationBar />
                 <div>

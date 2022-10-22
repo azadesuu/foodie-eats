@@ -23,7 +23,7 @@ const loginUser = async (req, res, next) => {
         return next(error);
       } else if (!user) {
         const error = new Error("No user was found with the given user/email");
-        return next(error);
+        return res.status(400).json({err:error});
       } else {
         req.logIn(user, { session: false }, async error => {
           if (error) return next(error);
