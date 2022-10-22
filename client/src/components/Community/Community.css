@@ -87,7 +87,6 @@ span.smallScreen-Community {
 }
 body {
     margin-top: 230px;
-    background-color: #FFFEEC;
     padding: 1%;
     font-family: "Martel Sans";
     display: flex;
@@ -148,7 +147,6 @@ body {
 .content-Community .searchResult {
     box-sizing: border-box;
     background-color: #FFFCFB;
-    border: 2px solid #BEE5B0;
     overflow-y: scroll;
     overflow-x: hidden;
     z-index: 95;
@@ -157,7 +155,6 @@ body {
     width: 0.8em;
 }
 .content-Community .searchResult::-webkit-scrollbar-thumb {
-    background-color: #BEE5B0;
     border-radius: 10px;
     max-height: 4px;
     border: 5px solid transparent;
@@ -176,9 +173,6 @@ body {
 }
 .item input:not(checked) + #arrow {
     transition: 0.1s;
-}
-input[type="checkbox"]:checked {
-    accent-color: #BEE5B0;
 }
 .item ul, input[id="title-rating"], input[id="title-price"]{
     display: none;
@@ -221,7 +215,6 @@ input:focus {
     justify-content: center;
 }
 .searchResult .line5 {
-    border-top: 1.5px solid #BEE5B0;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 98%;
@@ -288,23 +281,4 @@ input:focus {
     text-decoration: underline;
     font-size: 10px;
     display: inline;
-}
-.footer {
-    background-color: #E4F3D3;
-    color: #3f3f3f;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    z-index: 90;
-    bottom: 0;
-    height: 30px;
-    width: 100%;
-    left: 0;
-    position: fixed;
-    margin: 0;
-}
-.footer p {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 130px;
-    margin-top: 3px;
 }

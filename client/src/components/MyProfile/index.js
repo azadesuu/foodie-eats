@@ -216,12 +216,10 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            id="edit-btn"
                             value={editButton}
                             onClick={updateUser}
                             sx={{
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                },
                                 left: "30px",
                                 bottom: "40px"
                             }}
@@ -230,9 +228,6 @@ function ProfileDetails(props) {
                                 sx={{
                                     color: "black",
                                     fontSize: 40,
-                                    "&:hover": {
-                                        bgcolor: "#FFFEEC"
-                                    }
                                 }}
                             />
                         </IconButton>
@@ -272,12 +267,10 @@ function ProfileDetails(props) {
                 </span>
                 <span className="bigScreen-MyProfile">
                     <IconButton
+                        id="edit-btn"
                         value={editButton}
                         onClick={updateUser}
                         sx={{
-                            "&:hover": {
-                                bgcolor: "#FFFEEC"
-                            },
                             bottom: "5px"
                         }}
                     >
@@ -285,9 +278,6 @@ function ProfileDetails(props) {
                             sx={{
                                 color: "black",
                                 fontSize: 30,
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                }
                             }}
                         />
                     </IconButton>

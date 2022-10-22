@@ -62,7 +62,7 @@ function Sidebar() {
 function MyTheme(props) {
     const user = props.user;
     const [userId, setUserId] = useState();
-    const [currTheme, setCurrTheme] = useState("honeydew");
+    const [currTheme, setCurrTheme] = useState();
 
     useEffect(() => {
         if (user && !userId) {
@@ -70,7 +70,9 @@ function MyTheme(props) {
             setCurrTheme(user.theme);
         }
     }, [user]);
-
+    useEffect(() => {
+        document.documentElement.className = currTheme;
+    }, [currTheme])
     const updateTheme = async theme => {
         try {
             const oldUser = await changeTheme({
@@ -100,41 +102,46 @@ function MyTheme(props) {
         <div>
             {userId ? (
                 <div className="themes">
-                    <button
+                    <div 
+                        id="honeydew" 
                         className={toggleActiveTheme("honeydew")}
                         value="honeydew"
                         onClick={() => updateTheme("honeydew")}
                     >
                         <img id="honeydew" src={HoneyDew} />
-                    </button>
-                    <button
+                    </div>
+                    <div 
+                        id="dragonfruit"
                         className={toggleActiveTheme("dragonfruit")}
                         value="dragonfruit"
                         onClick={() => updateTheme("dragonfruit")}
                     >
                         <img id="dragonfruit" src={Dragonfruit} />
-                    </button>
-                    <button
+                    </div>
+                    <div 
+                        id="shokupan"
                         className={toggleActiveTheme("shokupan")}
                         value="shokupan"
                         onClick={() => updateTheme("shokupan")}
                     >
                         <img id="shokupan" src={Shokupan} />
-                    </button>
-                    <button
+                    </div>
+                    <div 
+                        id="boring"
                         className={toggleActiveTheme("boring")}
                         value="boring"
                         onClick={() => updateTheme("boring")}
                     >
                         <img id="boring" src={Boring} />
-                    </button>
-                    <button
+                    </div>
+                    <div
+                        id="blueberry"
                         className={toggleActiveTheme("blueberry")}
                         value="blueberry"
                         onClick={() => updateTheme("blueberry")}
                     >
                         <img id="blueberry" src={Blueberry} />
-                    </button>
+                    </div>
                 </div>
             ) : (
                 <h1>Loading...</h1>
@@ -150,6 +157,7 @@ export default function Theme() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
+        
     return (
         <div className="content-Theme">
             {userProfile ? (

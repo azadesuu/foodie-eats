@@ -219,6 +219,7 @@ function PostReview() {
 
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         size="small"
                                         defaultValue={0}
                                         step={1}
@@ -231,7 +232,6 @@ function PostReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -433,6 +433,7 @@ function PostReview() {
                             </div>
                             <div>
                                 <button
+                                    id="btn"
                                     className="postReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -526,6 +527,7 @@ function PostReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         size="small"
                                         defaultValue={0}
                                         step={1}
@@ -538,7 +540,6 @@ function PostReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -766,6 +767,7 @@ function PostReview() {
 
                             <div>
                                 <button
+                                    id="btn"
                                     className="postReviewButton"
                                     type="button"
                                     onClick={() => {

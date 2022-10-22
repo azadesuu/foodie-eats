@@ -54,6 +54,7 @@ function MenuSideBar() {
                 }
             >
                 <MenuIcon
+                    id="hamburger-menu"
                     sx={{
                         fontSize: "40px"
                     }}
@@ -127,6 +128,8 @@ function MenuSideBar() {
 }
 
 function NavPublic() {
+    document.documentElement.className = "honeydew";
+    
     return (
         <div className="nav">
             <span className="smallScreen-nav">
@@ -174,7 +177,6 @@ function NavPublic() {
                                             style={
                                                 ({isActive}) => ({
                                                     fontSize: "20px",
-                                                    color: "#000000",
                                                     fontFamily: "Martel Sans", 
                                                     height: isActive ? 100 : "",  
                                                     borderBottom: isActive ? "2px solid #000000" : "",

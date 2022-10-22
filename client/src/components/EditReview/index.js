@@ -271,6 +271,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -282,7 +283,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -493,6 +493,7 @@ function EditReview() {
                             </div>
                             <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -584,6 +585,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -595,7 +597,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -830,6 +831,7 @@ function EditReview() {
                             </div>
                             <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {

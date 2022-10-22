@@ -44,11 +44,7 @@ span.smallScreen-CreateReview {
         margin-left: -700px;
     }
 }
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    font-family: "Martel Sans";
-}
+
 .content-PostReview {
     display: flex;
     align-items: center;

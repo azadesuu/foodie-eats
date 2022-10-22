@@ -99,7 +99,11 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <button className="edit-profile-done" onClick={editProfile}>
+                    <button 
+                        id="btn"
+                        className="edit-profile-done" 
+                        onClick={editProfile}
+                    >
                         DONE
                     </button>
                 </div>

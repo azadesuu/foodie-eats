@@ -22,7 +22,7 @@ import { Drawer } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const theme = createTheme({
     palette: {
@@ -48,9 +48,26 @@ function NavLoggedIn() {
     function handleLogOut() {
         // remove token from the local storage
         localStorage.removeItem("token");
+        localStorage.removeItem("theme");
         setUser({});
         navigate("/login");
     }
+    const activeTheme = localStorage.getItem("theme");
+    console.log(activeTheme);
+    useEffect(() => {
+        if (activeTheme === "honeydew" || 
+        activeTheme === "dragonfruit" || 
+        activeTheme === "shokupan" || 
+        activeTheme === "boring" ||
+        activeTheme === "blueberry"
+    ) {
+        document.documentElement.className = activeTheme;
+    } else {
+        document.documentElement.className = "honeydew";
+    }
+    }, [activeTheme])
+
+    
 
     return (
         <div className="nav">
@@ -64,9 +81,9 @@ function NavLoggedIn() {
                         }}
                     >
                         <AppBar
+                            id="navbar-login"
                             position="fixed"
                             sx={{
-                                bgcolor: "background.green",
                                 borderRadius: 3,
                                 boxShadow: 7,
                                 top: 20,
@@ -96,6 +113,7 @@ function NavLoggedIn() {
                                             }
                                         >
                                             <MenuIcon
+                                                id="hamburger-menu"
                                                 sx={{
                                                     fontSize: "40px"
                                                 }}
@@ -230,10 +248,9 @@ function NavLoggedIn() {
                                     >
                                         <IconButton href="/my-profile">
                                             <AccountCircleIcon
-                                                color="black"
+                                                id="acc"
                                                 sx={{
                                                     fontSize: 50,
-                                                    color: "black"
                                                 }}
                                             />
                                         </IconButton>
@@ -255,9 +272,9 @@ function NavLoggedIn() {
                         }}
                     >
                         <AppBar
+                            id="navbar-login"
                             position="fixed"
                             sx={{
-                                bgcolor: "background.green",
                                 borderRadius: 3,
                                 boxShadow: 7,
                                 top: 20,
@@ -294,10 +311,8 @@ function NavLoggedIn() {
                                                 style={
                                                     ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                         height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
                                                         display: isActive ? "flex" :  "",
                                                         alignItems: isActive ? "center" : "",
                                                     })
@@ -319,10 +334,8 @@ function NavLoggedIn() {
                                                 style={
                                                     ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                         height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
                                                         display: isActive ? "flex" :  "",
                                                         alignItems: isActive ? "center" : "",
                                                     })
@@ -344,10 +357,8 @@ function NavLoggedIn() {
                                                 style={
                                                     ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                         height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
                                                         display: isActive ? "flex" :  "",
                                                         alignItems: isActive ? "center" : "",
                                                     })
@@ -369,10 +380,8 @@ function NavLoggedIn() {
                                                 style={
                                                     ({isActive}) => ({
                                                         fontSize: "20px",
-                                                        color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                         height: isActive ? 100 : "",  
-                                                        borderBottom: isActive ? "2px solid #000000" : "",
                                                         display: isActive ? "flex" :  "",
                                                         alignItems: isActive ? "center" : "",
                                                     })
@@ -397,7 +406,6 @@ function NavLoggedIn() {
                                                     to="/login"
                                                     style={{
                                                         fontSize: "20px",
-                                                        color: "#000000",
                                                         fontFamily: "Martel Sans", 
                                                     }}
                                                     onClick={handleLogOut}
@@ -407,17 +415,15 @@ function NavLoggedIn() {
                                             }
                                         </Box>
                                         <Box
-                                        sx={{
-                                            alignItems: "center",
-                                            display: "flex"
-                                        }}
+                                            sx={{
+                                                alignItems: "center",
+                                                display: "flex"
+                                            }}
                                         >
                                             <IconButton href="/my-profile">
                                                 <AccountCircleIcon
-                                                    color="black"
                                                     sx={{
                                                         fontSize: 50,
-                                                        color: "black",
                                                     }}
                                                 />
                                             </IconButton>

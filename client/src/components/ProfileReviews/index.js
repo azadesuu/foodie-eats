@@ -27,7 +27,7 @@ function Post() {
     return (
         <div className="postButton">
             <span className="smallScreen">
-                <IconButton href="#">
+                <IconButton href="/create-review">
                     <PostAddIcon
                         sx={{
                             bgcolor: "#BEE5B0",
