@@ -265,6 +265,7 @@ const checkUpdateReview = async (req, res, next) => {
   }
   next();
 };
+
 const updateReview = async (req, res, next) => {
   try {
     const {
