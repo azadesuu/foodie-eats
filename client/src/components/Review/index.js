@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./Review.css";
-
 import "@fontsource/martel-sans";
 
 import { useContext, useEffect, useState } from "react";
@@ -111,6 +112,12 @@ function Review(props) {
             {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">
+                    <SEO
+                        data={allSEO.viewreview}
+                        restaurantName={review.restaurantName}
+                        id={review._id}
+                    />
+
                     <h1>REVIEW</h1>
                     <span className="smallScreen-Review">
                         <div id="outer">
@@ -342,9 +349,7 @@ function Review(props) {
                                 <div className="tags-input">
                                     {review.tags.map(tag => {
                                         return (
-                                            <div className="tags">
-                                                {tag}
-                                            </div>
+                                            <div className="tags">{tag}</div>
                                         );
                                     })}
                                 </div>
@@ -471,16 +476,20 @@ function Review(props) {
                                 <div className="tags-input">
                                     {review.tags.map(tag => {
                                         return (
-                                            <div className="tags">
-                                                {tag}
-                                            </div>
+                                            <div className="tags">{tag}</div>
                                         );
                                     })}
                                 </div>
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
-                                <img src={review.reviewImage? review.reviewImage:null}/>
+                                <img
+                                    src={
+                                        review.reviewImage
+                                            ? review.reviewImage
+                                            : null
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="line5" />

@@ -1,6 +1,8 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import { useState } from "react";
 import { loginUser, setAuthToken } from "../../api";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import "@fontsource/martel-sans";
@@ -52,7 +54,7 @@ function Login() {
     const submitHandler = async () => {
         try {
             // using API function to submit data to FoodBuddy API
-            const user = await loginUser({
+            await loginUser({
                 email: email,
                 password: password
             });
@@ -68,6 +70,7 @@ function Login() {
     
     return (
         <div className="content-Login">
+            <SEO data={allSEO.login} />
             <Title />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">
