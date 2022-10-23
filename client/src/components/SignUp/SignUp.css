@@ -13,6 +13,7 @@
         width: 318px;
     }
 }
+
 @media screen and (max-width: 700px) {
     .form-control {
         display: flex;
@@ -118,4 +119,12 @@ a:visited {
     justify-content: flex-end;
     margin-right: 130px;
     margin-top: 3px;
+}
+
+span.helper-text {
+    font-size: 15px;
+    color: gray;
+    flex-direction: row;
+    display: flex;
+    justify-content: right;
 }
