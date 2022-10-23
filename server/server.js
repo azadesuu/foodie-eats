@@ -1,7 +1,5 @@
 require("dotenv").config();
 require("./db");
-
-const port = process.env.port;
 const http = require("http");
 const express = require("express");
 const app = express();
@@ -15,8 +13,8 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://foodie-eats.netlify.app/",
-    "https://foodie-eats-beta.netlify.app/",
+    "http://foodie-eats.netlify.app/",
+    "http://foodie-eats-beta.netlify.app/",
     "http://localhost:3000"
   ];
   const origin = req.headers.origin;
@@ -27,6 +25,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   return next();
 });
+
 // setup a session store signing the contents using the secret key
 app.use(
   session({
@@ -58,6 +57,14 @@ const userRoutes = require("./routes/passport/userRoutes");
 const reviewRoutes = require("./routes/user/reviewRoutes");
 const accountRoutes = require("./routes/user/accountRoutes");
 
+// initialise express server
+// enable cors for use of api in client
+const port = process.env.PORT || 5000;
+const server = http.createServer(app);
+server.listen(port, () => {
+  console.log(`The server is listening on port ${port}!`);
+});
+
 // bodyparser
 app.use(express.json());
 
@@ -87,13 +94,6 @@ app.use((err, req, res, _) => {
     status: "fail",
     error: err.message
   });
-});
-
-// initialise express server
-// enable cors for use of api in client
-const server = http.createServer(app);
-server.listen(port, () => {
-  console.log(`The server is listening on port ${port}!`);
 });
 
 module.exports = {
