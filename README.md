@@ -16,10 +16,10 @@
 FoodieEats is a web application that consolidates reviews of restaurants from users, mostly for personal use. After users log in using their email and password, they are able to create reviews, view other users' reviews, and bookmark specific reviews. Users can also visit the Community page, which displays the most recent reviews and the top recommended restaurants, based on the user’s current location. As an additional feature, users are also able to choose from a list of color themes for the website.
 
 ## Application preview
-![alt text](https://github.com/azadesuu/itp-sem2-all-for-one/tree/main/images/community.png)
-![alt text](https://github.com/azadesuu/itp-sem2-all-for-one/tree/main/images/my-reviews.png)
-![alt text](https://github.com/azadesuu/itp-sem2-all-for-one/tree/main/images/post-a-review.png)
-![alt text](https://github.com/azadesuu/itp-sem2-all-for-one/tree/main/images/profile.png)
+![alt text](images/community.png)
+![alt text](images/my-reviews.png)
+![alt text](images/post-a-review.png)
+![alt text](images/profile.png)
 
 ## Built with
 - MongoDB
