@@ -34,8 +34,9 @@ function Post() {
     return (
         <div className="postButton">
             <span className="smallScreen">
-                <IconButton href="#">
+                <IconButton href="/create-review">
                     <PostAddIcon
+                        id="btn"
                         sx={{
                             bgcolor: "#BEE5B0",
                             color: "white",
@@ -248,7 +249,7 @@ function ReviewsSmallScreen(props) {
                             >
                                 <Paper
                                     sx={{
-                                        border: "2px solid #BEE5B0",
+                                        border: "2px solid",
                                         borderTopRightRadius: "10px",
                                         borderBottomRightRadius: "10px",
                                         borderBottomLeftRadius: "10px",
@@ -381,6 +382,7 @@ function ReviewsSmallScreen(props) {
             <div className="reviews">
                 <div className="reviews-content">
                     <List
+                        id="myreviews-small"
                         sx={{
                             width: "100%",
                             justifyContent: "center",
@@ -392,7 +394,6 @@ function ReviewsSmallScreen(props) {
                                 width: "0.3em"
                             },
                             "&::-webkit-scrollbar-thumb": {
-                                backgroundColor: "#FFFEEC",
                                 borderRadius: "10px",
                                 maxHeight: "4px"
                             }
@@ -674,7 +675,7 @@ function ReviewsBigScreen(props) {
                                 >
                                     <Paper
                                         sx={{
-                                            border: "2px solid #BEE5B0",
+                                            border: "2px solid",
                                             borderTopRightRadius: "10px",
                                             borderBottomRightRadius: "10px",
                                             borderBottomLeftRadius: "10px",
@@ -809,6 +810,7 @@ function ReviewsBigScreen(props) {
                 </div>
             </div>
             <Box
+                id="myreviews-big"
                 sx={{
                     flexGrow: 1,
                     overflowY: "auto",
@@ -821,7 +823,6 @@ function ReviewsBigScreen(props) {
                         width: "0.3em"
                     },
                     "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "#BEE5B0",
                         borderRadius: "10px"
                     }
                 }}

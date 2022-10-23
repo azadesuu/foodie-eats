@@ -91,10 +91,8 @@ const ProfileImageUpload = props => {
     };
 
     return (
-        <div>
+        <div className="image-edit">
             <label>
-                Your Image File
-                <br />
                 <input
                     type="file"
                     name="myImage"
@@ -103,30 +101,30 @@ const ProfileImageUpload = props => {
                     required
                 />
             </label>
-            <label>
-                <img
-                    src={previewImage}
-                    alt="preview image"
-                    width={100}
-                    height={100}
-                />
-                <br />
-                <img
-                    src={imageURL}
-                    alt="uploaded image"
-                    width={100}
-                    height={100}
-                />
-            </label>
-            <button onClick={submitHandler}>Confirm Upload</button>
-            <br />
+            {imageURL ? (
+                <label>
+                    <img
+                        src={imageURL}
+                        height={150}
+                    />
+                </label>
+            ) : (
+                <p>upload your image now!</p>
+            )}  
+            <button 
+                id="image-btn"
+                onClick={submitHandler}
+            >
+                Confirm upload
+            </button>
             <br />
             <button
+                id="image-btn"
                 onClick={() => {
                     deleteProfileImageHandler(imageURL);
                 }}
             >
-                Remove Profile Picture
+                Remove profile picture
             </button>
         </div>
     );
@@ -135,26 +133,41 @@ const ProfileImageUpload = props => {
 function TopUser(props) {
     const userProfile = props.user;
     const [showUpload, setShowUpload] = useState(false);
+
     return (
         <div className="top-user">
             <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={
-                        userProfile.profileImage !== ""
-                            ? userProfile.profileImage
-                            : null
-                    }
-                    sx={{ height: 130, width: 130 }}
-                />
-                <button onClick={() => setShowUpload(!showUpload)}>Show</button>
+                <IconButton
+                    sx={{
+                        transition: "all 0.3s ease-out",
+                        "&:hover":{
+                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset",
+                        }
+                    }}
+                >
+                    <Avatar
+                        alt="user-profile-image"
+                        src={
+                            userProfile.profileImage !== ""
+                                ? userProfile.profileImage
+                                : null
+                        }
+                        sx={{ 
+                            height: 130, 
+                            width: 130,
+                        }}
+                        onClick={() => setShowUpload(!showUpload)}
+                    />
+                </IconButton>
                 {showUpload && <ProfileImageUpload user={userProfile} />}
                 {showUpload && (
-                    <button onClick={() => setShowUpload(!showUpload)}>
-                        Cancel Upload
+                    <button 
+                        id="image-cancel" 
+                        onClick={() => setShowUpload(!showUpload)}
+                    >
+                        Cancel upload
                     </button>
                 )}
-
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -192,6 +205,7 @@ function ProfileDetails(props) {
     const updateUser = () => {
         setEditButton(!editButton);
     };
+    const [showUpload, setShowUpload] = useState(false);
 
     return (
         <div className="profile-details">
@@ -203,12 +217,10 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            id="edit-btn"
                             value={editButton}
                             onClick={updateUser}
                             sx={{
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                },
                                 left: "30px",
                                 bottom: "40px"
                             }}
@@ -217,36 +229,49 @@ function ProfileDetails(props) {
                                 sx={{
                                     color: "black",
                                     fontSize: 40,
-                                    "&:hover": {
-                                        bgcolor: "#FFFEEC"
-                                    }
                                 }}
                             />
                         </IconButton>
                     </div>
-                    <Avatar
-                        alt="user-profile-image"
-                        src={
-                            userProfile.profileImage !== ""
-                                ? userProfile.profileImage
-                                : null
-                        }
+                    <IconButton
                         sx={{
-                            height: 110,
-                            width: 110,
-                            ml: "35px",
-                            mt: "-40px"
+                            "&:hover":{
+                                bgcolor: "transparent"
+                            }
                         }}
-                    />
+                    >
+                        <Avatar
+                            alt="user-profile-image"
+                            src={
+                                userProfile.profileImage !== ""
+                                    ? userProfile.profileImage
+                                    : null
+                            }
+                            sx={{ 
+                                height: 110,
+                                width: 110,
+                                ml: "30px",
+                                mt: "-43px" 
+                            }}
+                            onClick={() => setShowUpload(!showUpload)}
+                        />
+                    </IconButton>
+                    {showUpload && <ProfileImageUpload user={userProfile} />}
+                    {showUpload && (
+                        <button 
+                            id="image-cancel" 
+                            onClick={() => setShowUpload(!showUpload)}
+                        >
+                            Cancel upload
+                        </button>
+                    )}
                 </span>
                 <span className="bigScreen-MyProfile">
                     <IconButton
+                        id="edit-btn"
                         value={editButton}
                         onClick={updateUser}
                         sx={{
-                            "&:hover": {
-                                bgcolor: "#FFFEEC"
-                            },
                             bottom: "5px"
                         }}
                     >
@@ -254,9 +279,6 @@ function ProfileDetails(props) {
                             sx={{
                                 color: "black",
                                 fontSize: 30,
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                }
                             }}
                         />
                     </IconButton>

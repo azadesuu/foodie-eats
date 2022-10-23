@@ -66,7 +66,8 @@ function Login() {
             document.location.reload();
         }
     };
-
+    document.documentElement.className = "honeydew";
+    
     return (
         <div className="content-Login">
             <SEO data={allSEO.login} />

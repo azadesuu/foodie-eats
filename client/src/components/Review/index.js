@@ -238,6 +238,7 @@ function Review(props) {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -247,7 +248,6 @@ function Review(props) {
                                         disabled
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -355,13 +355,7 @@ function Review(props) {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <ImageIcon
-                                    sx={{
-                                        fontSize: "72px",
-                                        bgcolor: "#D9D9D9",
-                                        borderRadius: "10px"
-                                    }}
-                                />
+                                <img src={review.reviewImage? review.reviewImage:null}/>
                             </div>
                             <div className="line" />
                             <div className="r2">
@@ -388,6 +382,7 @@ function Review(props) {
                                     <></>
                                 ) : (
                                     <button
+                                        id="btn"
                                         className="editReviewButton"
                                         type="button"
                                         onClick={() => {
@@ -459,7 +454,20 @@ function Review(props) {
                             </div>
                         </div>
                         <div className="review-container">
-                            <h3>{review.restaurantName}</h3>
+                            <div className="resName-price">
+                                <h3>{review.restaurantName}</h3>
+                                {marks.map(({ label, value }) => {
+                                    if (value === review.priceRange) {
+                                        return (
+                                            <div className="price-range" key={value}>
+                                                <span className="input">
+                                                    {label}
+                                                </span>
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
                             <h4>
                                 {review.address.streetAddress}{" "}
                                 {review.address.state} {review.address.postcode}
@@ -511,6 +519,7 @@ function Review(props) {
                                 <></>
                             ) : (
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {

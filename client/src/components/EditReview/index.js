@@ -266,6 +266,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -277,7 +278,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -442,13 +442,53 @@ function EditReview() {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <button className="addImageButton">
-                                    <img className="addImage" src={addImage} />
-                                </button>
+                                {previewImage ? (
+                                    <>
+                                        <label>
+                                            Add your images here
+                                            <br /> Click upload again to remove image.
+                                            <input
+                                                type="file"
+                                                name="myImage"
+                                                onChange={event => onImageChange(event)}
+                                                accept="image/png, image/jpg, image/jpeg"
+                                                onClick={e => {
+                                                    e.target.value = null;
+                                                    setPreviewImage(null);
+                                                }}
+                                                required
+                                            />
+                                        </label>
+                                        <label>
+                                            <img
+                                                src={previewImage}
+                                                alt="preview image"
+                                                width={100}
+                                                height={100}
+                                            />
+                                            <br />
+                                        </label> 
+                                    </>
+                                ) : (
+                                    <label>
+                                        Add your images here
+                                        <input
+                                            type="file"
+                                            name="myImage"
+                                            onChange={event => onImageChange(event)}
+                                            accept="image/png, image/jpg, image/jpeg"
+                                            onClick={e => {
+                                                e.target.value = null;
+                                                setPreviewImage(null);
+                                            }}
+                                            required
+                                        />
+                                    </label>
+                                )}
                             </div>
-
                             <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -540,6 +580,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -551,7 +592,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -738,45 +778,55 @@ function EditReview() {
                                         </div>
                                     </div>
                                     <div className="add-image">
-                                        <button className="addImageButton">
-                                            <img
-                                                className="addImage"
-                                                src={addImage}
-                                            />
-                                        </button>
+                                        {previewImage ? (
+                                            <>
+                                                <label>
+                                                    Add your images here
+                                                    <br /> Click upload again to remove image.
+                                                    <input
+                                                        type="file"
+                                                        name="myImage"
+                                                        onChange={event => onImageChange(event)}
+                                                        accept="image/png, image/jpg, image/jpeg"
+                                                        onClick={e => {
+                                                            e.target.value = null;
+                                                            setPreviewImage(null);
+                                                        }}
+                                                        required
+                                                    />
+                                                </label>
+                                                <label>
+                                                    <img
+                                                        src={previewImage}
+                                                        alt="preview image"
+                                                        width={100}
+                                                        height={100}
+                                                    />
+                                                    <br />
+                                                </label> 
+                                            </>
+                                        ) : (
+                                            <label>
+                                                Add your images here
+                                                <input
+                                                    type="file"
+                                                    name="myImage"
+                                                    onChange={event => onImageChange(event)}
+                                                    accept="image/png, image/jpg, image/jpeg"
+                                                    onClick={e => {
+                                                        e.target.value = null;
+                                                        setPreviewImage(null);
+                                                    }}
+                                                    required
+                                                />
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <label>
-                                    Your Image File.
-                                    <br /> Click upload again to remove image.
-                                    <br />
-                                    <input
-                                        type="file"
-                                        name="myImage"
-                                        onChange={event => onImageChange(event)}
-                                        accept="image/png, image/jpg, image/jpeg"
-                                        onClick={e => {
-                                            e.target.value = null;
-                                            setNewImage(true);
-                                            setPreviewImage(null);
-                                        }}
-                                        required
-                                    />
-                                </label>
-                                <label>
-                                    <img
-                                        src={previewImage}
-                                        alt="preview image"
-                                        width={100}
-                                        height={100}
-                                    />
-                                    <br />
-                                </label>
-                            </div>
-                            <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {

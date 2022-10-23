@@ -44,11 +44,7 @@ span.smallScreen-CreateReview {
         margin-left: -700px;
     }
 }
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    font-family: "Martel Sans";
-}
+
 .content-PostReview {
     display: flex;
     align-items: center;
@@ -155,6 +151,7 @@ body {
     width: 100%;
     display: flex;
     max-width: 316px;
+    height: 20px;
 }
 .content-PostReview #outerAddress {
     display: flex;
@@ -209,9 +206,8 @@ body {
     height: 80px;
     border-radius: 10px;
 }
-.content-PostReview .add-image a {
+.content-PostReview .add-image label {
     text-decoration: underline;
-    margin-top: -10px;
 }
 .content-PostReview .addImageButton {
     background-color: transparent;
@@ -225,7 +221,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 20px;
 }
 .content-PostReview .postReviewButton {
     padding: 3.89px 13px 3.89px 13px;
