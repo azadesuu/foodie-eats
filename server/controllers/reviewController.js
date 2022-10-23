@@ -28,12 +28,7 @@ const checkReviewParams = async (req, res, next) => {
 
 const getReviewsByRecent = async (req, res, next) => {
   try {
-    const query =
-      req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode, isPublic: true }
-        : { isPublic: true };
-
-    const reviews = await Review.find(query)
+    const reviews = await Review.find({ isPublic: true })
       .populate("userId")
       .lean()
       .sort({ $natural: -1 });
@@ -62,12 +57,7 @@ const getReviewsByRecent = async (req, res, next) => {
 
 const getReviewsByLikes = async (req, res, next) => {
   try {
-    const query =
-      req.params.postcode !== "undefined"
-        ? { "address.postcode": req.params.postcode, isPublic: true }
-        : { isPublic: true };
-
-    const reviews = await Review.find(query)
+    const reviews = await Review.find({ isPublic: true })
       .lean()
       .limit(10)
       .populate("userId")
@@ -80,45 +70,16 @@ const getReviewsByLikes = async (req, res, next) => {
         data: {}
       });
     } else {
-      res.status(500).json({
-        success: false,
-        message: "Error occured while getting recent reviews",
-        err: err
-      });
-    }
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Error occured while getting most liked reviews",
-      err: err
-    });
-  }
-};
-
-const getAllReviews = async (req, res, next) => {
-  try {
-    const reviews = await Review.find({ isPublic: true })
-      .lean()
-      .populate("userId")
-      .sort({ $natural: -1 });
-
-    if (!reviews) {
-      res.status(204).json({
-        success: true,
-        message: "No reviews found.",
-        data: {}
-      });
-    } else {
       res.status(200).json({
-        success: true,
-        message: "All reviews found",
+        success: false,
+        message: "Most liked reviews found.",
         data: reviews
       });
     }
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Error occured while getting recent reviews",
+      message: "Error occured while getting most liked reviews",
       err: err
     });
   }
@@ -159,16 +120,14 @@ const checkCreateReview = async (req, res, next) => {
     priceRange,
     rating,
     dateVisited,
-    address,
-    description
+    address
   } = req.body;
 
-  console.log("testing input");
   if (
+    isPublic == undefined ||
     !(
       userId &&
       restaurantName &&
-      isPublic &&
       priceRange &&
       rating &&
       dateVisited &&
@@ -196,22 +155,21 @@ const createReview = async (req, res, next) => {
   const newTags = req.body.tags;
   const newDescription = req.body.description;
 
-  const tempReview = new Review({
-    userId: newUserId,
-    restaurantName: newRestaurantName,
-    reviewImage: newImage,
-    isPublic: newIsPublic,
-    priceRange: newPriceRange,
-    rating: newRating,
-    dateVisited: newDateVisited,
-    address: newAddress,
-    tags: newTags,
-    description: newDescription
-  });
-
   try {
+    const tempReview = new Review({
+      userId: newUserId,
+      restaurantName: newRestaurantName,
+      reviewImage: newImage,
+      isPublic: newIsPublic,
+      priceRange: newPriceRange,
+      rating: newRating,
+      dateVisited: newDateVisited,
+      address: newAddress,
+      tags: newTags,
+      description: newDescription
+    });
+
     const result = await tempReview.save();
-    console.log("saving input");
 
     if (!result) {
       res.status(204).json({
@@ -223,7 +181,7 @@ const createReview = async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "Review created.",
-        data: reviews
+        data: result
       });
     }
   } catch (err) {
@@ -242,26 +200,19 @@ const checkUpdateReview = async (req, res, next) => {
     priceRange,
     rating,
     dateVisited,
-    address,
-    description
+    address
   } = req.body;
 
   if (
-    !(
-      _id &&
-      restaurantName &&
-      isPublic &&
-      priceRange &&
-      rating &&
-      dateVisited &&
-      address
-    )
+    isPublic == undefined ||
+    !(_id && restaurantName && priceRange && rating && dateVisited && address)
   ) {
     res.status(400).json({
       success: false,
-      message: "Some important fields are missing. Review was not created.",
-      data: {}
+      message: "Some important fields are missing. Review was not updated.",
+      data: req.body
     });
+    return;
   }
   next();
 };
@@ -301,8 +252,8 @@ const updateReview = async (req, res, next) => {
       },
       { new: true }
     );
-    if (!result) {
-      res.status(500).json({
+    if (!updatedReview) {
+      res.status(204).json({
         success: false,
         message: "No review updated.",
         data: {}
@@ -311,10 +262,11 @@ const updateReview = async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "Review updated.",
-        data: reviews
+        data: updatedReview
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating the review.",
@@ -325,7 +277,7 @@ const updateReview = async (req, res, next) => {
 
 const checkToggleLike = async (req, res, next) => {
   const likeBool = req.body.likeBool;
-  if (!likeBool) {
+  if (likeBool == undefined) {
     res.status(400).json({
       success: false,
       message: "Like boolean was not received.",
@@ -439,7 +391,6 @@ module.exports = {
   checkReviewParams,
   getReviewsByRecent,
   getReviewsByLikes,
-  getAllReviews,
   getOneReview,
   checkCreateReview,
   createReview,

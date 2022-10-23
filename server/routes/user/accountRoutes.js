@@ -60,11 +60,6 @@ accountRouter
   .patch(accountController.changeTheme);
 
 // images
-accountRouter.use(
-  "/uploadNewImage",
-  upload.single("image"),
-  accountController.checkUploadImage
-);
 accountRouter.post(
   "/uploadNewImage",
   upload.single("image"),
@@ -83,10 +78,9 @@ accountRouter.use(
   "/uploadProfileImage/:userId",
   accountController.checkImageURL
 );
-accountRouter.post(
-  "/uploadProfileImage/:userId",
-  accountController.uploadProfileImage
-);
+accountRouter
+  .route("/uploadProfileImage/:userId")
+  .post(accountController.uploadProfileImage);
 
 // user auth
 accountRouter.use(

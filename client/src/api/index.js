@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
-// const SERVER_URL = "http://localhost:5000";
+// const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "http://localhost:5000";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -103,14 +103,14 @@ export const forgotPassword = async email => {
 
 export const getCommunityRecent = async postcode => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByRecent/${postcode}`)
+        .get(`${SERVER_URL}/review/getReviewsByRecent`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
 export const getCommunityMostLiked = async postcode => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByLikes/${postcode}`)
+        .get(`${SERVER_URL}/review/getReviewsByLikes`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -168,7 +168,7 @@ export const getBookmarks = async data => {
     return await axios
         .post(`${SERVER_URL}/account/my-bookmarks/get`, data)
         .then(res => res?.data?.data)
-        .catch(err => console.aawlog(err));
+        .catch(err => console.log(err));
 };
 
 // // ------ Profiles

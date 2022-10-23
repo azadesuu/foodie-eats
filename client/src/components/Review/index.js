@@ -355,7 +355,10 @@ function Review(props) {
                                 </div>
                             </div>
                             <div className="add-image">
-                                <img src={review.reviewImage? review.reviewImage:null}/>
+                                {review.reviewImage &&
+                                    review.reviewImage !== "" && (
+                                        <img src={review.reviewImage} />
+                                    )}
                             </div>
                             <div className="line" />
                             <div className="r2">
@@ -459,7 +462,10 @@ function Review(props) {
                                 {marks.map(({ label, value }) => {
                                     if (value === review.priceRange) {
                                         return (
-                                            <div className="price-range" key={value}>
+                                            <div
+                                                className="price-range"
+                                                key={value}
+                                            >
                                                 <span className="input">
                                                     {label}
                                                 </span>
@@ -483,13 +489,12 @@ function Review(props) {
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
-                                <img
-                                    src={
-                                        review.reviewImage
-                                            ? review.reviewImage
-                                            : null
-                                    }
-                                />
+                                <div className="add-image">
+                                    {review.reviewImage &&
+                                        review.reviewImage !== "" && (
+                                            <img src={review.reviewImage} />
+                                        )}
+                                </div>
                             </div>
                         </div>
                         <div className="line5" />

@@ -141,7 +141,7 @@ const getMyReviews = async (req, res, next) => {
 };
 
 const checkBookmarks = async (req, res, next) => {
-  if (!req.body.bookmarks) {
+  if (req.body.bookmarks == undefined) {
     res.status(400).json({
       success: false,
       message: "No list was received",
@@ -159,6 +159,7 @@ const getMyBookmarks = async (req, res, next) => {
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
+
     if (!bookmarksList) {
       res.status(204).json({
         success: true,
@@ -169,7 +170,7 @@ const getMyBookmarks = async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "My bookmarks found.",
-        data: reviews
+        data: bookmarksList
       });
     }
   } catch (err) {
@@ -182,7 +183,7 @@ const getMyBookmarks = async (req, res, next) => {
 };
 
 const checkBookmarkReview = async (req, res, next) => {
-  if (!req.body.bookmarkedBool) {
+  if (req.body.bookmarkedBool == undefined) {
     res.status(400).json({
       success: false,
       message: "Bookmarked bool was not received.",
@@ -243,26 +244,39 @@ const bookmarkReview = async (req, res, next) => {
     });
   }
 };
+
 const checkUpdateUser = async (req, res, next) => {
   const { username, email, bio } = req.body;
   //check if username and email is valid
-  if (!username || !email || !bio) {
-    res.status(400).json({
-      success: false,
-      message: "Username/Email/Bio is not defined.",
+  if (!username && !email && !bio) {
+    res.status(204).json({
+      success: true,
+      message: "Nothing to update.",
       data: undefined
     });
-  } else if (
-    !(
-      validUsername.match(username.toLowerCase().trim()) &&
-      validEmail.match(email.toLowerCase().trim())
-    )
-  ) {
-    res.status(400).json({
-      success: false,
-      message: "Username/Email is not valid.",
-      data: undefined
-    });
+    return;
+  } else if (username || email) {
+    if (username) {
+      if (!validUsername.test(username?.toLowerCase().trim())) {
+        res.status(400).json({
+          success: false,
+          message: "Username/Email is not valid.",
+          data: undefined
+        });
+        return;
+      }
+    }
+
+    if (email) {
+      if (!validEmail.test(email?.toLowerCase().trim())) {
+        res.status(400).json({
+          success: false,
+          message: "Username/Email is not valid.",
+          data: undefined
+        });
+        return;
+      }
+    }
   }
   // check if bio is over the limit
   else if (bio) {
@@ -272,21 +286,25 @@ const checkUpdateUser = async (req, res, next) => {
         message: `Bio is over the character limit at ${bio.length}.`,
         data: undefined
       });
+      return;
     }
   } else {
     // check if there is an existing user with the email
-    const oneUser = await User.findOne({
-      $or: [
-        { username: username.toLowerCase() },
-        { email: email.toLowerCase() }
-      ]
-    });
-    if (oneUser) {
-      res.status(400).json({
-        success: false,
-        message: `Existing user with entered username/email.`,
-        data: undefined
+    if (username || email) {
+      const oneUser = await User.findOne({
+        $or: [
+          { username: username.toLowerCase() },
+          { email: email.toLowerCase() }
+        ]
       });
+      if (oneUser) {
+        res.status(400).json({
+          success: false,
+          message: `Existing user with entered username/email.`,
+          data: undefined
+        });
+      }
+      return;
     }
   }
   next();
@@ -299,8 +317,8 @@ const updateUser = async (req, res, next) => {
   try {
     const newUser = await User.findByIdAndUpdate(_id, {
       $set: {
-        username: username.toLowerCase(),
-        email: email.toLowerCase(),
+        username: username,
+        email: email,
         bio: bio
       }
     });
@@ -318,6 +336,7 @@ const updateUser = async (req, res, next) => {
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating user.",
@@ -382,6 +401,7 @@ const checkChangeTheme = async (req, res, next) => {
       message: "New theme is not defined.",
       data: undefined
     });
+    return;
   }
   next();
 };
@@ -396,7 +416,7 @@ const changeTheme = async (req, res, next) => {
       { $set: { theme: newTheme } },
       { new: false }
     );
-    if (!newUser) {
+    if (!result) {
       res.status(204).json({
         success: true,
         message: "No user found, theme not updated.",
@@ -417,18 +437,16 @@ const changeTheme = async (req, res, next) => {
     });
   }
 };
-const checkUploadImage = async (req, res, next) => {
-  if (!req.file) {
-    res.status(400).json({
-      success: false,
-      message: "Image file was not defined.",
-      data: undefined
-    });
-  }
-  next();
-};
 const uploadNewImage = async (req, res, next) => {
   try {
+    if (!req.file) {
+      res.status(400).json({
+        success: false,
+        message: "Image file was not defined.",
+        data: undefined
+      });
+      return;
+    }
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
     if (!result) {
@@ -441,10 +459,11 @@ const uploadNewImage = async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "Successfully uploaded. URL is returned.",
-        data: result
+        data: result.secure_url
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while uploading image.",
@@ -460,6 +479,7 @@ const checkImageURL = async (req, res, next) => {
       message: "Image url was not defined.",
       data: undefined
     });
+    return;
   }
   next();
 };
@@ -569,7 +589,6 @@ module.exports = {
   updatePassword,
   checkChangeTheme,
   changeTheme,
-  checkUploadImage,
   uploadNewImage,
   deleteNewImage,
   checkImageURL,

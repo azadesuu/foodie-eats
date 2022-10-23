@@ -18,7 +18,6 @@ const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err) {
-        // 500 error
         const error = new Error("An Error occurred");
         return next(error);
       } else if (!user) {

@@ -4,18 +4,9 @@ const reviewRouter = express.Router();
 const reviewController = require("../../controllers/reviewController");
 
 //GET reviews by recent
-reviewRouter.get(
-  "/getReviewsByRecent/:postcode",
-  reviewController.getReviewsByRecent
-);
+reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
 //GET reviews by most liked
-reviewRouter.get(
-  "/getReviewsByLikes/:postcode",
-  reviewController.getReviewsByLikes
-);
-
-//GET one review by reviewId
-reviewRouter.get("/getAllReviews", reviewController.getAllReviews);
+reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
 
 //GET one review by reviewId
 reviewRouter.use("/getReview/:reviewId", reviewController.checkReviewParams);
@@ -28,7 +19,6 @@ reviewRouter.route("/createReview").put(reviewController.createReview);
 
 // PATCH a review by id upon edit
 // need user auth
-reviewRouter.use("/updateReview", reviewController.checkUserParams);
 reviewRouter.use("/updateReview", reviewController.checkUpdateReview);
 reviewRouter.route("/updateReview").patch(reviewController.updateReview);
 
