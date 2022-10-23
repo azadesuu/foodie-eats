@@ -17,6 +17,9 @@ span.smallScreen-nav {
         white-space: nowrap;
     }
 }
+#navbar-login {
+    background-color: #BEE5B0;
+}
 .nav1 {
     display: flex;
     flex-direction: row;
@@ -61,7 +64,6 @@ span.smallScreen-nav {
     margin-left: 40px;
 }
 a.active-link:hover {
-    border-bottom: 2px solid #000000;
     border-radius: 0;
     height: 100px;
     align-items: center;

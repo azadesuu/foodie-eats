@@ -99,14 +99,13 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <a
-                        className="edit-profile-done"
-                        onClick={e => {
-                            editProfile(e);
-                        }}
+                    <button 
+                        id="btn"
+                        className="edit-profile-done" 
+                        onClick={editProfile}
                     >
                         DONE
-                    </a>
+                    </button>
                 </div>
             ) : (
                 <h1>User not found.</h1>

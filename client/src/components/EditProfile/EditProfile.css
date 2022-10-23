@@ -17,6 +17,7 @@
     border-radius: 10px;
     height: 49px;
     width: 145px;
+    border: none;
 }
 .form-control-profile input {
     font-family: 'Martel Sans';

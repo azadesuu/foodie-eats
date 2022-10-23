@@ -148,6 +148,7 @@ function ChangePwDetails(props) {
 
                     <div className="button-group">
                         <button
+                            id="btn"
                             className="confirm"
                             onClick={() => {
                                 checkPassword(

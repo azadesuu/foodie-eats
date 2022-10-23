@@ -49,6 +49,7 @@ function App() {
         //console log user
         getUserWithJwt();
     }, [setUser]);
+
     const NavigationBar = props => {
         if (isLoggedIn()) {
             return <LoggedInNavBar />;

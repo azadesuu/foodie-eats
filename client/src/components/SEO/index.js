@@ -21,8 +21,7 @@ export default function SEO(props) {
         if (props.id) {
             setLink(link.replace("<id>", props.id));
         }
-    }, [props.username, props.restaurantName, props.id]);
-
+    }, []);
     return (
         <Helmet
             htmlAttributes={{ lang: "en" }}
