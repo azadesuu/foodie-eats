@@ -321,7 +321,6 @@ function Post() {
 }
 
 function Community() {
-    const [user] = useContext(UserContext);
     const [location, setLocation] = useState("3000");
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
