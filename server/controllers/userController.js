@@ -18,17 +18,16 @@ const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err) {
-        // 500 error
         const error = new Error("An Error occurred");
         return next(error);
       } else if (!user) {
         const error = new Error("No user was found with the given user/email");
-        return next(error);
+        return res.status(400).json({ err: error });
       } else {
         req.logIn(user, { session: false }, async error => {
           if (error) return next(error);
 
-          const { _id, email, username, bio, theme, profileImage } = user;
+          const { _id, email, username, theme } = user;
           const body = { _id, email, username, theme };
 
           // sign the JWT token and populate the payload with the user details
@@ -46,7 +45,9 @@ const loginUser = async (req, res, next) => {
         });
       }
     } catch (error) {
-      return next(error);
+      return res
+        .status(500)
+        .json({ message: "Error occured while logging in." });
     }
   })(req, res, next);
 };
@@ -55,22 +56,32 @@ const signupUser = async (req, res, next) => {
   passport.authenticate("local-signup", async (err, user, info) => {
     try {
       if (err) {
-        const error = new Error("An Error occurred");
-        return next(error);
+        res.status(500).json({
+          success: false,
+          message: "Error occured while registering user."
+        });
+        return;
       }
       if (!user) {
         const error = new Error("That username is already taken");
-        return next(error);
+        res.status(400).json(error);
+        return;
       }
       // if there is message describing error
-      if (user.message) {
-        return res.json(user);
+      else if (user.message) {
+        res.status(400).json(user);
+        return;
+      } else {
+        res.status(200).json({
+          success: true
+        });
+        return;
       }
-      res.status(200).json({
-        success: true
-      });
     } catch (error) {
-      return next(error);
+      res.status(500).json({
+        success: false,
+        message: "Error occured while registering user."
+      });
     }
   })(req, res, next);
 };
@@ -122,7 +133,10 @@ const resetPassword = async (req, res) => {
 
     res.status(200).send({ message: "Password reset successfully" });
   } catch (error) {
-    res.status(500).send({ message: "Internal server error " });
+    res.status(500).json({
+      status: "An error has occurred trying to reset password.",
+      err: error
+    });
   }
 };
 

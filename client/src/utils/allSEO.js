@@ -1,5 +1,9 @@
 const site = "FoodieEats";
 export const allSEO = {
+    pagenotfound: {
+        title: `PageNotFound | ${site}`,
+        description: "Error 404: Page not found."
+    },
     login: {
         title: `${site} | Login`,
         description: "Login to your account.",
@@ -80,8 +84,3 @@ export const allSEO = {
         link: "/my-theme"
     }
 };
-// import { allSEO } from "../../utils/allSEO";
-// import SEO from "../SEO";
-{
-    /* <SEO data={allSEO.signup} /> */
-}

@@ -44,7 +44,7 @@ function EditReview() {
     const [previousImage, setPreviousImage] = useState(null);
     const [newImage, setNewImage] = useState(false);
     const [image, setImage] = useState(null);
-    const [previewImage, setPreviewImage] = useState("");
+    const [previewImage, setPreviewImage] = useState(null);
 
     useEffect(() => {
         if (!review || !user) {
@@ -62,7 +62,6 @@ function EditReview() {
         try {
             if (!newImage) return previousImage;
             else await deleteImageHandler(previousImage);
-
             if (!image) return "";
             else {
                 const formData = new FormData();
@@ -79,19 +78,23 @@ function EditReview() {
 
     async function deleteImageHandler(url) {
         if (url && (url !== "" || url !== undefined || url != null)) {
-            const deleted = await deleteNewImage({ url: url });
-            if (deleted) {
-                return true;
-            } else {
-                alert("Error occured, image was not deleted.");
+            try {
+                const deleted = await deleteNewImage({ url: url });
+                if (deleted) {
+                    return true;
+                } else {
+                    alert("Error occured, image was not deleted.");
+                }
+            } catch (err) {
+                alert(err);
             }
         }
     }
     const onImageChange = async event => {
         if (event.target.files && event.target.files[0]) {
-            await setImage(event.target.files[0]);
-            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
-            await setNewImage(true);
+            setImage(event.target.files[0]);
+            setPreviewImage(URL.createObjectURL(event.target.files[0]));
+            setNewImage(true);
         }
     };
 
@@ -152,9 +155,10 @@ function EditReview() {
                 tags: tags
             });
             if (!updatedReviewRecord) {
-                alert("update unsuccessful.");
+                alert("Update unsuccessful.");
+            } else {
+                navigate(`/review/${review?._id}`);
             }
-            navigate(`/review/${review?._id}`);
         }
     };
 
@@ -455,6 +459,7 @@ function EditReview() {
                                                 onClick={e => {
                                                     e.target.value = null;
                                                     setPreviewImage(null);
+                                                    setNewImage(true);
                                                 }}
                                                 required
                                             />
@@ -467,7 +472,7 @@ function EditReview() {
                                                 height={100}
                                             />
                                             <br />
-                                        </label> 
+                                        </label>
                                     </>
                                 ) : (
                                     <label>
@@ -475,11 +480,14 @@ function EditReview() {
                                         <input
                                             type="file"
                                             name="myImage"
-                                            onChange={event => onImageChange(event)}
+                                            onChange={event =>
+                                                onImageChange(event)
+                                            }
                                             accept="image/png, image/jpg, image/jpeg"
                                             onClick={e => {
                                                 e.target.value = null;
                                                 setPreviewImage(null);
+                                                setNewImage(true);
                                             }}
                                             required
                                         />
@@ -782,15 +790,25 @@ function EditReview() {
                                             <>
                                                 <label>
                                                     Add your images here
-                                                    <br /> Click upload again to remove image.
+                                                    <br /> Click upload again to
+                                                    remove image.
                                                     <input
                                                         type="file"
                                                         name="myImage"
-                                                        onChange={event => onImageChange(event)}
+                                                        onChange={event =>
+                                                            onImageChange(event)
+                                                        }
                                                         accept="image/png, image/jpg, image/jpeg"
                                                         onClick={e => {
+                                                            console.log(
+                                                                "removed"
+                                                            );
+
                                                             e.target.value = null;
-                                                            setPreviewImage(null);
+                                                            setPreviewImage(
+                                                                null
+                                                            );
+                                                            setNewImage(true);
                                                         }}
                                                         required
                                                     />
@@ -803,7 +821,7 @@ function EditReview() {
                                                         height={100}
                                                     />
                                                     <br />
-                                                </label> 
+                                                </label>
                                             </>
                                         ) : (
                                             <label>
@@ -811,11 +829,14 @@ function EditReview() {
                                                 <input
                                                     type="file"
                                                     name="myImage"
-                                                    onChange={event => onImageChange(event)}
+                                                    onChange={event =>
+                                                        onImageChange(event)
+                                                    }
                                                     accept="image/png, image/jpg, image/jpeg"
                                                     onClick={e => {
                                                         e.target.value = null;
                                                         setPreviewImage(null);
+                                                        setNewImage(true);
                                                     }}
                                                     required
                                                 />

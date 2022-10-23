@@ -46,7 +46,6 @@ function App() {
                 }
             }
         };
-        //console log user
         getUserWithJwt();
     }, [setUser]);
 

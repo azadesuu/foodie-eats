@@ -3,15 +3,9 @@ import SEO from "../SEO";
 import "./Community.css";
 import React from "react";
 import { useQuery } from "react-query";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../actions/UserContext";
+import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-    getCommunityRecent,
-    getCommunityMostLiked,
-    getAllReviews,
-    getProfile
-} from "../../api";
+import { getCommunityRecent, getCommunityMostLiked } from "../../api";
 
 import List from "@mui/material/List";
 import Grid from "@mui/material/Grid";
@@ -37,9 +31,8 @@ function SearchBar(props) {
     const priceChecked = props.priceChecked;
     const setPriceChecked = props.setPriceChecked;
     const [input, setInput] = useState("");
-    const { data: allReviews, isLoading3 } = useQuery("allReviews", () =>
-        getAllReviews()
-    );
+
+    const allReviews = props.allReviews;
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleToggle = () => {
@@ -252,7 +245,6 @@ function SearchBar(props) {
                     )}
                 </Popper>
             </div>
-            {isLoading3 && <CircularProgress className="spinner" />}
             {allReviews && input && (
                 <div className="searchResult">
                     <List
@@ -329,7 +321,6 @@ function Post() {
 }
 
 function Community() {
-    const [user] = useContext(UserContext);
     const [location, setLocation] = useState("3000");
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
@@ -436,6 +427,7 @@ function Community() {
                 </div>
             </span>
             <SearchBar
+                allReviews={listReviewsRecent}
                 ratingChecked={ratingChecked}
                 setRatingChecked={setRatingChecked}
                 priceChecked={priceChecked}
@@ -509,11 +501,10 @@ function Community() {
                                                         resRating === rating
                                                 ) &&
                                                 filterInputPriceRange &&
-                                                    filterInputPriceRange.some(
-                                                        price =>
-                                                            resPriceRange ===
-                                                            price
-                                                    ) &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
                                                 postcodeInput &&
                                                 reviewPostcode === postcodeInput
                                             );
@@ -628,11 +619,10 @@ function Community() {
                                                         resRating === rating
                                                 ) &&
                                                 filterInputPriceRange &&
-                                                    filterInputPriceRange.some(
-                                                        price =>
-                                                            resPriceRange ===
-                                                            price
-                                                    ) &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
                                                 postcodeInput &&
                                                 reviewPostcode === postcodeInput
                                             );
@@ -756,11 +746,10 @@ function Community() {
                                                         resRating === rating
                                                 ) &&
                                                 filterInputPriceRange &&
-                                                    filterInputPriceRange.some(
-                                                        price =>
-                                                            resPriceRange ===
-                                                            price
-                                                    ) &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
                                                 postcodeInput &&
                                                 reviewPostcode === postcodeInput
                                             );
@@ -874,11 +863,10 @@ function Community() {
                                                         resRating === rating
                                                 ) &&
                                                 filterInputPriceRange &&
-                                                    filterInputPriceRange.some(
-                                                        price =>
-                                                            resPriceRange ===
-                                                            price
-                                                    ) &&
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                ) &&
                                                 postcodeInput &&
                                                 reviewPostcode === postcodeInput
                                             );
