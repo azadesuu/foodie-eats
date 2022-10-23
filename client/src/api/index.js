@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 export const setAuthToken = async token => {
     if (token) {
