@@ -51,12 +51,14 @@ accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
 // PUT new password into profile -- returns user with updated password if they exist
 // user auth
 accountRouter.use("/updatePassword", accountController.checkUpdatePassword);
-accountRouter.put("/updatePassword", accountController.updatePassword);
+accountRouter.route("/updatePassword").put(accountController.updatePassword);
 
 // PATCH profile by userId -- Updates the user profile with new theme  and returns updated profile
 // user auth
 accountRouter.use("/changeTheme/:userId", accountController.checkChangeTheme);
-accountRouter.patch("/changeTheme/:userId", accountController.changeTheme);
+accountRouter
+  .route("/changeTheme/:userId")
+  .patch(accountController.changeTheme);
 
 // images
 accountRouter.use(

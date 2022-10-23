@@ -142,10 +142,7 @@ describe("Integration test", () => {
   after(async () => {
     await clearCollections();
   });
-
-  after(async () => {
-    await clearCollections();
-  });
+  
   it("Get recent reviews", async function() {
     return await request(app)
       .get("/review/getAllReviews")
