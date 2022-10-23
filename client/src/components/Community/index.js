@@ -1,13 +1,15 @@
 import "./Community.css";
 
 import React from "react";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../actions/UserContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import {
     getCommunityRecent,
     getCommunityMostLiked,
-    getAllReviews
+    getAllReviews,
+    getProfile
 } from "../../api";
 
 import List from "@mui/material/List";
@@ -131,7 +133,7 @@ function SearchBar(props) {
                         >
                             <Paper
                                 sx={{
-                                    border: "2px solid #BEE5B0",
+                                    border: "2px solid",
                                     borderTopRightRadius: "10px",
                                     borderBottomRightRadius: "10px",
                                     borderBottomLeftRadius: "10px",
@@ -224,7 +226,6 @@ function SearchBar(props) {
                                 width: "0.3em"
                             },
                             "&::-webkit-scrollbar-thumb": {
-                                backgroundColor: "#BEE5B0",
                                 borderRadius: "10px",
                                 maxHeight: "4px"
                             },
@@ -271,7 +272,6 @@ function Post() {
                     <PostAddIcon
                         id="btn"
                         sx={{
-                            bgcolor: "#BEE5B0",
                             color: "white",
                             borderRadius: "30px",
                             fontSize: 50,
@@ -287,6 +287,7 @@ function Post() {
 }
 
 function Community() {
+    const [user] = useContext(UserContext);
     const [location, setLocation] = useState("3000");
     const { data: listReviewsRecent, isLoading } = useQuery(
         "listReviewsRecent",
@@ -345,7 +346,7 @@ function Community() {
             check: false
         },
     ]);
-
+    
     return (
         <div className="content-Community">
             <span className="bigScreen-Community">
@@ -416,7 +417,6 @@ function Community() {
                                         width: "0.3em"
                                     },
                                     "&::-webkit-scrollbar-thumb": {
-                                        backgroundColor: "#FFFEEC",
                                         borderRadius: "10px",
                                         maxHeight: "4px"
                                     }
@@ -491,7 +491,6 @@ function Community() {
                                     width: "0.3em"
                                 },
                                 "&::-webkit-scrollbar-thumb": {
-                                    backgroundColor: "#BEE5B0",
                                     borderRadius: "10px"
                                 }
                             }}
@@ -581,7 +580,6 @@ function Community() {
                                         width: "0.3em"
                                     },
                                     "&::-webkit-scrollbar-thumb": {
-                                        backgroundColor: "#FFFEEC",
                                         borderRadius: "10px",
                                         maxHeight: "4px"
                                     }

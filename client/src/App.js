@@ -30,6 +30,7 @@ import { isLoggedIn } from "./utils";
 function App() {
     const queryClient = new QueryClient();
     const [user, setUser] = useState(null);
+    const currTheme = localStorage.getItem("theme");
 
     useEffect(() => {
         const jwt = localStorage.getItem("token");
@@ -38,8 +39,12 @@ function App() {
         //gets the user from the signed jwt token
         const getUserWithJwt = async () => {
             const newUser = await getUser(jwt);
-            setUser(newUser?.body);
-            return newUser;
+            if (newUser) {
+                setUser(newUser?.body);
+                if (!currTheme) {
+                    localStorage.setItem("theme", newUser.body.theme);
+                }
+            }
         };
         //console log user
         getUserWithJwt();

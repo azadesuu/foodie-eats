@@ -39,15 +39,6 @@
 :root {
     box-sizing: border-box;
 }
-body {
-    margin-top: 230px;
-    background-color: #FFFEEC;
-    padding: 1%;
-    font-family: "Martel Sans";
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 .content-register {
     margin-top: -90px;
     margin-bottom: 80px;

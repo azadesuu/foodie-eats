@@ -50,15 +50,6 @@ span.smallScreen-MyProfile {
 :root {
     box-sizing: border-box;
 }
-body {
-    margin-top: 230px;
-    background-color: #FFFEEC;
-    padding: 1%;
-    font-family: "Martel Sans";
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 .content-MyProfile {
     margin-top: -90px;
     margin-bottom: 80px;
@@ -154,9 +145,6 @@ span.detail {
     justify-content: flex-start;
     align-items: center;
 }
-#current {
-    background-color: #E4F3D3;
-}
 .profile-details {
     display: flex;
     flex-direction: column;
@@ -223,4 +211,47 @@ span.detail {
 }
 .changepw {
     text-decoration: underline;
+}
+.image-edit {
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 5px rgb(0, 0, 0, 0.25);
+    position: absolute;
+    z-index: 95;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+}
+.top-user .image-edit {
+    top: 25%;
+    left: 250px;
+}
+span.smallScreen-MyProfile .image-edit {
+    left: 10%;
+    right: 10%;
+}
+.image-edit #image-btn, #image-cancel, input[type="file"]::file-selector-button {
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 1%;
+    width: 50%;
+}
+#image-cancel {
+    z-index: 100;
+    position: absolute;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+span.bigScreen-MyProfile .top-user #image-cancel {
+    top: 520px;
+    left: 249px;
+    width: 296px;
+}
+span.smallScreen-MyProfile #image-cancel {
+    top: 750px;
+    left: 10%;
+    right: 10%;
+    width: 80%;
 }

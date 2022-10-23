@@ -52,15 +52,6 @@ span.smallScreen-MyBookmarks {
 :root {
     box-sizing: border-box;
 }
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    padding: 1%;
-    font-family: "Martel Sans";
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 .content-MyBookmarks {
     margin-top: -110px;
     margin-bottom: 80px;
