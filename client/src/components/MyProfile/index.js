@@ -122,7 +122,7 @@ const ProfileImageUpload = props => {
                     deleteProfileImageHandler(imageURL);
                 }}
             >
-                Remove Profile Picture
+                Remove profile picture
             </button>
         </div>
     );
@@ -138,8 +138,8 @@ function TopUser(props) {
                 <IconButton
                     sx={{
                         transition: "all 0.3s ease-out",
-                        "&:hover": {
-                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
+                        "&:hover":{
+                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset",
                         }
                     }}
                 >
