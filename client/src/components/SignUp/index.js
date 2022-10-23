@@ -55,11 +55,7 @@ function Register() {
                         }}
                     />
                 </div>
-                <span
-                    className="helper-text"
-                >
-                    8-16 characters
-                </span>
+                <span className="helper-text">8-16 characters</span>
                 <div className="form-control">
                     <label>Username</label>
                     <input
@@ -73,9 +69,7 @@ function Register() {
                         }}
                     />
                 </div>
-                <span
-                    className="helper-text"
-                >
+                <span className="helper-text">
                     1 lowercase, 1 uppercase letter, and 1 number
                 </span>
                 <div className="form-control">
