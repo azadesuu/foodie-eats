@@ -4,21 +4,21 @@ span.bigScreen-Profile {
 span.smallScreen-Profile {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-Profile {
-      display: none;
+        display: none;
     }
     span.smallScreen-Profile {
-      display: inline;
-      width: 98%;
+        display: inline;
+        width: 98%;
     }
     .content-Profile h1 {
-      font-size: 50px;
+        font-size: 50px;
     }
 }
 @media screen and (min-width: 1000px) {
     .content-Profile h1 {
-      font-size: 60px;
+        font-size: 60px;
     }
 }
 .content-Profile {

@@ -99,9 +99,9 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <button 
+                    <button
                         id="btn"
-                        className="edit-profile-done" 
+                        className="edit-profile-done"
                         onClick={editProfile}
                     >
                         DONE
