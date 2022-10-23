@@ -21,7 +21,7 @@ accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 // GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
 // need user auth
 accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
-accountRouter.post("/my-bookmarks/get", accountController.getMyBookmarks);
+accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
 
 // PATCH user to add bookmarks to array if boolean is true
 // need user auth
@@ -46,7 +46,7 @@ accountRouter.patch(
 // needs user auth
 accountRouter.use("/updateUser/:userId", accountController.checkUserParams);
 accountRouter.use("/updateUser/:userId", accountController.checkUpdateUser);
-accountRouter.patch("/updateUser/:userId", accountController.updateUser);
+accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
 
 // PUT new password into profile -- returns user with updated password if they exist
 // user auth
@@ -72,7 +72,6 @@ accountRouter.post(
 
 accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
-
 
 // user auth
 accountRouter.use(

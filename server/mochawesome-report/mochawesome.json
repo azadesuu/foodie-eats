@@ -1,0 +1,158 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-10-22T21:33:23.151Z",
+    "end": "2022-10-22T21:33:23.692Z",
+    "duration": 541,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e294ff5b-8de3-40dd-ac8f-3da0e0be3dd4",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before all\" hook in \"{root}\"",
+          "fullTitle": "\"before all\" hook in \"{root}\"",
+          "timedOut": false,
+          "duration": 9,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "await connectDB();",
+          "err": {},
+          "uuid": "467ac2e2-0853-412f-8ff4-e80a5966fe6b",
+          "parentUUID": "e294ff5b-8de3-40dd-ac8f-3da0e0be3dd4",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after all\" hook in \"{root}\"",
+          "fullTitle": "\"after all\" hook in \"{root}\"",
+          "timedOut": false,
+          "duration": 5,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "await closeDB();\nawait server.close();",
+          "err": {},
+          "uuid": "467a2c3d-6d54-41f2-a63a-58a7fa5f7005",
+          "parentUUID": "e294ff5b-8de3-40dd-ac8f-3da0e0be3dd4",
+          "isHook": true,
+          "skipped": false
+        },
+        {
+          "title": "\"after each\" hook in \"{root}\"",
+          "fullTitle": "\"after each\" hook in \"{root}\"",
+          "timedOut": false,
+          "duration": 77,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "await clearCollections();",
+          "err": {},
+          "uuid": "88d456dc-57ee-453b-a0cc-1e20ee92fce4",
+          "parentUUID": "e294ff5b-8de3-40dd-ac8f-3da0e0be3dd4",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2fbcc22c-8792-4b61-9e66-49e0a7e8b033",
+          "title": "Integration test",
+          "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
+          "file": "\\test\\apptest.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Get recent reviews",
+              "fullTitle": "Integration test Get recent reviews",
+              "timedOut": false,
+              "duration": 445,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "return await request(app)\n  .get(\"/review/getAllReviews\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n  });",
+              "err": {},
+              "uuid": "52b78d36-35b7-45d2-a64d-cf32c0a75df7",
+              "parentUUID": "2fbcc22c-8792-4b61-9e66-49e0a7e8b033",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "52b78d36-35b7-45d2-a64d-cf32c0a75df7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 445,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "8.4.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "html": "false"
+      },
+      "version": "5.2.0"
+    }
+  }
+}

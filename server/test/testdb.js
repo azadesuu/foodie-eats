@@ -11,10 +11,8 @@ const connectDB = async () => {
 
   // connect to the DB
   mongoose.connect(DB, {
-    // useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // useFindAndModify: false,
     dbName: "foodie-eats-test"
   });
 
@@ -34,6 +32,7 @@ const clearCollections = async () => {
 };
 
 const closeDB = async () => {
+  console.log("Closing database.");
   await db.close();
 };
 

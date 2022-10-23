@@ -1,9 +1,5 @@
 require("dotenv").config();
-let port = 5000;
-if (!process.env.TEST) require("./db");
-else {
-}
-const { connectDB, dropDB, dropCollections } = require("./test/testdb");
+require("./db");
 
 const http = require("http");
 const express = require("express");
