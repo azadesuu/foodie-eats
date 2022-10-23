@@ -1,10 +1,9 @@
-// middleware to ensure user is logged in
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  // if not logged in, redirect to login form
-  res.redirect("/login");
-}
+const getPublicId = imageURL =>
+  imageURL
+    .split("/")
+    .pop()
+    .split(".")[0];
 
 module.exports = {
-  isLoggedIn
+  getPublicId
 };

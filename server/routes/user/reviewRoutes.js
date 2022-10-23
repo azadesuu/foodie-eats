@@ -1,107 +1,39 @@
 const express = require("express");
 // const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
-const Review = require("../../models/review");
-const User = require("../../models/user");
 const reviewController = require("../../controllers/reviewController");
 
 //GET reviews by recent
-reviewRouter.get(
-  "/getReviewsByRecent/:postcode",
-  reviewController.getReviewsByRecent
-);
+reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
 //GET reviews by most liked
-reviewRouter.get(
-  "/getReviewsByLikes/:postcode",
-  reviewController.getReviewsByLikes
-);
-
-//GET by search values -- restaurantname, rating, pricerange, postcode, tags
-reviewRouter.post("/search", reviewController.getReviewsBySearch);
+reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
 
 //GET one review by reviewId
-reviewRouter.get("/getReview/:reviewId", reviewController.getOneReview);
+reviewRouter.use("/getReview/:reviewId", reviewController.checkReviewParams);
+reviewRouter.route("/getReview/:reviewId").get(reviewController.getOneReview);
 
 //PUT review upon creation
-reviewRouter.put("/createReview", reviewController.createReview);
+// need user auth
+reviewRouter.use("/createReview", reviewController.checkCreateReview);
+reviewRouter.route("/createReview").put(reviewController.createReview);
 
 // PATCH a review by id upon edit
-reviewRouter.patch("/updateReview", reviewController.updateReview);
+// need user auth
+reviewRouter.use("/updateReview", reviewController.checkUpdateReview);
+reviewRouter.route("/updateReview").patch(reviewController.updateReview);
 
 //PATCH review according to like boolean -- toggle like
-reviewRouter.patch("/like/:userId/:reviewId", reviewController.toggleLike);
+// need user auth
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkUserParams);
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkReviewParams);
+reviewRouter.use("/like/:userId/:reviewId", reviewController.checkToggleLike);
+reviewRouter
+  .route("/like/:userId/:reviewId")
+  .patch(reviewController.toggleLike);
 
-//delete review
-reviewRouter.delete("/delete/:reviewId", reviewController.deleteReview);
+// delete review
+// need user auth
+reviewRouter.use("/delete/:reviewId", reviewController.checkReviewParams);
+reviewRouter.route("/delete/:reviewId").delete(reviewController.deleteReview);
 
-//PATCH review according to flag boolean -- toggle flag // might be removed
-reviewRouter.patch("/flag/:userId/:reviewId", async (req, res, next) => {
-  try {
-    const reviewId = req.params.reviewId;
-    const userId = [req.params.userId];
-    const flagBool = req.body.flagBool;
-
-    if (!flagBool) {
-      //add to flagged array and increment flag  count
-      await Review.findOneAndUpdate(
-        { _id: reviewId, flagged: { $ne: userId } },
-        {
-          $addToSet: { flagged: userId },
-          $inc: { flagCount: 1 }
-        },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          console.log(updatedReview);
-
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
-    } else {
-      //remove from flagged array and decrement flag count
-      await Review.findOneAndUpdate(
-        { _id: reviewId, flagged: { $in: userId } },
-        {
-          $pullAll: { flagged: userId },
-          $inc: { flagCount: -1 }
-        },
-        { new: true },
-        (err, updatedReview) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          console.log(updatedReview);
-          res.status(200).json({
-            success: true,
-            data: updatedReview
-          });
-        }
-      ).clone();
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
-// GET most recent  review -- for testing purposes
-reviewRouter.get("/getReview", (req, res, next) => {
-  Review.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-      return;
-    } else {
-      res.json(result);
-    }
-  })
-    .sort({ $natural: -1 })
-    .populate("userId")
-    .limit(1);
-});
 module.exports = reviewRouter;

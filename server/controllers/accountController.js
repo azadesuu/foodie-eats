@@ -1,197 +1,197 @@
 const Review = require("../models/review");
 const User = require("../models/user");
+const utils = require("../routes/utility");
+const { cloudinary } = require("../config/cloudinary");
 
-const getUser = async (req, res, next) => {
-  try {
-    const userInfo = await User.findOne({
-      _id: req.params.userId
-    }).lean();
+//regexs
+const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
+const validUsername = new RegExp(
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+);
+const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
-    if (!userInfo) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: { username: userInfo.username }
+const checkUserParams = async (req, res, next) => {
+  if (!req.params.userId) {
+    res.status(400).json({
+      success: false,
+      message: "Review Id was not received.",
+      data: undefined
     });
-  } catch (err) {
-    next(err);
+    return;
   }
+  next();
 };
 
+const checkUsernameParams = async (req, res, next) => {
+  if (!req.params.username) {
+    res.status(400).json({
+      success: false,
+      message: "Username was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+const checkReviewParams = async (req, res, next) => {
+  if (!req.params.reviewId) {
+    res.status(400).json({
+      success: false,
+      message: "Review Id was not received.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+// checkUsernameParams
 const getProfile = async (req, res, next) => {
   try {
     const userInfo = await User.findOne({
       username: req.params.username
     }).lean();
-
     if (!userInfo) {
-      next({ name: "CastError" });
+      res.status(204).json({
+        success: true,
+        message: "No user was found using username.",
+        data: {}
+      });
       return;
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User was found by username",
+        data: userInfo
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: userInfo
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting profile by username",
+      err: err
+    });
   }
 };
 
+// check userId
+// public only
 const getReviews = async (req, res, next) => {
   try {
-    await Review.find(
-      { userId: req.params.userId, isPublic: true },
-      (err, result) => {
-        if (err) {
-          res.json(err);
-          return;
-        } else {
-          res.status(200).json({
-            success: true,
-            data: result
-          });
-        }
-      }
-    )
-      .sort({ $natural: -1 })
-      .populate("userId")
-      .lean()
-      .clone();
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getMyReviews = async (req, res, next) => {
-  try {
-    await Review.find({ userId: req.params.userId }, (err, result) => {
-      if (err) {
-        res.json(err);
-        return;
-      } else {
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
+    const reviews = await Review.find({
+      userId: req.params.userId,
+      isPublic: true
     })
       .sort({ $natural: -1 })
       .populate("userId")
-      .lean()
-      .clone();
+      .lean();
+    if (!reviews) {
+      res.status(204).json({
+        success: true,
+        message: "No reviews found in other reviews.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Other reviews found.",
+        data: reviews
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting other reviews by id",
+      err: err
+    });
   }
 };
 
-const getMyReviewsSearch = async (req, res, next) => {
+// needs user auth
+// checkUserParams
+const getMyReviews = async (req, res, next) => {
   try {
-    const search = req.body.search;
-    const rating = req.body.rating;
-    const priceRange = req.body.priceRange;
-    const tags = req.body.tags;
-
-    const oriQuery = {
-      userId: req.params.userId,
-      restaurantName: { $regex: search, $options: "i" },
-      rating: rating,
-      priceRange: priceRange,
-      tags: { $in: tags.map(t => new RegExp(t)) }
-    };
-
-    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
-      if (key === "tags" && tags.length === 0) {
-        //do nothing
-      } else if (value !== undefined && value !== null && value !== []) {
-        qry[key] = value;
-      }
-      return qry;
-    }, {});
-
-    const reviews = await Review.find(query)
+    const reviews = await Review.find({
+      userId: req.params.userId
+    })
+      .sort({ $natural: -1 })
       .populate("userId")
-      .lean()
-      .sort({ $natural: -1 });
-
+      .lean();
     if (!reviews) {
-      next({ name: "CastError" });
-      return;
+      res.status(204).json({
+        success: true,
+        message: "No reviews found in my reviews.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "My reviews found.",
+        data: reviews
+      });
     }
-    res.status(200).json({
-      success: true,
-      data: reviews
-    });
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting my reviews by id",
+      err: err
+    });
   }
+};
+
+const checkBookmarks = async (req, res, next) => {
+  if (req.body.bookmarks == undefined) {
+    res.status(400).json({
+      success: false,
+      message: "No list was received",
+      data: undefined
+    });
+    return;
+  }
+  next();
 };
 
 const getMyBookmarks = async (req, res, next) => {
   const bookmarks = req.body.bookmarks;
   try {
-    await Review.find({ _id: { $in: bookmarks } }, function(err, result) {
-      if (err) {
-        res.json("bookmarks not found");
-        return;
-      }
-      res.status(200).json({
-        success: true,
-        data: result
-      });
-    })
-      .clone()
+    const bookmarksList = await Review.find({ _id: { $in: bookmarks } })
       .sort({ $natural: -1 })
       .populate("userId")
       .lean();
+
+    if (!bookmarksList) {
+      res.status(204).json({
+        success: true,
+        message: "No bookmarks found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "My bookmarks found.",
+        data: bookmarksList
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while getting my bookmarks.",
+      err: err
+    });
   }
 };
 
-const getMyBookmarksSearch = async (req, res, next) => {
-  try {
-    const search = req.body.search;
-    const rating = req.body.rating;
-    const priceRange = req.body.priceRange;
-    const tags = req.body.tags;
-    const postcode = req.body.postcode;
-
-    const oriQuery = {
-      _id: { $in: bookmarks },
-      restaurantName: { $regex: search, $options: "i" },
-      rating: rating,
-      priceRange: priceRange,
-      tags: { $in: tags.map(t => new RegExp(t)) },
-      postcode: postcode
-    };
-
-    const query = Object.entries(oriQuery).reduce((qry, [key, value]) => {
-      if (key === "tags" && tags.length === 0) {
-        //do nothing
-      } else if (value !== undefined && value !== null && value !== []) {
-        qry[key] = value;
-      }
-      return qry;
-    }, {});
-
-    const reviews = await Review.find(query)
-      .populate("userId")
-      .lean()
-      .sort({ $natural: -1 });
-
-    if (!reviews) {
-      next({ name: "CastError" });
-      return;
-    }
-    res.status(200).json({
-      success: true,
-      data: reviews
+const checkBookmarkReview = async (req, res, next) => {
+  if (req.body.bookmarkedBool == undefined) {
+    res.status(400).json({
+      success: false,
+      message: "Bookmarked bool was not received.",
+      data: undefined
     });
-  } catch (err) {
-    next(err);
+    return;
   }
+  next();
 };
 
 const bookmarkReview = async (req, res, next) => {
@@ -199,77 +199,168 @@ const bookmarkReview = async (req, res, next) => {
     const reviewId = [req.params.reviewId];
     const userId = req.params.userId;
     const bookmarkedBool = req.body.bookmarkedBool;
-
     if (!bookmarkedBool) {
       //add to bookmarks array
-      await User.findByIdAndUpdate(
-        userId,
-        { $addToSet: { bookmarks: reviewId } },
-        (err, updatedUser, next) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedUser
-          });
-        }
-      ).clone();
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $addToSet: { bookmarks: reviewId }
+      });
+      if (!updatedUser) {
+        res.status(204).json({
+          success: true,
+          message: "No user found.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Review was bookmarked.",
+          data: updatedUser
+        });
+      }
     } else {
       //remove from bookmarks array
-      await User.findByIdAndUpdate(
-        userId,
-        { $pullAll: { bookmarks: reviewId } },
-        (err, updatedUser, next) => {
-          if (err) {
-            res.json(err);
-            return;
-          }
-          res.status(200).json({
-            success: true,
-            data: updatedUser
-          });
-        }
-      ).clone();
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $pullAll: { bookmarks: reviewId }
+      });
+      if (!updatedUser) {
+        res.status(204).json({
+          success: true,
+          message: "No user found.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Review was un-bookmarked.",
+          data: updatedUser
+        });
+      }
     }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while toggling bookmark.",
+      err: err
+    });
   }
+};
+
+const checkUpdateUser = async (req, res, next) => {
+  const { username, email, bio } = req.body;
+  //check if username and email is valid
+  if (!username && !email && !bio) {
+    res.status(204).json({
+      success: true,
+      message: "Nothing to update.",
+      data: undefined
+    });
+    return;
+  } else if (username || email) {
+    if (username) {
+      if (!validUsername.test(username?.toLowerCase().trim())) {
+        res.status(400).json({
+          success: false,
+          message: "Username/Email is not valid.",
+          data: undefined
+        });
+        return;
+      }
+    }
+
+    if (email) {
+      if (!validEmail.test(email?.toLowerCase().trim())) {
+        res.status(400).json({
+          success: false,
+          message: "Username/Email is not valid.",
+          data: undefined
+        });
+        return;
+      }
+    }
+  }
+  // check if bio is over the limit
+  else if (bio) {
+    if (bio.length > 150) {
+      res.status(400).json({
+        success: false,
+        message: `Bio is over the character limit at ${bio.length}.`,
+        data: undefined
+      });
+      return;
+    }
+  } else {
+    // check if there is an existing user with the email
+    if (username || email) {
+      const oneUser = await User.findOne({
+        $or: [
+          { username: username.toLowerCase() },
+          { email: email.toLowerCase() }
+        ]
+      });
+      if (oneUser) {
+        res.status(400).json({
+          success: false,
+          message: `Existing user with entered username/email.`,
+          data: undefined
+        });
+      }
+      return;
+    }
+  }
+  next();
 };
 
 const updateUser = async (req, res, next) => {
   const _id = req.params.userId;
-  const newUsername = req.body.username;
-  const newEmail = req.body.email;
-  const newImage = req.body.image;
-  const newBio = req.body.bio;
+  const { username, email, bio } = req.body;
 
   try {
-    await User.findByIdAndUpdate(
-      _id,
-      {
-        $set: {
-          username: newUsername,
-          email: newEmail,
-          bio: newBio,
-          image: newImage
-        }
-      },
-      (err, result, next) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
+    const newUser = await User.findByIdAndUpdate(_id, {
+      $set: {
+        username: username,
+        email: email,
+        bio: bio
       }
-    ).clone();
+    });
+    if (!newUser) {
+      res.status(204).json({
+        success: true,
+        message: "No user updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated user.",
+        data: newUser
+      });
+    }
   } catch (err) {
-    next(err);
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating user.",
+      err: err
+    });
   }
+};
+
+const checkUpdatePassword = async (req, res, next) => {
+  const { id, password } = req.body;
+  if (!id || !password) {
+    res.status(400).json({
+      success: false,
+      message: "User/password is not defined.",
+      data: undefined
+    });
+  } else if (!strongPassword.match(password)) {
+    res.status(400).json({
+      success: false,
+      message: "Password is not strong enough.",
+      data: undefined
+    });
+  }
+  next();
 };
 
 const updatePassword = async (req, res, next) => {
@@ -277,23 +368,42 @@ const updatePassword = async (req, res, next) => {
   const newPassword = req.body.password;
 
   try {
-    await User.findByIdAndUpdate(
-      _id,
-      { password: User.generateHash(newPassword) },
-      function(err, result) {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
+    const result = await User.findByIdAndUpdate(_id, {
+      password: User.generateHash(newPassword)
+    });
+    if (!newUser) {
+      res.status(204).json({
+        success: true,
+        message: "No user found, password not updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated password.",
+        data: result
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating password.",
+      err: err
+    });
   }
+};
+
+const checkChangeTheme = async (req, res, next) => {
+  const { newTheme } = req.body;
+  if (!newTheme) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not defined.",
+      data: undefined
+    });
+    return;
+  }
+  next();
 };
 
 const changeTheme = async (req, res, next) => {
@@ -301,36 +411,187 @@ const changeTheme = async (req, res, next) => {
   const newTheme = req.body.newTheme;
 
   try {
-    await User.findByIdAndUpdate(
+    const result = await User.findByIdAndUpdate(
       _id,
       { $set: { theme: newTheme } },
-      { new: false },
-      (err, result) => {
-        if (err) {
-          next(err);
-          return;
-        }
-        res.status(200).json({
-          success: true,
-          data: result
-        });
-      }
-    ).clone();
+      { new: false }
+    );
+    if (!result) {
+      res.status(204).json({
+        success: true,
+        message: "No user found, theme not updated.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated theme.",
+        data: result
+      });
+    }
   } catch (err) {
-    next(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while updating theme.",
+      err: err
+    });
+  }
+};
+const uploadNewImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({
+        success: false,
+        message: "Image file was not defined.",
+        data: undefined
+      });
+      return;
+    }
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+    if (!result) {
+      res.status(204).json({
+        success: true,
+        message: "File was not valid. Nothing was uploaded",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully uploaded. URL is returned.",
+        data: result.secure_url
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while uploading image.",
+      err: err
+    });
+  }
+};
+
+const checkImageURL = async (req, res, next) => {
+  if (!req.body.url) {
+    res.status(400).json({
+      success: false,
+      message: "Image url was not defined.",
+      data: undefined
+    });
+    return;
+  }
+  next();
+};
+
+const deleteNewImage = async (req, res, next) => {
+  try {
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.destroy(
+      utils.getPublicId(req.body.url)
+    );
+    if (!result) {
+      res.status(204).json({
+        success: true,
+        message: "No image found from cloudinary.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Image deleted from cloudinary.",
+        data: result
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error occured while deleting image.",
+      err: err
+    });
+  }
+};
+
+const uploadProfileImage = async (req, res, next) => {
+  const url = req.body.url;
+  try {
+    const result = await User.findByIdAndUpdate(req.params.userId, {
+      $set: {
+        profileImage: url
+      }
+    });
+    if (!result) {
+      res.status(204).json({
+        success: true,
+        message: "No user found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Image was uploaded successfully",
+        data: result
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error occured while uploading image.",
+      err: err
+    });
+  }
+};
+
+const deleteProfileImage = async (req, res, next) => {
+  try {
+    const result = await User.findByIdAndUpdate(req.params.userId, {
+      $set: {
+        profileImage: ""
+      }
+    });
+
+    if (!result) {
+      res.status(204).json({
+        success: true,
+        message: "No user found.",
+        data: {}
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User image was deleted successfully",
+        data: result
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error occured while deleting image.",
+      err: err
+    });
   }
 };
 
 module.exports = {
-  getUser,
+  checkUserParams,
+  checkUsernameParams,
+  checkReviewParams,
   getProfile,
   getReviews,
   getMyReviews,
-  getMyReviewsSearch,
+  checkBookmarks,
   getMyBookmarks,
-  getMyBookmarksSearch,
+  checkBookmarkReview,
   bookmarkReview,
+  checkUpdateUser,
   updateUser,
+  checkUpdatePassword,
   updatePassword,
-  changeTheme
+  checkChangeTheme,
+  changeTheme,
+  uploadNewImage,
+  deleteNewImage,
+  checkImageURL,
+  uploadProfileImage,
+  deleteProfileImage
 };

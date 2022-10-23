@@ -1,6 +1,7 @@
-import "./ChangePassword.css";
-import NavLoggedIn from "../LoggedInNavBar";
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 
+import "./ChangePassword.css";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -19,7 +20,7 @@ function TopUser(props) {
             <div className="top-user-r1">
                 <Avatar
                     alt="user-profile-image"
-                    // src={userProfile.profileImage}
+                    src={userProfile.profileImage}
                     sx={{ height: 130, width: 130 }}
                 />
                 <div className="top-user-info">
@@ -147,6 +148,7 @@ function ChangePwDetails(props) {
 
                     <div className="button-group">
                         <button
+                            id="btn"
                             className="confirm"
                             onClick={() => {
                                 checkPassword(
@@ -174,9 +176,9 @@ function ChangePassword() {
 
     return (
         <>
+            <SEO data={allSEO.changepassword} />
             {user ? (
                 <div className="content-ChangePassword">
-                    <NavLoggedIn />
                     <span className="smallScreen-ChangePassword">
                         <ChangePwDetails user={user} />
                     </span>
@@ -189,9 +191,6 @@ function ChangePassword() {
                             <ChangePwDetails user={user} />
                         </div>
                     </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
                 </div>
             ) : (
                 <CircularProgress className="spinner" />

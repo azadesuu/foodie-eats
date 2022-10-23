@@ -1,15 +1,16 @@
 span.bigScreen-Review {
     display: inline;
+    
 }
 span.smallScreen-Review {
     display: none;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1000px) { 
     span.bigScreen-Review {
-        display: none;
+      display: none;
     }
     span.smallScreen-Review {
-        display: inline;
+      display: inline;
     }
     .content-Review h1 {
         font-size: 50px;
@@ -17,8 +18,7 @@ span.smallScreen-Review {
     .content-Review form {
         width: 316px;
     }
-    .content-Review .r1,
-    .r2 {
+    .content-Review .r1, .r2 {
         max-width: 316px;
     }
     .content-Review .sliderContainer {
@@ -31,8 +31,16 @@ span.smallScreen-Review {
         max-width: 316px;
         margin-top: -30px;
     }
+    .content-Review .tags-input .tags {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+    .content-Review .add-image img{
+        height: 100px;
+        width: 100px;
+    }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1000px) { 
     .content-Review h1 {
         font-size: 60px;
     }
@@ -57,11 +65,10 @@ span.smallScreen-Review {
     .content-Review .ratingContainer {
         margin-top: 10px;
     }
-}
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    font-family: "Martel Sans";
+    .content-Review .add-image img{
+        height: 150px;
+        width: 150px;
+    }
 }
 .content-Review {
     display: flex;
@@ -97,7 +104,7 @@ body {
     max-width: 1000px;
 }
 .content-Review .review-tags p {
-    background-color: #fffcfb;
+    background-color: #FFFCFB;
     border: 1px solid #949292;
     border-radius: 10px;
     padding: 5px;
@@ -114,8 +121,7 @@ body {
     align-self: center;
     margin-top: 20px;
 }
-.content-Review input::placeholder,
-textarea::placeholder {
+.content-Review input::placeholder, textarea::placeholder {
     color: #000000;
 }
 .content-Review form .details-container {
@@ -135,7 +141,7 @@ textarea::placeholder {
     display: block;
     width: 100%;
     padding: 10px 15px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -145,7 +151,7 @@ textarea::placeholder {
     outline: none;
     width: 100%;
     padding: 10px 15px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: none;
     border-radius: 10px;
     height: 140px;
@@ -172,13 +178,13 @@ textarea::placeholder {
     font-size: 10px;
     margin: 0;
     height: 20px;
-    color: #6e6e66;
+    color: #6E6E66;
 }
 .authorButton {
     border: none;
     background-color: transparent;
     font-size: 10px;
-    color: #6e6e66;
+    color: #6E6E66;
 }
 .content-Review .likes-bookmark {
     display: flex;
@@ -219,14 +225,14 @@ textarea::placeholder {
     display: block;
     width: 95%;
     padding: 10px 15px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: none;
     border-radius: 10px;
     height: 20px;
 }
 .content-Review form .state-container {
     width: 150px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: 1px solid #000000;
     border-radius: 10px;
     display: flex;
@@ -235,7 +241,7 @@ textarea::placeholder {
 .content-Review form .state-container input {
     width: 100%;
     padding: 10px 15px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: none;
     border: none;
     border-radius: 10px;
@@ -247,7 +253,7 @@ textarea::placeholder {
     display: block;
     width: 90%;
     padding: 10px 15px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -258,10 +264,10 @@ textarea::placeholder {
 .content-Review form .country-container input {
     width: 90%;
     padding: 10px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border: 1px solid #000000;
     border-radius: 10px;
-    height: 20px;
+    height: 20px
 }
 .content-Review .addImage {
     width: 80px;
@@ -280,6 +286,10 @@ textarea::placeholder {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 20px;
+}
+.content-Review .add-image img{
+    border-radius: 10px;
 }
 .content-Review .editReviewButton {
     padding: 3.89px 13px 3.89px 13px;
@@ -289,4 +299,60 @@ textarea::placeholder {
     border-radius: 10px;
     color: #ffffff;
     border: none;
+}
+.content-Review .description-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+.content-Review .description-tags .tags-input {
+    margin-bottom: 14px;
+    margin-top: -57px;
+    width: 296px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.content-Review .review-tags .tags-input {
+    width: 296px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.content-Review .tags-input .rti--container {
+    background-color: #D9D9D9;
+}
+.content-Review .tags-input .rti--input {
+    background-color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.42);
+}
+.content-Review .review-tags .tags-input .rti--container {
+    background-color: transparent;
+}
+.content-Review .tags-input .tags {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.42);
+    border-radius: 10px;
+    padding-left: 7px;
+    padding-right: 7px;
+    color: rgba(0, 0, 0, 0.42);
+    height: 20px;
+    font-size: 14px;
+}
+.content-Review .resName-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    max-width: 130px;
+}
+.content-Review .resName-price .price-range .input {
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    padding: 0 7px;
+    text-align: center;
 }

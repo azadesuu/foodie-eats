@@ -4,7 +4,7 @@ span.bigScreen-nav {
 span.smallScreen-nav {
     display: none;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1000px) { 
     span.bigScreen-nav {
         display: none;
     }
@@ -16,6 +16,9 @@ span.smallScreen-nav {
     .MenuSideBar-c1 {
         white-space: nowrap;
     }
+}
+#navbar-login {
+    background-color: #BEE5B0;
 }
 .nav1 {
     display: flex;
@@ -36,7 +39,7 @@ span.smallScreen-nav {
     top: 0;
     left: 0;
     position: fixed;
-    background-color: #ece7e5;
+    background-color: #ECE7E5;
     width: 50%;
     height: 100%;
     display: flex;
@@ -61,7 +64,6 @@ span.smallScreen-nav {
     margin-left: 40px;
 }
 a.active-link:hover {
-    border-bottom: 2px solid #000000;
     border-radius: 0;
     height: 100px;
     align-items: center;

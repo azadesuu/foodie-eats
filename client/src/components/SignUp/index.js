@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./SignUp.css";
-
 import React from "react";
 import { useState } from "react";
 import { signupUser } from "../../api";
@@ -24,8 +25,12 @@ function Register() {
                     email: email,
                     password: password
                 });
-                alert("Signup successful. Please Login.");
-                navigate("/login");
+                if (user.err) {
+                    alert("Signup successful. Please Login.");
+                    navigate("/login");
+                } else {
+                    alert(user.err);
+                }
             } catch (err) {
                 alert(err);
             }
@@ -37,6 +42,7 @@ function Register() {
     return (
         <div className="content-register">
             <Login />
+            <SEO data={allSEO.signup} />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">
                     <label>Email </label>
@@ -98,9 +104,6 @@ function Register() {
                 <a className="done" onClick={onSubmit}>
                     DONE
                 </a>
-            </div>
-            <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
             </div>
         </div>
     );

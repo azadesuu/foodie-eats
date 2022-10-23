@@ -1,8 +1,4 @@
-// const express = require("express");
-// const userController = require("../../controllers/userController.js");
-// const userRouter = express.Router();
-
-// // Login
+// Login
 require("dotenv").config();
 const express = require("express");
 const userRouter = express.Router();

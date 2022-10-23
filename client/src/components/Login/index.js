@@ -1,14 +1,11 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
-import { useHistory } from "react-router";
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
+import { useState } from "react";
 import { loginUser, setAuthToken } from "../../api";
-import { Navigate, useNavigate } from "react-router-dom";
-import { UserContext } from "../../actions/UserContext";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import "@fontsource/martel-sans";
-
-import Nav from "../NavBar";
 
 import LoginIcon from "@mui/icons-material/Login";
 
@@ -57,7 +54,7 @@ function Login() {
     const submitHandler = async () => {
         try {
             // using API function to submit data to FoodBuddy API
-            const user = await loginUser({
+            await loginUser({
                 email: email,
                 password: password
             });
@@ -69,10 +66,11 @@ function Login() {
             document.location.reload();
         }
     };
-
+    document.documentElement.className = "honeydew";
+    
     return (
         <div className="content-Login">
-            <Nav />
+            <SEO data={allSEO.login} />
             <Title />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">
@@ -124,9 +122,6 @@ function Login() {
             <a className="signup" href="signup">
                 SIGN UP
             </a>
-            <div className="footer">
-                <p>Copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

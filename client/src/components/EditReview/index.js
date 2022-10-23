@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./EditReview.css";
 import "@fontsource/martel-sans";
 import addImage from "../../assets/images/addImage.png";
@@ -6,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updateReview, getReview, deleteReview } from "../../api";
+import { TagsInput } from "react-tag-input-component";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -22,33 +25,86 @@ import {
     CircularProgress
 } from "@mui/material";
 import NavLoggedIn from "../LoggedInNavBar";
+import { deleteNewImage, uploadNewImage } from "../../api";
 
 function EditReview() {
     const navigate = useNavigate();
-    const [user, setUser] = useContext(UserContext);
+    const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
-    const { data: review, isLoading } = useQuery(
+    const { data: review, isLoading, refetch } = useQuery(
         "view-review",
         () => getReview(reviewId),
         { enabled: !!reviewId }
     );
-    const [currentPublicity, setPublicity] = useState(review.isPublic);
+    const [currentPublicity, setPublicity] = useState(false);
+    const [tags, setTags] = useState([]);
+
+    //images
+    const [previousImage, setPreviousImage] = useState(null);
+    const [newImage, setNewImage] = useState(false);
+    const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
 
     useEffect(() => {
-        if (review?.userId._id !== user?._id) {
-            alert("You have no permission to edit this review");
+        if (!review || !user) {
+            navigate(-1);
+        } else if (review?.userId._id !== user?._id) {
+            alert("You have no permission to edit this review.");
             navigate(-1);
         }
-    }, [user]);
+        setPublicity(review?.isPublic);
+        setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
+        setPreviewImage(review?.reviewImage ? review?.reviewImage : "");
+    }, [review && user]);
+
+    const imageHandler = async () => {
+        try {
+            if (!newImage) return previousImage;
+            else await deleteImageHandler(previousImage);
+            if (!image) return "";
+            else {
+                const formData = new FormData();
+                formData.set("image", image);
+                const result = await uploadNewImage({
+                    file: formData
+                });
+                return result;
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+
+    async function deleteImageHandler(url) {
+        if (url && (url !== "" || url !== undefined || url != null)) {
+            try {
+                const deleted = await deleteNewImage({ url: url });
+                if (deleted) {
+                    return true;
+                } else {
+                    alert("Error occured, image was not deleted.");
+                }
+            } catch (err) {
+                alert(err);
+            }
+        }
+    }
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            setImage(event.target.files[0]);
+            setPreviewImage(URL.createObjectURL(event.target.files[0]));
+            setNewImage(true);
+        }
+    };
 
     const confirmDelete = async () => {
         const review = await deleteReview(reviewId);
         if (review) {
-            alert("review deleted.");
+            alert("Review deleted.");
             navigate("/my-reviews");
         } else {
-            alert("An error occured, please try again later");
+            alert("An error occured, please try again later.");
         }
     };
 
@@ -60,7 +116,8 @@ function EditReview() {
         rating,
         dateVisited,
         address,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -77,25 +134,31 @@ function EditReview() {
         } else if (!description) {
             alert("description is missing");
         } else if (
-            parseInt(address.postcode) < 3000 ||
-            parseInt(address.postcode) > 3999
+            !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
-            alert("postcode must be between 3000 and 3999");
+            alert("Postcode is invalid.");
+        } else if (image?.size / 1024 / 1024 > 10) {
+            alert("image is too big!");
         } else {
+            const url = await imageHandler();
+
             const updatedReviewRecord = await updateReview({
                 _id: _id,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
+                reviewImage: url,
                 priceRange: priceRange,
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: tags
             });
             if (!updatedReviewRecord) {
                 alert("Update unsuccessful.");
+            } else {
+                navigate(`/review/${review?._id}`);
             }
-            navigate(`/review/${review?._id}`);
         }
     };
 
@@ -120,13 +183,19 @@ function EditReview() {
 
     return (
         <div className="content-EditReview">
-            <NavLoggedIn />
+            <SEO data={allSEO.editreview} />
             {isLoading && <CircularProgress className="spinner" />}
-            {review && (
+            {!isLoading && review && user && (
                 <div className="user-container">
                     <div className="Edit-title">
                         <h1>EDIT</h1>
                         <DeleteIcon
+                            sx={{
+                                fontSize: "35px",
+                                textAlign: "end",
+                                marginBottom: "10px",
+                                marginLeft: "40px"
+                            }}
                             onClick={e => {
                                 if (
                                     window.confirm(
@@ -134,12 +203,6 @@ function EditReview() {
                                     )
                                 )
                                     confirmDelete();
-                            }}
-                            sx={{
-                                fontSize: "35px",
-                                textAlign: "end",
-                                marginBottom: "10px",
-                                marginLeft: "40px"
                             }}
                         />
                     </div>
@@ -207,6 +270,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -218,7 +282,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -341,7 +404,7 @@ function EditReview() {
                                 <div className="postcode-container">
                                     <input
                                         type="text"
-                                        maxlength="4"
+                                        maxLength="4"
                                         defaultValue={review.address.postcode}
                                         onKeyPress={event => {
                                             if (!/[0-9]/.test(event.key)) {
@@ -363,25 +426,77 @@ function EditReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    defaultValue={review.description}
-                                    onChange={e => {
-                                        review.description = e.target.value;
-                                    }}
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        defaultValue={review.description}
+                                        onChange={e => {
+                                            review.description = e.target.value;
+                                        }}
+                                    />
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={review.tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
-                                <button className="addImageButton">
-                                    <img className="addImage" src={addImage} />
-                                </button>
+                                {previewImage ? (
+                                    <>
+                                        <label>
+                                            Add your images here
+                                            <br /> Click upload again to remove image.
+                                            <input
+                                                type="file"
+                                                name="myImage"
+                                                onChange={event => onImageChange(event)}
+                                                accept="image/png, image/jpg, image/jpeg"
+                                                onClick={e => {
+                                                    e.target.value = null;
+                                                    setPreviewImage(null);
+                                                    setNewImage(true);
+                                                }}
+                                                required
+                                            />
+                                        </label>
+                                        <label>
+                                            <img
+                                                src={previewImage}
+                                                alt="preview image"
+                                                width={100}
+                                                height={100}
+                                            />
+                                            <br />
+                                        </label>
+                                    </>
+                                ) : (
+                                    <label>
+                                        Add your images here
+                                        <input
+                                            type="file"
+                                            name="myImage"
+                                            onChange={event =>
+                                                onImageChange(event)
+                                            }
+                                            accept="image/png, image/jpg, image/jpeg"
+                                            onClick={e => {
+                                                e.target.value = null;
+                                                setPreviewImage(null);
+                                                setNewImage(true);
+                                            }}
+                                            required
+                                        />
+                                    </label>
+                                )}
                             </div>
-
                             <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -393,7 +508,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            tags
                                         );
                                     }}
                                 >
@@ -472,6 +588,7 @@ function EditReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         defaultValue={review.priceRange}
                                         step={1}
                                         marks={marks}
@@ -483,7 +600,6 @@ function EditReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -538,16 +654,27 @@ function EditReview() {
                                             }}
                                         />
                                     </div>
-
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            defaultValue={review.description}
-                                            onChange={e => {
-                                                review.description =
-                                                    e.target.value;
-                                            }}
-                                        />
+                                    <div className="description-tags">
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                defaultValue={
+                                                    review.description
+                                                }
+                                                onChange={e => {
+                                                    review.description =
+                                                        e.target.value;
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={review.tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="r3-content2">
@@ -633,7 +760,7 @@ function EditReview() {
                                         <div className="postcode-container">
                                             <input
                                                 type="text"
-                                                maxlength="4"
+                                                maxLength="4"
                                                 defaultValue={
                                                     review.address.postcode
                                                 }
@@ -659,18 +786,68 @@ function EditReview() {
                                         </div>
                                     </div>
                                     <div className="add-image">
-                                        <button className="addImageButton">
-                                            <img
-                                                className="addImage"
-                                                src={addImage}
-                                            />
-                                        </button>
+                                        {previewImage ? (
+                                            <>
+                                                <label>
+                                                    Add your images here
+                                                    <br /> Click upload again to
+                                                    remove image.
+                                                    <input
+                                                        type="file"
+                                                        name="myImage"
+                                                        onChange={event =>
+                                                            onImageChange(event)
+                                                        }
+                                                        accept="image/png, image/jpg, image/jpeg"
+                                                        onClick={e => {
+                                                            console.log(
+                                                                "removed"
+                                                            );
+
+                                                            e.target.value = null;
+                                                            setPreviewImage(
+                                                                null
+                                                            );
+                                                            setNewImage(true);
+                                                        }}
+                                                        required
+                                                    />
+                                                </label>
+                                                <label>
+                                                    <img
+                                                        src={previewImage}
+                                                        alt="preview image"
+                                                        width={100}
+                                                        height={100}
+                                                    />
+                                                    <br />
+                                                </label>
+                                            </>
+                                        ) : (
+                                            <label>
+                                                Add your images here
+                                                <input
+                                                    type="file"
+                                                    name="myImage"
+                                                    onChange={event =>
+                                                        onImageChange(event)
+                                                    }
+                                                    accept="image/png, image/jpg, image/jpeg"
+                                                    onClick={e => {
+                                                        e.target.value = null;
+                                                        setPreviewImage(null);
+                                                        setNewImage(true);
+                                                    }}
+                                                    required
+                                                />
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-
                             <div>
                                 <button
+                                    id="btn"
                                     className="editReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -682,7 +859,8 @@ function EditReview() {
                                             review.rating,
                                             review.dateVisited,
                                             review.address,
-                                            review.description
+                                            review.description,
+                                            tags
                                         );
                                     }}
                                 >
@@ -693,9 +871,6 @@ function EditReview() {
                     </span>
                 </div>
             )}
-            <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

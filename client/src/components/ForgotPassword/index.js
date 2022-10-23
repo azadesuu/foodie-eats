@@ -1,6 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./ForgotPassword.css";
-import NavBar from "../NavBar";
-
 import { useState } from "react";
 import React from "react";
 import { forgotPassword } from "../../api";
@@ -26,8 +26,8 @@ function ForgotPassword() {
 
     return (
         <div className="content-ForgotPassword">
-            <NavBar />
-            <h1>FORGET PASSWORD</h1>
+            <SEO data={allSEO.forgotpassword} />
+            <h1>FORGOT PASSWORD</h1>
             <form className="form-control-forgotpassword">
                 <input
                     type="text"

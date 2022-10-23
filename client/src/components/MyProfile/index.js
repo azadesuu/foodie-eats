@@ -1,6 +1,8 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./MyProfile.css";
-
 import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { CircularProgress } from "@mui/material";
 
@@ -9,20 +11,164 @@ import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
-import NavLoggedIn from "../LoggedInNavBar";
 import EditProfile from "../EditProfile";
+import {
+    getProfile,
+    deleteNewImage,
+    deleteProfileImage,
+    uploadNewImage,
+    uploadProfileImage
+} from "../../api";
+import { useNavigate } from "react-router";
+
+const ProfileImageUpload = props => {
+    const userProfile = props.user;
+    const [image, setImage] = useState({});
+    const [previewImage, setPreviewImage] = useState(null);
+    const [imageURL, setImageURL] = useState(
+        userProfile?.profileImage ? userProfile.profileImage : null
+    );
+    async function submitHandler() {
+        try {
+            const formData = new FormData();
+            formData.set("image", image);
+            if (!formData.get("image")) {
+                alert("Image not selected!");
+            } else if (image.size / 1024 / 1024 > 10) {
+                alert("Image exceeds upload limit!");
+            } else if (image) {
+                if (imageURL) {
+                    await deleteHandler(imageURL);
+                    setImageURL(null);
+                }
+                await uploadNewImage({
+                    file: formData
+                })
+                    .then(result => {
+                        setImageURL(result);
+                        uploadProfileImage({
+                            userId: userProfile?._id,
+                            url: result
+                        });
+                        alert("Image was uploaded!");
+                    })
+                    .catch(err => {
+                        alert(err);
+                    });
+            }
+        } catch (err) {
+            alert(err);
+        }
+    }
+
+    async function deleteHandler(url) {
+        if (url !== "" || url !== undefined) {
+            const deleted = await deleteNewImage({ url: url });
+            if (deleted) {
+                return true;
+            } else {
+                alert("Error occured, image was not deleted.");
+            }
+        }
+    }
+    async function deleteProfileImageHandler() {
+        const deleted = await deleteHandler(userProfile.profileImage);
+        const removedProfileImage = await deleteProfileImage({
+            userId: userProfile._id
+        });
+        if (removedProfileImage) {
+            return true;
+        } else {
+            alert("Error occured, image was not deleted.");
+        }
+    }
+
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            await setImage(event.target.files[0]);
+            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
+        }
+    };
+
+    return (
+        <div className="image-edit">
+            <label>
+                <input
+                    type="file"
+                    name="myImage"
+                    onChange={event => onImageChange(event)}
+                    onClick={event => {
+                        event.target.files = null;
+                        setPreviewImage(null);
+                    }}
+                    accept="image/png, image/jpg, image/jpeg"
+                    required
+                />
+            </label>
+            {previewImage ? (
+                <label>
+                    <img src={previewImage} height={150} />
+                </label>
+            ) : (
+                <p>Upload your image now!</p>
+            )}
+            <button id="image-btn" onClick={submitHandler}>
+                Confirm Upload
+
+            </button>
+            <br />
+            <button
+                id="image-btn"
+                onClick={() => {
+                    deleteProfileImageHandler(imageURL);
+                }}
+            >
+                Remove profile picture
+            </button>
+        </div>
+    );
+};
 
 function TopUser(props) {
     const userProfile = props.user;
+    const [showUpload, setShowUpload] = useState(false);
 
     return (
         <div className="top-user">
             <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    // src={userProfile.profileImage}
-                    sx={{ height: 130, width: 130 }}
-                />
+                <IconButton
+                    sx={{
+                        transition: "all 0.3s ease-out",
+                        "&:hover": {
+                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
+
+                        }
+                    }}
+                >
+                    <Avatar
+                        alt="user-profile-image"
+                        src={
+                            userProfile.profileImage !== ""
+                                ? userProfile.profileImage
+                                : null
+                        }
+                        sx={{
+                            height: 130,
+                            width: 130
+                        }}
+                        onClick={() => setShowUpload(!showUpload)}
+                    />
+                </IconButton>
+                {showUpload && <ProfileImageUpload user={userProfile} />}
+                {showUpload && (
+                    <button
+                        id="image-cancel"
+
+                        onClick={() => setShowUpload(!showUpload)}
+                    >
+                        Cancel upload
+                    </button>
+                )}
                 <div className="top-user-info">
                     <h2>{userProfile.username}</h2>
                     <p>{userProfile.bio}</p>
@@ -55,11 +201,12 @@ function Sidebar() {
 
 function ProfileDetails(props) {
     const userProfile = props.user;
-
+    const navigate = useNavigate();
     const [editButton, setEditButton] = useState(false);
     const updateUser = () => {
         setEditButton(!editButton);
     };
+    const [showUpload, setShowUpload] = useState(false);
 
     return (
         <div className="profile-details">
@@ -71,12 +218,10 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            id="edit-btn"
                             value={editButton}
                             onClick={updateUser}
                             sx={{
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                },
                                 left: "30px",
                                 bottom: "40px"
                             }}
@@ -84,43 +229,57 @@ function ProfileDetails(props) {
                             <EditIcon
                                 sx={{
                                     color: "black",
-                                    fontSize: 40,
-                                    "&:hover": {
-                                        bgcolor: "#FFFEEC"
-                                    }
+                                    fontSize: 40
                                 }}
                             />
                         </IconButton>
                     </div>
-                    <Avatar
-                        alt="user-profile-image"
-                        // src={user.profileImage}
+                    <IconButton
                         sx={{
-                            height: 110,
-                            width: 110,
-                            ml: "35px",
-                            mt: "-40px"
+                            "&:hover": {
+                                bgcolor: "transparent"
+                            }
                         }}
-                    />
+                    >
+                        <Avatar
+                            alt="user-profile-image"
+                            src={
+                                userProfile.profileImage !== ""
+                                    ? userProfile.profileImage
+                                    : null
+                            }
+                            sx={{
+                                height: 110,
+                                width: 110,
+                                ml: "30px",
+                                mt: "-43px"
+                            }}
+                            onClick={() => setShowUpload(!showUpload)}
+                        />
+                    </IconButton>
+                    {showUpload && <ProfileImageUpload user={userProfile} />}
+                    {showUpload && (
+                        <button
+                            id="image-cancel"
+                            onClick={() => setShowUpload(!showUpload)}
+                        >
+                            Cancel upload
+                        </button>
+                    )}
                 </span>
                 <span className="bigScreen-MyProfile">
                     <IconButton
+                        id="edit-btn"
                         value={editButton}
                         onClick={updateUser}
                         sx={{
-                            "&:hover": {
-                                bgcolor: "#FFFEEC"
-                            },
                             bottom: "5px"
                         }}
                     >
                         <EditIcon
                             sx={{
                                 color: "black",
-                                fontSize: 30,
-                                "&:hover": {
-                                    bgcolor: "#FFFEEC"
-                                }
+                                fontSize: 30
                             }}
                         />
                     </IconButton>
@@ -180,6 +339,7 @@ function ProfileDetails(props) {
                     email={userProfile.email}
                     bio={userProfile.bio}
                     profileImage={userProfile.profileImage}
+                    navigation={navigate}
                 />
             )}
         </div>
@@ -187,30 +347,31 @@ function ProfileDetails(props) {
 }
 
 function MyProfile() {
-    const [user, setUser] = useContext(UserContext);
-
+    const [user] = useContext(UserContext);
+    const { data: userProfile, isLoading } = useQuery(
+        "bookmarks",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
     return (
         <>
-            {user ? (
+            {userProfile && !isLoading ? (
                 <div className="content-MyProfile">
-                    <NavLoggedIn />
+                    <SEO data={allSEO.myprofile} />
                     <span className="smallScreen-MyProfile">
-                        <ProfileDetails user={user} />
+                        <ProfileDetails user={userProfile} />
                     </span>
                     <span className="bigScreen-MyProfile">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="r3">
                                 <div className="line6" />
-                                <ProfileDetails user={user} />
+                                <ProfileDetails user={userProfile} />
                             </div>
                         </div>
                     </span>
-                    <div className="footer">
-                        <p>Copyright © 2022 All-for-one</p>
-                    </div>
                 </div>
             ) : (
                 <CircularProgress className="spinner" />

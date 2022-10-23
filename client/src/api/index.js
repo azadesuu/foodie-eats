@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = "https://foodie-eats.herokuapp.com";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -61,7 +61,7 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        alert("must provide an email, a password, and a username.");
+        alert("Must provide an email, a password, and a username.");
         return;
     }
 
@@ -100,24 +100,16 @@ export const forgotPassword = async email => {
 };
 // COMMUNITY
 
-export const getCommunityRecent = async postcode => {
+export const getCommunityRecent = async () => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByRecent/${postcode}`)
+        .get(`${SERVER_URL}/review/getReviewsByRecent`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
-export const getCommunityMostLiked = async postcode => {
+export const getCommunityMostLiked = async () => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByLikes/${postcode}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getCommunitySearch = async data => {
-    const { search, rating, priceRange, tag, postcode } = data;
-    return await axios
-        .post(`${SERVER_URL}/review/search`, data)
+        .get(`${SERVER_URL}/review/getReviewsByLikes`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -178,13 +170,6 @@ export const getBookmarks = async data => {
         .catch(err => console.log(err));
 };
 
-export const getBookmarksSearch = async data => {
-    return await axios
-        .post(`${SERVER_URL}/account/my-bookmarks/search`, data)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // // ------ Profiles
 
 export const getProfile = async username => {
@@ -210,14 +195,6 @@ export const getMyReviews = async userId => {
         .catch(err => console.log(err));
 };
 
-export const getMyReviewsSearch = async data => {
-    const { userId } = data;
-    return await axios
-        .post(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // //--- Profile Edits
 
 export const updateUser = async profile => {
@@ -237,9 +214,48 @@ export const updatePassword = async data => {
 
 export const changeTheme = async data => {
     const { userId } = data;
-
     return await axios
         .patch(`${SERVER_URL}/account/changeTheme/${userId}`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+// imageUploads
+export const uploadProfileImage = async data => {
+    const { userId } = data;
+    return await axios
+        .post(`${SERVER_URL}/account/uploadProfileImage/${userId}`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteProfileImage = async data => {
+    const { userId } = data;
+    return await axios
+        .post(`${SERVER_URL}/account/deleteProfileImage/${userId}`)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const uploadReviewImage = async data => {
+    const { file, reviewId } = data;
+    return await axios
+        .post(`${SERVER_URL}/review/uploadReviewImage/${reviewId}`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const uploadNewImage = async data => {
+    const { file } = data;
+    return await axios
+        .post(`${SERVER_URL}/account/uploadNewImage`, file)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
+export const deleteNewImage = async data => {
+    return await axios
+        .post(`${SERVER_URL}/account/deleteNewImage`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

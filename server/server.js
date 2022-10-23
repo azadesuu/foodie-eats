@@ -13,7 +13,8 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://foodie-eats.herokuapp.com",
+    "http://foodie-eats.netlify.app/",
+    "http://foodie-eats-beta.netlify.app/",
     "http://localhost:3000"
   ];
   const origin = req.headers.origin;
@@ -72,11 +73,28 @@ app.use("/", userRoutes);
 app.use("/account", accountRoutes);
 app.use("/review", reviewRoutes);
 
-// app.use(function(err, req, res, next) {
-//   res
-//     .status(err.status || 500)
-//     .send({ message: err.message, stack: err.stack });
-// });
+// bad request error handling, url not found
+app.use((req, _, next) => {
+  const err = new Error(`Route: ${req.originalUrl} does not exist.`);
+  err.status = 404;
+  next(err);
+});
+
+// general error handling
+app.use((err, req, res, _) => {
+  if (
+    err?.name === "CastError" ||
+    err?.name === "ValidationError" ||
+    err?.code === 16755
+  ) {
+    err.status = 400;
+    err.message = "Bad Request";
+  }
+  res.status(err.status || 500).json({
+    status: "fail",
+    error: err.message
+  });
+});
 
 module.exports = {
   app,

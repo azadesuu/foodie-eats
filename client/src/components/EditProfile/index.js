@@ -1,42 +1,58 @@
 import "./EditProfile.css";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../api";
 
 const EditProfile = data => {
-    const { _id, username, email, bio, profileImage } = data;
+    const { _id, username, email, bio, profileImage, navigation } = data;
+
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);
     const [bioEdit, setBioEdit] = useState(bio);
-    const [profileImageEdit, setProfileImageEdit] = useState(profileImage);
 
-    const navigate = useNavigate();
+    const handleLogOut = async () => {
+        // remove token from the local storage
+        localStorage.removeItem("token");
+        navigation("/login");
+    };
 
     const editProfile = async e => {
         try {
-            const user = await updateUser({
+            const data = {
                 userId: _id,
                 username: usernameEdit,
                 email: emailEdit,
-                bio: bioEdit,
-                profileImage: profileImageEdit
-            });
-            if (user) {
-                if (user.username === username && user.email === email) {
-                    // if username and email are not changed
-                    alert("Successfully updated. Re-login to see changes.");
-                } else {
-                    alert(
-                        "Successfully updated, please re-enter your login credentials."
-                    );
-                    navigate("/logout"); //must logout and login to reset token (temp)
-                }
+                bio: bioEdit
+            };
+            if (username === usernameEdit) {
+                delete data["username"];
+            }
+            if (email === emailEdit) {
+                delete data["email"];
+            }
+            if (bio === bioEdit) {
+                delete data["bio"];
+            }
+            if (Object.keys(data).length == 1) {
+                alert("Nothing was updated.");
             } else {
-                alert("Error occured, please try again.");
+                const user = await updateUser(data);
+                if (user) {
+                    if (user.username === username && user.email === email) {
+                        // if username and email are not changed
+                        alert("Successfully updated.");
+                    } else {
+                        alert(
+                            "Successfully updated, please re-enter your login credentials."
+                        );
+                        handleLogOut(); //must logout and login to reset token (temp)
+                    }
+                } else {
+                    alert("Username/Email is taken.");
+                }
             }
         } catch (err) {
-            console.log(err);
+            alert(err.message);
         }
     };
 
@@ -45,7 +61,7 @@ const EditProfile = data => {
             {_id ? (
                 <div className="edit-form">
                     <div className="form-control-profile">
-                        <label>Username </label>
+                        <label>Username</label>
                         <input
                             type="text"
                             name="usernameEdit"
@@ -83,12 +99,16 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <a className="edit-profile-done" onClick={editProfile}>
+                    <button 
+                        id="btn"
+                        className="edit-profile-done" 
+                        onClick={editProfile}
+                    >
                         DONE
-                    </a>
+                    </button>
                 </div>
             ) : (
-                <h1>User Profile not found</h1>
+                <h1>User not found.</h1>
             )}
         </div>
     );

@@ -4,12 +4,12 @@ span.bigScreen-MyReviews {
 span.smallScreen-MyReviews {
     display: none;
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 930px) {
     .content-MyReviews h1 {
         font-size: 50px;
     }
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 930px) { 
     span.bigScreen-MyReviews {
         display: none;
     }
@@ -28,7 +28,7 @@ span.smallScreen-MyReviews {
         margin-top: 20px;
     }
 }
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 930px) {
     .content-MyReviews h1 {
         font-size: 60px;
     }
@@ -51,15 +51,6 @@ span.smallScreen-MyReviews {
 }
 :root {
     box-sizing: border-box;
-}
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    padding: 1%;
-    font-family: "Martel Sans";
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
 }
 .content-MyReviews {
     margin-top: -110px;
@@ -92,7 +83,7 @@ body {
 }
 .searchbar input {
     border: none;
-    background: #d9d9d9;
+    background: #D9D9D9;
     padding: 8px;
     font-size: 20px;
     width: 95%;
@@ -100,7 +91,7 @@ body {
 .searchrow {
     display: flex;
     gap: 6px;
-    background-color: #d9d9d9;
+    background-color: #D9D9D9;
     border-radius: 20px;
     gap: 1px;
     align-items: center;
@@ -118,6 +109,10 @@ input:focus {
     display: flex;
     justify-content: center;
 }
+.reviews-smallScreen {
+    display: flex;
+    flex-direction: column;
+}
 .reviews {
     display: flex;
     justify-content: flex-start;
@@ -127,7 +122,7 @@ input:focus {
     width: 93%;
 }
 .reviews-content {
-    background-color: #ece7e5;
+    background-color: #ECE7E5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;

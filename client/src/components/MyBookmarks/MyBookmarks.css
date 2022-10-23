@@ -4,12 +4,12 @@ span.bigScreen-MyBookmarks {
 span.smallScreen-MyBookmarks {
     display: none;
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 930px) {
     .content-MyBookmarks h1 {
         font-size: 50px;
     }
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 930px) { 
     span.bigScreen-MyBookmarks {
         display: none;
     }
@@ -28,7 +28,7 @@ span.smallScreen-MyBookmarks {
         margin-top: 20px;
     }
 }
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 930px) {
     .content-MyBookmarks h1 {
         font-size: 60px;
     }
@@ -51,15 +51,6 @@ span.smallScreen-MyBookmarks {
 }
 :root {
     box-sizing: border-box;
-}
-body {
-    margin-top: 230px;
-    background-color: #fffeec;
-    padding: 1%;
-    font-family: "Martel Sans";
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
 }
 .content-MyBookmarks {
     margin-top: -110px;

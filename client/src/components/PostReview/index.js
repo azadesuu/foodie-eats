@@ -1,12 +1,14 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./PostReview.css";
-import NavLoggedIn from "../LoggedInNavBar";
 
 import "@fontsource/martel-sans";
 
 import addImage from "../../assets/images/addImage.png";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { TagsInput } from "react-tag-input-component";
 import { UserContext } from "../../actions/UserContext";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -17,6 +19,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { createReview, getProfile } from "../../api";
+
+import { uploadNewImage } from "../../api";
 
 function PostReview() {
     const [user1] = useContext(UserContext);
@@ -41,6 +45,33 @@ function PostReview() {
     const [currentRating, setRating] = useState("2");
     const [currentPublicity, setPublicity] = useState(false);
     const [currentPriceRange, setPriceRange] = useState("1");
+    const [tags, setTags] = useState([]);
+
+    //images
+    const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const imageHandler = async () => {
+        try {
+            if (!image) return "";
+            else {
+                const formData = new FormData();
+                formData.set("image", image);
+                const result = await uploadNewImage({
+                    file: formData
+                });
+                return result;
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+    const onImageChange = async event => {
+        if (event.target.files && event.target.files[0]) {
+            await setImage(event.target.files[0]);
+            await setPreviewImage(URL.createObjectURL(event.target.files[0]));
+        }
+    };
 
     const postReview = async (
         restaurantName,
@@ -52,7 +83,8 @@ function PostReview() {
         state,
         suburb,
         postcode,
-        description
+        description,
+        tags
     ) => {
         if (!restaurantName) {
             alert("restaurant name is missing");
@@ -66,10 +98,12 @@ function PostReview() {
             alert("state is missing");
         } else if (!postcode) {
             alert("postcode is missing");
-        } else if (parseInt(postcode) < 3000 || parseInt(postcode) > 3999) {
-            alert("postcode must be between 3000 and 3999");
+        } else if (!/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(postcode)) {
+            alert("Postcode is invalid.");
         } else if (!description) {
             alert("description is missing");
+        } else if (image?.size / 1024 / 1024 > 10) {
+            alert("image is too big!");
         } else {
             const address = {
                 streetAddress: streetAddress,
@@ -77,18 +111,23 @@ function PostReview() {
                 state: state,
                 suburb: suburb
             };
+
+            const url = await imageHandler();
+
             const review = await createReview({
                 userId: user1?._id,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
+                reviewImage: url,
                 priceRange: priceRange,
                 rating: rating,
                 dateVisited: dateVisited,
                 address: address,
-                description: description
+                description: description,
+                tags: tags
             });
             if (!review) {
-                alert("creation unsucessful.");
+                alert("creation unsuccessful.");
             }
             navigate(`/review/${review?._id}`);
         }
@@ -115,7 +154,8 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
-            <NavLoggedIn />
+            <SEO data={allSEO.postreview} />
+
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
@@ -183,6 +223,7 @@ function PostReview() {
 
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         size="small"
                                         defaultValue={0}
                                         step={1}
@@ -195,7 +236,6 @@ function PostReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -251,6 +291,7 @@ function PostReview() {
                                 <input
                                     type="date"
                                     placeholder="date you visited DD/MM/YY"
+                                    value={new Date()}
                                     onChange={e => {
                                         setDate(e.target.value);
                                     }}
@@ -345,26 +386,60 @@ function PostReview() {
                                     />
                                 </div>
                             </div>
-
-                            <div className="details-container">
-                                <textarea
-                                    type="text"
-                                    placeholder="description..."
-                                    onChange={e => {
-                                        setDescription(e.target.value);
-                                    }}
-                                    required
-                                />
+                            <div className="description-tags">
+                                <div className="details-container">
+                                    <textarea
+                                        type="text"
+                                        placeholder="description..."
+                                        onChange={e => {
+                                            setDescription(e.target.value);
+                                        }}
+                                        required
+                                    />
+                                </div>
+                                <div className="tags-input">
+                                    <TagsInput
+                                        name="tags"
+                                        value={tags}
+                                        placeHolder="#tags"
+                                        onChange={setTags}
+                                    />
+                                </div>
                             </div>
-
                             <div className="add-image">
-                                <p>Add your image</p>
-                                <button className="addImageButton">
-                                    <img className="addImage" src={addImage} />
-                                </button>
+                                <label>
+                                    Add your images here
+                                    <br /> Click upload again to remove image.
+                                    <input
+                                        type="file"
+                                        name="myImage"
+                                        onChange={event => onImageChange(event)}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        onClick={e => {
+                                            e.target.value = null;
+                                            setPreviewImage(null);
+                                            setImage(null);
+                                        }}
+                                        required
+                                    />
+                                </label>
+                                {previewImage ? (
+                                    <label>
+                                        <img
+                                            src={previewImage}
+                                            alt="preview image"
+                                            width={100}
+                                            height={100}
+                                        />
+                                        <br />
+                                    </label>
+                                ) : (
+                                    <p></p>
+                                )}
                             </div>
                             <div>
                                 <button
+                                    id="btn"
                                     className="postReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -378,7 +453,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >
@@ -457,6 +533,7 @@ function PostReview() {
                                 </div>
                                 <div className="sliderContainer">
                                     <Slider
+                                        id="post-price"
                                         size="small"
                                         defaultValue={0}
                                         step={1}
@@ -469,7 +546,6 @@ function PostReview() {
                                         }}
                                         sx={{
                                             "& .MuiSlider-thumb": {
-                                                color: "#BEE5B0",
                                                 height: 10,
                                                 width: 10,
                                                 "&:focus, &:hover, &.Mui-active": {
@@ -525,15 +601,27 @@ function PostReview() {
                                         />
                                     </div>
 
-                                    <div className="details-container">
-                                        <textarea
-                                            type="text"
-                                            placeholder="description..."
-                                            onChange={e => {
-                                                setDescription(e.target.value);
-                                            }}
-                                            required
-                                        />
+                                    <div className="description-tags">
+                                        <div className="details-container">
+                                            <textarea
+                                                type="text"
+                                                placeholder="description..."
+                                                onChange={e => {
+                                                    setDescription(
+                                                        e.target.value
+                                                    );
+                                                }}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="tags-input">
+                                            <TagsInput
+                                                name="tags"
+                                                value={tags}
+                                                placeHolder="#tags"
+                                                onChange={setTags}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="r3-content2">
@@ -651,13 +739,45 @@ function PostReview() {
                                     </div>
 
                                     <div className="add-image">
-                                        <a href="#">Click to add your images</a>
+                                        <label>
+                                            Add your images here
+                                            <br /> Click upload again to remove
+                                            image.
+                                            <input
+                                                type="file"
+                                                name="myImage"
+                                                onChange={event =>
+                                                    onImageChange(event)
+                                                }
+                                                accept="image/png, image/jpg, image/jpeg"
+                                                onClick={e => {
+                                                    e.target.value = null;
+                                                    setPreviewImage(null);
+                                                    setImage(null);
+                                                }}
+                                                required
+                                            />
+                                        </label>
+                                        {previewImage ? (
+                                            <label>
+                                                <img
+                                                    src={previewImage}
+                                                    alt="preview image"
+                                                    width={100}
+                                                    height={100}
+                                                />
+                                                <br />
+                                            </label>
+                                        ) : (
+                                            <p></p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
                             <div>
                                 <button
+                                    id="btn"
                                     className="postReviewButton"
                                     type="button"
                                     onClick={() => {
@@ -671,7 +791,8 @@ function PostReview() {
                                             currentState,
                                             currentSuburb,
                                             currentPostcode,
-                                            currentDescription
+                                            currentDescription,
+                                            tags
                                         );
                                     }}
                                 >
@@ -682,9 +803,6 @@ function PostReview() {
                     </span>
                 </div>
             )}
-            <div className="footer">
-                <p>copyright © 2022 All-for-one</p>
-            </div>
         </div>
     );
 }

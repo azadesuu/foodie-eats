@@ -7,57 +7,57 @@ import { CircularProgress } from "@mui/material";
 import EditProfile from "../EditProfile";
 
 function MyProfile() {
-    // // getting logged in user
-    const [user1, setUser1] = useContext(UserContext);
-    // console.log(user1);
-    const [username, setUsername] = useState();
-    const [email, setEmail] = useState();
-    const [bio, setBio] = useState();
-    const [profileImage, setProfileImage] = useState();
-    const [userId, setUserId] = useState();
+  // // getting logged in user
+  const [user1, setUser1] = useContext(UserContext);
+  // console.log(user1);
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [bio, setBio] = useState();
+  const [profileImage, setProfileImage] = useState();
+  const [userId, setUserId] = useState();
 
-    const [editButton, setEditButton] = useState(false);
-    const updateUser = () => {
-        setEditButton(!editButton);
-    };
+  const [editButton, setEditButton] = useState(false);
+  const updateUser = () => {
+    setEditButton(!editButton);
+  };
 
-    const { data: userProfile, isLoading } = useQuery(
-        "my-profile",
-        () => getProfile(user1?.username),
-        { enabled: !!user1?.username }
-    );
+  const { data: userProfile, isLoading } = useQuery(
+    "my-profile",
+    () => getProfile(user1?.username),
+    { enabled: !!user1?.username }
+  );
 
-    return (
+  return (
+    <div>
+      <button value={editButton} onClick={updateUser}>
+        Edit
+      </button>
+      {!editButton ? (
         <div>
-            <button value={editButton} onClick={updateUser}>
-                Edit
-            </button>
-            {!editButton ? (
-                <div>
-                    {!userProfile && <CircularProgress className="spinner" />}
-                    {userProfile ? (
-                        <div>
-                            <div>{userProfile.username}</div>
-                            <div>{userProfile.email}</div>
-                            <div>{userProfile.bio}</div>
-                            <div>{userProfile.profileImage}</div>
-                        </div>
-                    ) : (
-                        <div>Error</div>
-                    )}
-                </div>
-            ) : (
-                <>
-                    <EditProfile
-                        _id={userProfile._id}
-                        username={userProfile.username}
-                        email={userProfile.email}
-                        bio={userProfile.bio}
-                        profileImage={userProfile.profileImage}
-                    />
-                </>
-            )}
+          {!userProfile && <CircularProgress className="spinner" />}
+          {userProfile ? (
+            <div>
+              <div>{userProfile.username}</div>
+              <div>{userProfile.email}</div>
+              <div>{userProfile.bio}</div>
+              <div>{userProfile.profileImage}</div>
+            </div>
+          ) : (
+            <div>Error</div>
+          )}
         </div>
-    );
+      ) : (
+        <>
+          <EditProfile
+            _id={userProfile._id}
+            username={userProfile.username}
+            email={userProfile.email}
+            bio={userProfile.bio}
+            profileImage={userProfile.profileImage}
+          />
+        </>
+      )}
+    </div>
+  );
 }
 export default MyProfile;
