@@ -105,10 +105,14 @@ killable(server);
 var assert = require("assert");
 var should = require("chai").should();
 const request = require("supertest");
+
 // mock db
 const { connectDB, clearCollections, closeDB } = require("./testdb");
 //test input
 const testInput = require("./testInput");
+const Token = require("../models/token");
+const User = require("../models/user");
+const Review = require("../models/review");
 
 before(async () => {
   await connectDB();
@@ -122,32 +126,133 @@ after(async () => {
   });
 });
 
-describe("Unit tests", () => {
-  after(async () => {
-    await clearCollections();
-  });
+// describe("Unit tests: User ", () => {
+//
+//   after(async () => {
+//     await clearCollections();
+//   });
 
-  it("Get recent reviews", async function() {
-    return await request(app)
-      .get("/review/getAllReviews")
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-        res.body.should.includes({ message: "All reviews found" });
-      });
-  });
-});
+//   it("Logs in the user", async function() {
+//     return await request(app)
+//       .post("/login")
+//       .send(testInput.newUser)
+//       .then(function(res) {
+//         assert.equal(200, res.statusCode);
+//       });
+//   });
+
+//   it("Doesn't register the duplicate user (email)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserDupEmail)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "That username/email is already taken."
+//         });
+//       });
+//   });
+
+//   it("Doesn't register the duplicate user (username)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserDupUsername)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "That username/email is already taken."
+//         });
+//       });
+//   });
+
+//   it("Doesn't register the empty field (email)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserNoEmail)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "Username/email not defined."
+//         });
+//       });
+//   });
+
+//   it("Doesn't register the invalid field (username)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserInvalidUname)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "Your username isn't valid."
+//         });
+//       });
+//   });
+//   it("Doesn't register the invalid field (email)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserInvalidEmail)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "Your email isn't valid."
+//         });
+//       });
+//   });
+//   //done register check
+//   it("Doesn't register the invalid field (email)", async function() {
+//     return await request(app)
+//       .post("/signup")
+//       .send(testInput.newUserInvalidEmail)
+//       .then(function(res) {
+//         assert.equal(400, res.statusCode);
+//         res.body.should.includes({
+//           message: "Your email isn't valid."
+//         });
+//       });
+//   });
+
+//   // get cases
+//   it("Get recent reviews", async function() {
+//     return await request(app)
+//       .get("/review/getAllReviews")
+//       .then(function(res) {
+//         assert.equal(200, res.statusCode);
+//         res.body.should.includes({ message: "All reviews found" });
+//       });
+//   });
+// });
 
 // Integration test
-describe("Integration test", () => {
+describe("Integration testing", () => {
+  let server;
+  let access_token;
+  let refresh_token;
+  let userId = "6354408a37d91973c1246a57";
+
+  before(async () => {
+    await User.insertMany(testInput.userTests);
+    await Review.insertMany(testInput.reviewTests);
+  });
   after(async () => {
     await clearCollections();
   });
-  
-  it("Get recent reviews", async function() {
+
+  it("Logs in the user", async function() {
     return await request(app)
-      .get("/review/getAllReviews")
+      .post("/login")
+      .send(testInput.integrationUser)
       .then(function(res) {
         assert.equal(200, res.statusCode);
+      });
+  });
+
+  it("Doesn't log in the user", async function() {
+    return await request(app)
+      .post("/login")
+      .send(testInput.wrongIntegrationUser)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
       });
   });
 });

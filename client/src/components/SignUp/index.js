@@ -20,13 +20,17 @@ function Register() {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                await signupUser({
+                const user = await signupUser({
                     username: username,
                     email: email,
                     password: password
                 });
-                alert("Signup successful. Please Login.");
-                navigate("/login");
+                if (user.err) {
+                    alert("Signup successful. Please Login.");
+                    navigate("/login");
+                } else {
+                    alert(user.err);
+                }
             } catch (err) {
                 alert(err);
             }

@@ -129,7 +129,6 @@ module.exports = function(passport) {
 
                   return done(null, newUser);
                 });
-                req.session.email = email;
               }
             }
           );

@@ -115,13 +115,6 @@ export const getCommunityMostLiked = async postcode => {
         .catch(err => console.log(err));
 };
 
-export const getAllReviews = async () => {
-    return await axios
-        .get(`${SERVER_URL}/review/getAllReviews`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // //------------------------ Review APIs (Create, ViewOne, Update, Bookmark, Like)
 export const createReview = async data => {
     return await axios
@@ -175,7 +168,7 @@ export const getBookmarks = async data => {
     return await axios
         .post(`${SERVER_URL}/account/my-bookmarks/get`, data)
         .then(res => res?.data?.data)
-        .catch(err => console.log(err));
+        .catch(err => console.aawlog(err));
 };
 
 // // ------ Profiles

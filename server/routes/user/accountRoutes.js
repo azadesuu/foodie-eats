@@ -37,10 +37,9 @@ accountRouter.use(
   "/bookmark/:reviewId/:userId",
   accountController.checkBookmarkReview
 );
-accountRouter.patch(
-  "/bookmark/:reviewId/:userId",
-  accountController.bookmarkReview
-);
+accountRouter
+  .route("/bookmark/:reviewId/:userId")
+  .patch(accountController.bookmarkReview);
 
 // PATCH profile by userId -- Updates the user profile with new data and returns updated profile
 // needs user auth
@@ -76,6 +75,10 @@ accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
 // user auth
+accountRouter.use(
+  "/uploadProfileImage/:userId",
+  accountController.checkUserParams
+);
 accountRouter.use(
   "/uploadProfileImage/:userId",
   accountController.checkImageURL
