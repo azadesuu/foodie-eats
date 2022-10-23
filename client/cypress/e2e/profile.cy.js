@@ -9,8 +9,16 @@ describe('The Profile Page', () => {
         cy.visit('/my-profile');
     })
 
-    /*it('successfully edits profile', () => {
+    it('successfully edits profile', () => {
         // Make changes to username, email, bio
+        /*cy.get('.r3 > .profile-details > .profile-title > :nth-child(3) > .MuiButtonBase-root > [data-testid="EditIcon"]').click();
+        cy.get('#usernameEdit').type('profile-test-changed');
+        cy.get('#emailEdit').type('profile-test-changed@mail.com');
+        cy.get('#bioEdit').type('Bio has been changed.');
+
+        cy.get('.edit-profile-done').click();*/
+
+
         //cy.get('.r3 > .profile-details > .profile-title > :nth-child(3) > .MuiButtonBase-root').click();
 
 
@@ -37,7 +45,7 @@ describe('The Profile Page', () => {
         //cy.get('#emailEdit').type('profile-test-changed@mail.com', { force: true });
         //cy.get('#bioEdit').type('{selectall}{backspace}', { force: true });
         //cy.get('#bioEdit').type('Bio has been changed.', { force: true });
-        cy.get('.edit-profile-done').click();
+        /*cy.get('.edit-profile-done').click();
         cy.on('window:alert', (str) => {
             expect(str).to.equal(`Successfully updated. Re-login to see changes.`);
         })
@@ -68,11 +76,11 @@ describe('The Profile Page', () => {
             expect(str).to.equal(`Successfully updated. Re-login to see changes.`);
         })
         cy.get('.content-MyProfile > .nav > .bigScreen-nav > .css-e8h9ec > .MuiPaper-root > .MuiToolbar-root > .MuiGrid-root > .nav2 > :nth-child(1) > .active-link').click();
-        cy.get(':nth-child(2) > div > button').click();
-    })*/
+        cy.get(':nth-child(2) > div > button').click();*/
+    })
 })
 
-describe('The Change Password Page', () => {
+/*describe('The Change Password Page', () => {
     before(() => {
         cy.viewport(1280, 800); // Macbook 13 dimensions
         cy.visit('/login');
@@ -95,7 +103,7 @@ describe('The Change Password Page', () => {
         })
     })
     
-    /*it('successfully change password', () => {
+    it('successfully change password', () => {
         cy.viewport(1280, 800); // Macbook 13 dimensions
         
         // Login and go to My Profile page
@@ -116,5 +124,5 @@ describe('The Change Password Page', () => {
         cy.on('window:alert', (str) => {
             expect(str).to.equal(`password changed.`);
         })
-    })*/
-})
+    })
+})*/
