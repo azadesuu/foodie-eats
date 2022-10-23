@@ -100,14 +100,14 @@ export const forgotPassword = async email => {
 };
 // COMMUNITY
 
-export const getCommunityRecent = async postcode => {
+export const getCommunityRecent = async () => {
     return await axios
         .get(`${SERVER_URL}/review/getReviewsByRecent`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
-export const getCommunityMostLiked = async postcode => {
+export const getCommunityMostLiked = async () => {
     return await axios
         .get(`${SERVER_URL}/review/getReviewsByLikes`)
         .then(res => res?.data?.data)

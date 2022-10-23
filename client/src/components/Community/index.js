@@ -379,7 +379,7 @@ function Community() {
             check: false
         }
     ]);
-    
+
     return (
         <div className="content-Community">
             <SEO data={allSEO.community} />

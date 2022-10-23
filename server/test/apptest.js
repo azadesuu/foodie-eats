@@ -126,102 +126,101 @@ after(async () => {
   });
 });
 
-// describe("Unit tests: User ", () => {
-//
-//   after(async () => {
-//     await clearCollections();
-//   });
+describe("Unit tests: User ", () => {
+  after(async () => {
+    await clearCollections();
+  });
 
-//   it("Logs in the user", async function() {
-//     return await request(app)
-//       .post("/login")
-//       .send(testInput.newUser)
-//       .then(function(res) {
-//         assert.equal(200, res.statusCode);
-//       });
-//   });
+  it("Logs in the user", async function() {
+    return await request(app)
+      .post("/login")
+      .send(testInput.newUser)
+      .then(function(res) {
+        assert.equal(200, res.statusCode);
+      });
+  });
 
-//   it("Doesn't register the duplicate user (email)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserDupEmail)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "That username/email is already taken."
-//         });
-//       });
-//   });
+  it("Doesn't register the duplicate user (email)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserDupEmail)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "That username/email is already taken."
+        });
+      });
+  });
 
-//   it("Doesn't register the duplicate user (username)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserDupUsername)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "That username/email is already taken."
-//         });
-//       });
-//   });
+  it("Doesn't register the duplicate user (username)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserDupUsername)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "That username/email is already taken."
+        });
+      });
+  });
 
-//   it("Doesn't register the empty field (email)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserNoEmail)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "Username/email not defined."
-//         });
-//       });
-//   });
+  it("Doesn't register the empty field (email)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserNoEmail)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "Username/email not defined."
+        });
+      });
+  });
 
-//   it("Doesn't register the invalid field (username)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserInvalidUname)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "Your username isn't valid."
-//         });
-//       });
-//   });
-//   it("Doesn't register the invalid field (email)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserInvalidEmail)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "Your email isn't valid."
-//         });
-//       });
-//   });
-//   //done register check
-//   it("Doesn't register the invalid field (email)", async function() {
-//     return await request(app)
-//       .post("/signup")
-//       .send(testInput.newUserInvalidEmail)
-//       .then(function(res) {
-//         assert.equal(400, res.statusCode);
-//         res.body.should.includes({
-//           message: "Your email isn't valid."
-//         });
-//       });
-//   });
+  it("Doesn't register the invalid field (username)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserInvalidUname)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "Your username isn't valid."
+        });
+      });
+  });
+  it("Doesn't register the invalid field (email)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserInvalidEmail)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "Your email isn't valid."
+        });
+      });
+  });
+  //done register check
+  it("Doesn't register the invalid field (email)", async function() {
+    return await request(app)
+      .post("/signup")
+      .send(testInput.newUserInvalidEmail)
+      .then(function(res) {
+        assert.equal(400, res.statusCode);
+        res.body.should.includes({
+          message: "Your email isn't valid."
+        });
+      });
+  });
 
-//   // get cases
-//   it("Get recent reviews", async function() {
-//     return await request(app)
-//       .get("/review/getAllReviews")
-//       .then(function(res) {
-//         assert.equal(200, res.statusCode);
-//         res.body.should.includes({ message: "All reviews found" });
-//       });
-//   });
-// });
+  // get cases
+  it("Get recent reviews", async function() {
+    return await request(app)
+      .get("/review/getAllReviews")
+      .then(function(res) {
+        assert.equal(200, res.statusCode);
+        res.body.should.includes({ message: "All reviews found" });
+      });
+  });
+});
 
 // Integration test
 describe("Integration testing", () => {
