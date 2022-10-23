@@ -19,10 +19,10 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 
 ## Application preview
 
-![alt text](images/community.png)
-![alt text](images/my-reviews.png)
-![alt text](images/post-a-review.png)
-![alt text](images/profile.png)
+![alt text](github-images/community.png)
+![alt text](github-images/my-reviews.png)
+![alt text](github-imagespost-a-review.png)
+![alt text](github-images/profile.png)
 
 ## Built with
 
