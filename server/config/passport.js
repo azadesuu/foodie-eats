@@ -1,5 +1,5 @@
-require("dotenv").config(); // for JWT password key
-
+//require("dotenv").config(); // for JWT password key
+const dotenv = require('dotenv').config()
 // used to create our local strategy for authenticating
 // using username and password
 const LocalStrategy = require("passport-local").Strategy;
