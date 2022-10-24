@@ -133,7 +133,7 @@ describe("Unit tests: User ", () => {
 
   it("Logs in the user", async function() {
     return await request(app)
-      .post("/login")
+      .post("/signup")
       .send(testInput.newUser)
       .then(function(res) {
         assert.equal(200, res.statusCode);
@@ -214,10 +214,10 @@ describe("Unit tests: User ", () => {
   // get cases
   it("Get recent reviews", async function() {
     return await request(app)
-      .get("/review/getAllReviews")
+      .get("/review/getReviewsByRecent")
       .then(function(res) {
         assert.equal(200, res.statusCode);
-        res.body.should.includes({ message: "All reviews found" });
+        res.body.should.includes({ message: "Recent reviews found" });
       });
   });
 });
@@ -231,7 +231,7 @@ describe("Integration testing", () => {
 
   before(async () => {
     await User.insertMany(testInput.userTests);
-    await Review.insertMany(testInput.reviewTests);
+    // await Review.insertMany(testInput.reviewTests);
   });
   after(async () => {
     await clearCollections();
