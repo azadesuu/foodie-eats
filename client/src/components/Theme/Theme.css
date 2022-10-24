@@ -110,7 +110,6 @@ span.smallScreen-Theme {
 .honeydew #myreviews-small::-webkit-scrollbar-thumb,
 .honeydew #myreviews-big::-webkit-scrollbar-thumb,
 .honeydew .tags-input::-webkit-scrollbar-thumb,
-.honeydew #btn,
 .honeydew .resName-price .price-range .input {
     background-color: #e4f3d3;
 }
@@ -121,21 +120,20 @@ span.smallScreen-Theme {
 .honeydew #edit-btn:hover {
     background-color: #fffeec;
 }
-.honeydew .searchResult {
+.honeydew .searchResult,
+.honeydew #btn {
     border: 2px solid #e4f3d3;
 }
 .honeydew input[type="checkbox"]:checked {
     accent-color: #e4f3d3;
 }
-.honeydew #current,
-.honeydew .footer,
 .honeydew #navbar-login {
-    background-color: #e4f3d3;
+    background-color: #bee5b0;
 }
 .honeydew .searchResult .line5 {
     border-top: 1.5px solid #e4f3d3;
 }
-.honeydew .nav1 a,
+.honeydew .nav a,
 .honeydew .nav2 a,
 .honeydew #acc {
     color: #000000;
