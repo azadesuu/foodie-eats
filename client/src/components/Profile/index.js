@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./Profile.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
@@ -174,6 +176,7 @@ function Profile() {
 
     return (
         <div className="content-Profile">
+            <SEO data={allSEO.viewuser} username={username} />
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile ? (
                 <>
@@ -182,7 +185,11 @@ function Profile() {
                             <h1>{userProfile.username}</h1>
                             <Avatar
                                 alt="user-profile-image"
-                                // src={user.profileImage}
+                                src={
+                                    userProfile.profileImage !== ""
+                                        ? userProfile.profileImage
+                                        : null
+                                }
                                 sx={{
                                     height: 110,
                                     width: 110,

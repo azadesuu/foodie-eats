@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import React from "react"; // required
 import "./MyBookmarks.css";
 
@@ -30,6 +32,7 @@ import MenuList from "@mui/material/MenuList";
 function Post() {
     return (
         <div className="postButton">
+            <SEO data={allSEO.mybookmarks} />
             <IconButton href="/create-review">
                 <PostAddIcon
                     id="btn"
@@ -437,11 +440,10 @@ function ReviewsSmallScreen(props) {
                                                         resRating === rating
                                                 ) &&
                                                 filterInputPriceRange &&
-                                                    filterInputPriceRange.some(
-                                                        price =>
-                                                            resPriceRange ===
-                                                            price
-                                                    )
+                                                filterInputPriceRange.some(
+                                                    price =>
+                                                        resPriceRange === price
+                                                )
                                             );
                                         } else if (
                                             filterInputPriceRange.some(
@@ -801,7 +803,7 @@ function ReviewsBigScreen(props) {
                     "&::-webkit-scrollbar-thumb": {
                         borderRadius: "10px",
                         maxHeight: "4px"
-                    }  
+                    }
                 }}
             >
                 {!user && <CircularProgress className="spinner" />}
@@ -849,10 +851,9 @@ function ReviewsBigScreen(props) {
                                                 rating => resRating === rating
                                             ) &&
                                             filterInputPriceRange &&
-                                                filterInputPriceRange.some(
-                                                    price =>
-                                                        resPriceRange === price
-                                                )
+                                            filterInputPriceRange.some(
+                                                price => resPriceRange === price
+                                            )
                                         );
                                     } else if (
                                         filterInputPriceRange.some(
@@ -926,6 +927,8 @@ function MyBookmarks() {
             )}
             {!isLoading2 && userProfile && bookmarks ? (
                 <div className="content-MyBookmarks">
+                    <SEO data={allSEO.mybookmarks} />
+
                     <span className="smallScreen-MyBookmarks">
                         <h1>BOOKMARKS</h1>
                         <ReviewsSmallScreen user={user} reviews={bookmarks} />

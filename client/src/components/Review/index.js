@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./Review.css";
-
 import "@fontsource/martel-sans";
 
 import { useContext, useEffect, useState } from "react";
@@ -111,6 +112,12 @@ function Review(props) {
             {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">
+                    <SEO
+                        data={allSEO.viewreview}
+                        restaurantName={review.restaurantName}
+                        id={review._id}
+                    />
+
                     <h1>REVIEW</h1>
                     <span className="smallScreen-Review">
                         <div id="outer">
@@ -342,15 +349,16 @@ function Review(props) {
                                 <div className="tags-input">
                                     {review.tags.map(tag => {
                                         return (
-                                            <div className="tags">
-                                                {tag}
-                                            </div>
+                                            <div className="tags">{tag}</div>
                                         );
                                     })}
                                 </div>
                             </div>
                             <div className="add-image">
-                                <img src={review.reviewImage? review.reviewImage:null}/>
+                                {review.reviewImage &&
+                                    review.reviewImage !== "" && (
+                                        <img src={review.reviewImage} />
+                                    )}
                             </div>
                             <div className="line" />
                             <div className="r2">
@@ -454,7 +462,10 @@ function Review(props) {
                                 {marks.map(({ label, value }) => {
                                     if (value === review.priceRange) {
                                         return (
-                                            <div className="price-range" key={value}>
+                                            <div
+                                                className="price-range"
+                                                key={value}
+                                            >
                                                 <span className="input">
                                                     {label}
                                                 </span>
@@ -471,16 +482,19 @@ function Review(props) {
                                 <div className="tags-input">
                                     {review.tags.map(tag => {
                                         return (
-                                            <div className="tags">
-                                                {tag}
-                                            </div>
+                                            <div className="tags">{tag}</div>
                                         );
                                     })}
                                 </div>
                             </div>
                             <p>{review.description}</p>
                             <div className="add-image">
-                                <img src={review.reviewImage? review.reviewImage:null}/>
+                                <div className="add-image">
+                                    {review.reviewImage &&
+                                        review.reviewImage !== "" && (
+                                            <img src={review.reviewImage} />
+                                        )}
+                                </div>
                             </div>
                         </div>
                         <div className="line5" />

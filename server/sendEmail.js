@@ -7,14 +7,14 @@ module.exports = async (email, subject, text) => {
       port: 465,
       secure: true,
       auth: {
-        user: "hillm0551",
-        pass: "Claudya290601!@#$%^&*()"
+        user: "foodieeats.team",
+        pass: process.env.EMAIL_PWD
       }
     });
     await transporter.sendMail({
       from: process.env.USER,
       to: email,
-      subject: subject,
+      subject: `FoodieEats: ${subject}`,
       text: text
     });
     console.log("email sent successfully");

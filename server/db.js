@@ -7,10 +7,8 @@ const DB =
 
 // connect to the DB
 mongoose.connect(DB, {
-  // useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  // useFindAndModify: false,
   dbName: "foodie-eats"
 });
 

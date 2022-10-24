@@ -5,7 +5,7 @@ import "./index.css";
 
 import "@fontsource/martel-sans";
 
-import WebLogo from '../../assets/images/foodie_eats_192x192.svg';
+import WebLogo from "../../assets/images/foodie_eats_192x192.svg";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -22,9 +22,9 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Collapse from "@mui/material/Collapse";
 
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
 const theme = createTheme({
     palette: {
@@ -47,7 +47,7 @@ function NavPublic() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isActive, setIsActive] = useState(false);
 
-    const handleMenu = (event) => {
+    const handleMenu = event => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -142,7 +142,10 @@ function NavPublic() {
                                                         }}
                                                     >
                                                         <div className="dropdwn-content">
-                                                            <img src={ WebLogo } width="107px"/>
+                                                            <img
+                                                                src={WebLogo}
+                                                                width="107px"
+                                                            />
                                                             <div className="dropdwn-link">
                                                                 <MenuItem
                                                                     onClick={
@@ -166,11 +169,16 @@ function NavPublic() {
                                                             <div className="dropdwn-back">
                                                                 <ArrowBackIosNewIcon
                                                                     sx={{
-                                                                        color: "white",
-                                                                        bgcolor: "#514F4E",
-                                                                        height: "61px",
-                                                                        width: "17px",
-                                                                        borderRadius: "10px 0px 0px 10px"
+                                                                        color:
+                                                                            "white",
+                                                                        bgcolor:
+                                                                            "#514F4E",
+                                                                        height:
+                                                                            "61px",
+                                                                        width:
+                                                                            "17px",
+                                                                        borderRadius:
+                                                                            "10px 0px 0px 10px"
                                                                     }}
                                                                 />
                                                             </div>
@@ -195,8 +203,7 @@ function NavPublic() {
                                                 style={{
                                                     fontSize: "20px",
                                                     textTransform: "none",
-                                                    fontFamily: "Martel Sans",
-                                                    
+                                                    fontFamily: "Martel Sans"
                                                 }}
                                                 sx={{
                                                     "&:hover": {
@@ -206,7 +213,7 @@ function NavPublic() {
                                                         height: 100,
                                                         alignItems: "center",
                                                         display: "flex"
-                                                    },
+                                                    }
                                                 }}
                                                 onClick={handleClick}
                                             >
@@ -265,7 +272,9 @@ function NavPublic() {
                                     href="/"
                                     style={{ textDecoration: "none" }}
                                 >
-                                    <Button href='/' color="inherit"><img src={ WebLogo } width="70px"/></Button>
+                                    <Button href="/" color="inherit">
+                                        <img src={WebLogo} width="70px" />
+                                    </Button>
                                 </Link>
                                 <Grid container justifyContent="space-between">
                                     <Box
@@ -293,7 +302,7 @@ function NavPublic() {
                                                         height: 100,
                                                         alignItems: "center",
                                                         display: "flex"
-                                                    },
+                                                    }
                                                     // borderBottom: isActive ? 2 : '',
                                                     // borderRadius: isActive ? 0 : '',
                                                     // color: isActive ? "text.main" : '',
@@ -332,7 +341,7 @@ function NavPublic() {
                                                         height: 100,
                                                         alignItems: "center",
                                                         display: "flex"
-                                                    },
+                                                    }
                                                     // borderBottom: isActive ? 2 : '',
                                                     // borderRadius: isActive ? 0 : '',
                                                     // color: isActive ? "text.main" : '',

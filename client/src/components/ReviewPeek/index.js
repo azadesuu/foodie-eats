@@ -74,18 +74,18 @@ const ReviewPeek = props => {
                         primary={
                             <React.Fragment>
                                 <div className="t1">
-                                        <Typography
-                                            variant="body2"
-                                            display="inline"
-                                            fontSize="10px"
-                                            fontFamily="Martel Sans"
-                                            marginBottom={0.2}
-                                        >
-                                            Date visited:{" "}
-                                            {new Date(
-                                                dateVisited
-                                            ).toLocaleDateString("en-GB")}
-                                        </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        display="inline"
+                                        fontSize="10px"
+                                        fontFamily="Martel Sans"
+                                        marginBottom={0.2}
+                                    >
+                                        Date visited:{" "}
+                                        {new Date(
+                                            dateVisited
+                                        ).toLocaleDateString("en-GB")}
+                                    </Typography>
 
                                     <Typography
                                         variant="body2"
@@ -134,7 +134,9 @@ const ReviewPeek = props => {
                                     fontSize="10px"
                                     fontFamily="Martel Sans"
                                 >
-                                    {description.length <= 70 ? description: (description.substr(0, 70) + "...")}
+                                    {description.length <= 70
+                                        ? description
+                                        : description.substr(0, 70) + "..."}
                                     <a
                                         onClick={event => {
                                             viewReview();

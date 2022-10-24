@@ -6,7 +6,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/chai": "^4.3.3",
     "bcrypt": "^5.0.1",
+    "chai-http": "^4.3.0",
     "cloudinary": "^1.32.0",
     "config": "^3.3.7",
     "constants": "^0.0.2",
@@ -20,6 +22,8 @@
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
+    "killable": "^1.0.1",
+    "mongodb-memory-server": "^8.9.3",
     "mongoose": "^6.6.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.7.8",
@@ -31,12 +35,24 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.2",
     "react-scripts": "5.0.1",
-    "socket.io": "^4.5.1",
     "utils": "^0.3.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "apidoc": "^0.25.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.4.0",
+    "mochawesome": "^6.1.1",
+    "mochawesome-report-generator": "^5.1.0",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "mocha",
+    "test-awesome": "mocha test --reporter mochawesome --reporter-options html=false",
+    "generate-test-report": "marge --inline -f testReport ./mochawesome-report/mochawesome.json",
+    "docs": "apidoc -i ./ -e node_modules -e ./docs -o ./docs"
   },
   "keywords": [],
   "author": "",

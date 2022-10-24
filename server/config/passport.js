@@ -10,7 +10,14 @@ const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 
-const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
+// one lowercase and uppercase alphabet, one number
+const strongPassword = new RegExp(
+  "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
+);
+const validUsername = new RegExp(
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){5,18}[a-zA-Z0-9]$"
+);
+const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
@@ -41,7 +48,10 @@ module.exports = function(passport) {
           // see if the user with the email exists
           User.findOne(
             {
-              $or: [{ username: email }, { email: email }]
+              $or: [
+                { username: email.toLowerCase() },
+                { email: email.toLowerCase() }
+              ]
             },
             function(err, user) {
               // if there are errors, user is not found or password doesn't match
@@ -81,22 +91,36 @@ module.exports = function(passport) {
               $or: [{ username: req.body.username }, { email: req.body.email }]
             },
             function(err, existingUser) {
+              const username = req.body.username;
+              const email = req.body.email;
               if (err) {
                 return done(err);
               }
               // if password isn't strong or email is already taken, return
               // message describing the issue
-              if (!password.match(strongPassword)) {
-                return done(null, {
-                  message: "Your password isn't strong enough."
-                });
-              }
               if (existingUser) {
                 return done(null, {
                   message: "That username/email is already taken."
                 });
+              } else if (!username || !email) {
+                return done(null, {
+                  message: "Username/email not defined."
+                });
+              } else if (!strongPassword.test(password)) {
+                return done(null, {
+                  message: "Your password isn't strong enough."
+                });
+              } else if (!validUsername.test(username)) {
+                return done(null, {
+                  message: "Your username isn't valid."
+                });
+              } else if (!validEmail.test(email)) {
+                return done(null, {
+                  message: "Your email isn't valid."
+                });
               } else {
                 // otherwise create a new user
+                // user+email is lowercased in database
                 var newUser = new User();
                 newUser.username = req.body.username;
                 newUser.email = req.body.email;
@@ -108,7 +132,6 @@ module.exports = function(passport) {
 
                   return done(null, newUser);
                 });
-                req.session.email = email;
               }
             }
           );
@@ -156,7 +179,10 @@ module.exports = function(passport) {
           // find the user associated with the email provided
           await User.findOne(
             {
-              $or: [{ username: email }, { email: email }]
+              $or: [
+                { username: email.toLowerCase() },
+                { email: email.toLowerCase() }
+              ]
             },
             function(err, user) {
               // if user is not found or there are other errors
