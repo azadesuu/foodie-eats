@@ -1,22 +1,20 @@
 name: MochaJS Testing
 on: [push]
 jobs:
-  run-test:
+  test:
+    name: 'Node.js v${{ matrix.node }}'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install dependencies in server
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
         run: npm install
         working-directory: server
-      - name: Install mocha
-        run: npm install -g mocha
-        working-directory: server
-      - name: Install jest globally
-        run: npm install -g jest
+      - name: Install MochaJS
+        run: npm install mocha -g
         working-directory: server
       - name: Server run
         run: npm start &
         working-directory: server
-      - name: Run test
-        run: npm test
+      - name: Run MochaJS tests
+        run: npm run test
+        working-directory: server
