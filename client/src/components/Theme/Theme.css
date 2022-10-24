@@ -120,20 +120,23 @@ span.smallScreen-Theme {
 .honeydew #edit-btn:hover {
     background-color: #fffeec;
 }
-.honeydew .searchResult, .honeydew #btn {
-    border: 2px solid #E4F3D3;
+.honeydew .searchResult,
+.honeydew #btn {
+    border: 2px solid #e4f3d3;
 }
 .honeydew input[type="checkbox"]:checked {
     accent-color: #e4f3d3;
 }
 .honeydew #navbar-login {
-    background-color: #BEE5B0;
+    background-color: #bee5b0;
 }
 .honeydew .searchResult .line5 {
     border-top: 1.5px solid #e4f3d3;
 }
-.honeydew .nav a, .honeydew .nav2 a, .honeydew #acc {
-    color: #000000; 
+.honeydew .nav a,
+.honeydew .nav2 a,
+.honeydew #acc {
+    color: #000000;
 }
 .honeydew #post-price .MuiSlider-thumb {
     color: #e4f3d3;
