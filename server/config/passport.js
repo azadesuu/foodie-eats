@@ -15,7 +15,7 @@ const strongPassword = new RegExp(
   "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
 );
 const validUsername = new RegExp(
-  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){5,18}[a-zA-Z0-9]$"
 );
 const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
