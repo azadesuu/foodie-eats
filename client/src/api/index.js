@@ -77,7 +77,11 @@ export const signupUser = async user => {
         })
         .then(res => res?.data?.data)
         .catch(err => {
-            alert(err.response.data.message);
+            if (err?.response?.data?.message) {
+                alert(err?.response?.data?.message);
+            } else {
+                console.log(err);
+            }
         });
 };
 
