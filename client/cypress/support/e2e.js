@@ -17,7 +17,9 @@
 import './commands'
 
 // Alternatively you can use CommonJS syntax:
-// require('./commands')
+//require('./commands')
 
-const mongo = require('cypress-mongodb');
-mongo.addCommands();
+//const mongo = require('cypress-mongodb');
+//mongo.addCommands();
+
+Cypress.on('uncaught:exception', () => false);

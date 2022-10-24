@@ -31,9 +31,9 @@ describe('The Community Page', () => {
 
         cy.get(':nth-child(2) > .active-link').click();
         cy.url().should('match', /\/my-reviews$/);
-        cy.get('.content-MyReviews > .nav > .bigScreen-nav > .css-e8h9ec > .MuiPaper-root > .MuiToolbar-root > .MuiGrid-root > .nav1 > :nth-child(3) > .active-link').click();
+        cy.get(':nth-child(3) > .active-link').click();
         cy.url().should('match', /\/my-bookmarks$/);
-        cy.get('.content-MyBookmarks > .nav > .bigScreen-nav > .css-e8h9ec > .MuiPaper-root > .MuiToolbar-root > .MuiGrid-root > .nav1 > :nth-child(4) > .active-link').click();
+        cy.get(':nth-child(4) > .active-link').click();
         cy.url().should('match', /\/create-review$/);
     })
 })
