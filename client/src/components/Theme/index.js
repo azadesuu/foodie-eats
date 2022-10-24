@@ -159,7 +159,6 @@ export default function Theme() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-
     return (
         <div className="content-Theme">
             <SEO data={allSEO.mytheme} />

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
+const SERVER_URL = "https://foodie-eats.herokuapp.com";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -77,7 +77,11 @@ export const signupUser = async user => {
         })
         .then(res => res?.data?.data)
         .catch(err => {
-            alert(err.response.data.message);
+            if (err?.response?.data?.message) {
+                alert(err?.response?.data?.message);
+            } else {
+                console.log(err);
+            }
         });
 };
 

@@ -117,7 +117,6 @@ function MenuSideBar() {
 
 function NavPublic() {
     document.documentElement.className = "honeydew";
-
     return (
         <div className="nav">
             <span className="smallScreen-nav">
