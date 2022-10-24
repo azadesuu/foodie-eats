@@ -5,30 +5,30 @@ span.bigScreen-Community {
 span.smallScreen-Community {
     display: none;
 }
-@media screen and (max-width: 570px) { 
+@media screen and (max-width: 570px) {
     span.bigScreen-Community {
-      display: none;
+        display: none;
     }
     span.smallScreen-Community {
-      display: inline;
-      width: 98%;
+        display: inline;
+        width: 98%;
     }
     .content-Community h1 {
-      font-size: 50px;
+        font-size: 50px;
     }
     .content-Community .searchrow {
-      width: 95%;
+        width: 95%;
     }
     .content-Community .searchbar {
         margin-top: 10px;
     }
     .content-Community .searchbar input {
-      height: 20px;
-      border-radius: 20px;
+        height: 20px;
+        border-radius: 20px;
     }
     .content-Community .location {
-      margin-left: 30px;
-      margin-top: -50px;
+        margin-left: 30px;
+        margin-top: -50px;
     }
     .content-Community .searchResult {
         width: 100%;
@@ -41,27 +41,27 @@ span.smallScreen-Community {
 }
 @media screen and (min-width: 570px) {
     .content-Community h1 {
-      font-size: 60px;
+        font-size: 60px;
     }
     .content-Community .searchrow {
-      width: 80%;
-      border-radius: 10px;
+        width: 80%;
+        border-radius: 10px;
     }
     .content-Community .searchbar {
         margin-top: -10px;
     }
     .content-Community .searchbar input {
-      height: 35px;
-      border-radius: 10px;
+        height: 35px;
+        border-radius: 10px;
     }
     .content-Community .location input {
         width: 250px;
     }
     .content-Community .location {
-      justify-content: flex-end;
-      margin-top: 10px;
-      margin-right: -30px;
-      margin-bottom: -20px;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-right: -30px;
+        margin-bottom: -20px;
     }
     .content-Community .searchResult {
         position: absolute;
@@ -114,7 +114,7 @@ body {
     align-items: center;
 }
 .content-Community .location input {
-    background: #FFFEEC;
+    background: #fffeec;
     border: none;
     font-size: 20px;
 }
@@ -128,7 +128,7 @@ body {
 }
 .content-Community .searchbar input {
     border: none;
-    background: #D9D9D9;
+    background: #d9d9d9;
     padding: 8px;
     font-size: 20px;
     width: 100%;
@@ -136,7 +136,7 @@ body {
 .content-Community .searchrow {
     display: flex;
     gap: 6px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border-radius: 20px;
     gap: 1px;
     align-items: center;
@@ -146,7 +146,7 @@ body {
 }
 .content-Community .searchResult {
     box-sizing: border-box;
-    background-color: #FFFCFB;
+    background-color: #fffcfb;
     overflow-y: scroll;
     overflow-x: hidden;
     z-index: 95;
@@ -174,7 +174,9 @@ body {
 .item input:not(checked) + #arrow {
     transition: 0.1s;
 }
-.item ul, input[id="title-rating"], input[id="title-price"]{
+.item ul,
+input[id="title-rating"],
+input[id="title-price"] {
     display: none;
 }
 .item input:checked ~ ul {
@@ -221,7 +223,7 @@ input:focus {
     display: flex;
     justify-content: center;
 }
-.content-Community .t1{
+.content-Community .t1 {
     display: flex;
     justify-content: space-between;
     margin-bottom: 2px;
@@ -246,7 +248,7 @@ input:focus {
     align-items: flex-start;
 }
 .content-Community .toprecom-content {
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;
@@ -263,7 +265,7 @@ input:focus {
     align-items: flex-start;
 }
 .content-Community .recent-content {
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     border-radius: 10px;
     border: 1px solid #000000;
     display: flex;

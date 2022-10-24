@@ -450,11 +450,14 @@ function EditReview() {
                                     <>
                                         <label>
                                             Add your images here
-                                            <br /> Click upload again to remove image.
+                                            <br /> Click upload again to remove
+                                            image.
                                             <input
                                                 type="file"
                                                 name="myImage"
-                                                onChange={event => onImageChange(event)}
+                                                onChange={event =>
+                                                    onImageChange(event)
+                                                }
                                                 accept="image/png, image/jpg, image/jpeg"
                                                 onClick={e => {
                                                     e.target.value = null;

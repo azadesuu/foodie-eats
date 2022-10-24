@@ -1,16 +1,15 @@
 span.bigScreen-Review {
     display: inline;
-    
 }
 span.smallScreen-Review {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-Review {
-      display: none;
+        display: none;
     }
     span.smallScreen-Review {
-      display: inline;
+        display: inline;
     }
     .content-Review h1 {
         font-size: 50px;
@@ -18,7 +17,8 @@ span.smallScreen-Review {
     .content-Review form {
         width: 316px;
     }
-    .content-Review .r1, .r2 {
+    .content-Review .r1,
+    .r2 {
         max-width: 316px;
     }
     .content-Review .sliderContainer {
@@ -35,12 +35,12 @@ span.smallScreen-Review {
         padding-left: 7px;
         padding-right: 7px;
     }
-    .content-Review .add-image img{
+    .content-Review .add-image img {
         height: 100px;
         width: 100px;
     }
 }
-@media screen and (min-width: 1000px) { 
+@media screen and (min-width: 1000px) {
     .content-Review h1 {
         font-size: 60px;
     }
@@ -65,7 +65,7 @@ span.smallScreen-Review {
     .content-Review .ratingContainer {
         margin-top: 10px;
     }
-    .content-Review .add-image img{
+    .content-Review .add-image img {
         height: 150px;
         width: 150px;
     }
@@ -104,7 +104,7 @@ span.smallScreen-Review {
     max-width: 1000px;
 }
 .content-Review .review-tags p {
-    background-color: #FFFCFB;
+    background-color: #fffcfb;
     border: 1px solid #949292;
     border-radius: 10px;
     padding: 5px;
@@ -121,7 +121,8 @@ span.smallScreen-Review {
     align-self: center;
     margin-top: 20px;
 }
-.content-Review input::placeholder, textarea::placeholder {
+.content-Review input::placeholder,
+textarea::placeholder {
     color: #000000;
 }
 .content-Review form .details-container {
@@ -141,7 +142,7 @@ span.smallScreen-Review {
     display: block;
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -151,7 +152,7 @@ span.smallScreen-Review {
     outline: none;
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 140px;
@@ -178,13 +179,13 @@ span.smallScreen-Review {
     font-size: 10px;
     margin: 0;
     height: 20px;
-    color: #6E6E66;
+    color: #6e6e66;
 }
 .authorButton {
     border: none;
     background-color: transparent;
     font-size: 10px;
-    color: #6E6E66;
+    color: #6e6e66;
 }
 .content-Review .likes-bookmark {
     display: flex;
@@ -225,14 +226,14 @@ span.smallScreen-Review {
     display: block;
     width: 95%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
 }
 .content-Review form .state-container {
     width: 150px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: 1px solid #000000;
     border-radius: 10px;
     display: flex;
@@ -241,7 +242,7 @@ span.smallScreen-Review {
 .content-Review form .state-container input {
     width: 100%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border: none;
     border-radius: 10px;
@@ -253,7 +254,7 @@ span.smallScreen-Review {
     display: block;
     width: 90%;
     padding: 10px 15px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
     height: 20px;
@@ -264,10 +265,10 @@ span.smallScreen-Review {
 .content-Review form .country-container input {
     width: 90%;
     padding: 10px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border: 1px solid #000000;
     border-radius: 10px;
-    height: 20px
+    height: 20px;
 }
 .content-Review .addImage {
     width: 80px;
@@ -288,7 +289,7 @@ span.smallScreen-Review {
     align-items: flex-start;
     margin-top: 20px;
 }
-.content-Review .add-image img{
+.content-Review .add-image img {
     border-radius: 10px;
 }
 .content-Review .editReviewButton {
@@ -323,10 +324,10 @@ span.smallScreen-Review {
     gap: 10px;
 }
 .content-Review .tags-input .rti--container {
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
 }
 .content-Review .tags-input .rti--input {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     color: rgba(0, 0, 0, 0.42);
 }
 .content-Review .review-tags .tags-input .rti--container {

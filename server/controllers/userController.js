@@ -18,8 +18,11 @@ const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err) {
-        const error = new Error("An Error occurred");
-        return next(error);
+        res.status(500).json({
+          success: false,
+          message: "Error occured while logginh in user."
+        });
+        return;
       } else if (!user) {
         const error = new Error("No user was found with the given user/email");
         return res.status(400).json({ err: error });
@@ -61,19 +64,27 @@ const signupUser = async (req, res, next) => {
           message: "Error occured while registering user."
         });
         return;
-      }
-      if (!user) {
-        const error = new Error("That username is already taken");
-        res.status(400).json(error);
+      } else if (!user) {
+        const error = new Error("That email/username is already taken");
+        res.status(400).json({
+          success: false,
+          message: "That email/username is already taken",
+          err: error
+        });
         return;
       }
       // if there is message describing error
       else if (user.message) {
-        res.status(400).json(user);
+        res.status(400).json({
+          success: false,
+          message: user.message
+        });
         return;
       } else {
         res.status(200).json({
-          success: true
+          success: true,
+          message: "Successfully signed up",
+          data: user
         });
         return;
       }

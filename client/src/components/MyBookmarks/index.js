@@ -33,7 +33,7 @@ function Post() {
     return (
         <div className="postButton">
             <SEO data={allSEO.mybookmarks} />
-             <IconButton href="/create-review">
+            <IconButton href="/create-review">
                 <PostAddIcon
                     id="btn"
                     sx={{
@@ -803,7 +803,7 @@ function ReviewsBigScreen(props) {
                     "&::-webkit-scrollbar-thumb": {
                         borderRadius: "10px",
                         maxHeight: "4px"
-                    }  
+                    }
                 }}
             >
                 {!user && <CircularProgress className="spinner" />}

@@ -54,7 +54,6 @@ function NavLoggedIn() {
     }
     const activeTheme = localStorage.getItem("theme");
 
-
     useEffect(() => {
         if (
             activeTheme === "honeydew" ||
@@ -68,7 +67,6 @@ function NavLoggedIn() {
             document.documentElement.className = "honeydew";
         }
     }, [activeTheme]);
-
 
     return (
         <div className="nav">

@@ -114,7 +114,6 @@ const ProfileImageUpload = props => {
             )}
             <button id="image-btn" onClick={submitHandler}>
                 Confirm Upload
-
             </button>
             <br />
             <button
@@ -141,7 +140,6 @@ function TopUser(props) {
                         transition: "all 0.3s ease-out",
                         "&:hover": {
                             boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
-
                         }
                     }}
                 >
@@ -163,7 +161,6 @@ function TopUser(props) {
                 {showUpload && (
                     <button
                         id="image-cancel"
-
                         onClick={() => setShowUpload(!showUpload)}
                     >
                         Cancel upload

@@ -10,7 +10,7 @@ module.exports = multer({
     if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") {
       cb(new Error("Unsupported File Format."), false);
       return;
-    } else if (fileSize > 10*1024*1024) {
+    } else if (fileSize > 10 * 1024 * 1024) {
       cb(new Error("Image too big."), false);
       return;
     }

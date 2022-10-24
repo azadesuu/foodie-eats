@@ -74,7 +74,7 @@ function MyTheme(props) {
     }, [user]);
     useEffect(() => {
         document.documentElement.className = currTheme;
-    }, [currTheme])
+    }, [currTheme]);
     const updateTheme = async theme => {
         try {
             const oldUser = await changeTheme({
@@ -104,15 +104,15 @@ function MyTheme(props) {
         <div>
             {userId ? (
                 <div className="themes">
-                    <div 
-                        id="honeydew" 
+                    <div
+                        id="honeydew"
                         className={toggleActiveTheme("honeydew")}
                         value="honeydew"
                         onClick={() => updateTheme("honeydew")}
                     >
                         <img id="honeydew" src={HoneyDew} />
                     </div>
-                    <div 
+                    <div
                         id="dragonfruit"
                         className={toggleActiveTheme("dragonfruit")}
                         value="dragonfruit"
@@ -120,7 +120,7 @@ function MyTheme(props) {
                     >
                         <img id="dragonfruit" src={Dragonfruit} />
                     </div>
-                    <div 
+                    <div
                         id="shokupan"
                         className={toggleActiveTheme("shokupan")}
                         value="shokupan"
@@ -128,7 +128,7 @@ function MyTheme(props) {
                     >
                         <img id="shokupan" src={Shokupan} />
                     </div>
-                    <div 
+                    <div
                         id="boring"
                         className={toggleActiveTheme("boring")}
                         value="boring"
@@ -159,7 +159,6 @@ export default function Theme() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-        
     return (
         <div className="content-Theme">
             <SEO data={allSEO.mytheme} />

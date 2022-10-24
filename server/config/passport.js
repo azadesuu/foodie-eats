@@ -10,7 +10,10 @@ const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 
-const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
+// one lowercase and uppercase alphabet, one number
+const strongPassword = new RegExp(
+  "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
+);
 const validUsername = new RegExp(
   "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
 );
@@ -95,25 +98,25 @@ module.exports = function(passport) {
               }
               // if password isn't strong or email is already taken, return
               // message describing the issue
-              else if (!username || !email) {
+              if (existingUser) {
+                return done(null, {
+                  message: "That username/email is already taken."
+                });
+              } else if (!username || !email) {
                 return done(null, {
                   message: "Username/email not defined."
                 });
-              } else if (!password.match(strongPassword)) {
+              } else if (!strongPassword.test(password)) {
                 return done(null, {
                   message: "Your password isn't strong enough."
                 });
-              } else if (!username.match(validUsername)) {
+              } else if (!validUsername.test(username)) {
                 return done(null, {
                   message: "Your username isn't valid."
                 });
-              } else if (!email.match(validEmail)) {
+              } else if (!validEmail.test(email)) {
                 return done(null, {
                   message: "Your email isn't valid."
-                });
-              } else if (existingUser) {
-                return done(null, {
-                  message: "That username/email is already taken."
                 });
               } else {
                 // otherwise create a new user

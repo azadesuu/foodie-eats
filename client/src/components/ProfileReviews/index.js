@@ -1,4 +1,3 @@
-
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import React from "react";

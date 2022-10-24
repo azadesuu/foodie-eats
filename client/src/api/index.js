@@ -69,31 +69,21 @@ export const signupUser = async user => {
 
     // POST the email and password to API to
     // signup user and receive the token explicitly
-    const data = await axios
+    return await axios
         .post(endpoint, {
             username,
             email,
             password
         })
-        .then(res => res.data)
-        .catch(() => {
-            return;
+        .then(res => res?.data?.data)
+        .catch(err => {
+            alert(err.response.data.message);
         });
-    if (!data) {
-        alert(
-            "Please try again with a different email/username or stronger password."
-        );
-    } else if (data.message) {
-        // show error message
-        alert(data.message);
-    } else {
-        //do nothing
-    }
 };
 
 export const forgotPassword = async email => {
     const user_email = { email: email };
-    return axios
+    return await axios
         .post(`${SERVER_URL}/forgotPassword`, user_email)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));

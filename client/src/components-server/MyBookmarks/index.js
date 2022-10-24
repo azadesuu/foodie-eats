@@ -7,28 +7,28 @@ import { UserContext } from "../../actions/UserContext";
 import ReviewPeek from "../ReviewPeek";
 
 export default function MyBookmarks() {
-  const [user, setUser] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
 
-  const userId = user?.id;
-  //{"_id":{"$in": ids}}
-  const { data: listReviews, isLoading } = useQuery(
-    "bookmarks",
-    () => getBookmarks(user?._id),
-    { enabled: user?.id }
-  );
+    const userId = user?.id;
+    //{"_id":{"$in": ids}}
+    const { data: listReviews, isLoading } = useQuery(
+        "bookmarks",
+        () => getBookmarks(user?._id),
+        { enabled: user?.id }
+    );
 
-  return (
-    <div>
-      {!user && <CircularProgress className="spinner" />}
-      {listReviews ? (
+    return (
         <div>
-          {listReviews.map(review => {
-            return <ReviewPeek data={review} />;
-          })}
+            {!user && <CircularProgress className="spinner" />}
+            {listReviews ? (
+                <div>
+                    {listReviews.map(review => {
+                        return <ReviewPeek data={review} />;
+                    })}
+                </div>
+            ) : (
+                <h1>Bookmarks not found</h1>
+            )}
         </div>
-      ) : (
-        <h1>Bookmarks not found</h1>
-      )}
-    </div>
-  );
+    );
 }
