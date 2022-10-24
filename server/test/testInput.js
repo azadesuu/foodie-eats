@@ -5,36 +5,36 @@ const mongoose = require("mongoose");
 exports.newUser = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserDupEmail = {
   username: "azadesuu2",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserDupUsername = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserNoEmail = {
-  username: "azadesuu",
-  password: "testing123@"
+  username: "azadesuu22",
+  password: "Testing123@"
 };
 
 exports.newUserInvalidUname = {
   username: "azadesuu?!",
   email: "sawy@student.unimelb.edu.au",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserInvalidEmail = {
-  username: "azadesuu",
+  username: "azadesuu22",
   email: "sawystudent.unimelb.edu.au",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserNoPassword = {
@@ -45,7 +45,7 @@ exports.newUserNoPassword = {
 //login
 exports.loginValidEmail = {
   email: "azadesuu@gmail.com",
-  password: "test123@"
+  password: "Testing123@"
 };
 
 // integration tests
