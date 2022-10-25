@@ -12,9 +12,6 @@ jobs:
       - name: Install MochaJS
         run: npm install mocha -g
         working-directory: server
-      - name: Server run
-        run: npm start &
-        working-directory: server
       - name: Run MochaJS tests
         run: npm test
         working-directory: server
