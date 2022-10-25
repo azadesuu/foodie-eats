@@ -1,4 +1,4 @@
-# COMP3022 IT Project
+# COMP30022 IT Project
 
 ## Table of Contents
 
