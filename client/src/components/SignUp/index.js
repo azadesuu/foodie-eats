@@ -55,7 +55,7 @@ function Register() {
                         }}
                     />
                 </div>
-                <span className="helper-text">5-18 characters</span>
+                <span className="helper-text">6-16 characters</span>
                 <div className="form-control">
                     <label>Username</label>
                     <input
