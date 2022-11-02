@@ -7,21 +7,6 @@ describe('The Signup Page', () => {
     cy.visit('/signup');
   })
 
-  /*it('successfully signs up a new user', () => {
-    cy.deleteOne({username: "login-test"}, { collection: 'users', database: 'foodie-eats' }).then(res => {
-      cy.log(res); // prints 1 (or 0) document deleted
-    });
-    
-    cy.get(':nth-child(2) > :nth-child(1) > #email').type('login-test@mail.com');
-    cy.get('#username').type('login-test');
-    cy.get(':nth-child(3) > #password').type('LoginTest12345@');
-    cy.get('.form-control-signup-pw-con > .form-control > #password').type('LoginTest12345@');
-    cy.get('.done').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Signup successful. Please Login.`);
-    })
-  })*/
-
   it('successfully displays alert when email not entered', () => {
     cy.get('#username').type('login-test');
     cy.get(':nth-child(5) > #password').type('LoginTest12345@');
