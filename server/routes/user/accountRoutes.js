@@ -289,7 +289,6 @@ accountRouter.get("/other-reviews/:userId", accountController.getReviews);
  * 
  */
 
-  
 // GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
 // need user auth
 accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
@@ -377,7 +376,7 @@ accountRouter
  * 
  * 
  */
- 
+
 // PATCH profile by userId -- Updates the user profile with new data and returns updated profile
 // needs user auth
 accountRouter.use("/updateUser/:userId", accountController.checkUserParams);
@@ -462,7 +461,6 @@ accountRouter
   .route("/changeTheme/:userId")
   .patch(accountController.changeTheme);
 
-
 /**
  * @api {POST} /changeTheme/:userId Updates the user theme in the MongoDB database
  * @apiName ChangeTheme
@@ -470,10 +468,10 @@ accountRouter
  * @apiSuccess User Info
  * @apiSuccessExample Successful Respone:
  * HTTP/1.1 200 OK
- * 
- * 
- * 
- */  
+ *
+ *
+ *
+ */
 
 // images
 accountRouter.post(
