@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import React from "react";
 import "./MyReviews.css";
 
@@ -952,6 +954,7 @@ function MyReviews() {
         <>
             {userProfile ? (
                 <div className="content-MyReviews">
+                    <SEO data={allSEO.myreviews} />
                     <span className="smallScreen-MyReviews">
                         <h1>MY REVIEWS</h1>
                         <ReviewsSmallScreen user={userProfile} />

@@ -9,12 +9,16 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true,
+    trim: true
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true,
+    trim: true
   },
   password: {
     type: String,
@@ -22,11 +26,12 @@ const userSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String,
-    default: "none"
+    default: ""
   },
   bio: {
     type: String,
-    default: "This person loves food too much to think of a bio right now!"
+    default: "This person loves food too much to think of a bio right now!",
+    trim: true
   },
   theme: {
     type: String,
@@ -57,7 +62,6 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
-
 // compile the Schema into a Model
 const User = mongoose.model("users", userSchema);
 

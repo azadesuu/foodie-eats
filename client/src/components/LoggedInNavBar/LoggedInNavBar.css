@@ -4,7 +4,7 @@ span.bigScreen-nav {
 span.smallScreen-nav {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-nav {
         display: none;
     }
@@ -18,7 +18,7 @@ span.smallScreen-nav {
     }
 }
 #navbar-login {
-    background-color: #BEE5B0;
+    background-color: #bee5b0;
 }
 .nav1 {
     display: flex;
@@ -39,7 +39,7 @@ span.smallScreen-nav {
     top: 0;
     left: 0;
     position: fixed;
-    background-color: #ECE7E5;
+    background-color: #ece7e5;
     width: 50%;
     height: 100%;
     display: flex;

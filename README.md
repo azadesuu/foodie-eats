@@ -1,10 +1,30 @@
 # COMP3022 IT Project
 
-## About our Project
+## Table of Contents
+
+- [About our project](#about-our-project)
+- [Application preview](#application-preview)
+- [Built with](#built-with)
+- [Run project](#run-project)
+- [Project history](#project-history)
+  - [Sprint 1](#sprint-1)
+  - [Sprint 2](#sprint-2)
+  - [Sprint 3](#sprint-3)
+- [Test Cases](#test-cases)
+- [Contributors](#contributors)
+
+## About our project
 
 FoodieEats is a web application that consolidates reviews of restaurants from users, mostly for personal use. After users log in using their email and password, they are able to create reviews, view other users' reviews, and bookmark specific reviews. Users can also visit the Community page, which displays the most recent reviews and the top recommended restaurants, based on the user’s current location. As an additional feature, users are also able to choose from a list of color themes for the website.
 
-### Built with
+## Application preview
+
+![alt text](github-images/community.png)
+![alt text](github-images/my-reviews.png)
+![alt text](github-images/post-a-review.png)
+![alt text](github-images/profile.png)
+
+## Built with
 
 - MongoDB
 - Express.js
@@ -14,11 +34,10 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 ## Run project
 
 1. Install Node.js and npm
-2. Install server dependencies with ‘npm install’
-3. Move to client directory (‘cd client’) and run ‘npm install’
-4. Move to main directory (‘cd ..’) and run ‘npm run’
+2. Go to server directory ('cd server'), install dependencies ('npm install'), run server ('npm run start')
+3. Go to client directory ('cd client'), install dependencies ('npm install'), run client ('npm run start')
 
-## Project History
+## Project history
 
 ### Sprint 1
 
@@ -36,24 +55,24 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
   - View/Edit MyProfile
   - Change Theme/Password
   - Authenticated (Private) Routes
-- Missingfeatures:
-  - Authenticated Navigation Bar
-  - CSS for Logout, ForgotPassword, PageNotFound, MyTheme, (Other)Profile+ProfileReviews
-  - Features: toggleLike/Bookmark/flag, filter/search, deletereview, upload images
-  - Admin features: deleteReview, deleteUser, flagged
 
 ### Sprint 3
 
 - Focusing on CSS, unit/integration testing(MochaJS), front-end testing(Cypress)
 - Implementing last few features (toggleLike/Bookmark/flag, filter/search, deletereview, upload images)
-- Google parsing/Admin features implemented if time permits
 
 ## Test Cases
 
+- Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
+- Cypress test cases in client/cypress
+- MochaJS test cases in server/**tests**
+
 ## Contributors
 
-- Ying Shan Saw (Celene)
-- Joeann Chong
-- Claudya Laurance Cahyadi
-- Anthony Ouch
-- Sandeepa Andra Hennadige
+| Name                     | GitHub ID   | Role                 |
+| ------------------------ | ----------- | -------------------- |
+| Ying Shan Saw (Celene)   | azadesuu    | Full-Stack Developer |
+| Joeann Chong             | joeannc     | Front-end Developer  |
+| Claudya Laurance Cahyadi | ccahyadi    | Back-end Developer   |
+| Anthony Ouch             | anthonyouch | Full-Stack Developer |
+| Sandeepa Andra Hennadige | Lakvinu     | Full-Stack Developer |

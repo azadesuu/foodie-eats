@@ -96,12 +96,12 @@ span.smallScreen-Theme {
 }
 
 .honeydew {
-    background-color: #FFFEEC;
+    background-color: #fffeec;
 }
-.honeydew #current, 
-.honeydew .footer, 
+.honeydew #current,
+.honeydew .footer,
 .honeydew .image-edit,
-.honeydew #navbar-login, 
+.honeydew #navbar-login,
 .honeydew #top-recom-big::-webkit-scrollbar-thumb,
 .honeydew .searchResult::-webkit-scrollbar-thumb,
 .honeydew #bookmarks-small::-webkit-scrollbar-thumb,
@@ -111,47 +111,50 @@ span.smallScreen-Theme {
 .honeydew #myreviews-big::-webkit-scrollbar-thumb,
 .honeydew .tags-input::-webkit-scrollbar-thumb,
 .honeydew .resName-price .price-range .input {
-    background-color: #E4F3D3;
+    background-color: #e4f3d3;
 }
 .honeydew .location input,
-.honeydew .image-edit #image-btn, 
-.honeydew #image-cancel, 
+.honeydew .image-edit #image-btn,
+.honeydew #image-cancel,
 .honeydew input[type="file"]::file-selector-button,
 .honeydew #edit-btn:hover {
-    background-color: #FFFEEC;
+    background-color: #fffeec;
 }
-.honeydew .searchResult, .honeydew #btn {
-    border: 2px solid #E4F3D3;
+.honeydew .searchResult,
+.honeydew #btn {
+    border: 2px solid #e4f3d3;
 }
 .honeydew input[type="checkbox"]:checked {
-    accent-color: #E4F3D3;
+    accent-color: #e4f3d3;
 }
 .honeydew #navbar-login {
-    background-color: #BEE5B0;
+    background-color: #bee5b0;
 }
 .honeydew .searchResult .line5 {
-    border-top: 1.5px solid #E4F3D3;
+    border-top: 1.5px solid #e4f3d3;
 }
-.honeydew .nav a, .honeydew .nav2 a, .honeydew #acc {
-    color: #000000; 
+.honeydew .nav a,
+.honeydew .nav2 a,
+.honeydew #acc {
+    color: #000000;
 }
-.honeydew #post-price .MuiSlider-thumb  {
-    color: #E4F3D3;
+.honeydew #post-price .MuiSlider-thumb {
+    color: #e4f3d3;
 }
-.honeydew .nav1 a.active-link.active, 
-.honeydew .nav2 a.active-link.active, 
-.honeydew .nav1 a.active-link:hover, 
+.honeydew .nav1 a.active-link.active,
+.honeydew .nav2 a.active-link.active,
+.honeydew .nav1 a.active-link:hover,
 .honeydew .nav2 a.active-link:hover {
     border-bottom: 2px solid #000000;
 }
 
 .dragonfruit {
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
 }
-.dragonfruit #current, 
-.dragonfruit .footer, 
+.dragonfruit #current,
+.dragonfruit .footer,
 .dragonfruit .image-edit,
-.dragonfruit #navbar-login, 
+.dragonfruit #navbar-login,
 .dragonfruit #top-recom-big::-webkit-scrollbar-thumb,
 .dragonfruit .searchResult::-webkit-scrollbar-thumb,
 .dragonfruit #bookmarks-small::-webkit-scrollbar-thumb,
@@ -162,47 +165,51 @@ span.smallScreen-Theme {
 .dragonfruit .tags-input::-webkit-scrollbar-thumb,
 .dragonfruit #btn,
 .dragonfruit .resName-price .price-range .input {
-    background-color: #C55781;
+    background-color: #c55781;
 }
 .dragonfruit .location input,
-.dragonfruit .image-edit #image-btn, 
-.dragonfruit #image-cancel, 
+.dragonfruit .image-edit #image-btn,
+.dragonfruit #image-cancel,
 .dragonfruit input[type="file"]::file-selector-button,
 .dragonfruit #edit-btn:hover {
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
 }
 .dragonfruit .searchResult {
-    border: 2px solid #C55781;
+    border: 2px solid #c55781;
 }
 .dragonfruit input[type="checkbox"]:checked {
-    accent-color: #C55781;
+    accent-color: #c55781;
 }
-.dragonfruit #current, .dragonfruit .footer, .dragonfruit #navbar-login {
-    background-color: #C55781;
+.dragonfruit #current,
+.dragonfruit .footer,
+.dragonfruit #navbar-login {
+    background-color: #c55781;
 }
 .dragonfruit .searchResult .line5 {
-    border-top: 1.5px solid #C55781;
+    border-top: 1.5px solid #c55781;
 }
-.dragonfruit .nav1 a, .dragonfruit .nav2 a, .dragonfruit #acc {
+.dragonfruit .nav1 a,
+.dragonfruit .nav2 a,
+.dragonfruit #acc {
     color: #000000;
 }
-.dragonfruit #post-price .MuiSlider-thumb  {
-    color: #C55781;
+.dragonfruit #post-price .MuiSlider-thumb {
+    color: #c55781;
 }
-.dragonfruit .nav1 a.active-link.active, 
-.dragonfruit .nav2 a.active-link.active, 
-.dragonfruit .nav1 a.active-link:hover, 
+.dragonfruit .nav1 a.active-link.active,
+.dragonfruit .nav2 a.active-link.active,
+.dragonfruit .nav1 a.active-link:hover,
 .dragonfruit .nav2 a.active-link:hover {
     border-bottom: 2px solid #000000;
 }
 
 .shokupan {
-    background-color: #FEFBE9;
+    background-color: #fefbe9;
 }
-.shokupan #current, 
-.shokupan .footer, 
+.shokupan #current,
+.shokupan .footer,
 .shokupan .image-edit,
-.shokupan #navbar-login, 
+.shokupan #navbar-login,
 .shokupan #top-recom-big::-webkit-scrollbar-thumb,
 .shokupan .searchResult::-webkit-scrollbar-thumb,
 .shokupan #bookmarks-small::-webkit-scrollbar-thumb,
@@ -213,48 +220,52 @@ span.smallScreen-Theme {
 .shokupan .tags-input::-webkit-scrollbar-thumb,
 .shokupan #btn,
 .shokupan .resName-price .price-range .input {
-    background-color: #BD7D4E;
-    color: #FEFBE9;
+    background-color: #bd7d4e;
+    color: #fefbe9;
 }
 .shokupan .location input,
-.shokupan .image-edit #image-btn, 
-.shokupan #image-cancel, 
+.shokupan .image-edit #image-btn,
+.shokupan #image-cancel,
 .shokupan input[type="file"]::file-selector-button,
 .shokupan #edit-btn:hover {
-    background-color: #FEFBE9;
+    background-color: #fefbe9;
 }
 .shokupan .searchResult {
-    border: 2px solid #BD7D4E;
+    border: 2px solid #bd7d4e;
 }
 .shokupan input[type="checkbox"]:checked {
-    accent-color: #BD7D4E;
+    accent-color: #bd7d4e;
 }
-.shokupan #current, .shokupan .footer, .shokupan #navbar-login {
-    background-color: #BD7D4E;
+.shokupan #current,
+.shokupan .footer,
+.shokupan #navbar-login {
+    background-color: #bd7d4e;
 }
 .shokupan .searchResult .line5 {
-    border-top: 1.5px solid #BD7D4E;
+    border-top: 1.5px solid #bd7d4e;
 }
-.shokupan .nav1 a, .shokupan .nav2 a, .shokupan #acc {
+.shokupan .nav1 a,
+.shokupan .nav2 a,
+.shokupan #acc {
     color: #000000;
 }
-.shokupan #post-price .MuiSlider-thumb  {
-    color: #BD7D4E;
+.shokupan #post-price .MuiSlider-thumb {
+    color: #bd7d4e;
 }
-.shokupan .nav1 a.active-link.active, 
+.shokupan .nav1 a.active-link.active,
 .shokupan .nav2 a.active-link.active,
-.shokupan .nav1 a.active-link:hover, 
+.shokupan .nav1 a.active-link:hover,
 .shokupan .nav2 a.active-link:hover {
     border-bottom: 2px solid #000000;
 }
 
 .boring {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 }
-.boring #current, 
-.boring .footer, 
+.boring #current,
+.boring .footer,
 .boring .image-edit,
-.boring #navbar-login, 
+.boring #navbar-login,
 .boring #top-recom-big::-webkit-scrollbar-thumb,
 .boring .searchResult::-webkit-scrollbar-thumb,
 .boring #bookmarks-small::-webkit-scrollbar-thumb,
@@ -265,45 +276,47 @@ span.smallScreen-Theme {
 .boring .tags-input::-webkit-scrollbar-thumb,
 .boring #btn,
 .boring .resName-price .price-range .input {
-    background-color: #2B2B2B;
-    color: #FFFFFF;
+    background-color: #2b2b2b;
+    color: #ffffff;
 }
 .boring .location input,
-.boring .image-edit #image-btn, 
-.boring #image-cancel, 
+.boring .image-edit #image-btn,
+.boring #image-cancel,
 .boring input[type="file"]::file-selector-button,
 .boring #edit-btn:hover {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 }
 .boring .searchResult {
-    border: 2px solid #2B2B2B;
+    border: 2px solid #2b2b2b;
 }
 .boring input[type="checkbox"]:checked {
-    accent-color: #2B2B2B;
+    accent-color: #2b2b2b;
 }
 .boring .searchResult .line5 {
-    border-top: 1.5px solid #2B2B2B;
+    border-top: 1.5px solid #2b2b2b;
 }
-.boring .nav2 a, .boring #hamburger-menu, .boring #acc {
-    color: #FFFFFF;
+.boring .nav2 a,
+.boring #hamburger-menu,
+.boring #acc {
+    color: #ffffff;
 }
-.boring #post-price .MuiSlider-thumb  {
-    color: #2B2B2B;
+.boring #post-price .MuiSlider-thumb {
+    color: #2b2b2b;
 }
-.boring .nav1 a.active-link.active, 
+.boring .nav1 a.active-link.active,
 .boring .nav2 a.active-link.active,
-.boring .nav1 a.active-link:hover, 
+.boring .nav1 a.active-link:hover,
 .boring .nav2 a.active-link:hover {
-    border-bottom: 2px solid #FFFFFF;
+    border-bottom: 2px solid #ffffff;
 }
 
 .blueberry {
-    background-color: #F0FAFF;
+    background-color: #f0faff;
 }
-.blueberry #current, 
-.blueberry .footer, 
+.blueberry #current,
+.blueberry .footer,
 .blueberry .image-edit,
-.blueberry #navbar-login, 
+.blueberry #navbar-login,
 .blueberry #top-recom-big::-webkit-scrollbar-thumb,
 .blueberry .searchResult::-webkit-scrollbar-thumb,
 .blueberry #bookmarks-small::-webkit-scrollbar-thumb,
@@ -314,33 +327,35 @@ span.smallScreen-Theme {
 .blueberry .tags-input::-webkit-scrollbar-thumb,
 .blueberry #btn,
 .blueberry .resName-price .price-range .input {
-    background-color: #6698B7;
+    background-color: #6698b7;
 }
 .blueberry .location input,
-.blueberry .image-edit #image-btn, 
-.blueberry #image-cancel, 
+.blueberry .image-edit #image-btn,
+.blueberry #image-cancel,
 .blueberry input[type="file"]::file-selector-button,
 .blueberry #edit-btn:hover {
-    background-color: #F0FAFF;
+    background-color: #f0faff;
 }
 .blueberry .searchResult {
-    border: 2px solid #6698B7;
+    border: 2px solid #6698b7;
 }
 .blueberry input[type="checkbox"]:checked {
-    accent-color: #6698B7;
+    accent-color: #6698b7;
 }
 .blueberry .searchResult .line5 {
-    border-top: 1.5px solid #6698B7;
+    border-top: 1.5px solid #6698b7;
 }
-.blueberry .nav1 a, .blueberry .nav2 a, .blueberry #acc {
+.blueberry .nav1 a,
+.blueberry .nav2 a,
+.blueberry #acc {
     color: #000000;
 }
-.blueberry #post-price .MuiSlider-thumb  {
-    color: #6698B7;
+.blueberry #post-price .MuiSlider-thumb {
+    color: #6698b7;
 }
-.blueberry .nav1 a.active-link.active, 
+.blueberry .nav1 a.active-link.active,
 .blueberry .nav2 a.active-link.active,
-.blueberry .nav1 a.active-link:hover, 
+.blueberry .nav1 a.active-link:hover,
 .blueberry .nav2 a.active-link:hover {
     border-bottom: 2px solid #000000;
 }

@@ -4,12 +4,12 @@ span.bigScreen-EditReview {
 span.smallScreen-EditReview {
     display: none;
 }
-@media screen and (max-width: 1000px) { 
+@media screen and (max-width: 1000px) {
     span.bigScreen-EditReview {
-      display: none;
+        display: none;
     }
     span.smallScreen-EditReview {
-      display: inline;
+        display: inline;
     }
     .content-EditReview h1 {
         font-size: 50px;
@@ -30,7 +30,7 @@ span.smallScreen-EditReview {
         width: 305px;
     }
 }
-@media screen and (min-width: 1000px) { 
+@media screen and (min-width: 1000px) {
     .content-EditReview h1 {
         font-size: 60px;
     }
@@ -216,7 +216,7 @@ textarea
     background-color: #ffffff;
     border-radius: 10px;
     border: 1px solid #000000;
-    height: 20px
+    height: 20px;
 }
 .content-EditReview .addImage {
     width: 80px;

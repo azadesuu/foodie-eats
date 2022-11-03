@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const SERVER_URL = "https://foodie-eats.herokuapp.com";
-// const SERVER_URL = "http://localhost:5000";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -70,54 +69,41 @@ export const signupUser = async user => {
 
     // POST the email and password to API to
     // signup user and receive the token explicitly
-    const data = await axios
+    return await axios
         .post(endpoint, {
             username,
             email,
             password
         })
-        .then(res => res.data)
-        .catch(() => {
-            return;
+        .then(res => res?.data?.data)
+        .catch(err => {
+            if (err?.response?.data?.message) {
+                alert(err?.response?.data?.message);
+            } else {
+                console.log(err);
+            }
         });
-    if (!data) {
-        alert(
-            "Please try again with a different email/username or stronger password."
-        );
-    } else if (data.message) {
-        // show error message
-        alert(data.message);
-    } else {
-        //do nothing
-    }
 };
 
 export const forgotPassword = async email => {
     const user_email = { email: email };
-    return axios
+    return await axios
         .post(`${SERVER_URL}/forgotPassword`, user_email)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 // COMMUNITY
 
-export const getCommunityRecent = async postcode => {
+export const getCommunityRecent = async () => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByRecent/${postcode}`)
+        .get(`${SERVER_URL}/review/getReviewsByRecent`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
 
-export const getCommunityMostLiked = async postcode => {
+export const getCommunityMostLiked = async () => {
     return await axios
-        .get(`${SERVER_URL}/review/getReviewsByLikes/${postcode}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getAllReviews = async () => {
-    return await axios
-        .get(`${SERVER_URL}/review/getAllReviews`)
+        .get(`${SERVER_URL}/review/getReviewsByLikes`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -178,13 +164,6 @@ export const getBookmarks = async data => {
         .catch(err => console.log(err));
 };
 
-export const getBookmarksSearch = async data => {
-    return await axios
-        .post(`${SERVER_URL}/account/my-bookmarks/search`, data)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // // ------ Profiles
 
 export const getProfile = async username => {
@@ -206,14 +185,6 @@ export const getOtherReviews = async userId => {
 export const getMyReviews = async userId => {
     return await axios
         .get(`${SERVER_URL}/account/my-reviews/${userId}`)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const getMyReviewsSearch = async data => {
-    const { userId } = data;
-    return await axios
-        .post(`${SERVER_URL}/account/my-reviews/${userId}/search`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -245,7 +216,7 @@ export const changeTheme = async data => {
 
 // imageUploads
 export const uploadProfileImage = async data => {
-    const { userId, url } = data;
+    const { userId } = data;
     return await axios
         .post(`${SERVER_URL}/account/uploadProfileImage/${userId}`, data)
         .then(res => res?.data?.data)
@@ -264,14 +235,6 @@ export const uploadReviewImage = async data => {
     const { file, reviewId } = data;
     return await axios
         .post(`${SERVER_URL}/review/uploadReviewImage/${reviewId}`, file)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
-export const deleteReviewImage = async data => {
-    const { reviewId } = data;
-    return await axios
-        .post(`${SERVER_URL}/review/deleteReviewImage/${reviewId}`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

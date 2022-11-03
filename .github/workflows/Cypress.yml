@@ -1,0 +1,25 @@
+name: Cypress Testing
+on: [push]
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies in server
+        run: npm install
+        working-directory: server
+      - name: Run server
+        run: |
+          npm run start &
+          sleep 5 &&
+          curl http://localhost:5000 -I
+        working-directory: server
+      - name: Install dependencies in client
+        run: npm install
+        working-directory: client
+      - name: Run test
+        uses: cypress-io/github-action@v4.2.0
+        with:
+          working-directory: client
+          start: npm start

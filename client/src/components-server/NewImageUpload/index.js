@@ -38,7 +38,6 @@ export default function NewImageUpload() {
             alert(err);
         }
     }
-    
     async function deleteHandler(url) {
         if (url) {
             const deleted = await deleteNewImage({ url: url });

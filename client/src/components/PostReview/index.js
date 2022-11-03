@@ -1,3 +1,5 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./PostReview.css";
 
 import "@fontsource/martel-sans";
@@ -46,7 +48,7 @@ function PostReview() {
     const [tags, setTags] = useState([]);
 
     //images
-    const [image, setImage] = useState({});
+    const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
 
     const imageHandler = async () => {
@@ -100,7 +102,7 @@ function PostReview() {
             alert("Postcode is invalid.");
         } else if (!description) {
             alert("description is missing");
-        } else if (image.size / 1024 / 1024 > 10) {
+        } else if (image?.size / 1024 / 1024 > 10) {
             alert("image is too big!");
         } else {
             const address = {
@@ -152,6 +154,8 @@ function PostReview() {
 
     return (
         <div className="content-PostReview">
+            <SEO data={allSEO.postreview} />
+
             {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
@@ -287,6 +291,7 @@ function PostReview() {
                                 <input
                                     type="date"
                                     placeholder="date you visited DD/MM/YY"
+                                    value={new Date()}
                                     onChange={e => {
                                         setDate(e.target.value);
                                     }}
@@ -415,6 +420,7 @@ function PostReview() {
                                         onClick={e => {
                                             e.target.value = null;
                                             setPreviewImage(null);
+                                            setImage(null);
                                         }}
                                         required
                                     />
@@ -428,7 +434,7 @@ function PostReview() {
                                             height={100}
                                         />
                                         <br />
-                                    </label> 
+                                    </label>
                                 ) : (
                                     <p></p>
                                 )}
@@ -739,29 +745,33 @@ function PostReview() {
                                     <div className="add-image">
                                         <label>
                                             Add your images here
-                                            <br /> Click upload again to remove image.
+                                            <br /> Click upload again to remove
+                                            image.
                                             <input
                                                 type="file"
                                                 name="myImage"
-                                                onChange={event => onImageChange(event)}
+                                                onChange={event =>
+                                                    onImageChange(event)
+                                                }
                                                 accept="image/png, image/jpg, image/jpeg"
                                                 onClick={e => {
                                                     e.target.value = null;
                                                     setPreviewImage(null);
+                                                    setImage(null);
                                                 }}
                                                 required
                                             />
                                         </label>
                                         {previewImage ? (
-                                           <label>
-                                            <img
-                                                src={previewImage}
-                                                alt="preview image"
-                                                width={100}
-                                                height={100}
-                                            />
-                                            <br />
-                                        </label> 
+                                            <label>
+                                                <img
+                                                    src={previewImage}
+                                                    alt="preview image"
+                                                    width={100}
+                                                    height={100}
+                                                />
+                                                <br />
+                                            </label>
                                         ) : (
                                             <p></p>
                                         )}

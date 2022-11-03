@@ -1,5 +1,6 @@
+import { allSEO } from "../../utils/allSEO";
+import SEO from "../SEO";
 import "./SignUp.css";
-
 import React from "react";
 import { useState } from "react";
 import { signupUser } from "../../api";
@@ -24,9 +25,10 @@ function Register() {
                     email: email,
                     password: password
                 });
-                alert("Signup successful. Please Login.");
-                navigate("/login");
-                
+                if (user) {
+                    alert("Signup successful. Please Login.");
+                    navigate("/login");
+                }
             } catch (err) {
                 alert(err);
             }
@@ -38,12 +40,13 @@ function Register() {
     return (
         <div className="content-register">
             <Login />
+            <SEO data={allSEO.signup} />
             <form action="#" method="post" class="form" id="form">
                 <div className="form-control">
-                    <label>Email </label>
+                    <label>Email</label>
                     <input
                         type="text"
-                        placeholder="enter your email here"
+                        placeholder="email"
                         name="email"
                         id="email"
                         value={email}
@@ -52,12 +55,12 @@ function Register() {
                         }}
                     />
                 </div>
-
+                <span className="helper-text">5-18 characters</span>
                 <div className="form-control">
-                    <label>Username </label>
+                    <label>Username</label>
                     <input
                         type="text"
-                        placeholder="enter your username here"
+                        placeholder="Enter a username"
                         name="username"
                         id="username"
                         value={username}
@@ -66,11 +69,14 @@ function Register() {
                         }}
                     />
                 </div>
+                <span className="helper-text">
+                    1 lowercase, 1 uppercase letter, and 1 number
+                </span>
                 <div className="form-control">
-                    <label>Password </label>
+                    <label>Password</label>
                     <input
                         type="password"
-                        placeholder="enter your password here"
+                        placeholder="Enter your password"
                         name="password"
                         id="password"
                         value={password}
@@ -79,12 +85,13 @@ function Register() {
                         }}
                     />
                 </div>
+
                 <div className="form-control-signup-pw-con">
                     <div className="form-control">
-                        <label>Confirm Password </label>
+                        <label>Confirm Password</label>
                         <input
                             type="password"
-                            placeholder="enter your password again"
+                            placeholder="re-enter your password"
                             name="password"
                             id="password"
                             value={confirmPassword}

@@ -1,0 +1,22 @@
+name: MochaJS Testing
+on: [push]
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies in server
+        run: npm install
+        working-directory: server
+      - name: Install mocha
+        run: npm install -g mocha
+        working-directory: server
+      - name: Install jest globally
+        run: npm install -g jest
+        working-directory: server
+      - name: Server run
+        run: npm start &
+        working-directory: server
+      - name: Run test
+        run: npm test
