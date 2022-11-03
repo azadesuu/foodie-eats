@@ -66,6 +66,7 @@ const EditProfile = data => {
                             type="text"
                             name="usernameEdit"
                             id="usernameEdit"
+                            maxLength={15}
                             value={usernameEdit}
                             placeholder="Edit your username here"
                             onChange={event => {
@@ -92,6 +93,7 @@ const EditProfile = data => {
                             type="text"
                             name="bioEdit"
                             id="bioEdit"
+                            maxLength={100}
                             value={bioEdit}
                             placeholder="Edit your bio here"
                             onChange={event => {

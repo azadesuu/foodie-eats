@@ -431,6 +431,7 @@ function EditReview() {
                                 <div className="details-container">
                                     <textarea
                                         type="text"
+                                        maxLength={160}
                                         defaultValue={review.description}
                                         onChange={e => {
                                             review.description = e.target.value;
@@ -440,6 +441,7 @@ function EditReview() {
                                 <div className="tags-input">
                                     <TagsInput
                                         name="tags"
+                                        maxLength={20}
                                         value={review.tags}
                                         placeHolder="#tags"
                                         onChange={setTags}
@@ -655,6 +657,7 @@ function EditReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
+                                                maxLength={160}
                                                 defaultValue={
                                                     review.description
                                                 }
@@ -667,6 +670,7 @@ function EditReview() {
                                         <div className="tags-input">
                                             <TagsInput
                                                 name="tags"
+                                                maxLength={20}
                                                 value={review.tags}
                                                 placeHolder="#tags"
                                                 onChange={setTags}

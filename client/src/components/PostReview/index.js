@@ -386,6 +386,7 @@ function PostReview() {
                                     <textarea
                                         type="text"
                                         placeholder="description..."
+                                        maxLength={160}
                                         onChange={e => {
                                             setDescription(e.target.value);
                                         }}
@@ -397,6 +398,7 @@ function PostReview() {
                                         name="tags"
                                         value={tags}
                                         placeHolder="#tags"
+                                        maxLength={20}
                                         onChange={setTags}
                                     />
                                 </div>
@@ -599,6 +601,7 @@ function PostReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
+                                                maxLength={160}
                                                 placeholder="description..."
                                                 onChange={e => {
                                                     setDescription(
@@ -611,6 +614,7 @@ function PostReview() {
                                         <div className="tags-input">
                                             <TagsInput
                                                 name="tags"
+                                                maxLength={20}
                                                 value={tags}
                                                 placeHolder="#tags"
                                                 onChange={setTags}
