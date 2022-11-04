@@ -55,8 +55,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha --timeout 1000000",
-    "test-awesome": "mocha test --reporter mochawesome --reporter-options html=false",
-    "generate-test-report": "marge --inline -f testReport ./mochawesome-report/mochawesome.json",
+    "test-awesome": "mocha test --reporter mochawesome --reporter-options html=false --timeout 1000000",
+    "generate-test-report": "marge --inline -f testReport ./mochawesome-report/mochawesome.json --timeout 1000000",
     "docs": "apidoc -i ./ -e node_modules -e ./docs -o ./docs"
   },
   "keywords": [],
