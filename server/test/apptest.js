@@ -1,4 +1,5 @@
-//setup server
+// -------------- SERVER SETUP --------------
+
 require("dotenv").config();
 
 const http = require("http");
@@ -96,7 +97,7 @@ server.listen(port, () => {
   console.log(`The server is listening on port ${port}!`);
 });
 
-//start tests
+// -------------- TESTS imports --------------
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
@@ -120,167 +121,427 @@ before(async () => {
 
 after(async () => {
   await closeDB();
-  await server.kill(function() {
-    console.log("Closing test server");
+  await server.kill(() => {
+    console.log("Closing test server..");
+    console.log("End of tests.");
     //the server is down when this is called. That won't take long. (<10s)
   });
 });
 
 // -------------- TESTS --------------
 // Unit Tests
-describe("Unit tests: User ", () => {
+describe("Unit tests ", () => {
+  // clear data from db after tests
   after(async () => {
+    console.log("Clearing collections..");
     await clearCollections();
   });
 
-  it("Signs up the user", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUser)
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-      });
-  });
-
-  it("Doesn't register the duplicate user (email)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserDupEmail)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "That username/email is already taken."
+  describe("Registration ", () => {
+    it("Registers the user", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUser)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
         });
-      });
-  });
-
-  it("Doesn't register the duplicate user (username)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserDupUsername)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "That username/email is already taken."
+    });
+    it("Doesn't register the duplicate user (email)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserDupEmail)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "That username/email is already taken."
+          });
         });
-      });
-  });
-
-  it("Doesn't register the empty field (email)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserNoEmail)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "Username/email not defined."
+    });
+    it("Doesn't register the duplicate user (username)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserDupUsername)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "That username/email is already taken."
+          });
         });
-      });
-  });
-
-  it("Doesn't register the invalid field (username)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserInvalidUname)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "Your username isn't valid."
+    });
+    it("Doesn't register the empty field (email)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserNoEmail)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Username/email not defined."
+          });
         });
-      });
-  });
-  it("Doesn't register the invalid field (email)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserInvalidEmail)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "Your email isn't valid."
+    });
+    it("Doesn't register the invalid field (username)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserInvalidUname)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Your username isn't valid."
+          });
         });
-      });
-  });
-  //done register check
-  it("Doesn't register the invalid field (email)", async function() {
-    return await request(app)
-      .post("/signup")
-      .send(testInput.newUserInvalidEmail)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-        res.body.should.includes({
-          message: "Your email isn't valid."
+    });
+    it("Doesn't register the invalid field (email)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserInvalidEmail)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Your email isn't valid."
+          });
         });
-      });
+    });
+    it("Doesn't register the invalid field (email)", async function() {
+      return await request(app)
+        .post("/signup")
+        .send(testInput.newUserInvalidEmail)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Your email isn't valid."
+          });
+        });
+    });
+    // done register check
   });
 
-  // get recent reviews
-  it("Get recent reviews", async function() {
-    return await request(app)
-      .get("/review/getReviewsByRecent")
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-        res.body.should.includes({ message: "Recent reviews found" });
-      });
-  });
+  describe("Get Reviews ", () => {
+    // get recent/top reviews
+    it("Get recent reviews", async function() {
+      return await request(app)
+        .get("/review/getReviewsByRecent")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "Recent reviews found" });
+        });
+    });
 
-  it("Get top reviews", async function() {
-    return await request(app)
-      .get("/review/getReviewsByLikes")
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-        res.body.should.includes({ message: "Most liked reviews found." });
-      });
+    it("Get top reviews", async function() {
+      return await request(app)
+        .get("/review/getReviewsByLikes")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "Most liked reviews found." });
+        });
+    });
   });
+  //get user
 
-  it("Get one user", async function() {
-    return await request(app)
-      .get("/account/profile/azadesuu")
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-        res.body.should.includes({ message: "User was found by username" });
-      });
-  });
+  describe("Get one user ", () => {
+    it("Get one user", async function() {
+      return await request(app)
+        .get("/account/profile/azadesuu")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "User was found by username" });
+        });
+    });
 
-  // no content found error
-  it("Doesn't get invalid user", async function() {
-    return await request(app)
-      .get("/account/profile/aza")
-      .then(function(res) {
-        assert.equal(204, res.statusCode);
-      });
+    // no content found error
+    it("Doesn't get invalid user", async function() {
+      return await request(app)
+        .get("/account/profile/aza")
+        .then(function(res) {
+          assert.equal(204, res.statusCode);
+        });
+    });
   });
 });
 
 // Integration Tests
-describe("Integration tests", () => {
-  let server;
+describe("Integration tests: Review methods", () => {
   let access_token;
-  let refresh_token;
   let userId = "6354408a37d91973c1246a57";
+  let reviewId = "6354ef7ed7bf245d8940dd72";
 
+  // before all tests
   before(async () => {
+    await clearCollections();
     await User.insertMany(testInput.userTests);
-    // await Review.insertMany(testInput.reviewTests);
+    await Review.insertMany(testInput.reviewTests);
   });
+
+  // after all tests
   after(async () => {
+    console.log("Clearing collections..");
     await clearCollections();
   });
 
-  it("Logs in the user", async function() {
-    return await request(app)
-      .post("/login")
-      .send(testInput.integrationUser)
-      .then(function(res) {
-        assert.equal(200, res.statusCode);
-      });
+  describe("Get inserted User/Review", () => {
+    it("Get one review", async function() {
+      return await request(app)
+        .get("/review/getReview/6354ef7ed7bf245d8940dd72")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "Review found" });
+        });
+    });
+    it("Get one user", async function() {
+      return await request(app)
+        .get("/account/profile/celenesaw")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "User was found by username" });
+        });
+    });
+  });
+  describe("Integration: Log in User", () => {
+    it("Logs in the user", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.integrationUser)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          // setting tokens for user_auth
+          access_token = res.body;
+        });
+    });
+
+    it("Doesn't log in the user (wrong password)", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.wrongIntegrationUser)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "No user was found with the given user/email"
+          });
+        });
+    });
+
+    it("Doesn't log in the user (wrong email+password)", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.wrongIntegrationUser2)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "No user was found with the given user/email"
+          });
+        });
+    });
   });
 
-  it("Doesn't log in the user", async function() {
-    return await request(app)
-      .post("/login")
-      .send(testInput.wrongIntegrationUser)
-      .then(function(res) {
-        assert.equal(400, res.statusCode);
-      });
+  describe("Integration: Authenticate user", () => {
+    it("Valid access token provided", async function() {
+      return await request(app)
+        .get("/findTokenUser")
+        .send("Authorization", "Bearer " + access_token)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Create Review", () => {
+    it("Creates a review: Review 1", async function() {
+      return await request(app)
+        .put("/review/createReview")
+        .send(testInput.createReview1)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review created."
+          });
+        });
+    });
+    it("Creates a review: Review 2", async function() {
+      return await request(app)
+        .put("/review/createReview")
+        .send(testInput.createReview2)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review created."
+          });
+        });
+    });
+    it("Doesn't create review: missing fields (userId)", async function() {
+      return await request(app)
+        .put("/review/createReview")
+        .send(testInput.createReviewWrongUserId)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+    it("Doesn't create review: missing fields (dateVisited)", async function() {
+      return await request(app)
+        .put("/review/createReview")
+        .send(testInput.createReviewWrongDateVisited)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Update Review", () => {
+    // add no access?
+    it("Updates a review: Review 1 (Price Range)", async function() {
+      return await request(app)
+        .patch("/review/updateReview")
+        .send(testInput.updateReviewPriceRange)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review updated."
+          });
+        });
+    });
+    it("Updates a review: Review 1 (Description)", async function() {
+      return await request(app)
+        .patch("/review/updateReview")
+        .send(testInput.updateReviewDescription)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review updated."
+          });
+        });
+    });
+    it("Doesn't update a review: Review (No Review Id) ", async function() {
+      return await request(app)
+        .patch("/review/updateReview")
+        .send(testInput.updateReviewNoId)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Like Review", () => {
+    it("Likes a review: Review 1", async function() {
+      return await request(app)
+        .patch(`/review/like/${userId}/${reviewId}`)
+        .send({ likeBool: false })
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Successfully liked the review"
+          });
+        });
+    });
+    it("Un-likes a review: Review 1", async function() {
+      return await request(app)
+        .patch(`/review/like/${userId}/${reviewId}`)
+        .send({ likeBool: true })
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Successfully unliked the review"
+          });
+        });
+    });
+
+    it("Failed to like a review: Review 1 (likeBool undefined)", async function() {
+      return await request(app)
+        .patch(`/review/like/${userId}/${reviewId}`)
+        .send({ likeBool: undefined })
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+  describe("Integration: Delete Review", () => {
+    it("Deletes a review: Review 1", async function() {
+      return await request(app)
+        .delete(`/review/delete/${reviewId}`)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review deleted."
+          });
+        });
+    });
+    it("Fails to delete a review: Review 1 (already deleted) ", async function() {
+      return await request(app)
+        .delete(`/review/delete/${reviewId}`)
+        .then(function(res) {
+          assert.equal(204, res.statusCode);
+        });
+    });
+  });
+});
+// Integration Tests
+describe("Integration tests: Account methods", () => {
+  let access_token;
+  let userId = "6354408a37d91973c1246a57";
+  let reviewId = "6354ef7ed7bf245d8940dd72";
+
+  // before all tests
+  before(async () => {
+    await clearCollections();
+    await User.insertMany(testInput.userTests);
+    await Review.insertMany(testInput.reviewTests);
+  });
+
+  // after all tests
+  after(async () => {
+    console.log("Clearing collections..");
+    await clearCollections();
+  });
+
+  describe("Get inserted User/Review", () => {
+    it("Get one review", async function() {
+      return await request(app)
+        .get("/review/getReview/6354ef7ed7bf245d8940dd72")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "Review found" });
+        });
+    });
+    it("Get one user", async function() {
+      return await request(app)
+        .get("/account/profile/celenesaw")
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({ message: "User was found by username" });
+        });
+    });
+  });
+  describe("Integration: Log in User", () => {
+    it("Logs in the user", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.integrationUser)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          // setting tokens for user_auth
+          access_token = res.body;
+        });
+    });
+
+    it("Doesn't log in the user (wrong password)", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.wrongIntegrationUser)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "No user was found with the given user/email"
+          });
+        });
+    });
+
+    it("Doesn't log in the user (wrong email+password)", async function() {
+      return await request(app)
+        .post("/login")
+        .send(testInput.wrongIntegrationUser2)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "No user was found with the given user/email"
+          });
+        });
+    });
   });
 });
