@@ -12,6 +12,11 @@ import Avatar from "@mui/material/Avatar";
 
 import "@fontsource/martel-sans";
 
+// one lowercase and uppercase alphabet, one number
+const strongPassword = new RegExp(
+    "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
+);
+
 function TopUser(props) {
     const userProfile = props.user;
 
@@ -40,19 +45,6 @@ function TopUser(props) {
     );
 }
 
-function Sidebar() {
-    return (
-        <div className="sidebar-content">
-            <div id="current">
-                <a href="my-profile">profile</a>
-            </div>
-            <a href="my-reviews">reviews</a>
-            <a href="my-bookmarks">bookmarks</a>
-            <a href="my-theme">theme</a>
-        </div>
-    );
-}
-
 function ChangePwDetails(props) {
     const user = props.user;
     const navigate = useNavigate();
@@ -68,30 +60,25 @@ function ChangePwDetails(props) {
 
     const checkPassword = async (
         _id,
-        password,
-        currentPassword,
+        oldPassword,
         newPassword,
         confirmNewPassword
     ) => {
-        const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
-
-        if (password !== currentPassword) {
-            alert("Current Password is incorrect");
-        } else if (!newPassword.match(strongPassword)) {
+        if (!newPassword.match(strongPassword)) {
             alert(
                 "Must have min 8 characters, 1 alphabetical character and 1 numerical digit"
             );
         } else if (newPassword != confirmNewPassword) {
-            alert("Passwords do not match");
+            alert("New passwords does not match");
         } else {
-            {
-                /* Passwords seem fine */
-            }
+            // passwords seems fine
             const updatedUser = await updatePassword({
                 _id: _id,
-                password: newPassword
+                password: newPassword,
+                oldPassword: oldPassword
             });
-            if (!updatedUser) alert("password was not changed.");
+            if (!updatedUser)
+                alert("Current password was incorrect, change unsuccessful.");
             else {
                 alert("password changed.");
                 navigate("/my-profile");
@@ -152,8 +139,7 @@ function ChangePwDetails(props) {
                             className="confirm"
                             onClick={() => {
                                 checkPassword(
-                                    user?._id,
-                                    user?.password,
+                                    userProfile?._id,
                                     currentPassword,
                                     newPassword,
                                     confirmNewPassword
@@ -167,6 +153,18 @@ function ChangePwDetails(props) {
             ) : (
                 <h1>No user found</h1>
             )}
+        </div>
+    );
+}
+function Sidebar() {
+    return (
+        <div className="sidebar-content">
+            <a href="my-profile">profile</a>
+            <a href="my-reviews">reviews</a>
+            <div id="current">
+                <a href="my-bookmarks">bookmarks</a>
+            </div>
+            <a href="my-theme">theme</a>
         </div>
     );
 }

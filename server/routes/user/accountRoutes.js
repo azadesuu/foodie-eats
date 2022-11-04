@@ -3,7 +3,7 @@ const accountRouter = express.Router();
 const accountController = require("../../controllers/accountController");
 const upload = require("../../config/multer");
 const passport = require("passport");
-const authMiddleware = require("../../config/auth.js");
+const authMiddleware = require("../../config/auth.js"); 
 
 /**
  * @api {get} /profile/:username Gets the specified profile by username from MongoDB database
