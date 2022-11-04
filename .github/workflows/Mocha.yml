@@ -21,4 +21,3 @@ jobs:
       - name: Generate test reports (html)
         run: npm run generate-test-report
         working-directory: server
-

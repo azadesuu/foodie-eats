@@ -418,11 +418,19 @@ const updatePassword = async (req, res, next) => {
 };
 
 const checkChangeTheme = async (req, res, next) => {
+  const themes = ["blueberry", "shokupan", "honeydew", "boring", "dragonfruit"];
   const { newTheme } = req.body;
   if (!newTheme) {
     res.status(400).json({
       success: false,
       message: "New theme is not defined.",
+      data: undefined
+    });
+    return;
+  } else if (!themes.includes(newTheme)) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not available.",
       data: undefined
     });
     return;
