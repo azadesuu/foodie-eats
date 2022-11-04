@@ -357,3 +357,6 @@ textarea::placeholder {
     padding: 0 7px;
     text-align: center;
 }
+.content-Review a {
+    cursor: pointer;
+}
