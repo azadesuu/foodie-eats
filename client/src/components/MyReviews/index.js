@@ -479,7 +479,7 @@ function ReviewsSmallScreen(props) {
                                 )}
                             </div>
                         ) : (
-                            <h2>Found no reviews</h2>
+                            !isLoading && <h2>Found no reviews</h2>
                         )}
                     </List>
                 </div>
@@ -798,7 +798,7 @@ function ReviewsBigScreen(props) {
                     }
                 }}
             >
-                {!user && <CircularProgress className="spinner" />}
+                {!user && isLoading && <CircularProgress className="spinner" />}
                 {listReviews ? (
                     <div>
                         {listReviews.length > 0 ? (
@@ -907,7 +907,7 @@ function ReviewsBigScreen(props) {
                         )}
                     </div>
                 ) : (
-                    <h2>Found no reviews</h2>
+                    !isLoading && <h2>Found no reviews</h2>
                 )}
             </Box>
         </div>

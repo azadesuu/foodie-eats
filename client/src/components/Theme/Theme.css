@@ -4,7 +4,7 @@ span.bigScreen-Theme {
 span.smallScreen-Theme {
     display: none;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 930px) {
     span.bigScreen-Theme {
         display: none;
     }
@@ -16,7 +16,7 @@ span.smallScreen-Theme {
         font-size: 50px;
     }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 930px) {
     .content-Theme h1 {
         font-size: 60px;
     }
@@ -100,6 +100,7 @@ span.smallScreen-Theme {
 }
 .honeydew #current,
 .honeydew .footer,
+.honeydew #btn,
 .honeydew .image-edit,
 .honeydew #navbar-login,
 .honeydew #top-recom-big::-webkit-scrollbar-thumb,
@@ -120,8 +121,7 @@ span.smallScreen-Theme {
 .honeydew #edit-btn:hover {
     background-color: #fffeec;
 }
-.honeydew .searchResult,
-.honeydew #btn {
+.honeydew .searchResult {
     border: 2px solid #e4f3d3;
 }
 .honeydew input[type="checkbox"]:checked {
@@ -138,7 +138,8 @@ span.smallScreen-Theme {
 .honeydew #acc {
     color: #000000;
 }
-.honeydew #post-price .MuiSlider-thumb {
+.honeydew #post-price .MuiSlider-thumb,
+.honeydew .spinner {
     color: #e4f3d3;
 }
 .honeydew .nav1 a.active-link.active,
@@ -193,7 +194,8 @@ span.smallScreen-Theme {
 .dragonfruit #acc {
     color: #000000;
 }
-.dragonfruit #post-price .MuiSlider-thumb {
+.dragonfruit #post-price .MuiSlider-thumb,
+.dragonfruit .spinner {
     color: #c55781;
 }
 .dragonfruit .nav1 a.active-link.active,
@@ -249,7 +251,8 @@ span.smallScreen-Theme {
 .shokupan #acc {
     color: #000000;
 }
-.shokupan #post-price .MuiSlider-thumb {
+.shokupan #post-price .MuiSlider-thumb,
+.shokupan .spinner {
     color: #bd7d4e;
 }
 .shokupan .nav1 a.active-link.active,
@@ -300,7 +303,8 @@ span.smallScreen-Theme {
 .boring #acc {
     color: #ffffff;
 }
-.boring #post-price .MuiSlider-thumb {
+.boring #post-price .MuiSlider-thumb,
+.boring .spinner {
     color: #2b2b2b;
 }
 .boring .nav1 a.active-link.active,
@@ -350,7 +354,8 @@ span.smallScreen-Theme {
 .blueberry #acc {
     color: #000000;
 }
-.blueberry #post-price .MuiSlider-thumb {
+.blueberry #post-price .MuiSlider-thumb,
+.blueberry .spinner {
     color: #6698b7;
 }
 .blueberry .nav1 a.active-link.active,
