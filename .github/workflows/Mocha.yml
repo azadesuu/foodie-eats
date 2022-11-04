@@ -15,3 +15,9 @@ jobs:
       - name: Run MochaJS tests
         run: npm test
         working-directory: server
+      - name: Generate test reports (json)
+        run: npm run test-awesome        
+        working-directory: server
+      - name: Generate test reports (html)
+        run: npm run generate-test-report
+        working-directory: server
