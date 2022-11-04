@@ -126,12 +126,14 @@ after(async () => {
   });
 });
 
+// -------------- TESTS --------------
+// Unit Tests
 describe("Unit tests: User ", () => {
   after(async () => {
     await clearCollections();
   });
 
-  it("Logs in the user", async function() {
+  it("Signs up the user", async function() {
     return await request(app)
       .post("/signup")
       .send(testInput.newUser)
@@ -211,7 +213,7 @@ describe("Unit tests: User ", () => {
       });
   });
 
-  // get cases
+  // get recent reviews
   it("Get recent reviews", async function() {
     return await request(app)
       .get("/review/getReviewsByRecent")
@@ -220,10 +222,37 @@ describe("Unit tests: User ", () => {
         res.body.should.includes({ message: "Recent reviews found" });
       });
   });
+
+  it("Get top reviews", async function() {
+    return await request(app)
+      .get("/review/getReviewsByLikes")
+      .then(function(res) {
+        assert.equal(200, res.statusCode);
+        res.body.should.includes({ message: "Most liked reviews found." });
+      });
+  });
+
+  it("Get one user", async function() {
+    return await request(app)
+      .get("/account/profile/azadesuu")
+      .then(function(res) {
+        assert.equal(200, res.statusCode);
+        res.body.should.includes({ message: "User was found by username" });
+      });
+  });
+
+  // no content found error
+  it("Doesn't get invalid user", async function() {
+    return await request(app)
+      .get("/account/profile/aza")
+      .then(function(res) {
+        assert.equal(204, res.statusCode);
+      });
+  });
 });
 
-// Integration test
-describe("Integration testing", () => {
+// Integration Tests
+describe("Integration tests", () => {
   let server;
   let access_token;
   let refresh_token;

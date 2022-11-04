@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Unit tests
-//Register
+// Register
 exports.newUser = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
