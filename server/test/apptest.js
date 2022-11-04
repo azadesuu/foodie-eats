@@ -385,7 +385,6 @@ describe("Integration tests: Review methods", () => {
   });
 
   describe("Integration: Update Review", () => {
-    // add no access?
     it("Updates a review: Review 1 (Price Range)", async function() {
       return await request(app)
         .patch("/review/updateReview")
@@ -556,14 +555,6 @@ describe("Integration tests: Account methods", () => {
           res.body.should.includes({
             message: "My reviews found."
           });
-        });
-    });
-    // shouldn't work due to access token
-    it("Get my reviews: User 2 (cannot access)", async function() {
-      return await request(app)
-        .get(`/account/my-reviews/${userId2}`)
-        .then(function(res) {
-          assert.equal(400, res.statusCode);
         });
     });
   });
