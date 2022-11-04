@@ -37,7 +37,7 @@ const ReviewPeek = props => {
         likeCount,
         dateVisited,
         description,
-        images
+        reviewImage
     } = props.reviewData;
     const [username, setUsername] = useState(userId.username);
 
