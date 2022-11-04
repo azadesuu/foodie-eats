@@ -90,6 +90,25 @@ exports.reviewTests = [
     },
     tags: [],
     description: "description"
+  },
+  {
+    _id: mongoose.Types.ObjectId("6354efb3d7bf245d8940dd79"),
+    userId: mongoose.Types.ObjectId("6354f876d7bf245d8940e058"),
+    restaurantName: "Restaurant",
+    reviewImage: "",
+    isPublic: true,
+    priceRange: 3,
+    rating: 5,
+    address: {
+      _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd73"),
+      streetAddress: "test",
+      postcode: 3000,
+      state: "VIC",
+      suburb: "test",
+      country: "Australia"
+    },
+    tags: [],
+    description: "description other"
   }
 ];
 
@@ -241,23 +260,30 @@ exports.updateReviewNoId = {
   description: "description updated!"
 };
 
-//like review1
+exports.bookmarksList = {
+  bookmarks: [mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72")]
+};
 
-//delete review2
+exports.updateUser1 = {
+  bio: "Let's change this user's bio.",
+  username: "celenesaw1",
+  email: "sawcelene2001@gmail.com"
+};
 
-//ACCOUNT METHODS
-//bookmark review
-
-// Get my reviews
-// Get other reviews
-
-// get my bookmarks
-// update user
-
-// update password
+exports.updateUser1Password = {
+  _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  oldPassword: "Testing123@",
+  password: "Testing123@@"
+};
+exports.updateUser1PasswordWeak = {
+  _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  oldPassword: "Testing123@",
+  password: "lol"
+};
 // change theme
-
-// change image
+exports.changeThemeUser1 = { newTheme: "blueberry" };
+exports.changeThemeUser1wrong = { newTheme: "error" };
 
 // MANUAL TESTS:
 //  - reset/forgot password (requires external email access)
+//  - change image

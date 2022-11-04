@@ -475,6 +475,8 @@ describe("Integration tests: Review methods", () => {
 describe("Integration tests: Account methods", () => {
   let access_token;
   let userId = "6354408a37d91973c1246a57";
+  let userId2 = "6354ee5fd7bf245d8940dd69";
+  let userId3 = "6354f876d7bf245d8940e058";
   let reviewId = "6354ef7ed7bf245d8940dd72";
 
   // before all tests
@@ -541,6 +543,171 @@ describe("Integration tests: Account methods", () => {
           res.body.should.includes({
             message: "No user was found with the given user/email"
           });
+        });
+    });
+  });
+
+  describe("Integration: Get My Reviews", () => {
+    it("Get my reviews: User 1", async function() {
+      return await request(app)
+        .get(`/account/my-reviews/${userId}`)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "My reviews found."
+          });
+        });
+    });
+    // shouldn't work due to access token
+    it("Get my reviews: User 2 (cannot access)", async function() {
+      return await request(app)
+        .get(`/account/my-reviews/${userId2}`)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Get Other Reviews", () => {
+    it("Get other reviews: User 3 (list of 1)", async function() {
+      return await request(app)
+        .get(`/account/other-reviews/${userId3}`)
+        .send(testInput.wrongIntegrationUser2)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Other reviews found."
+          });
+          assert.equal(1, res.body.data.length);
+        });
+    });
+    it("Get other reviews: User 2 (list of 0)", async function() {
+      return await request(app)
+        .get(`/account/other-reviews/${userId2}`)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Other reviews found."
+          });
+          assert.equal(0, res.body.data.length);
+        });
+    });
+  });
+
+  describe("Integration: Bookmark Review", () => {
+    it("Bookmarks a review: Review 1", async function() {
+      return await request(app)
+        .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .send({ bookmarkedBool: false })
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review was bookmarked."
+          });
+        });
+    });
+    it("Un-bookmarks a review: Review 1", async function() {
+      return await request(app)
+        .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .send({ bookmarkedBool: true })
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review was un-bookmarked."
+          });
+        });
+    });
+
+    it("Failed to bookmark a review: Review 1 (bookmarkedBool undefined)", async function() {
+      return await request(app)
+        .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .send({ bookmarkedBool: undefined })
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Get Bookmarks", () => {
+    it("Bookmarks a review: Review 1, User 1", async function() {
+      return await request(app)
+        .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .send({ bookmarkedBool: false })
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review was bookmarked."
+          });
+        });
+    });
+    it("Get my bookmarks: User 1", async function() {
+      return await request(app)
+        .post(`/account/my-bookmarks/get`)
+        .send(testInput.bookmarksList)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "My bookmarks found."
+          });
+          assert.equal(1, res.body.data.length);
+        });
+    });
+
+    it("Get bookmarks: list undefined", async function() {
+      return await request(app)
+        .post(`/account/my-bookmarks/get`)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+  });
+
+  describe("Integration: Update User", () => {
+    it("Updates user password", async function() {
+      return await request(app)
+        .put(`/account/updatePassword`)
+        .send(testInput.updateUser1Password)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Successfully updated password."
+          });
+        });
+    });
+    it("Updates user password: weak password", async function() {
+      return await request(app)
+        .put(`/account/updatePassword`)
+        .send(testInput.updateUser1PasswordWeak)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+    it("Updates user theme", async function() {
+      return await request(app)
+        .patch(`/account/changeTheme/${userId}`)
+        .send(testInput.changeThemeUser1)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Successfully updated theme."
+          });
+        });
+    });
+    it("Updates user theme: Invalid theme", async function() {
+      return await request(app)
+        .patch(`/account/changeTheme/${userId}`)
+        .send(testInput.changeThemeUser1wrong)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+        });
+    });
+    it("Updates user details", async function() {
+      return await request(app)
+        .patch(`/account/updateUser/${userId}`)
+        .send(testInput.updateUser1)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.data.should.includes(testInput.updateUser1);
         });
     });
   });
