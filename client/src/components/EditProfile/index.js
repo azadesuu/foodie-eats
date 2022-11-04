@@ -2,6 +2,7 @@ import "./EditProfile.css";
 
 import { useState } from "react";
 import { updateUser } from "../../api";
+import { Navigate } from "react-router";
 
 const EditProfile = data => {
     const { _id, username, email, bio, profileImage, navigation } = data;
@@ -40,12 +41,12 @@ const EditProfile = data => {
                 if (user) {
                     if (user.username === username && user.email === email) {
                         // if username and email are not changed
-                        alert("Successfully updated.");
+                        console.log("Successfully updated.");
                     } else {
                         alert(
                             "Successfully updated, please re-enter your login credentials."
                         );
-                        handleLogOut(); //must logout and login to reset token (temp)
+                        await handleLogOut(); //must logout and login to reset token (temp)
                     }
                 } else {
                     alert("Username/Email is taken.");

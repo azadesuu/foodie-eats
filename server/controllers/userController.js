@@ -20,7 +20,7 @@ const loginUser = async (req, res, next) => {
       if (err) {
         res.status(500).json({
           success: false,
-          message: "Error occured while logginh in user."
+          message: "Error occured while logging in user."
         });
         return;
       } else if (!user) {
@@ -176,6 +176,7 @@ const forgotPassword = async (req, res) => {
 
     const link = `${process.env.SERVER_URL}/password-reset/${user._id}/${token.token}`;
     await sendEmail(user.email, "Password reset", link);
+    console.log(link);
 
     res.send("password reset link sent to your email account");
   } catch (error) {
