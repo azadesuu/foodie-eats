@@ -109,7 +109,7 @@ span.smallScreen-Theme {
 .honeydew #top-recom-small::-webkit-scrollbar-thumb,
 .honeydew #myreviews-small::-webkit-scrollbar-thumb,
 .honeydew #myreviews-big::-webkit-scrollbar-thumb,
-.honeydew .tags-input::-webkit-scrollbar-thumb,
+.honeydew .tags-input .rti--container::-webkit-scrollbar-thumb,
 .honeydew .resName-price .price-range .input {
     background-color: #e4f3d3;
 }
@@ -162,7 +162,7 @@ span.smallScreen-Theme {
 .dragonfruit #top-recom-small::-webkit-scrollbar-thumb,
 .dragonfruit #myreviews-small::-webkit-scrollbar-thumb,
 .dragonfruit #myreviews-big::-webkit-scrollbar-thumb,
-.dragonfruit .tags-input::-webkit-scrollbar-thumb,
+.dragonfruit .tags-input .rti--container::-webkit-scrollbar-thumb,
 .dragonfruit #btn,
 .dragonfruit .resName-price .price-range .input {
     background-color: #c55781;
@@ -217,7 +217,7 @@ span.smallScreen-Theme {
 .shokupan #top-recom-small::-webkit-scrollbar-thumb,
 .shokupan #myreviews-small::-webkit-scrollbar-thumb,
 .shokupan #myreviews-big::-webkit-scrollbar-thumb,
-.shokupan .tags-input::-webkit-scrollbar-thumb,
+.shokupan .tags-input .rti--container::-webkit-scrollbar-thumb,
 .shokupan #btn,
 .shokupan .resName-price .price-range .input {
     background-color: #bd7d4e;
@@ -324,7 +324,7 @@ span.smallScreen-Theme {
 .blueberry #top-recom-small::-webkit-scrollbar-thumb,
 .blueberry #myreviews-small::-webkit-scrollbar-thumb,
 .blueberry #myreviews-big::-webkit-scrollbar-thumb,
-.blueberry .tags-input::-webkit-scrollbar-thumb,
+.blueberry .tags-input .rti--container::-webkit-scrollbar-thumb,
 .blueberry #btn,
 .blueberry .resName-price .price-range .input {
     background-color: #6698b7;
