@@ -1,4 +1,4 @@
-# COMP3022 IT Project
+# COMP30022 IT Project
 
 ## Table of Contents
 
@@ -65,7 +65,8 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 
 - Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
 - Cypress test cases in client/cypress
-- MochaJS test cases in server/**tests**
+- MochaJS test cases in server/mochaawesome-report/testReport.html
+  - Final MochaJS report will be added to confluence
 
 ## Contributors
 

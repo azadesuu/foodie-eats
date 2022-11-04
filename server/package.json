@@ -2,6 +2,10 @@
   "name": "foodie-eats",
   "version": "0.1.0",
   "private": true,
+  "apidoc": {
+    "name": "API Document",
+    "version": "3.0.0"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -44,13 +48,13 @@
     "chai": "^4.2.0",
     "mocha": "^8.4.0",
     "mochawesome": "^6.1.1",
-    "mochawesome-report-generator": "^5.1.0",
+    "mochawesome-report-generator": "^5.2.0",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha",
+    "test": "mocha --timeout 1000000",
     "test-awesome": "mocha test --reporter mochawesome --reporter-options html=false",
     "generate-test-report": "marge --inline -f testReport ./mochawesome-report/mochawesome.json",
     "docs": "apidoc -i ./ -e node_modules -e ./docs -o ./docs"

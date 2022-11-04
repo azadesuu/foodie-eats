@@ -22,8 +22,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
         cy.get('.r3-content2 > .details-container > input').type('test'); // street address
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
@@ -41,8 +39,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
@@ -60,8 +56,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > .description-tags > .details-container > textarea'); // description
         cy.get('.r3-content2 > .details-container > input').type('test'); // street address
@@ -79,8 +73,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
@@ -97,8 +89,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
@@ -116,8 +106,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
@@ -136,8 +124,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get(':nth-child(2) > .suburb-container > input').type('test'); // suburb
         cy.get('.r3-content2 > .details-container > input').type('test'); // street address
@@ -155,8 +141,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
         cy.reload();
         cy.wait(1000);
-        //cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // public
-        //cy.get('[for=":rn:"]').click(); // 5 stars
         cy.get('.r3-content1 > :nth-child(1) > input').type('test'); // restaurant name
         cy.get('.r3-content1 > :nth-child(2) > input').type('2022-10-11'); // date
         cy.get('.r3-content1 > .description-tags > .details-container > textarea').type('test'); // description
@@ -181,7 +165,7 @@ describe('Create a Review', () => {
     it('successfully edits a review', () => {
         cy.visit('/my-reviews');
         cy.wait(10000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click(); // click specific review
+        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click({ multiple: true }); // click specific review
         cy.wait(10000);
         cy.get(':nth-child(4) > .editReviewButton').click();
         cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // private
@@ -203,63 +187,10 @@ describe('Create a Review', () => {
         cy.get('.review-container > :nth-child(4)').contains('changed'); // description
     })
 
-    it('successfully bookmarks a review', () => {
-        cy.visit('/my-reviews');
-        cy.wait(1000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click();
-        cy.wait(1000);
-        preventFormSubmitDefault("form");
-        cy.get('.bigScreen-Review > #outer > .r1 > .likes-bookmark > :nth-child(2) > [data-testid="BookmarkBorderIcon"]').click();
-        cy.wait(1000);
-        cy.reload();
-        cy.visit('/my-bookmarks');
-        cy.wait(1000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').should('be.visible');
-    })
-
-    it('successfully unbookmarks a review', () => {
-        cy.visit('/my-bookmarks');
-        cy.wait(1000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click();
-        cy.wait(1000);
-        preventFormSubmitDefault("form");
-        cy.get('.bigScreen-Review > #outer > .r1 > .likes-bookmark > :nth-child(2) > [data-testid="BookmarkIcon"]').click();
-        cy.wait(1000);
-        cy.visit('/my-bookmarks');
-        cy.wait(1000);
-        cy.get('.MuiBox-root > h2').contains('Bookmarks not found');
-    })
-
-    it('successfully likes a review', () => {
-        cy.visit('/my-reviews');
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click();
-        cy.wait(1000);
-        preventFormSubmitDefault("form");
-        cy.get('.bigScreen-Review > #outer > .r1 > .likes-bookmark > .likes > a > [data-testid="ThumbUpOffAltIcon"]').click();
-        cy.wait(1000);
-        
-        // Check if like count becomes 1
-        cy.visit('/my-reviews');
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-body1 > .t2 > .like > .MuiTypography-root').contains('1');
-    })
-
-    it('successfully un-likes a review', () => {
-        cy.visit('/my-reviews');
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click();
-        cy.wait(1000);
-        preventFormSubmitDefault("form");
-        cy.get('.bigScreen-Review > #outer > .r1 > .likes-bookmark > .likes > a > [data-testid="ThumbUpAltIcon"]').click();
-        cy.wait(1000);
-        
-        // Check if like count becomes 0
-        cy.visit('/my-reviews');
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-body1 > .t2 > .like > .MuiTypography-root').contains('0');
-    })
-
     it('successfully deletes a review', () => {
         cy.visit('/my-reviews');
         cy.wait(1000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click();
+        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click({ multiple: true });
         cy.wait(1000);
         cy.get(':nth-child(4) > .editReviewButton').click();
         cy.get('[data-testid="DeleteIcon"]').click();

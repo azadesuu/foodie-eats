@@ -315,13 +315,17 @@ const updateUser = async (req, res, next) => {
   const { username, email, bio } = req.body;
 
   try {
-    const newUser = await User.findByIdAndUpdate(_id, {
-      $set: {
-        username: username,
-        email: email,
-        bio: bio
-      }
-    });
+    const newUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          username: username,
+          email: email,
+          bio: bio
+        }
+      },
+      { new: true }
+    );
     if (!newUser) {
       res.status(204).json({
         success: true,
@@ -346,45 +350,65 @@ const updateUser = async (req, res, next) => {
 };
 
 const checkUpdatePassword = async (req, res, next) => {
-  const { id, password } = req.body;
-  if (!id || !password) {
+  const { _id, oldPassword, password } = req.body;
+  if (!_id || !password || !oldPassword) {
     res.status(400).json({
       success: false,
       message: "User/password is not defined.",
       data: undefined
     });
-  } else if (!strongPassword.match(password)) {
+    return;
+  } else if (!strongPassword.test(password)) {
     res.status(400).json({
       success: false,
       message: "Password is not strong enough.",
       data: undefined
     });
+    return;
   }
   next();
 };
 
 const updatePassword = async (req, res, next) => {
   const _id = req.body._id;
+  const oldPassword = req.body.oldPassword;
   const newPassword = req.body.password;
 
   try {
-    const result = await User.findByIdAndUpdate(_id, {
-      password: User.generateHash(newPassword)
-    });
-    if (!newUser) {
+    const user = await User.findById(_id);
+    if (!user) {
       res.status(204).json({
         success: true,
-        message: "No user found, password not updated.",
-        data: {}
+        message: "No user found, password not updated."
       });
+      return;
+    }
+    // if the users password match
+    if (user.validPassword(oldPassword)) {
+      const result = await User.findByIdAndUpdate(_id, {
+        password: user.generateHash(newPassword)
+      });
+      if (!result) {
+        res.status(204).json({
+          success: true,
+          message: "Password wasn't updated.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "Successfully updated password.",
+          data: result
+        });
+      }
     } else {
-      res.status(200).json({
-        success: true,
-        message: "Successfully updated password.",
-        data: result
+      res.status(400).json({
+        success: false,
+        message: "Passwords don't match."
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating password.",
@@ -394,11 +418,19 @@ const updatePassword = async (req, res, next) => {
 };
 
 const checkChangeTheme = async (req, res, next) => {
+  const themes = ["blueberry", "shokupan", "honeydew", "boring", "dragonfruit"];
   const { newTheme } = req.body;
   if (!newTheme) {
     res.status(400).json({
       success: false,
       message: "New theme is not defined.",
+      data: undefined
+    });
+    return;
+  } else if (!themes.includes(newTheme)) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not available.",
       data: undefined
     });
     return;

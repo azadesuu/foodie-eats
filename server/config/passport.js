@@ -15,7 +15,7 @@ const strongPassword = new RegExp(
   "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
 );
 const validUsername = new RegExp(
-  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){5,18}[a-zA-Z0-9]$"
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){4,14}[a-zA-Z0-9]$"
 );
 const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -151,7 +151,7 @@ module.exports = function(passport) {
       },
       (req, jwt_payload, done) => {
         // passport will put the decrypted token in jwt_payload variable
-        User.findOne({ email: jwt_payload.body._id }, (err, user) => {
+        User.findOne({ _id: jwt_payload.body._id }, (err, user) => {
           if (err) {
             return done(err, false);
           }

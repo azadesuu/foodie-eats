@@ -12,13 +12,16 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     // submit form
-    function onSubmit() {
+    async function onSubmit() {
         try {
-            forgotPassword(email);
-            alert(
-                "Email sent successfully. Please wait for token to reset password"
-            );
-            navigate("/login");
+            console.log("test");
+            const sent = await forgotPassword(email);
+            if (sent) {
+                alert(
+                    "Email sent successfully. Please wait for token to reset password"
+                );
+                navigate("/login");
+            }
         } catch (err) {
             console.log(err);
         }
