@@ -17,7 +17,8 @@ import {
     deleteNewImage,
     deleteProfileImage,
     uploadNewImage,
-    uploadProfileImage
+    uploadProfileImage,
+    getMyReviews
 } from "../../api";
 import { useNavigate } from "react-router";
 
@@ -89,7 +90,7 @@ const ProfileImageUpload = props => {
             await setPreviewImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-
+    
     return (
         <div className="image-edit">
             <label>
@@ -131,6 +132,10 @@ const ProfileImageUpload = props => {
 function TopUser(props) {
     const userProfile = props.user;
     const [showUpload, setShowUpload] = useState(false);
+    let no_reviews = 0;
+    for (let key in props.listReviews) {
+        no_reviews++;
+    }
 
     return (
         <div className="top-user">
@@ -173,7 +178,7 @@ function TopUser(props) {
             </div>
             <div className="top-user-rev">
                 <p>
-                    <span className="detail">7</span> reviews
+                    <span className="detail">{no_reviews}</span> reviews
                 </p>
                 <p>
                     <span className="detail">10k</span> likes
@@ -346,8 +351,13 @@ function ProfileDetails(props) {
 function MyProfile() {
     const [user] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
-        "bookmarks",
+        "my-profile",
         () => getProfile(user?.username),
+        { enabled: !!user }
+    );
+    const { data: listReviews } = useQuery(
+        "my-reviews",
+        () => getMyReviews(user?._id),
         { enabled: !!user }
     );
     return (
@@ -359,7 +369,7 @@ function MyProfile() {
                         <ProfileDetails user={userProfile} />
                     </span>
                     <span className="bigScreen-MyProfile">
-                        <TopUser user={userProfile} />
+                        <TopUser user={userProfile} listReviews={listReviews} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
