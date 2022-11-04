@@ -557,6 +557,7 @@ describe("Integration tests: Account methods", () => {
           });
         });
     });
+  });
 
   describe("Integration: Get Other Reviews", () => {
     it("Get other reviews: User 3 (list of 1)", async function() {
