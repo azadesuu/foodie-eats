@@ -1,6 +1,7 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./MyProfile.css";
+
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
@@ -12,6 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
 import EditProfile from "../EditProfile";
+import TopUser from "../TopUser";
 import {
     getProfile,
     deleteNewImage,
@@ -128,65 +130,6 @@ const ProfileImageUpload = props => {
         </div>
     );
 };
-
-function TopUser(props) {
-    const userProfile = props.user;
-    const [showUpload, setShowUpload] = useState(false);
-    let no_reviews = 0;
-    for (let key in props.listReviews) {
-        no_reviews++;
-    }
-
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <IconButton
-                    sx={{
-                        transition: "all 0.3s ease-out",
-                        "&:hover": {
-                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
-                        }
-                    }}
-                >
-                    <Avatar
-                        alt="user-profile-image"
-                        src={
-                            userProfile.profileImage !== ""
-                                ? userProfile.profileImage
-                                : null
-                        }
-                        sx={{
-                            height: 130,
-                            width: 130
-                        }}
-                        onClick={() => setShowUpload(!showUpload)}
-                    />
-                </IconButton>
-                {showUpload && <ProfileImageUpload user={userProfile} />}
-                {showUpload && (
-                    <button
-                        id="image-cancel"
-                        onClick={() => setShowUpload(!showUpload)}
-                    >
-                        Cancel upload
-                    </button>
-                )}
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">{no_reviews}</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
-        </div>
-    );
-}
 
 function Sidebar() {
     return (

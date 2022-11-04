@@ -5,12 +5,13 @@ import "./MyBookmarks.css";
 
 import { useContext, useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { getBookmarks, getProfile } from "../../api";
+import { getBookmarks, getProfile, getMyReviews } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 
 import "@fontsource/martel-sans";
 
 import ReviewPeek from "../ReviewPeek";
+import TopUser from "../TopUser";
 
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -21,7 +22,6 @@ import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
-import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -47,37 +47,6 @@ function Post() {
                     }}
                 />
             </IconButton>
-        </div>
-    );
-}
-
-function TopUser(props) {
-    const userProfile = props.user;
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={
-                        userProfile.profileImage !== ""
-                            ? userProfile.profileImage
-                            : null
-                    }
-                    sx={{ height: 130, width: 130 }}
-                />
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
         </div>
     );
 }
@@ -920,6 +889,12 @@ function MyBookmarks() {
         () => getBookmarks({ bookmarks: userProfile.bookmarks }),
         { enabled: !!userProfile }
     );
+    const { data: listReviews } = useQuery(
+        "my-reviews",
+        () => getMyReviews(user?._id),
+        { enabled: !!user }
+    );
+    
     return (
         <>
             {(isLoading2 || isLoading) && (
@@ -935,7 +910,7 @@ function MyBookmarks() {
                         <Post />
                     </span>
                     <span className="bigScreen-MyBookmarks">
-                        <TopUser user={userProfile} />
+                        <TopUser user={userProfile} listReviews={listReviews} />
 
                         <div className="line5" />
                         <div className="r1">

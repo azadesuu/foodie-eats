@@ -12,6 +12,7 @@ import { getProfile } from "../../api";
 import "@fontsource/martel-sans";
 
 import ReviewPeek from "../ReviewPeek";
+import TopUser from "../TopUser";
 
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -53,37 +54,6 @@ function Post() {
     );
 }
 
-function TopUser(props) {
-    const userProfile = props.user;
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={
-                        userProfile.profileImage !== ""
-                            ? userProfile.profileImage
-                            : null
-                    }
-                    sx={{ height: 130, width: 130 }}
-                />
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
-        </div>
-    );
-}
-
 function Sidebar() {
     return (
         <div className="sidebar-content">
@@ -99,7 +69,8 @@ function Sidebar() {
 
 function ReviewsSmallScreen(props) {
     const user = props.user;
-    const { data: listReviews, isLoading } = useQuery("my-reviews", () =>
+    const { data: listReviews, isLoading } = useQuery(
+        "my-reviews", () =>
         getMyReviews(user?._id)
     );
     const [input, setInput] = useState("");
@@ -945,11 +916,17 @@ function ReviewsBigScreen(props) {
 
 function MyReviews() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
-        "bookmarks",
+    const { data: userProfile } = useQuery(
+        "reviews",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
+    const { data: listReviews } = useQuery(
+        "my-reviews",
+        () => getMyReviews(user?._id),
+        { enabled: !!user }
+    );
+    
     return (
         <>
             {userProfile ? (
@@ -961,7 +938,7 @@ function MyReviews() {
                         <Post />
                     </span>
                     <span className="bigScreen-MyReviews">
-                        <TopUser user={userProfile} />
+                        <TopUser user={userProfile} listReviews={listReviews} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
