@@ -248,6 +248,15 @@ span.smallScreen-CreateReview {
 }
 .tags-input .rti--container {
     border: none;
+    overflow: auto;
+    max-height: 30px;
+}
+.tags-input .rti--container::-webkit-scrollbar {
+    width: 0.3em;
+}
+.tags-input .rti--container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    max-height: 4px;
 }
 .tags-input .rti--container > input:focus {
     outline: none;
