@@ -106,11 +106,14 @@ const getTokenUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: decoded
+      data: decoded.body
     });
+    return;
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      message: "Error occured while validating token",
+      error: err.message
+    });
   }
 };
 

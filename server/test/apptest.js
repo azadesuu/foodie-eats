@@ -340,7 +340,7 @@ describe("Integration tests: Review methods", () => {
         .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
-          res.body.data.body.should.includes({
+          res.body.data.should.includes({
             username: testInput.userTests[0].username
           });
         });

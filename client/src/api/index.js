@@ -1,20 +1,22 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
+// const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
+const SERVER_URL = "http://localhost:5000";
 
-export const setAuthToken = async token => {
-    if (token) {
-        axios.defaults.headers.common["Authorization"] = `${token}`;
-    } else delete axios.defaults.headers.common["Authorization"];
-};
+// export const setAuthToken = async token => {
+//     if (token) {
+//         axios.defaults.headers.common["Authorization"] = `${token}`;
+//     } else delete axios.defaults.headers.common["Authorization"];
+// };
 
 axios.interceptors.request.use(
     config => {
         const { origin } = new URL(config.url);
         const allowedOrigins = [SERVER_URL];
         const token = localStorage.getItem("token");
+        console.log(origin);
         if (allowedOrigins.includes(origin) && token) {
-            config.headers.authorization = `${token}`;
+            config.headers["authorization"] = `${token}`;
         }
         return config;
     },
