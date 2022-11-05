@@ -55,9 +55,17 @@ function Register() {
                         }}
                     />
                 </div>
-                <span className="helper-text">5-18 characters</span>
+                <div className="form-label-big">
+                    <span className="helper-text">5-18 characters</span>
+                </div>
                 <div className="form-control">
-                    <label>Username</label>
+                    <div className="form-label-small">
+                        <label>Username</label>
+                        <span className="helper-text">5-18 characters</span>
+                    </div>
+                    <div className="form-label-big">
+                        <label>Username</label>
+                    </div>
                     <input
                         type="text"
                         placeholder="Enter a username"
@@ -69,11 +77,21 @@ function Register() {
                         }}
                     />
                 </div>
-                <span className="helper-text">
-                    1 lowercase, 1 uppercase letter, and 1 number
-                </span>
+                <div className="form-label-big">
+                    <span className="helper-text">
+                        1 lowercase, 1 uppercase letter, and 1 number
+                    </span>
+                </div>
                 <div className="form-control">
-                    <label>Password</label>
+                    <div className="form-label-small">
+                        <label>Password</label>
+                        <span className="helper-text">
+                            1 lowercase, 1 uppercase letter, and 1 number
+                        </span>
+                    </div>
+                    <div className="form-label-big">
+                        <label>Password</label>
+                    </div>
                     <input
                         type="password"
                         placeholder="Enter your password"
