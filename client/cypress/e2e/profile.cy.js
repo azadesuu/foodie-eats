@@ -1,5 +1,5 @@
 // Prevent Cypress from cancelling XHR request
-function preventFormSubmitDefault(selector) {
+/*function preventFormSubmitDefault(selector) {
     cy.get(selector).then(form$ => {
       form$.on("submit", e => {
         e.preventDefault();
@@ -58,10 +58,10 @@ describe('The Profile Page', () => {
         cy.get('#emailEdit').type('profile-test@mail.com');
         cy.get('#bioEdit').type('Original bio');
         cy.get('.edit-profile-done').click();*/
-    })
-})
+    //})
+//})
 
-/*describe('The Change Password Page', () => {
+describe('The Change Password Page', () => {
     it('successfully displays alert when current password incorrect', () => {
         // Login with original credentials
         cy.viewport(1280, 800); // Macbook 13 dimensions
@@ -131,4 +131,4 @@ describe('The Profile Page', () => {
             expect(str).to.equal(`password changed.`);
         })
     })
-})*/
+})
