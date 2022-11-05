@@ -93,6 +93,9 @@ const ProfileImageUpload = props => {
             setDeleteImg(!deleteImg);
             setAlertStatus("error");
             setAlertMessage("Image does not exist");
+            setTimeout(function() {
+                setDeleteImg(false);
+            }, 5000);
         }
     }
     async function deleteProfileImageHandler() {
