@@ -1,13 +1,6 @@
 import axios from "axios";
 
-// const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
-const SERVER_URL = "http://localhost:5000";
-
-// export const setAuthToken = async token => {
-//     if (token) {
-//         axios.defaults.headers.common["Authorization"] = `${token}`;
-//     } else delete axios.defaults.headers.common["Authorization"];
-// };
+const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 axios.interceptors.request.use(
     config => {
