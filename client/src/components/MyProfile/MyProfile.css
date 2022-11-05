@@ -4,6 +4,16 @@ span.bigScreen-MyProfile {
 span.smallScreen-MyProfile {
     display: none;
 }
+@media screen and (max-width: 700px) {
+    span.smallScreen-MyProfile #image-cancel {
+        top: 700px;
+    }
+}
+@media screen and (min-width: 700px) {
+    span.smallScreen-MyProfile #image-cancel {
+        top: 750px;
+    }
+}
 @media screen and (max-width: 1000px) {
     span.bigScreen-MyProfile {
         display: none;
@@ -28,6 +38,7 @@ span.smallScreen-MyProfile {
     .form-control-profile-bio textarea {
         width: 340px;
     }
+    
 }
 @media screen and (min-width: 1000px) {
     .content-MyProfile h1 {
@@ -238,6 +249,7 @@ input[type="file"]::file-selector-button {
     width: 50%;
 }
 #image-cancel {
+    font-size: 17px;
     z-index: 100;
     position: absolute;
     height: 20px;
@@ -246,13 +258,17 @@ input[type="file"]::file-selector-button {
     align-items: center;
 }
 span.bigScreen-MyProfile .top-user #image-cancel {
-    top: 520px;
-    left: 249px;
-    width: 296px;
+    top: 270px;
+    left: 520px;
+    width: 10px;
 }
 span.smallScreen-MyProfile #image-cancel {
-    top: 750px;
-    left: 10%;
-    right: 10%;
-    width: 80%;
+    top: 410px;
+    right: 11%;
+    width: 20px;
+}
+.image-edit img {
+    height: 130px;
+    width: 130px;
+    object-fit: cover;
 }

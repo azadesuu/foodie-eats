@@ -1,6 +1,7 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./Theme.css";
+import TopUser from "../TopUser";
 
 import { useContext, useEffect, useState } from "react";
 import { changeTheme, getProfile } from "../../api";
@@ -13,40 +14,6 @@ import Boring from "../../assets/images/Boring.svg";
 import Dragonfruit from "../../assets/images/Dragonfruit.svg";
 import HoneyDew from "../../assets/images/HoneyDew.svg";
 import Shokupan from "../../assets/images/Shokupan.svg";
-
-import Avatar from "@mui/material/Avatar";
-
-function TopUser(props) {
-    const userProfile = props.user;
-
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={
-                        userProfile.profileImage !== ""
-                            ? userProfile.profileImage
-                            : null
-                    }
-                    sx={{ height: 130, width: 130 }}
-                />
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
-        </div>
-    );
-}
 
 function Sidebar() {
     return (

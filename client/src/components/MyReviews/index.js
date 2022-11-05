@@ -5,13 +5,13 @@ import "./MyReviews.css";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { getMyReviews } from "../../api";
+import { getMyReviews, getProfile } from "../../api";
 import { useQuery } from "react-query";
-import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 
 import ReviewPeek from "../ReviewPeek";
+import TopUser from "../TopUser";
 
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -22,7 +22,6 @@ import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
-import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -49,37 +48,6 @@ function Post() {
                     />
                 </IconButton>
             </span>
-        </div>
-    );
-}
-
-function TopUser(props) {
-    const userProfile = props.user;
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={
-                        userProfile.profileImage !== ""
-                            ? userProfile.profileImage
-                            : null
-                    }
-                    sx={{ height: 130, width: 130 }}
-                />
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
         </div>
     );
 }
@@ -508,7 +476,7 @@ function ReviewsSmallScreen(props) {
                                 )}
                             </div>
                         ) : (
-                            <h2>Found no reviews</h2>
+                            !isLoading && <h2>Found no reviews</h2>
                         )}
                     </List>
                 </div>
@@ -827,7 +795,7 @@ function ReviewsBigScreen(props) {
                     }
                 }}
             >
-                {!user && <CircularProgress className="spinner" />}
+                {!user && isLoading && <CircularProgress className="spinner" />}
                 {listReviews ? (
                     <div>
                         {listReviews.length > 0 ? (
@@ -936,7 +904,7 @@ function ReviewsBigScreen(props) {
                         )}
                     </div>
                 ) : (
-                    <h2>Found no reviews</h2>
+                    !isLoading && <h2>Found no reviews</h2>
                 )}
             </Box>
         </div>
@@ -945,11 +913,12 @@ function ReviewsBigScreen(props) {
 
 function MyReviews() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
-        "bookmarks",
+    const { data: userProfile } = useQuery(
+        "reviews",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
+
     return (
         <>
             {userProfile ? (
