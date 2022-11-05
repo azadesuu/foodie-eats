@@ -19,7 +19,6 @@ import PageNotFound from "./components/PageNotFound";
 import Profile from "./components/Profile";
 import ProfileReviews from "./components/ProfileReviews";
 import Theme from "./components/Theme";
-import Logout from "./components-server/Logout";
 import Footer from "./components/Footer";
 
 import NavBar from "./components/NavBar";
@@ -42,7 +41,7 @@ function App() {
             if (newUser) {
                 setUser(newUser);
                 if (!currTheme) {
-                    localStorage.setItem("theme", newUser.body.theme);
+                    localStorage.setItem("theme", newUser.theme);
                 }
             }
         };
