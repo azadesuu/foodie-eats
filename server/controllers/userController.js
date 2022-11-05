@@ -129,7 +129,7 @@ const resetPassword = async (req, res) => {
       return res.status(400).send({ message: "Invalid userId in link" });
 
     const token = await Token.findOne({
-      _id: user._id,
+      userId: user._id,
       token: req.params.token
     });
     if (!token)
@@ -175,7 +175,7 @@ const forgotPassword = async (req, res) => {
       }).save();
     }
 
-    const link = `${process.env.SERVER_URL}password-reset/${user._id}/${token.token}`;
+    const link = `${process.env.SERVER_URL}reset-password/${user._id}/${token.token}`;
     await sendEmail(user.email, "Password reset", link);
     console.log(link);
 
