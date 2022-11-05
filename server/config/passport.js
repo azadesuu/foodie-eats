@@ -88,7 +88,10 @@ module.exports = function(passport) {
         process.nextTick(function() {
           User.findOne(
             {
-              $or: [{ username: req.body.username }, { email: req.body.email }]
+              $or: [
+                { username: req.body.username },
+                { email: req.body.email }
+              ]
             },
             function(err, existingUser) {
               const username = req.body.username;
@@ -180,8 +183,8 @@ module.exports = function(passport) {
           await User.findOne(
             {
               $or: [
-                { username: email.toLowerCase() },
-                { email: email.toLowerCase() }
+                { username: email },
+                { email: email }
               ]
             },
             function(err, user) {

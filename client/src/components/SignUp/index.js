@@ -3,6 +3,7 @@ import SEO from "../SEO";
 import "./SignUp.css";
 import React from "react";
 import { useState } from "react";
+import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 
@@ -15,19 +16,19 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
-    const navigate = useNavigate();
 
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const user = await signupUser({
+                let data = {
                     username: username,
                     email: email,
                     password: password
-                });
+                };
+                if (!checkProfileFields(data)) return;
+                const user = await signupUser(data);
                 if (user) {
                     alert("Signup successful. Please Login.");
-                    navigate("/login");
                 }
             } catch (err) {
                 alert(err);

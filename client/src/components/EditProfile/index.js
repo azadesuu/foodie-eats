@@ -1,8 +1,7 @@
 import "./EditProfile.css";
-
+import { checkProfileFields } from "../../utils";
 import { useState } from "react";
 import { updateUser } from "../../api";
-import { Navigate } from "react-router";
 
 const EditProfile = data => {
     const { _id, username, email, bio, navigation } = data;
@@ -19,34 +18,42 @@ const EditProfile = data => {
 
     const editProfile = async e => {
         try {
-            const data = {
+            let usernameTransform = usernameEdit.trim().toLowerCase();
+            let emailTransform = emailEdit.trim().toLowerCase();
+            setUsernameEdit(usernameTransform);
+            setEmailEdit(emailTransform);
+
+            let data = {
                 userId: _id,
-                username: usernameEdit,
-                email: emailEdit,
+                username: usernameTransform,
+                email: emailTransform,
                 bio: bioEdit
             };
-            if (username === usernameEdit) {
+            if (username === usernameTransform) {
                 delete data["username"];
             }
-            if (email === emailEdit) {
+            if (email === emailTransform) {
                 delete data["email"];
             }
             if (bio === bioEdit) {
                 delete data["bio"];
             }
-            if (Object.keys(data).length == 1) {
+            if (data["username"] === "" || data["email"] === "") {
+                alert("Username/Email cannot be empty.");
+            } else if (Object.keys(data).length === 1) {
                 alert("Nothing was updated.");
             } else {
+                if (!checkProfileFields(data)) return;
                 const user = await updateUser(data);
                 if (user) {
                     if (user.username === username && user.email === email) {
                         // if username and email are not changed
-                        console.log("Successfully updated.");
+                        alert("Successfully updated.");
                     } else {
                         alert(
                             "Successfully updated, please re-enter your login credentials."
                         );
-                        await handleLogOut(); //must logout and login to reset token (temp)
+                        await handleLogOut(); //must logout and login to reset token
                     }
                 } else {
                     alert("Username/Email is taken.");

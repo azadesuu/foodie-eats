@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 const ProfileImageUpload = props => {
     const userProfile = props.user;
-    const [image, setImage] = useState({});
+    const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [imageURL, setImageURL] = useState(
         userProfile?.profileImage ? userProfile.profileImage : null
@@ -22,7 +22,7 @@ const ProfileImageUpload = props => {
         try {
             const formData = new FormData();
             formData.set("image", image);
-            if (!formData.get("image")) {
+            if (!image || !formData.get("image")) {
                 alert("Image not selected!");
             } else if (image.size / 1024 / 1024 > 10) {
                 alert("Image exceeds upload limit!");
@@ -97,9 +97,7 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img 
-                        src={previewImage} 
-                    />
+                    <img src={previewImage} />
                 </label>
             ) : (
                 <p>Upload your image now!</p>

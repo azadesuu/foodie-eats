@@ -481,12 +481,12 @@ function Profile() {
     const { username } = useParams();
 
     const [user] = useContext(UserContext);
-    const [loggedUsername, setloggedUsername] = useState("");
     useEffect(() => {
-        setloggedUsername(user?.username);
-        const isUser = username === loggedUsername;
-        if (isUser) {
-            navigate("/my-profile");
+        if (user) {
+            const isUser = username === user?.username;
+            if (isUser) {
+                navigate("/my-profile");
+            }
         }
     }, [user]);
 

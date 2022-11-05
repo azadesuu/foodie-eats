@@ -1,8 +1,8 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./ForgotPassword.css";
-import { useState } from "react";
-import React from "react";
+import { checkProfileFields } from "../../utils";
+import React, { useState } from "react";
 import { forgotPassword } from "../../api";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,7 @@ function ForgotPassword() {
     // submit form
     async function submitHandler(email) {
         try {
+            if (!checkProfileFields({ email: email })) return;
             const sent = await forgotPassword(email);
             if (sent) {
                 alert(

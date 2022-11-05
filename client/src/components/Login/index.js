@@ -3,6 +3,8 @@ import SEO from "../SEO";
 import { useState } from "react";
 import { loginUser } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { checkProfileFields } from "../../utils";
+
 import "./Login.css";
 
 import "@fontsource/martel-sans";
@@ -54,10 +56,12 @@ function Login() {
     const submitHandler = async () => {
         try {
             // using API function to submit data to FoodBuddy API
-            await loginUser({
+            let data = {
                 email: email,
                 password: password
-            });
+            };
+            if (!checkProfileFields({ password: password })) return;
+            await loginUser(data);
             var token = localStorage.getItem("token");
             token ? document.location.reload() : navigate("/login");
         } catch (err) {

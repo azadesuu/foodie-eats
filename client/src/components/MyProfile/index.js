@@ -287,7 +287,7 @@ function ProfileDetails(props) {
 
 function MyProfile() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }
