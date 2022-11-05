@@ -2,96 +2,54 @@ import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 
 import "./ChangePassword.css";
-import { useState, useEffect, useContext } from "react";
+import TopUser from "../TopUser";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
-import { updatePassword, getProfile } from "../../api";
+import { updatePassword, getProfile, getMyReviews } from "../../api";
 import { CircularProgress } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
 
 import "@fontsource/martel-sans";
 
-function TopUser(props) {
-    const userProfile = props.user;
-
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <Avatar
-                    alt="user-profile-image"
-                    src={userProfile.profileImage}
-                    sx={{ height: 130, width: 130 }}
-                />
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
-        </div>
-    );
-}
-
-function Sidebar() {
-    return (
-        <div className="sidebar-content">
-            <div id="current">
-                <a href="my-profile">profile</a>
-            </div>
-            <a href="my-reviews">reviews</a>
-            <a href="my-bookmarks">bookmarks</a>
-            <a href="my-theme">theme</a>
-        </div>
-    );
-}
+// one lowercase and uppercase alphabet, one number
+const strongPassword = new RegExp(
+    "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
+);
 
 function ChangePwDetails(props) {
     const user = props.user;
-    const navigate = useNavigate();
-
     const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
+    const navigate = useNavigate();
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
     const checkPassword = async (
         _id,
-        password,
-        currentPassword,
+        oldPassword,
         newPassword,
         confirmNewPassword
     ) => {
-        const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
-
-        if (password !== currentPassword) {
-            alert("Current Password is incorrect");
-        } else if (!newPassword.match(strongPassword)) {
+        if (!newPassword.match(strongPassword)) {
             alert(
                 "Must have min 8 characters, 1 alphabetical character and 1 numerical digit"
             );
         } else if (newPassword != confirmNewPassword) {
-            alert("Passwords do not match");
+            alert("New passwords does not match");
         } else {
-            {
-                /* Passwords seem fine */
-            }
+            // passwords seems fine
             const updatedUser = await updatePassword({
                 _id: _id,
-                password: newPassword
+                password: newPassword,
+                oldPassword: oldPassword
             });
-            if (!updatedUser) alert("password was not changed.");
+            if (!updatedUser)
+                alert("Current password was incorrect, change unsuccessful.");
             else {
                 alert("password changed.");
                 navigate("/my-profile");
@@ -106,9 +64,6 @@ function ChangePwDetails(props) {
             <span className="smallScreen-ChangePassword">
                 <h1>CHANGE PASSWORD</h1>
             </span>
-            {isLoading && !userProfile && (
-                <CircularProgress className="spinner" />
-            )}
             {userProfile ? (
                 <div className="user-container">
                     <form>
@@ -152,8 +107,7 @@ function ChangePwDetails(props) {
                             className="confirm"
                             onClick={() => {
                                 checkPassword(
-                                    user?._id,
-                                    user?.password,
+                                    userProfile?._id,
                                     currentPassword,
                                     newPassword,
                                     confirmNewPassword
@@ -165,30 +119,52 @@ function ChangePwDetails(props) {
                     </div>
                 </div>
             ) : (
-                <h1>No user found</h1>
+                !isLoading && <h1>No user found</h1>
             )}
+        </div>
+    );
+}
+function Sidebar() {
+    return (
+        <div className="sidebar-content">
+            <div id="current">
+                <a href="my-profile">profile</a>
+            </div>
+            <a href="my-reviews">reviews</a>
+            <a href="my-bookmarks">bookmarks</a>
+            <a href="my-theme">theme</a>
         </div>
     );
 }
 
 function ChangePassword() {
     const [user, setUser] = useContext(UserContext);
-
+    const { data: userProfile } = useQuery(
+        "my-profile",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
+    const { data: listReviews } = useQuery(
+        "my-reviews",
+        () => getMyReviews(user?._id),
+        { enabled: !!user }
+    );
+    
     return (
         <>
             <SEO data={allSEO.changepassword} />
             {user ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">
-                        <ChangePwDetails user={user} />
+                        <ChangePwDetails user={user}/>
                     </span>
                     <span className="bigScreen-ChangePassword">
-                        <TopUser user={user} />
+                        <TopUser user={userProfile} listReviews={listReviews}/>
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            <ChangePwDetails user={user} />
+                            <ChangePwDetails user={user}/>
                         </div>
                     </span>
                 </div>
