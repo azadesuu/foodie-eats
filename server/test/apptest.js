@@ -303,6 +303,7 @@ describe("Integration tests: Review methods", () => {
         .then(function(res) {
           assert.equal(200, res.statusCode);
           // setting tokens for user_auth
+          assert.equal(true, res.body !== undefined);
           access_token = res.body;
         });
     });
