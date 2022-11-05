@@ -49,6 +49,10 @@ exports.loginValidEmail = {
 };
 
 // integration tests
+exports.userId = "6354408a37d91973c1246a57";
+exports.userId2 = "6354ee5fd7bf245d8940dd69";
+exports.userId3 = "6354f876d7bf245d8940e058";
+exports.reviewId = "6354ef7ed7bf245d8940dd72";
 
 exports.userTests = [
   {
@@ -241,6 +245,46 @@ exports.updateReviewDescription = {
   description: "description updated!"
 };
 
+exports.updateReviewPrivate = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Restaurant",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: false,
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
+exports.updateReviewPublic = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Restaurant",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: true,
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
 exports.updateReviewNoId = {
   userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
   restaurantName: "Restaurant",
@@ -269,6 +313,16 @@ exports.updateUser1 = {
   username: "celenesaw1",
   email: "sawcelene2001@gmail.com"
 };
+exports.updateUser1InvalidUsername = {
+  bio: "Let's change this user's bio.",
+  username: "ce???!",
+  email: "sawcelene2001@gmail.com"
+};
+exports.updateUser1InvalidEmail = {
+  bio: "Let's change this user's bio.",
+  username: "celenesaw1",
+  email: "sawcelene2gmail"
+};
 
 exports.updateUser1Password = {
   _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
@@ -282,6 +336,7 @@ exports.updateUser1PasswordWeak = {
 };
 // change theme
 exports.changeThemeUser1 = { newTheme: "blueberry" };
+exports.changeThemeUser1Undefined = { newTheme: undefined };
 exports.changeThemeUser1wrong = { newTheme: "error" };
 
 // MANUAL TESTS:

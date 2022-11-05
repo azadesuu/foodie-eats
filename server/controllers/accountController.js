@@ -6,7 +6,7 @@ const { cloudinary } = require("../config/cloudinary");
 //regexs
 const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
 const validUsername = new RegExp(
-  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){4,14}[a-zA-Z0-9]$"
 );
 const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -246,7 +246,10 @@ const bookmarkReview = async (req, res, next) => {
 };
 
 const checkUpdateUser = async (req, res, next) => {
-  const { username, email, bio } = req.body;
+  let { username, email, bio } = req.body;
+  if (username) username = username.toLowerCase().trim();
+  if (email) email = email.toLowerCase().trim();
+
   //check if username and email is valid
   if (!username && !email && !bio) {
     res.status(204).json({
@@ -257,7 +260,7 @@ const checkUpdateUser = async (req, res, next) => {
     return;
   } else if (username || email) {
     if (username) {
-      if (!validUsername.test(username?.toLowerCase().trim())) {
+      if (!validUsername.test(username)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -268,7 +271,7 @@ const checkUpdateUser = async (req, res, next) => {
     }
 
     if (email) {
-      if (!validEmail.test(email?.toLowerCase().trim())) {
+      if (!validEmail.test(email)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -291,13 +294,17 @@ const checkUpdateUser = async (req, res, next) => {
   } else {
     // check if there is an existing user with the email
     if (username || email) {
-      const oneUser = await User.findOne({
-        $or: [
-          { username: username.toLowerCase() },
-          { email: email.toLowerCase() }
-        ]
-      });
-      if (oneUser) {
+      let user1;
+      let user2;
+      if (username) {
+        user1 = await User.findOne({ username: username });
+      }
+      if (email) {
+        user2 = await User.findOne({
+          email: email
+        });
+      }
+      if (user1 || user2) {
         res.status(400).json({
           success: false,
           message: `Existing user with entered username/email.`,

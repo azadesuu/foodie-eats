@@ -462,28 +462,90 @@ accountRouter
   .patch(accountController.changeTheme);
 
 /**
- * @api {POST} /changeTheme/:userId Updates the user theme in the MongoDB database
- * @apiName ChangeTheme
+ * @api {POST} /uploadNewImage Uploads an image to cloudinary
+ * @apiName Upload Image
  * @apiGroup Users
  * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
- *
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message": "Image was uploaded successfully",
+    "data": "https://res.cloudinary.com/dp32jvnit/image/upload/v1666602193/e71e8bf7a37e27570df3b1f74748a006_xwwc8j.jpg"
+  }
+}
  *
  *
  */
-
-// images
 accountRouter.post(
   "/uploadNewImage",
   upload.single("image"),
   accountController.uploadNewImage
 );
 
+/**
+ * @api {POST} /deleteNewImage Deletes an image from cloudinary
+ * @apiName Delete Image
+ * @apiGroup Users
+ * @apiSuccess User Info
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"Image deleted from cloudinary.",
+    "data": { "result": "ok" }
+  }
+}
+ *
+ *
+ */
 accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
-// user auth
+/**
+ * @api {POST} /uploadProfileImage/:userId updates the profile image link of the user in the database
+ * @apiName Upload Profile Image
+ * @apiGroup Users
+ * @apiSuccess User Info
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"Image was uploaded successfully",
+    "data": {
+              "_id": {
+                  "$oid": "6355e36d6066b42befa7ba04"
+                },
+                "profileImage": "https://res.cloudinary.com/dp32jvnit/image/upload/v1666602193/e71e8bf7a37e27570df3b1f74748a006_xwwc8j.jpg",
+                "bio": "This person loves food too much to think of a bio right now!",
+                "theme": "shokupan",
+                "bookmarks": [
+                  {
+                    "$oid": "63645f2baae2cb6048adf0d9"
+                  }
+                ],
+                "admin": false,
+                "date": {
+                  "$date": {
+                    "$numberLong": "1666573165168"
+                  }
+                },
+                "username": "joeannnc",
+                "email": "chongjoeann02@gmail.com",
+                "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
+            }
+ *
+ *
+ */
 accountRouter.use(
   "/uploadProfileImage/:userId",
   accountController.checkUserParams
@@ -496,7 +558,44 @@ accountRouter
   .route("/uploadProfileImage/:userId")
   .post(accountController.uploadProfileImage);
 
-// user auth
+/**
+ * @api {POST} /deleteProfileImage/:userId deletes the profile image link of the user in the database
+ * @apiName Delete Profile Image
+ * @apiGroup Users
+ * @apiSuccess User Info
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"User image was deleted successfully",
+    "data": {
+              "_id": {
+                  "$oid": "6355e36d6066b42befa7ba04"
+                },
+                "profileImage": "",
+                "bio": "This person loves food too much to think of a bio right now!",
+                "theme": "shokupan",
+                "bookmarks": [
+                  {
+                    "$oid": "63645f2baae2cb6048adf0d9"
+                  }
+                ],
+                "admin": false,
+                "date": {
+                  "$date": {
+                    "$numberLong": "1666573165168"
+                  }
+                },
+                "username": "joeannnc",
+                "email": "chongjoeann02@gmail.com",
+                "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
+            }
+ *
+ *
+ */
 accountRouter.use(
   "/deleteProfileImage/:userId",
   accountController.checkUserParams

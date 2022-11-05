@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 export const setAuthToken = async token => {
     if (token) {
@@ -85,10 +85,9 @@ export const signupUser = async user => {
         });
 };
 
-export const forgotPassword = async email => {
-    const user_email = { email: email };
+export const forgotPassword = async data => {
     return await axios
-        .post(`${SERVER_URL}/forgotPassword`, user_email)
+        .post(`${SERVER_URL}/forgotPassword`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

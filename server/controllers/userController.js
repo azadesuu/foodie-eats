@@ -122,18 +122,24 @@ const resetPassword = async (req, res) => {
     });
     const { error } = passwordSchema.validate(req.body);
     if (error)
-      return res.status(400).send({ message: error.details[0].message });
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
 
     const user = await User.findOne({ _id: req.params.id });
     if (!user)
-      return res.status(400).send({ message: "Invalid userId in link" });
+      return res
+        .status(400)
+        .send({ success: false, message: "Invalid userId in link" });
 
     const token = await Token.findOne({
-      _id: user._id,
+      userId: user._id,
       token: req.params.token
     });
     if (!token)
-      return res.status(400).send({ message: "Invalid token in link" });
+      return res
+        .status(400)
+        .send({ success: false, message: "Invalid token in link" });
 
     if (!user.verified) user.verified = true;
 
@@ -143,10 +149,13 @@ const resetPassword = async (req, res) => {
     user.password = hashPassword;
     await user.save();
 
-    res.status(200).send({ message: "Password reset successfully" });
+    res
+      .status(200)
+      .send({ success: true, message: "Password reset successfully" });
   } catch (error) {
     res.status(500).json({
-      status: "An error has occurred trying to reset password.",
+      success: false,
+      message: "An error has occurred trying to reset password.",
       err: error
     });
   }
@@ -161,11 +170,18 @@ const forgotPassword = async (req, res) => {
     });
 
     const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error)
+      return res
+        .status(400)
+        .send({ success: false, message: error.details[0].message });
 
     const user = await User.findOne({ email: req.body.email });
     if (!user)
-      return res.status(400).send("user with given email doesn't exist");
+      return res.status(400).send({
+        success: false,
+        message: "User with given email doesn't exist",
+        data: undefined
+      });
 
     let token = await Token.findOne({ userId: user._id });
     if (!token) {
@@ -175,13 +191,18 @@ const forgotPassword = async (req, res) => {
       }).save();
     }
 
-    const link = `${process.env.SERVER_URL}password-reset/${user._id}/${token.token}`;
+    const link = `${process.env.SERVER_URL}reset-password/${user._id}/${token.token}`;
     await sendEmail(user.email, "Password reset", link);
-    console.log(link);
-
-    res.send("password reset link sent to your email account");
+    res.status(200).send({
+      success: true,
+      message: "password reset link sent to your email account",
+      data: link
+    });
   } catch (error) {
-    res.send("An error occured");
+    res.status(500).send({
+      success: false,
+      message: "An error occured while resetting password."
+    });
   }
 };
 

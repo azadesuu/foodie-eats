@@ -1,15 +1,15 @@
 {
   "stats": {
     "suites": 20,
-    "tests": 49,
-    "passes": 48,
+    "tests": 53,
+    "passes": 53,
     "pending": 0,
-    "failures": 1,
-    "start": "2022-11-04T19:36:40.796Z",
-    "end": "2022-11-04T19:36:43.498Z",
-    "duration": 2702,
-    "testsRegistered": 49,
-    "passPercent": 97.95918367346938,
+    "failures": 0,
+    "start": "2022-11-05T16:32:06.766Z",
+    "end": "2022-11-05T16:32:09.602Z",
+    "duration": 2836,
+    "testsRegistered": 53,
+    "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "36438456-0901-46b2-af50-220f1c962283",
+      "uuid": "d10a8d08-a802-40a2-8aee-95802e2eab82",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -36,8 +36,8 @@
           "context": null,
           "code": "await connectDB();",
           "err": {},
-          "uuid": "97cdd7cd-13ff-45e4-83e4-69dcda02848f",
-          "parentUUID": "36438456-0901-46b2-af50-220f1c962283",
+          "uuid": "a566c6ab-27f7-42cd-b042-b77304ae643a",
+          "parentUUID": "d10a8d08-a802-40a2-8aee-95802e2eab82",
           "isHook": true,
           "skipped": false
         }
@@ -47,7 +47,7 @@
           "title": "\"after all\" hook in \"{root}\"",
           "fullTitle": "\"after all\" hook in \"{root}\"",
           "timedOut": false,
-          "duration": 7,
+          "duration": 16,
           "state": null,
           "speed": null,
           "pass": false,
@@ -56,8 +56,8 @@
           "context": null,
           "code": "await closeDB();\nawait server.kill(() => {\n  console.log(\"Closing test server..\");\n  console.log(\"End of tests.\");\n  //the server is down when this is called. That won't take long. (<10s)\n});",
           "err": {},
-          "uuid": "bc7dd7a5-8a72-4da2-8b61-28df0cf5c89c",
-          "parentUUID": "36438456-0901-46b2-af50-220f1c962283",
+          "uuid": "ca5e0a62-05f0-48f2-a9cd-ec52d32c6402",
+          "parentUUID": "d10a8d08-a802-40a2-8aee-95802e2eab82",
           "isHook": true,
           "skipped": false
         }
@@ -65,7 +65,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "9d2aed54-66e8-4261-81c6-be63294431e4",
+          "uuid": "a2a21b07-8e8e-4c8f-9205-e46093a73a83",
           "title": "Unit tests ",
           "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
           "file": "\\test\\apptest.js",
@@ -75,7 +75,7 @@
               "title": "\"after all\" hook in \"Unit tests \"",
               "fullTitle": "Unit tests  \"after all\" hook in \"Unit tests \"",
               "timedOut": false,
-              "duration": 67,
+              "duration": 62,
               "state": null,
               "speed": null,
               "pass": false,
@@ -84,8 +84,8 @@
               "context": null,
               "code": "console.log(\"Clearing collections..\");\nawait clearCollections();",
               "err": {},
-              "uuid": "0323cbd4-c358-415c-8690-50a57efa531b",
-              "parentUUID": "9d2aed54-66e8-4261-81c6-be63294431e4",
+              "uuid": "41a41573-82f4-482c-b2d1-637a3a593108",
+              "parentUUID": "a2a21b07-8e8e-4c8f-9205-e46093a73a83",
               "isHook": true,
               "skipped": false
             }
@@ -93,7 +93,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+              "uuid": "17e78533-d2aa-470e-8d92-580ea42c2203",
               "title": "Registration ",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -104,7 +104,7 @@
                   "title": "Registers the user",
                   "fullTitle": "Unit tests  Registration  Registers the user",
                   "timedOut": false,
-                  "duration": 693,
+                  "duration": 823,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -113,8 +113,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUser)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "8083e1ff-32af-4d60-81ff-21ec05003c76",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "60d5d471-066a-475e-b2f6-7cea2dcd31f3",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -122,7 +122,7 @@
                   "title": "Doesn't register the duplicate user (email)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the duplicate user (email)",
                   "timedOut": false,
-                  "duration": 28,
+                  "duration": 24,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -131,8 +131,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserDupEmail)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"That username/email is already taken.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "f5293ef0-92d8-42c9-b1b6-a86c02ca96bf",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "c7cda25f-6d19-4a16-b04f-a907c432ccc7",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -140,7 +140,7 @@
                   "title": "Doesn't register the duplicate user (username)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the duplicate user (username)",
                   "timedOut": false,
-                  "duration": 25,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -149,8 +149,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserDupUsername)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"That username/email is already taken.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "b7ed0eae-e6fe-45bc-b9a3-6b077430156c",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "76df4931-c4a5-48ac-8711-156355610f2c",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -158,7 +158,7 @@
                   "title": "Doesn't register the empty field (email)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the empty field (email)",
                   "timedOut": false,
-                  "duration": 26,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -167,8 +167,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserNoEmail)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Username/email not defined.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "a36a3438-b070-4e54-8bb0-309c517f1a1a",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "0695ecce-e91a-47f5-95b7-1ea02ad6833e",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -176,7 +176,7 @@
                   "title": "Doesn't register the invalid field (username)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the invalid field (username)",
                   "timedOut": false,
-                  "duration": 26,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -185,8 +185,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserInvalidUname)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Your username isn't valid.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "eb0638e3-fe9f-4d84-b2ab-2f106ad99763",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "1c1fe02f-3e83-44fa-a20f-f150a0879247",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -194,7 +194,7 @@
                   "title": "Doesn't register the invalid field (email)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the invalid field (email)",
                   "timedOut": false,
-                  "duration": 26,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -203,8 +203,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserInvalidEmail)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Your email isn't valid.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "ab66267c-dbb8-4fdf-bed4-db79f6c699e0",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "5cde96e0-660e-4c62-8654-993677c46ee9",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 },
@@ -212,7 +212,7 @@
                   "title": "Doesn't register the invalid field (email)",
                   "fullTitle": "Unit tests  Registration  Doesn't register the invalid field (email)",
                   "timedOut": false,
-                  "duration": 26,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -221,32 +221,32 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/signup\")\n  .send(testInput.newUserInvalidEmail)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Your email isn't valid.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "f5a5d04b-c824-43a7-8946-3adeebf85593",
-                  "parentUUID": "727867f0-77e5-4561-9ac5-f9830cd4ab9b",
+                  "uuid": "be4db6c0-0c1b-4ed4-aa72-178a91337711",
+                  "parentUUID": "17e78533-d2aa-470e-8d92-580ea42c2203",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "8083e1ff-32af-4d60-81ff-21ec05003c76",
-                "f5293ef0-92d8-42c9-b1b6-a86c02ca96bf",
-                "b7ed0eae-e6fe-45bc-b9a3-6b077430156c",
-                "a36a3438-b070-4e54-8bb0-309c517f1a1a",
-                "eb0638e3-fe9f-4d84-b2ab-2f106ad99763",
-                "ab66267c-dbb8-4fdf-bed4-db79f6c699e0",
-                "f5a5d04b-c824-43a7-8946-3adeebf85593"
+                "60d5d471-066a-475e-b2f6-7cea2dcd31f3",
+                "c7cda25f-6d19-4a16-b04f-a907c432ccc7",
+                "76df4931-c4a5-48ac-8711-156355610f2c",
+                "0695ecce-e91a-47f5-95b7-1ea02ad6833e",
+                "1c1fe02f-3e83-44fa-a20f-f150a0879247",
+                "5cde96e0-660e-4c62-8654-993677c46ee9",
+                "be4db6c0-0c1b-4ed4-aa72-178a91337711"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 850,
+              "duration": 962,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "ebebf910-50e5-467f-9d5a-797b228dcf08",
+              "uuid": "1c8f6d58-245d-4c24-b0e2-9aeacb80624a",
               "title": "Get Reviews ",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -257,7 +257,7 @@
                   "title": "Get recent reviews",
                   "fullTitle": "Unit tests  Get Reviews  Get recent reviews",
                   "timedOut": false,
-                  "duration": 27,
+                  "duration": 23,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -266,8 +266,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/review/getReviewsByRecent\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"Recent reviews found\" });\n  });",
                   "err": {},
-                  "uuid": "e017f183-d596-49fa-8009-a74c9d6bf799",
-                  "parentUUID": "ebebf910-50e5-467f-9d5a-797b228dcf08",
+                  "uuid": "6f8745f7-a548-490a-bce2-7310cb60c9d8",
+                  "parentUUID": "1c8f6d58-245d-4c24-b0e2-9aeacb80624a",
                   "isHook": false,
                   "skipped": false
                 },
@@ -275,7 +275,7 @@
                   "title": "Get top reviews",
                   "fullTitle": "Unit tests  Get Reviews  Get top reviews",
                   "timedOut": false,
-                  "duration": 25,
+                  "duration": 24,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -284,27 +284,27 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/review/getReviewsByLikes\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"Most liked reviews found.\" });\n  });",
                   "err": {},
-                  "uuid": "c62fa920-a26d-4fe9-824d-7f970c9f48ef",
-                  "parentUUID": "ebebf910-50e5-467f-9d5a-797b228dcf08",
+                  "uuid": "306afc6c-49a6-473f-a3e1-2ef13a1534ca",
+                  "parentUUID": "1c8f6d58-245d-4c24-b0e2-9aeacb80624a",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "e017f183-d596-49fa-8009-a74c9d6bf799",
-                "c62fa920-a26d-4fe9-824d-7f970c9f48ef"
+                "6f8745f7-a548-490a-bce2-7310cb60c9d8",
+                "306afc6c-49a6-473f-a3e1-2ef13a1534ca"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 52,
+              "duration": 47,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "5bdf29f3-68c9-41cc-9098-5e6a30c19a27",
+              "uuid": "76e84356-fe3e-4c60-a2cf-2e6854fefc97",
               "title": "Get one user ",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -315,7 +315,7 @@
                   "title": "Get one user",
                   "fullTitle": "Unit tests  Get one user  Get one user",
                   "timedOut": false,
-                  "duration": 25,
+                  "duration": 22,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -324,8 +324,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/account/profile/azadesuu\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"User was found by username\" });\n  });",
                   "err": {},
-                  "uuid": "ae5c3e3b-b7ef-4614-8d78-1b45e6b0412b",
-                  "parentUUID": "5bdf29f3-68c9-41cc-9098-5e6a30c19a27",
+                  "uuid": "1b7c0c59-eea8-4d58-8811-a2145e20fe64",
+                  "parentUUID": "76e84356-fe3e-4c60-a2cf-2e6854fefc97",
                   "isHook": false,
                   "skipped": false
                 },
@@ -333,7 +333,7 @@
                   "title": "Doesn't get invalid user",
                   "fullTitle": "Unit tests  Get one user  Doesn't get invalid user",
                   "timedOut": false,
-                  "duration": 26,
+                  "duration": 22,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -342,24 +342,24 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/account/profile/aza\")\n  .then(function(res) {\n    assert.equal(204, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "a09598be-f099-47f5-9600-cc3467c358e0",
-                  "parentUUID": "5bdf29f3-68c9-41cc-9098-5e6a30c19a27",
+                  "uuid": "20ecd5ad-7902-40a1-ad47-9c99293a3779",
+                  "parentUUID": "76e84356-fe3e-4c60-a2cf-2e6854fefc97",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "ae5c3e3b-b7ef-4614-8d78-1b45e6b0412b",
-                "a09598be-f099-47f5-9600-cc3467c358e0"
+                "1b7c0c59-eea8-4d58-8811-a2145e20fe64",
+                "20ecd5ad-7902-40a1-ad47-9c99293a3779"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 51,
+              "duration": 44,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             }
           ],
           "passes": [],
@@ -369,10 +369,10 @@
           "duration": 0,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 2000
+          "_timeout": 500000
         },
         {
-          "uuid": "3892dd26-4c5d-4bf4-86ac-0756b0654820",
+          "uuid": "d50689d9-d443-46bf-bc20-1217079b5cc9",
           "title": "Integration tests: Review methods",
           "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
           "file": "\\test\\apptest.js",
@@ -381,7 +381,7 @@
               "title": "\"before all\" hook in \"Integration tests: Review methods\"",
               "fullTitle": "Integration tests: Review methods \"before all\" hook in \"Integration tests: Review methods\"",
               "timedOut": false,
-              "duration": 119,
+              "duration": 120,
               "state": null,
               "speed": null,
               "pass": false,
@@ -390,8 +390,8 @@
               "context": null,
               "code": "await clearCollections();\nawait User.insertMany(testInput.userTests);\nawait Review.insertMany(testInput.reviewTests);",
               "err": {},
-              "uuid": "04f3ec9f-bada-46e6-8f0e-d03aec9138eb",
-              "parentUUID": "3892dd26-4c5d-4bf4-86ac-0756b0654820",
+              "uuid": "69784a8f-45f4-42c4-91fd-77475d35d8b8",
+              "parentUUID": "d50689d9-d443-46bf-bc20-1217079b5cc9",
               "isHook": true,
               "skipped": false
             }
@@ -401,7 +401,7 @@
               "title": "\"after all\" hook in \"Integration tests: Review methods\"",
               "fullTitle": "Integration tests: Review methods \"after all\" hook in \"Integration tests: Review methods\"",
               "timedOut": false,
-              "duration": 65,
+              "duration": 66,
               "state": null,
               "speed": null,
               "pass": false,
@@ -410,8 +410,8 @@
               "context": null,
               "code": "console.log(\"Clearing collections..\");\nawait clearCollections();",
               "err": {},
-              "uuid": "d5063062-4274-4504-9d95-8405e966e76a",
-              "parentUUID": "3892dd26-4c5d-4bf4-86ac-0756b0654820",
+              "uuid": "0a3900bf-d4e4-4d8c-95a7-d75c243e9d08",
+              "parentUUID": "d50689d9-d443-46bf-bc20-1217079b5cc9",
               "isHook": true,
               "skipped": false
             }
@@ -419,7 +419,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "aa63bd95-ce07-4cea-b18d-e758f5d4814e",
+              "uuid": "9bac5d28-e365-4884-a9d9-5daa1f9b74a7",
               "title": "Get inserted User/Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -430,7 +430,7 @@
                   "title": "Get one review",
                   "fullTitle": "Integration tests: Review methods Get inserted User/Review Get one review",
                   "timedOut": false,
-                  "duration": 48,
+                  "duration": 46,
                   "state": "passed",
                   "speed": "medium",
                   "pass": true,
@@ -439,8 +439,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/review/getReview/6354ef7ed7bf245d8940dd72\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"Review found\" });\n  });",
                   "err": {},
-                  "uuid": "1efd55c1-361a-4406-a9fd-8dc0e548d4bc",
-                  "parentUUID": "aa63bd95-ce07-4cea-b18d-e758f5d4814e",
+                  "uuid": "b344fd5a-1cef-4f99-8456-cf29c3e50aaf",
+                  "parentUUID": "9bac5d28-e365-4884-a9d9-5daa1f9b74a7",
                   "isHook": false,
                   "skipped": false
                 },
@@ -448,7 +448,7 @@
                   "title": "Get one user",
                   "fullTitle": "Integration tests: Review methods Get inserted User/Review Get one user",
                   "timedOut": false,
-                  "duration": 23,
+                  "duration": 22,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -457,27 +457,27 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/account/profile/celenesaw\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"User was found by username\" });\n  });",
                   "err": {},
-                  "uuid": "05d355ae-8bbb-4ff2-b005-75951133ee41",
-                  "parentUUID": "aa63bd95-ce07-4cea-b18d-e758f5d4814e",
+                  "uuid": "f7132949-4f13-4e2f-bde9-e5f52952d5fb",
+                  "parentUUID": "9bac5d28-e365-4884-a9d9-5daa1f9b74a7",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "1efd55c1-361a-4406-a9fd-8dc0e548d4bc",
-                "05d355ae-8bbb-4ff2-b005-75951133ee41"
+                "b344fd5a-1cef-4f99-8456-cf29c3e50aaf",
+                "f7132949-4f13-4e2f-bde9-e5f52952d5fb"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 71,
+              "duration": 68,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "43ee2f15-80b5-4e24-9dc8-c9ea5b7bb95a",
+              "uuid": "c614985c-07eb-4666-8cbf-31cfaad1ae2b",
               "title": "Integration: Log in User",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -488,7 +488,7 @@
                   "title": "Logs in the user",
                   "fullTitle": "Integration tests: Review methods Integration: Log in User Logs in the user",
                   "timedOut": false,
-                  "duration": 82,
+                  "duration": 79,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -497,8 +497,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.integrationUser)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    // setting tokens for user_auth\n    access_token = res.body;\n  });",
                   "err": {},
-                  "uuid": "cda933c5-2a79-41f8-a0aa-0d78b8538730",
-                  "parentUUID": "43ee2f15-80b5-4e24-9dc8-c9ea5b7bb95a",
+                  "uuid": "54f08346-1001-4eb8-b98b-3d8bec713ca0",
+                  "parentUUID": "c614985c-07eb-4666-8cbf-31cfaad1ae2b",
                   "isHook": false,
                   "skipped": false
                 },
@@ -506,7 +506,7 @@
                   "title": "Doesn't log in the user (wrong password)",
                   "fullTitle": "Integration tests: Review methods Integration: Log in User Doesn't log in the user (wrong password)",
                   "timedOut": false,
-                  "duration": 79,
+                  "duration": 78,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -515,8 +515,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.wrongIntegrationUser)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"No user was found with the given user/email\"\n    });\n  });",
                   "err": {},
-                  "uuid": "5d40b3c1-cbb2-4f7d-9912-a1babfe5a097",
-                  "parentUUID": "43ee2f15-80b5-4e24-9dc8-c9ea5b7bb95a",
+                  "uuid": "1b7248b6-67b1-451e-9287-cc7a274b838e",
+                  "parentUUID": "c614985c-07eb-4666-8cbf-31cfaad1ae2b",
                   "isHook": false,
                   "skipped": false
                 },
@@ -524,7 +524,7 @@
                   "title": "Doesn't log in the user (wrong email+password)",
                   "fullTitle": "Integration tests: Review methods Integration: Log in User Doesn't log in the user (wrong email+password)",
                   "timedOut": false,
-                  "duration": 23,
+                  "duration": 22,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -533,28 +533,28 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.wrongIntegrationUser2)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"No user was found with the given user/email\"\n    });\n  });",
                   "err": {},
-                  "uuid": "ba10f866-7b39-446d-a3b5-e62d51926a4d",
-                  "parentUUID": "43ee2f15-80b5-4e24-9dc8-c9ea5b7bb95a",
+                  "uuid": "7403517b-ec38-4aae-83e7-a39984dc4cd6",
+                  "parentUUID": "c614985c-07eb-4666-8cbf-31cfaad1ae2b",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "cda933c5-2a79-41f8-a0aa-0d78b8538730",
-                "5d40b3c1-cbb2-4f7d-9912-a1babfe5a097",
-                "ba10f866-7b39-446d-a3b5-e62d51926a4d"
+                "54f08346-1001-4eb8-b98b-3d8bec713ca0",
+                "1b7248b6-67b1-451e-9287-cc7a274b838e",
+                "7403517b-ec38-4aae-83e7-a39984dc4cd6"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 184,
+              "duration": 179,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "3c4e722c-5121-4985-9b67-b1de31af5cc1",
+              "uuid": "ae1b2297-b81b-4053-abfa-538e29c9fe46",
               "title": "Integration: Authenticate user",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -574,15 +574,15 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/findTokenUser\")\n  .send(\"Authorization\", \"Bearer \" + access_token)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "4dd17f8b-42e9-48eb-a922-e1359269e8d2",
-                  "parentUUID": "3c4e722c-5121-4985-9b67-b1de31af5cc1",
+                  "uuid": "b8a6221f-cd1e-4385-8792-bd5b605d5722",
+                  "parentUUID": "ae1b2297-b81b-4053-abfa-538e29c9fe46",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "4dd17f8b-42e9-48eb-a922-e1359269e8d2"
+                "b8a6221f-cd1e-4385-8792-bd5b605d5722"
               ],
               "failures": [],
               "pending": [],
@@ -590,10 +590,10 @@
               "duration": 3,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "112f1bb2-ecde-4923-89c3-f93358d57b99",
+              "uuid": "cb69ee0a-de5f-42af-b640-cb65d1375cbf",
               "title": "Integration: Create Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -604,7 +604,7 @@
                   "title": "Creates a review: Review 1",
                   "fullTitle": "Integration tests: Review methods Integration: Create Review Creates a review: Review 1",
                   "timedOut": false,
-                  "duration": 30,
+                  "duration": 29,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -613,8 +613,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(\"/review/createReview\")\n  .send(testInput.createReview1)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review created.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "4bf06c8a-6c36-4b0f-969f-79b2a785edc9",
-                  "parentUUID": "112f1bb2-ecde-4923-89c3-f93358d57b99",
+                  "uuid": "d61716a2-0e03-4677-9bcc-24559462cf18",
+                  "parentUUID": "cb69ee0a-de5f-42af-b640-cb65d1375cbf",
                   "isHook": false,
                   "skipped": false
                 },
@@ -631,8 +631,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(\"/review/createReview\")\n  .send(testInput.createReview2)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review created.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "dbd15a3f-7465-4e6b-a72a-97e69f63079f",
-                  "parentUUID": "112f1bb2-ecde-4923-89c3-f93358d57b99",
+                  "uuid": "9848abbc-5ba2-4475-9999-60908bd1b1bd",
+                  "parentUUID": "cb69ee0a-de5f-42af-b640-cb65d1375cbf",
                   "isHook": false,
                   "skipped": false
                 },
@@ -640,7 +640,7 @@
                   "title": "Doesn't create review: missing fields (userId)",
                   "fullTitle": "Integration tests: Review methods Integration: Create Review Doesn't create review: missing fields (userId)",
                   "timedOut": false,
-                  "duration": 3,
+                  "duration": 2,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -649,8 +649,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(\"/review/createReview\")\n  .send(testInput.createReviewWrongUserId)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "b784ab3d-32a9-43ab-bd11-06f1f931d200",
-                  "parentUUID": "112f1bb2-ecde-4923-89c3-f93358d57b99",
+                  "uuid": "fc768a4e-7ced-4fa6-b51b-7197c1f660fc",
+                  "parentUUID": "cb69ee0a-de5f-42af-b640-cb65d1375cbf",
                   "isHook": false,
                   "skipped": false
                 },
@@ -658,7 +658,7 @@
                   "title": "Doesn't create review: missing fields (dateVisited)",
                   "fullTitle": "Integration tests: Review methods Integration: Create Review Doesn't create review: missing fields (dateVisited)",
                   "timedOut": false,
-                  "duration": 3,
+                  "duration": 2,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -667,29 +667,29 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(\"/review/createReview\")\n  .send(testInput.createReviewWrongDateVisited)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "706300ab-91d3-4d00-8891-e6829e87bf5c",
-                  "parentUUID": "112f1bb2-ecde-4923-89c3-f93358d57b99",
+                  "uuid": "1a29e2f0-9740-4846-8a1c-462b5ba7adf7",
+                  "parentUUID": "cb69ee0a-de5f-42af-b640-cb65d1375cbf",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "4bf06c8a-6c36-4b0f-969f-79b2a785edc9",
-                "dbd15a3f-7465-4e6b-a72a-97e69f63079f",
-                "b784ab3d-32a9-43ab-bd11-06f1f931d200",
-                "706300ab-91d3-4d00-8891-e6829e87bf5c"
+                "d61716a2-0e03-4677-9bcc-24559462cf18",
+                "9848abbc-5ba2-4475-9999-60908bd1b1bd",
+                "fc768a4e-7ced-4fa6-b51b-7197c1f660fc",
+                "1a29e2f0-9740-4846-8a1c-462b5ba7adf7"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 65,
+              "duration": 62,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "6cc80f8c-0122-43f5-80c4-c315d266b2b0",
+              "uuid": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
               "title": "Integration: Update Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -709,8 +709,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(\"/review/updateReview\")\n  .send(testInput.updateReviewPriceRange)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review updated.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "6f28c367-431e-40e9-86c7-b3d2b88730ba",
-                  "parentUUID": "6cc80f8c-0122-43f5-80c4-c315d266b2b0",
+                  "uuid": "4b4f1714-c37e-431d-8713-126dcbfa84da",
+                  "parentUUID": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
                   "isHook": false,
                   "skipped": false
                 },
@@ -718,7 +718,7 @@
                   "title": "Updates a review: Review 1 (Description)",
                   "fullTitle": "Integration tests: Review methods Integration: Update Review Updates a review: Review 1 (Description)",
                   "timedOut": false,
-                  "duration": 32,
+                  "duration": 29,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -727,8 +727,44 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(\"/review/updateReview\")\n  .send(testInput.updateReviewDescription)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review updated.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "4dd959a4-230d-4768-be0b-f0a5b1237e5d",
-                  "parentUUID": "6cc80f8c-0122-43f5-80c4-c315d266b2b0",
+                  "uuid": "6e30eec4-1f0a-4eae-b64d-0ac148f89a6e",
+                  "parentUUID": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Updates a review: Review 1 (Private)",
+                  "fullTitle": "Integration tests: Review methods Integration: Update Review Updates a review: Review 1 (Private)",
+                  "timedOut": false,
+                  "duration": 28,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "return await request(app)\n  .patch(\"/review/updateReview\")\n  .send(testInput.updateReviewPrivate)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review updated.\"\n    });\n    res.body.data.should.includes({\n      isPublic: false\n    });\n  });",
+                  "err": {},
+                  "uuid": "f03caab2-9fea-4731-8e53-a7421b9af11b",
+                  "parentUUID": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Updates a review: Review 1 (Public)",
+                  "fullTitle": "Integration tests: Review methods Integration: Update Review Updates a review: Review 1 (Public)",
+                  "timedOut": false,
+                  "duration": 28,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "return await request(app)\n  .patch(\"/review/updateReview\")\n  .send(testInput.updateReviewPublic)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review updated.\"\n    });\n    res.body.data.should.includes({\n      isPublic: true\n    });\n  });",
+                  "err": {},
+                  "uuid": "378ff4b7-f6cb-4e2c-951d-0c24e1be6c11",
+                  "parentUUID": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
                   "isHook": false,
                   "skipped": false
                 },
@@ -736,7 +772,7 @@
                   "title": "Doesn't update a review: Review (No Review Id) ",
                   "fullTitle": "Integration tests: Review methods Integration: Update Review Doesn't update a review: Review (No Review Id) ",
                   "timedOut": false,
-                  "duration": 3,
+                  "duration": 5,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -745,28 +781,30 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(\"/review/updateReview\")\n  .send(testInput.updateReviewNoId)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "1fefe830-858a-4c34-a30f-f330fcf948f8",
-                  "parentUUID": "6cc80f8c-0122-43f5-80c4-c315d266b2b0",
+                  "uuid": "784080a6-ca28-4686-9ec2-bebbe5a087be",
+                  "parentUUID": "d18ef5a2-edac-4fe9-87d0-2572b54357aa",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "6f28c367-431e-40e9-86c7-b3d2b88730ba",
-                "4dd959a4-230d-4768-be0b-f0a5b1237e5d",
-                "1fefe830-858a-4c34-a30f-f330fcf948f8"
+                "4b4f1714-c37e-431d-8713-126dcbfa84da",
+                "6e30eec4-1f0a-4eae-b64d-0ac148f89a6e",
+                "f03caab2-9fea-4731-8e53-a7421b9af11b",
+                "378ff4b7-f6cb-4e2c-951d-0c24e1be6c11",
+                "784080a6-ca28-4686-9ec2-bebbe5a087be"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 68,
+              "duration": 123,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "11870e87-36dd-4e2d-87b4-5743fcc88486",
+              "uuid": "d23c6de0-fb88-472b-82b0-aa0330164a15",
               "title": "Integration: Like Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -786,8 +824,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/review/like/${userId}/${reviewId}`)\n  .send({ likeBool: false })\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Successfully liked the review\"\n    });\n  });",
                   "err": {},
-                  "uuid": "a099512c-934f-4549-a557-f790a3224ae3",
-                  "parentUUID": "11870e87-36dd-4e2d-87b4-5743fcc88486",
+                  "uuid": "b6be5cc0-bfe2-4b92-8851-854f35015ef8",
+                  "parentUUID": "d23c6de0-fb88-472b-82b0-aa0330164a15",
                   "isHook": false,
                   "skipped": false
                 },
@@ -795,7 +833,7 @@
                   "title": "Un-likes a review: Review 1",
                   "fullTitle": "Integration tests: Review methods Integration: Like Review Un-likes a review: Review 1",
                   "timedOut": false,
-                  "duration": 31,
+                  "duration": 27,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -804,8 +842,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/review/like/${userId}/${reviewId}`)\n  .send({ likeBool: true })\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Successfully unliked the review\"\n    });\n  });",
                   "err": {},
-                  "uuid": "2b1eb2cb-d5c7-4a79-9061-3c3271926e0b",
-                  "parentUUID": "11870e87-36dd-4e2d-87b4-5743fcc88486",
+                  "uuid": "f0ce66b4-a74d-4bab-88a8-b10aa3fc5ac5",
+                  "parentUUID": "d23c6de0-fb88-472b-82b0-aa0330164a15",
                   "isHook": false,
                   "skipped": false
                 },
@@ -820,30 +858,30 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "return await request(app)\n  .patch(`/review/like/${userId}/${reviewId}`)\n  .send({ likeBool: undefined })\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
+                  "code": "return await request(app)\n  .patch(`/review/like/${userId}/${reviewId}`)\n  .send({ likeBool: undefined })\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Like boolean was not received.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "50f05647-3931-4656-babd-d7f8500979a0",
-                  "parentUUID": "11870e87-36dd-4e2d-87b4-5743fcc88486",
+                  "uuid": "56f0d037-4683-41f3-9af2-295181d50784",
+                  "parentUUID": "d23c6de0-fb88-472b-82b0-aa0330164a15",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "a099512c-934f-4549-a557-f790a3224ae3",
-                "2b1eb2cb-d5c7-4a79-9061-3c3271926e0b",
-                "50f05647-3931-4656-babd-d7f8500979a0"
+                "b6be5cc0-bfe2-4b92-8851-854f35015ef8",
+                "f0ce66b4-a74d-4bab-88a8-b10aa3fc5ac5",
+                "56f0d037-4683-41f3-9af2-295181d50784"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 63,
+              "duration": 59,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "52804e3a-a4bd-4ea0-9567-96e372f2d4fc",
+              "uuid": "e4dc0286-796e-49c3-9075-050c407ae661",
               "title": "Integration: Delete Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -854,7 +892,7 @@
                   "title": "Deletes a review: Review 1",
                   "fullTitle": "Integration tests: Review methods Integration: Delete Review Deletes a review: Review 1",
                   "timedOut": false,
-                  "duration": 27,
+                  "duration": 28,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -863,8 +901,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .delete(`/review/delete/${reviewId}`)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review deleted.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "67f3d749-0f32-475b-94d5-4bdbbbd31c3b",
-                  "parentUUID": "52804e3a-a4bd-4ea0-9567-96e372f2d4fc",
+                  "uuid": "c09f89bc-f008-4130-9f5a-97133f294058",
+                  "parentUUID": "e4dc0286-796e-49c3-9075-050c407ae661",
                   "isHook": false,
                   "skipped": false
                 },
@@ -872,7 +910,7 @@
                   "title": "Fails to delete a review: Review 1 (already deleted) ",
                   "fullTitle": "Integration tests: Review methods Integration: Delete Review Fails to delete a review: Review 1 (already deleted) ",
                   "timedOut": false,
-                  "duration": 22,
+                  "duration": 21,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -881,16 +919,16 @@
                   "context": null,
                   "code": "return await request(app)\n  .delete(`/review/delete/${reviewId}`)\n  .then(function(res) {\n    assert.equal(204, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "112babe3-c94e-4087-9500-32451e714968",
-                  "parentUUID": "52804e3a-a4bd-4ea0-9567-96e372f2d4fc",
+                  "uuid": "6f1a292e-f2af-4f23-be33-a22f8ed90d9d",
+                  "parentUUID": "e4dc0286-796e-49c3-9075-050c407ae661",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "67f3d749-0f32-475b-94d5-4bdbbbd31c3b",
-                "112babe3-c94e-4087-9500-32451e714968"
+                "c09f89bc-f008-4130-9f5a-97133f294058",
+                "6f1a292e-f2af-4f23-be33-a22f8ed90d9d"
               ],
               "failures": [],
               "pending": [],
@@ -898,7 +936,7 @@
               "duration": 49,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             }
           ],
           "passes": [],
@@ -908,10 +946,10 @@
           "duration": 0,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 2000
+          "_timeout": 500000
         },
         {
-          "uuid": "09d267c8-9d82-4854-b98c-5c6bdbc3bf77",
+          "uuid": "c4a32645-0313-4947-8109-005cd9979760",
           "title": "Integration tests: Account methods",
           "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
           "file": "\\test\\apptest.js",
@@ -929,8 +967,8 @@
               "context": null,
               "code": "await clearCollections();\nawait User.insertMany(testInput.userTests);\nawait Review.insertMany(testInput.reviewTests);",
               "err": {},
-              "uuid": "47a88a49-0722-4008-aa7b-fbfaf229a7cf",
-              "parentUUID": "09d267c8-9d82-4854-b98c-5c6bdbc3bf77",
+              "uuid": "00b778b3-3d23-4418-bd10-f292db188b72",
+              "parentUUID": "c4a32645-0313-4947-8109-005cd9979760",
               "isHook": true,
               "skipped": false
             }
@@ -949,8 +987,8 @@
               "context": null,
               "code": "console.log(\"Clearing collections..\");\nawait clearCollections();",
               "err": {},
-              "uuid": "4d6abf58-c3d9-497c-afe1-6252bfdf4e1f",
-              "parentUUID": "09d267c8-9d82-4854-b98c-5c6bdbc3bf77",
+              "uuid": "9fe5e80c-7896-41a6-8354-95fc784f2e72",
+              "parentUUID": "c4a32645-0313-4947-8109-005cd9979760",
               "isHook": true,
               "skipped": false
             }
@@ -958,7 +996,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "07ae774f-9c73-4820-8d15-c9ab38ec1ba1",
+              "uuid": "d610e9eb-4c73-49b8-9ea7-cc126a66d105",
               "title": "Get inserted User/Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -969,7 +1007,7 @@
                   "title": "Get one review",
                   "fullTitle": "Integration tests: Account methods Get inserted User/Review Get one review",
                   "timedOut": false,
-                  "duration": 41,
+                  "duration": 70,
                   "state": "passed",
                   "speed": "medium",
                   "pass": true,
@@ -978,8 +1016,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/review/getReview/6354ef7ed7bf245d8940dd72\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"Review found\" });\n  });",
                   "err": {},
-                  "uuid": "f25f5f35-96be-440f-b29e-d59ba989d14b",
-                  "parentUUID": "07ae774f-9c73-4820-8d15-c9ab38ec1ba1",
+                  "uuid": "bb2e7424-e06f-4d53-8037-4002b9313d91",
+                  "parentUUID": "d610e9eb-4c73-49b8-9ea7-cc126a66d105",
                   "isHook": false,
                   "skipped": false
                 },
@@ -987,7 +1025,7 @@
                   "title": "Get one user",
                   "fullTitle": "Integration tests: Account methods Get inserted User/Review Get one user",
                   "timedOut": false,
-                  "duration": 22,
+                  "duration": 25,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -996,27 +1034,27 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(\"/account/profile/celenesaw\")\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({ message: \"User was found by username\" });\n  });",
                   "err": {},
-                  "uuid": "849fb2f3-03d5-4f33-bdee-bc6d087900ad",
-                  "parentUUID": "07ae774f-9c73-4820-8d15-c9ab38ec1ba1",
+                  "uuid": "96165725-f8fd-4c11-a741-0c38c1524413",
+                  "parentUUID": "d610e9eb-4c73-49b8-9ea7-cc126a66d105",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "f25f5f35-96be-440f-b29e-d59ba989d14b",
-                "849fb2f3-03d5-4f33-bdee-bc6d087900ad"
+                "bb2e7424-e06f-4d53-8037-4002b9313d91",
+                "96165725-f8fd-4c11-a741-0c38c1524413"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 63,
+              "duration": 95,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "7d4d882e-cb07-4324-8e7c-c60f728ac653",
+              "uuid": "d6dea349-b227-4809-9096-4ad0b522634f",
               "title": "Integration: Log in User",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1027,7 +1065,7 @@
                   "title": "Logs in the user",
                   "fullTitle": "Integration tests: Account methods Integration: Log in User Logs in the user",
                   "timedOut": false,
-                  "duration": 80,
+                  "duration": 78,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -1036,8 +1074,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.integrationUser)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    // setting tokens for user_auth\n    access_token = res.body;\n  });",
                   "err": {},
-                  "uuid": "ba89e84f-d808-44d0-914e-b15b56a3fb1e",
-                  "parentUUID": "7d4d882e-cb07-4324-8e7c-c60f728ac653",
+                  "uuid": "b063627d-05ed-4d9e-818f-1fd42b365f07",
+                  "parentUUID": "d6dea349-b227-4809-9096-4ad0b522634f",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1045,7 +1083,7 @@
                   "title": "Doesn't log in the user (wrong password)",
                   "fullTitle": "Integration tests: Account methods Integration: Log in User Doesn't log in the user (wrong password)",
                   "timedOut": false,
-                  "duration": 80,
+                  "duration": 76,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -1054,8 +1092,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.wrongIntegrationUser)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"No user was found with the given user/email\"\n    });\n  });",
                   "err": {},
-                  "uuid": "a7cbd48a-7eef-40c8-b2ab-b7161f909fa4",
-                  "parentUUID": "7d4d882e-cb07-4324-8e7c-c60f728ac653",
+                  "uuid": "903d8a04-98fa-4da7-a65f-0155419b25e6",
+                  "parentUUID": "d6dea349-b227-4809-9096-4ad0b522634f",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1063,7 +1101,7 @@
                   "title": "Doesn't log in the user (wrong email+password)",
                   "fullTitle": "Integration tests: Account methods Integration: Log in User Doesn't log in the user (wrong email+password)",
                   "timedOut": false,
-                  "duration": 24,
+                  "duration": 22,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1072,28 +1110,28 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(\"/login\")\n  .send(testInput.wrongIntegrationUser2)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"No user was found with the given user/email\"\n    });\n  });",
                   "err": {},
-                  "uuid": "c4f3d751-92cd-41f6-bf86-d81a18df881c",
-                  "parentUUID": "7d4d882e-cb07-4324-8e7c-c60f728ac653",
+                  "uuid": "bbc7a147-df6e-4530-ba20-186201ef388b",
+                  "parentUUID": "d6dea349-b227-4809-9096-4ad0b522634f",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "ba89e84f-d808-44d0-914e-b15b56a3fb1e",
-                "a7cbd48a-7eef-40c8-b2ab-b7161f909fa4",
-                "c4f3d751-92cd-41f6-bf86-d81a18df881c"
+                "b063627d-05ed-4d9e-818f-1fd42b365f07",
+                "903d8a04-98fa-4da7-a65f-0155419b25e6",
+                "bbc7a147-df6e-4530-ba20-186201ef388b"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 184,
+              "duration": 176,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "3387241b-91f8-4888-8adc-bc71bfce49f2",
+              "uuid": "cc225822-00ef-426a-89d1-9e7deb7905b7",
               "title": "Integration: Get My Reviews",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1113,50 +1151,26 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(`/account/my-reviews/${userId}`)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"My reviews found.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "4cc59a99-6f2a-4729-bef8-bf42e2d7fe18",
-                  "parentUUID": "3387241b-91f8-4888-8adc-bc71bfce49f2",
-                  "isHook": false,
-                  "skipped": false
-                },
-                {
-                  "title": "Get my reviews: User 2 (cannot access)",
-                  "fullTitle": "Integration tests: Account methods Integration: Get My Reviews Get my reviews: User 2 (cannot access)",
-                  "timedOut": false,
-                  "duration": 24,
-                  "state": "failed",
-                  "speed": null,
-                  "pass": false,
-                  "fail": true,
-                  "pending": false,
-                  "context": null,
-                  "code": "return await request(app)\n  .get(`/account/my-reviews/${userId2}`)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
-                  "err": {
-                    "message": "AssertionError: 400 == 200",
-                    "estack": "AssertionError [ERR_ASSERTION]: 400 == 200\n    at C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js:566:18\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Context.<anonymous> (test\\apptest.js:563:14)",
-                    "diff": "- 400\n+ 200\n"
-                  },
-                  "uuid": "49006598-aca8-4928-a604-4963018a2551",
-                  "parentUUID": "3387241b-91f8-4888-8adc-bc71bfce49f2",
+                  "uuid": "703d1eb1-5328-4ad7-a5ee-80961d316d88",
+                  "parentUUID": "cc225822-00ef-426a-89d1-9e7deb7905b7",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "4cc59a99-6f2a-4729-bef8-bf42e2d7fe18"
+                "703d1eb1-5328-4ad7-a5ee-80961d316d88"
               ],
-              "failures": [
-                "49006598-aca8-4928-a604-4963018a2551"
-              ],
+              "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 66,
+              "duration": 42,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "a441ec40-116b-4ebb-befb-bf8614be558a",
+              "uuid": "cb9a82ba-31a3-4c01-8cf0-9f6243cbebef",
               "title": "Integration: Get Other Reviews",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1167,7 +1181,7 @@
                   "title": "Get other reviews: User 3 (list of 1)",
                   "fullTitle": "Integration tests: Account methods Integration: Get Other Reviews Get other reviews: User 3 (list of 1)",
                   "timedOut": false,
-                  "duration": 42,
+                  "duration": 41,
                   "state": "passed",
                   "speed": "medium",
                   "pass": true,
@@ -1176,8 +1190,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(`/account/other-reviews/${userId3}`)\n  .send(testInput.wrongIntegrationUser2)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Other reviews found.\"\n    });\n    assert.equal(1, res.body.data.length);\n  });",
                   "err": {},
-                  "uuid": "efdf66de-fcf5-4e88-9c74-8742beacdb5a",
-                  "parentUUID": "a441ec40-116b-4ebb-befb-bf8614be558a",
+                  "uuid": "913f52c5-a36c-4e9b-8146-9b0f9f8d2089",
+                  "parentUUID": "cb9a82ba-31a3-4c01-8cf0-9f6243cbebef",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1185,7 +1199,7 @@
                   "title": "Get other reviews: User 2 (list of 0)",
                   "fullTitle": "Integration tests: Account methods Integration: Get Other Reviews Get other reviews: User 2 (list of 0)",
                   "timedOut": false,
-                  "duration": 22,
+                  "duration": 27,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1194,27 +1208,27 @@
                   "context": null,
                   "code": "return await request(app)\n  .get(`/account/other-reviews/${userId2}`)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Other reviews found.\"\n    });\n    assert.equal(0, res.body.data.length);\n  });",
                   "err": {},
-                  "uuid": "30f116a3-f2ef-4d18-b7a1-8487a8b0c5e3",
-                  "parentUUID": "a441ec40-116b-4ebb-befb-bf8614be558a",
+                  "uuid": "239f82a1-17b4-4c5f-817c-da8ce4ef7298",
+                  "parentUUID": "cb9a82ba-31a3-4c01-8cf0-9f6243cbebef",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "efdf66de-fcf5-4e88-9c74-8742beacdb5a",
-                "30f116a3-f2ef-4d18-b7a1-8487a8b0c5e3"
+                "913f52c5-a36c-4e9b-8146-9b0f9f8d2089",
+                "239f82a1-17b4-4c5f-817c-da8ce4ef7298"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 64,
+              "duration": 68,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "81609f8b-614c-4abf-8149-2a2733965307",
+              "uuid": "872f510f-3690-45e8-a181-2aed4cdfa8bf",
               "title": "Integration: Bookmark Review",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1225,7 +1239,7 @@
                   "title": "Bookmarks a review: Review 1",
                   "fullTitle": "Integration tests: Account methods Integration: Bookmark Review Bookmarks a review: Review 1",
                   "timedOut": false,
-                  "duration": 29,
+                  "duration": 37,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1234,8 +1248,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/account/bookmark/${reviewId}/${userId}`)\n  .send({ bookmarkedBool: false })\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review was bookmarked.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "5069c666-edd0-4469-a590-d09e2e232ac2",
-                  "parentUUID": "81609f8b-614c-4abf-8149-2a2733965307",
+                  "uuid": "48da16cd-02ee-44ef-beae-15b95a119703",
+                  "parentUUID": "872f510f-3690-45e8-a181-2aed4cdfa8bf",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1243,7 +1257,7 @@
                   "title": "Un-bookmarks a review: Review 1",
                   "fullTitle": "Integration tests: Account methods Integration: Bookmark Review Un-bookmarks a review: Review 1",
                   "timedOut": false,
-                  "duration": 32,
+                  "duration": 31,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1252,8 +1266,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/account/bookmark/${reviewId}/${userId}`)\n  .send({ bookmarkedBool: true })\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review was un-bookmarked.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "f59b1f71-e67f-4985-b83b-6173d5b1eb5c",
-                  "parentUUID": "81609f8b-614c-4abf-8149-2a2733965307",
+                  "uuid": "32fa7fe9-9f2c-480f-a05b-baf89b313317",
+                  "parentUUID": "872f510f-3690-45e8-a181-2aed4cdfa8bf",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1268,30 +1282,30 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "return await request(app)\n  .patch(`/account/bookmark/${reviewId}/${userId}`)\n  .send({ bookmarkedBool: undefined })\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
+                  "code": "return await request(app)\n  .patch(`/account/bookmark/${reviewId}/${userId}`)\n  .send({ bookmarkedBool: undefined })\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"Bookmarked bool was not received.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "a0bd4799-a431-4c42-8489-5808a1b431c9",
-                  "parentUUID": "81609f8b-614c-4abf-8149-2a2733965307",
+                  "uuid": "726caba9-48e0-4e33-bdcf-e92f1e22951d",
+                  "parentUUID": "872f510f-3690-45e8-a181-2aed4cdfa8bf",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "5069c666-edd0-4469-a590-d09e2e232ac2",
-                "f59b1f71-e67f-4985-b83b-6173d5b1eb5c",
-                "a0bd4799-a431-4c42-8489-5808a1b431c9"
+                "48da16cd-02ee-44ef-beae-15b95a119703",
+                "32fa7fe9-9f2c-480f-a05b-baf89b313317",
+                "726caba9-48e0-4e33-bdcf-e92f1e22951d"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 64,
+              "duration": 71,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "523fcbe3-81d4-463d-b566-54cad78cd3a6",
+              "uuid": "c23d9bfc-3b47-4594-b676-74b05de6f1dc",
               "title": "Integration: Get Bookmarks",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1302,7 +1316,7 @@
                   "title": "Bookmarks a review: Review 1, User 1",
                   "fullTitle": "Integration tests: Account methods Integration: Get Bookmarks Bookmarks a review: Review 1, User 1",
                   "timedOut": false,
-                  "duration": 28,
+                  "duration": 27,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1311,8 +1325,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/account/bookmark/${reviewId}/${userId}`)\n  .send({ bookmarkedBool: false })\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Review was bookmarked.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "60418c79-6710-43ac-a6d0-fc02dfe1d807",
-                  "parentUUID": "523fcbe3-81d4-463d-b566-54cad78cd3a6",
+                  "uuid": "eb8d6f13-dbfc-4173-84f4-d11bf0547cac",
+                  "parentUUID": "c23d9bfc-3b47-4594-b676-74b05de6f1dc",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1320,7 +1334,7 @@
                   "title": "Get my bookmarks: User 1",
                   "fullTitle": "Integration tests: Account methods Integration: Get Bookmarks Get my bookmarks: User 1",
                   "timedOut": false,
-                  "duration": 46,
+                  "duration": 54,
                   "state": "passed",
                   "speed": "medium",
                   "pass": true,
@@ -1329,8 +1343,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(`/account/my-bookmarks/get`)\n  .send(testInput.bookmarksList)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"My bookmarks found.\"\n    });\n    assert.equal(1, res.body.data.length);\n  });",
                   "err": {},
-                  "uuid": "5759df44-2310-4587-93dd-572dbc682ae9",
-                  "parentUUID": "523fcbe3-81d4-463d-b566-54cad78cd3a6",
+                  "uuid": "acff0378-1e85-45f8-89ad-7a7d5005d8cd",
+                  "parentUUID": "c23d9bfc-3b47-4594-b676-74b05de6f1dc",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1347,28 +1361,28 @@
                   "context": null,
                   "code": "return await request(app)\n  .post(`/account/my-bookmarks/get`)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "d6a011a9-1138-4758-8157-9729199ed43f",
-                  "parentUUID": "523fcbe3-81d4-463d-b566-54cad78cd3a6",
+                  "uuid": "53cd53e7-0b1f-4d9b-b5dd-d662f95cd41d",
+                  "parentUUID": "c23d9bfc-3b47-4594-b676-74b05de6f1dc",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "60418c79-6710-43ac-a6d0-fc02dfe1d807",
-                "5759df44-2310-4587-93dd-572dbc682ae9",
-                "d6a011a9-1138-4758-8157-9729199ed43f"
+                "eb8d6f13-dbfc-4173-84f4-d11bf0547cac",
+                "acff0378-1e85-45f8-89ad-7a7d5005d8cd",
+                "53cd53e7-0b1f-4d9b-b5dd-d662f95cd41d"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 77,
+              "duration": 84,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             },
             {
-              "uuid": "3112715f-bafa-4562-84d3-34f65c5ce816",
+              "uuid": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
               "title": "Integration: Update User",
               "fullFile": "C:\\Users\\sawce\\OneDrive\\Desktop\\REACT\\itp\\image\\itp-sem2-all-for-one\\server\\test\\apptest.js",
               "file": "\\test\\apptest.js",
@@ -1379,7 +1393,7 @@
                   "title": "Updates user password",
                   "fullTitle": "Integration tests: Account methods Integration: Update User Updates user password",
                   "timedOut": false,
-                  "duration": 173,
+                  "duration": 154,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -1388,8 +1402,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(`/account/updatePassword`)\n  .send(testInput.updateUser1Password)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Successfully updated password.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "8043b1be-fa2c-43a4-8619-b191484a67ec",
-                  "parentUUID": "3112715f-bafa-4562-84d3-34f65c5ce816",
+                  "uuid": "0f57ebb4-c0a1-4aa9-95bc-953c10f8b814",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1406,8 +1420,8 @@
                   "context": null,
                   "code": "return await request(app)\n  .put(`/account/updatePassword`)\n  .send(testInput.updateUser1PasswordWeak)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
                   "err": {},
-                  "uuid": "7410b1b0-400a-4bbb-a1a6-a069f45a59df",
-                  "parentUUID": "3112715f-bafa-4562-84d3-34f65c5ce816",
+                  "uuid": "e9d20756-220a-4759-ab80-089f03799c39",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1415,7 +1429,7 @@
                   "title": "Updates user theme",
                   "fullTitle": "Integration tests: Account methods Integration: Update User Updates user theme",
                   "timedOut": false,
-                  "duration": 30,
+                  "duration": 28,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1424,8 +1438,26 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/account/changeTheme/${userId}`)\n  .send(testInput.changeThemeUser1)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.should.includes({\n      message: \"Successfully updated theme.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "70c61bf1-91fb-4a39-93d0-f5be7f947aeb",
-                  "parentUUID": "3112715f-bafa-4562-84d3-34f65c5ce816",
+                  "uuid": "cef2806f-b985-4123-b2cc-909efd8415c7",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Updates user theme: Undefined Theme",
+                  "fullTitle": "Integration tests: Account methods Integration: Update User Updates user theme: Undefined Theme",
+                  "timedOut": false,
+                  "duration": 3,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "return await request(app)\n  .patch(`/account/changeTheme/${userId}`)\n  .send(testInput.changeThemeUser1Undefined)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"New theme is not defined.\"\n    });\n  });",
+                  "err": {},
+                  "uuid": "f46f3ad1-2210-4703-99f7-96f4d19cbf01",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1433,17 +1465,17 @@
                   "title": "Updates user theme: Invalid theme",
                   "fullTitle": "Integration tests: Account methods Integration: Update User Updates user theme: Invalid theme",
                   "timedOut": false,
-                  "duration": 4,
+                  "duration": 2,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "return await request(app)\n  .patch(`/account/changeTheme/${userId}`)\n  .send(testInput.changeThemeUser1wrong)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n  });",
+                  "code": "return await request(app)\n  .patch(`/account/changeTheme/${userId}`)\n  .send(testInput.changeThemeUser1wrong)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({\n      message: \"New theme is not available.\"\n    });\n  });",
                   "err": {},
-                  "uuid": "11e2148a-84e8-40cc-b4fd-c2df937afed5",
-                  "parentUUID": "3112715f-bafa-4562-84d3-34f65c5ce816",
+                  "uuid": "91cf7d1f-c38f-4fba-960b-b691f034fb32",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
                   "isHook": false,
                   "skipped": false
                 },
@@ -1451,7 +1483,7 @@
                   "title": "Updates user details",
                   "fullTitle": "Integration tests: Account methods Integration: Update User Updates user details",
                   "timedOut": false,
-                  "duration": 31,
+                  "duration": 27,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -1460,27 +1492,66 @@
                   "context": null,
                   "code": "return await request(app)\n  .patch(`/account/updateUser/${userId}`)\n  .send(testInput.updateUser1)\n  .then(function(res) {\n    assert.equal(200, res.statusCode);\n    res.body.data.should.includes(testInput.updateUser1);\n  });",
                   "err": {},
-                  "uuid": "4e7eab1b-916c-4718-8f55-4a250c4a1bf2",
-                  "parentUUID": "3112715f-bafa-4562-84d3-34f65c5ce816",
+                  "uuid": "f08aed21-944a-430a-9ae2-f68c7f6410ad",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Updates user details: Invalid username",
+                  "fullTitle": "Integration tests: Account methods Integration: Update User Updates user details: Invalid username",
+                  "timedOut": false,
+                  "duration": 3,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "return await request(app)\n  .patch(`/account/updateUser/${userId}`)\n  .send(testInput.updateUser1InvalidUsername)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({ message: \"Username/Email is not valid.\" });\n  });",
+                  "err": {},
+                  "uuid": "e5fc4388-1f97-4f6d-8cb3-e3a46cf31191",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Updates user details: Invalid email",
+                  "fullTitle": "Integration tests: Account methods Integration: Update User Updates user details: Invalid email",
+                  "timedOut": false,
+                  "duration": 3,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "return await request(app)\n  .patch(`/account/updateUser/${userId}`)\n  .send(testInput.updateUser1InvalidEmail)\n  .then(function(res) {\n    assert.equal(400, res.statusCode);\n    res.body.should.includes({ message: \"Username/Email is not valid.\" });\n  });",
+                  "err": {},
+                  "uuid": "70b6d2e3-fd95-41fc-b3ee-4ca4bcc5838e",
+                  "parentUUID": "3de377ad-52e8-4956-a1b8-b5a688c959d2",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "8043b1be-fa2c-43a4-8619-b191484a67ec",
-                "7410b1b0-400a-4bbb-a1a6-a069f45a59df",
-                "70c61bf1-91fb-4a39-93d0-f5be7f947aeb",
-                "11e2148a-84e8-40cc-b4fd-c2df937afed5",
-                "4e7eab1b-916c-4718-8f55-4a250c4a1bf2"
+                "0f57ebb4-c0a1-4aa9-95bc-953c10f8b814",
+                "e9d20756-220a-4759-ab80-089f03799c39",
+                "cef2806f-b985-4123-b2cc-909efd8415c7",
+                "f46f3ad1-2210-4703-99f7-96f4d19cbf01",
+                "91cf7d1f-c38f-4fba-960b-b691f034fb32",
+                "f08aed21-944a-430a-9ae2-f68c7f6410ad",
+                "e5fc4388-1f97-4f6d-8cb3-e3a46cf31191",
+                "70b6d2e3-fd95-41fc-b3ee-4ca4bcc5838e"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 241,
+              "duration": 223,
               "root": false,
               "rootEmpty": false,
-              "_timeout": 2000
+              "_timeout": 500000
             }
           ],
           "passes": [],
@@ -1490,7 +1561,7 @@
           "duration": 0,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 2000
+          "_timeout": 500000
         }
       ],
       "passes": [],
@@ -1500,7 +1571,7 @@
       "duration": 0,
       "root": true,
       "rootEmpty": true,
-      "_timeout": 2000
+      "_timeout": 500000
     }
   ],
   "meta": {
@@ -1511,7 +1582,7 @@
       "options": {
         "quiet": false,
         "reportFilename": "mochawesome",
-        "saveHtml": false,
+        "saveHtml": true,
         "saveJson": true,
         "consoleReporter": "spec",
         "useInlineDiffs": false,
@@ -1521,7 +1592,7 @@
     },
     "marge": {
       "options": {
-        "html": "false"
+        "html": "true"
       },
       "version": "5.2.0"
     }

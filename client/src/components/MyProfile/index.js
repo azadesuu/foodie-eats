@@ -1,6 +1,7 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./MyProfile.css";
+
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
@@ -12,12 +13,13 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 
 import EditProfile from "../EditProfile";
+import TopUser from "../TopUser";
 import {
     getProfile,
     deleteNewImage,
     deleteProfileImage,
     uploadNewImage,
-    uploadProfileImage
+    uploadProfileImage,
 } from "../../api";
 import { useNavigate } from "react-router";
 
@@ -128,61 +130,6 @@ const ProfileImageUpload = props => {
     );
 };
 
-function TopUser(props) {
-    const userProfile = props.user;
-    const [showUpload, setShowUpload] = useState(false);
-
-    return (
-        <div className="top-user">
-            <div className="top-user-r1">
-                <IconButton
-                    sx={{
-                        transition: "all 0.3s ease-out",
-                        "&:hover": {
-                            boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
-                        }
-                    }}
-                >
-                    <Avatar
-                        alt="user-profile-image"
-                        src={
-                            userProfile.profileImage !== ""
-                                ? userProfile.profileImage
-                                : null
-                        }
-                        sx={{
-                            height: 130,
-                            width: 130
-                        }}
-                        onClick={() => setShowUpload(!showUpload)}
-                    />
-                </IconButton>
-                {showUpload && <ProfileImageUpload user={userProfile} />}
-                {showUpload && (
-                    <button
-                        id="image-cancel"
-                        onClick={() => setShowUpload(!showUpload)}
-                    >
-                        Cancel upload
-                    </button>
-                )}
-                <div className="top-user-info">
-                    <h2>{userProfile.username}</h2>
-                    <p>{userProfile.bio}</p>
-                </div>
-            </div>
-            <div className="top-user-rev">
-                <p>
-                    <span className="detail">7</span> reviews
-                </p>
-                <p>
-                    <span className="detail">10k</span> likes
-                </p>
-            </div>
-        </div>
-    );
-}
-
 function Sidebar() {
     return (
         <div className="sidebar-content">
@@ -215,12 +162,11 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
-                            id="edit-btn"
                             value={editButton}
                             onClick={updateUser}
                             sx={{
                                 left: "30px",
-                                bottom: "40px"
+                                bottom: "40px",
                             }}
                         >
                             <EditIcon
@@ -232,11 +178,7 @@ function ProfileDetails(props) {
                         </IconButton>
                     </div>
                     <IconButton
-                        sx={{
-                            "&:hover": {
-                                bgcolor: "transparent"
-                            }
-                        }}
+                        disableRipple={true}
                     >
                         <Avatar
                             alt="user-profile-image"
@@ -260,7 +202,7 @@ function ProfileDetails(props) {
                             id="image-cancel"
                             onClick={() => setShowUpload(!showUpload)}
                         >
-                            Cancel upload
+                            x
                         </button>
                     )}
                 </span>
@@ -346,13 +288,13 @@ function ProfileDetails(props) {
 function MyProfile() {
     const [user] = useContext(UserContext);
     const { data: userProfile, isLoading } = useQuery(
-        "bookmarks",
+        "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
     return (
         <>
-            {userProfile && !isLoading ? (
+            {userProfile ? (
                 <div className="content-MyProfile">
                     <SEO data={allSEO.myprofile} />
                     <span className="smallScreen-MyProfile">
