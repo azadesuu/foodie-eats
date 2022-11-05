@@ -48,19 +48,19 @@ const ProfileImageUpload = props => {
                 await uploadNewImage({
                     file: formData
                 })
-                .then(result => {
-                    setImageURL(result);
-                    uploadProfileImage({
-                        userId: userProfile?._id,
-                        url: result
-                    });
-                    setUploadImg(!uploadImg);
-                    setAlertStatus("success");
-                    setAlertMessage("Image was uploaded!");
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 1000);
-                })
+                    .then(result => {
+                        setImageURL(result);
+                        uploadProfileImage({
+                            userId: userProfile?._id,
+                            url: result
+                        });
+                        setUploadImg(!uploadImg);
+                        setAlertStatus("success");
+                        setAlertMessage("Image was uploaded!");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    })
                     .catch(err => {
                         alert(err);
                     });
@@ -71,12 +71,12 @@ const ProfileImageUpload = props => {
     }
 
     async function deleteHandler(url) {
-        if (url !== "" || url !== undefined) {
+        if (url !== "" && url !== undefined) {
             const deleted = await deleteNewImage({ url: url });
             if (deleted) {
                 setDeleteImg(!deleteImg);
                 setAlertStatus("success");
-                setAlertMessage("Image successfully deleted.");
+                setAlertMessage("Image successfully removed.");
                 setTimeout(function() {
                     window.location.reload();
                 }, 1000);
@@ -89,10 +89,14 @@ const ProfileImageUpload = props => {
                     window.location.reload();
                 }, 1000);
             }
+        } else {
+            setDeleteImg(!deleteImg);
+            setAlertStatus("error");
+            setAlertMessage("Image does not exist");
         }
     }
     async function deleteProfileImageHandler() {
-        const deleted = await deleteHandler(userProfile.profileImage);
+        await deleteHandler(userProfile.profileImage);
         const removedProfileImage = await deleteProfileImage({
             userId: userProfile._id
         });
@@ -132,9 +136,7 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img 
-                        src={previewImage} 
-                    />
+                    <img src={previewImage} />
                 </label>
             ) : (
                 <p>Upload your image now!</p>
@@ -151,8 +153,8 @@ const ProfileImageUpload = props => {
             >
                 Remove profile picture
             </button>
-            {deleteImg ? 
-                <Alert 
+            {deleteImg ? (
+                <Alert
                     severity={alertStatus}
                     sx={{
                         mt: "5px",
@@ -161,11 +163,11 @@ const ProfileImageUpload = props => {
                 >
                     {alertMessage}
                 </Alert>
-            :
+            ) : (
                 <></>
-            }
-            {uploadImg ? 
-                <Alert 
+            )}
+            {uploadImg ? (
+                <Alert
                     severity={alertStatus}
                     sx={{
                         mt: "5px",
@@ -174,9 +176,9 @@ const ProfileImageUpload = props => {
                 >
                     {alertMessage}
                 </Alert>
-            :
+            ) : (
                 <></>
-            }
+            )}
         </div>
     );
 };
