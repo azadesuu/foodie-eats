@@ -12,19 +12,19 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     // submit form
-    async function submitHandler(email) {
+    async function submitHandler() {
         try {
-            const sent = await forgotPassword(email);
-            if (sent) {
-                alert(
-                    "Email sent successfully. Please wait for token to reset password."
-                );
-            } else {
-                alert("There was an error while requesting to reset password.");
-            }
-            setTimeout(function() {
-                window.location.reload();
-            }, 10000);
+            console.log("test");
+
+            // const sent = await forgotPassword(email);
+            // setTimeout(function() {
+            //     window.location.reload();
+            // }, 100000000);
+            // if (sent) {
+            //     alert(
+            //         "Email sent successfully. Please wait for token to reset password"
+            //     );
+            // }
         } catch (err) {
             console.log(err);
         }
@@ -34,7 +34,7 @@ function ForgotPassword() {
         <div className="content-ForgotPassword">
             <SEO data={allSEO.forgotpassword} />
             <h1>FORGOT PASSWORD</h1>
-            <div className="form-control-forgotpassword">
+            <form className="form-control-forgotpassword">
                 <input
                     type="text"
                     name="email"
@@ -45,13 +45,10 @@ function ForgotPassword() {
                         setEmail(event.target.value);
                     }}
                 />
-                <button
-                    id="submit-btn"
-                    onClick={() => submitHandler({ email: email })}
-                >
+                <button id="submit-btn" onClick={submitHandler}>
                     SUBMIT
                 </button>
-            </div>
+            </form>
         </div>
     );
 }
