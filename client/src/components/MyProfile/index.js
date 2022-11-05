@@ -5,7 +5,7 @@ import "./MyProfile.css";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, useIsFocusVisible } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -163,12 +163,11 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
-                            id="edit-btn"
                             value={editButton}
                             onClick={updateUser}
                             sx={{
                                 left: "30px",
-                                bottom: "40px"
+                                bottom: "40px",
                             }}
                         >
                             <EditIcon
@@ -180,11 +179,7 @@ function ProfileDetails(props) {
                         </IconButton>
                     </div>
                     <IconButton
-                        sx={{
-                            "&:hover": {
-                                bgcolor: "transparent"
-                            }
-                        }}
+                        disableRipple={true}
                     >
                         <Avatar
                             alt="user-profile-image"
@@ -208,7 +203,7 @@ function ProfileDetails(props) {
                             id="image-cancel"
                             onClick={() => setShowUpload(!showUpload)}
                         >
-                            Cancel upload
+                            x
                         </button>
                     )}
                 </span>

@@ -97,7 +97,9 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img src={previewImage} height={150} />
+                    <img 
+                        src={previewImage} 
+                    />
                 </label>
             ) : (
                 <p>Upload your image now!</p>
@@ -176,7 +178,7 @@ function TopUser(props) {
                         id="image-cancel"
                         onClick={() => setShowUpload(!showUpload)}
                     >
-                        Cancel upload
+                        x
                     </button>
                 )}
                 <div className="top-user-info">
