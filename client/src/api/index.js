@@ -55,9 +55,7 @@ export const loginUser = async user => {
 export const getUser = async () => {
     return await axios
         .get(`${SERVER_URL}/findTokenUser`)
-        .then(res => {
-            return res?.data?.data;
-        })
+        .then(res => res?.data?.data;)
         .catch(err => console.log(err));
 };
 
