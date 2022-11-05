@@ -46,7 +46,7 @@ function Register() {
                     <label>Email</label>
                     <input
                         type="text"
-                        placeholder="email"
+                        placeholder="enter an email"
                         name="email"
                         id="email"
                         value={email}
@@ -56,21 +56,23 @@ function Register() {
                     />
                 </div>
                 <div className="form-label-big">
-                    <span className="helper-text">5-18 characters</span>
+                    <span className="helper-text">6-16 characters</span>
                 </div>
                 <div className="form-control">
                     <div className="form-label-small">
                         <label>Username</label>
-                        <span className="helper-text">5-18 characters</span>
+                        <span className="helper-text">6-16 characters</span>
                     </div>
-                    <div className="form-label-big">
+                    <div className="form-label-big-un">
                         <label>Username</label>
                     </div>
                     <input
                         type="text"
-                        placeholder="Enter a username"
+                        placeholder="enter a username"
                         name="username"
                         id="username"
+                        minLength={6}
+                        maxLength={16}
                         value={username}
                         onChange={event => {
                             setUsername(event.target.value);
@@ -79,7 +81,7 @@ function Register() {
                 </div>
                 <div className="form-label-big">
                     <span className="helper-text">
-                        1 lowercase, 1 uppercase letter, and 1 number
+                        at least 1 lowercase, 1 uppercase letter, and 1 number
                     </span>
                 </div>
                 <div className="form-control">
@@ -89,12 +91,12 @@ function Register() {
                             1 lowercase, 1 uppercase letter, and 1 number
                         </span>
                     </div>
-                    <div className="form-label-big">
+                    <div className="form-label-big-pw">
                         <label>Password</label>
                     </div>
                     <input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="enter your password"
                         name="password"
                         id="password"
                         value={password}

@@ -64,6 +64,7 @@ function ChangePwDetails(props) {
             {!isLoading && userProfile ? (
                 <div className="user-container">
                     <form>
+                        
                         {/* current password field */}
                         <div className="details-container">
                             <label>current password</label>
@@ -74,7 +75,9 @@ function ChangePwDetails(props) {
                                 }}
                             />
                         </div>
-
+                        <span className="helper-text-pw">
+                            at least 1 lowercase, 1 uppercase letter, and 1 number
+                        </span>
                         {/* new password field */}
                         <div className="details-container">
                             <label>new password</label>
@@ -85,7 +88,7 @@ function ChangePwDetails(props) {
                                 }}
                             />
                         </div>
-
+                        
                         {/* confirm new password field */}
                         <div className="details-container">
                             <label>confirm new password</label>
@@ -96,8 +99,9 @@ function ChangePwDetails(props) {
                                 }}
                             />
                         </div>
+                        
                     </form>
-
+                    
                     <div className="button-group">
                         <button
                             id="btn"

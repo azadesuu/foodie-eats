@@ -15,7 +15,13 @@
     .form-label-big span.helper-text {
         display: flex;
         justify-content: flex-end;
-        margin-right: 45px;
+        margin-right: 43px;
+    }
+    .form-label-big-pw label {
+        margin-right: 8px;
+    }
+    .form-label-big-un label {
+        margin-right: 3px;
     }
     .form-control .form-label-small {
         display: none;
@@ -51,6 +57,12 @@
         display: flex;
         justify-content: flex-end;
     }
+    .form-label-big-pw {
+        display: none;
+    }
+    .form-label-big-un {
+        display: none;
+    }
     .form-label-big {
         display: none;
     }
@@ -84,7 +96,6 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    max-width: 483px;
 }
 .form-control label {
     font-size: 20px;

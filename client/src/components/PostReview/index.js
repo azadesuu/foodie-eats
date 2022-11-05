@@ -393,7 +393,7 @@ function PostReview() {
                                     <textarea
                                         type="text"
                                         placeholder="description..."
-                                        maxLength={160}
+                                        maxLength={150}
                                         onChange={e => {
                                             setDescription(e.target.value);
                                         }}
@@ -409,6 +409,9 @@ function PostReview() {
                                         onChange={setTags}
                                     />
                                 </div>
+                                <span className="helper-text-post">
+                                    maximum of 150 characters
+                                </span>
                             </div>
                             <div className="add-image">
                                 <label>
@@ -609,12 +612,10 @@ function PostReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
-                                                maxLength={160}
                                                 placeholder="description..."
+                                                maxLength={150}
                                                 onChange={e => {
-                                                    setDescription(
-                                                        e.target.value
-                                                    );
+                                                    setDescription(e.target.value);
                                                 }}
                                                 required
                                             />
@@ -622,12 +623,15 @@ function PostReview() {
                                         <div className="tags-input">
                                             <TagsInput
                                                 name="tags"
-                                                maxLength={20}
                                                 value={tags}
                                                 placeHolder="#tags"
+                                                maxLength={20}
                                                 onChange={setTags}
                                             />
                                         </div>
+                                        <span className="helper-text-post">
+                                            Maximum of 150 characters
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="r3-content2">

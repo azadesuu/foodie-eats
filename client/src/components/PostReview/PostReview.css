@@ -267,3 +267,10 @@ span.smallScreen-CreateReview {
     border-radius: 10px;
     text-align: center;
 }
+span.helper-text-post {
+    font-size: 12px;
+    color: gray;
+    margin-top: -20px;
+    display: flex;
+    justify-content: flex-end;
+}
