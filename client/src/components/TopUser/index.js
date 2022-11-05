@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
+import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import {
     deleteNewImage,
@@ -18,30 +19,48 @@ const ProfileImageUpload = props => {
     const [imageURL, setImageURL] = useState(
         userProfile?.profileImage ? userProfile.profileImage : null
     );
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [deleteImg, setDeleteImg] = useState(false);
+    const [uploadImg, setUploadImg] = useState(false);
     async function submitHandler() {
         try {
             const formData = new FormData();
             formData.set("image", image);
             if (!formData.get("image")) {
-                alert("Image not selected!");
+                setUploadImg(!uploadImg);
+                setAlertStatus("error");
+                setAlertMessage("Image exceeds upload limit!");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             } else if (image.size / 1024 / 1024 > 10) {
-                alert("Image exceeds upload limit!");
+                setUploadImg(!uploadImg);
+                setAlertStatus("error");
+                setAlertMessage("Image exceeds upload limit!");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             } else if (image) {
                 if (imageURL) {
-                    await deleteHandler(imageURL);
                     setImageURL(null);
                 }
                 await uploadNewImage({
                     file: formData
                 })
-                    .then(result => {
-                        setImageURL(result);
-                        uploadProfileImage({
-                            userId: userProfile?._id,
-                            url: result
-                        });
-                        alert("Image was uploaded!");
-                    })
+                .then(result => {
+                    setImageURL(result);
+                    uploadProfileImage({
+                        userId: userProfile?._id,
+                        url: result
+                    });
+                    setUploadImg(!uploadImg);
+                    setAlertStatus("success");
+                    setAlertMessage("Image was uploaded!");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
+                })
                     .catch(err => {
                         alert(err);
                     });
@@ -55,9 +74,20 @@ const ProfileImageUpload = props => {
         if (url !== "" || url !== undefined) {
             const deleted = await deleteNewImage({ url: url });
             if (deleted) {
+                setDeleteImg(!deleteImg);
+                setAlertStatus("success");
+                setAlertMessage("Image successfully deleted.");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 return true;
             } else {
-                alert("Error occured, image was not deleted.");
+                setDeleteImg(!deleteImg);
+                setAlertStatus("error");
+                setAlertMessage("Error occured, image was not deleted.");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             }
         }
     }
@@ -69,7 +99,12 @@ const ProfileImageUpload = props => {
         if (removedProfileImage) {
             return true;
         } else {
-            alert("Error occured, image was not deleted.");
+            setDeleteImg(!deleteImg);
+            setAlertStatus("error");
+            setAlertMessage("Error occured, image was not deleted.");
+            setTimeout(function() {
+                window.location.reload();
+            }, 1000);
         }
     }
 
@@ -116,6 +151,32 @@ const ProfileImageUpload = props => {
             >
                 Remove profile picture
             </button>
+            {deleteImg ? 
+                <Alert 
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px",
+                        width: "220px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            :
+                <></>
+            }
+            {uploadImg ? 
+                <Alert 
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px",
+                        width: "220px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            :
+                <></>
+            }
         </div>
     );
 };
