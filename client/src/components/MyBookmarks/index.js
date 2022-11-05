@@ -878,23 +878,21 @@ function ReviewsBigScreen(props) {
 function MyBookmarks() {
     const [user] = useContext(UserContext);
 
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile, isLoading: isLoading } = useQuery(
         "bookmarks",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
 
-    const { data: bookmarks, isLoading2 } = useQuery(
+    const {
+        data: bookmarks,
+        isLoading: isLoading2
+    } = useQuery(
         "bookmarked-reviews",
         () => getBookmarks({ bookmarks: userProfile.bookmarks }),
         { enabled: !!userProfile }
     );
-    const { data: listReviews } = useQuery(
-        "my-reviews",
-        () => getMyReviews(user?._id),
-        { enabled: !!user }
-    );
-    
+
     return (
         <>
             {(isLoading2 || isLoading) && (
@@ -910,7 +908,7 @@ function MyBookmarks() {
                         <Post />
                     </span>
                     <span className="bigScreen-MyBookmarks">
-                        <TopUser user={userProfile} listReviews={listReviews} />
+                        <TopUser user={userProfile} />
 
                         <div className="line5" />
                         <div className="r1">

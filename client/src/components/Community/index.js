@@ -323,14 +323,15 @@ function Post() {
 
 function Community() {
     const [location, setLocation] = useState("3000");
-    const { data: listReviewsRecent, isLoading } = useQuery(
-        "listReviewsRecent",
-        () => getCommunityRecent()
-    );
-    const { data: listLikes, isLoading2 } = useQuery(
-        "listOfReviewsByLikes",
-        () => getCommunityMostLiked()
-    );
+    const {
+        data: listLikes,
+        isLoading: isLoadingLikes
+    } = useQuery("listOfReviewsByLikes", () => getCommunityMostLiked());
+    const {
+        data: listReviewsRecent,
+        isLoading: isLoadingRecent
+    } = useQuery("listReviewsRecent", () => getCommunityRecent());
+    console.log(isLoadingRecent);
     const [ratingChecked, setRatingChecked] = useState([
         {
             id: 1,
@@ -437,8 +438,8 @@ function Community() {
             <div className="line4" />
             <div className="toprecom">
                 <h2>TOP RECOMMENDATIONS</h2>
-                {isLoading && <CircularProgress className="spinner"/>}
-                {listLikes ? (
+                {isLoadingLikes && <CircularProgress className="spinner" />}
+                {!isLoadingLikes && listLikes ? (
                     <>
                         <span className="smallScreen-Community">
                             <div className="toprecom-content">
@@ -463,7 +464,9 @@ function Community() {
                                     {/* review parameter contains the whole review document */}
                                     {listLikes
                                         .filter(review => {
-                                            const postcodeInput = Number(location);
+                                            const postcodeInput = Number(
+                                                location
+                                            );
                                             const reviewPostcode =
                                                 review.address.postcode;
                                             const filterInputRating = ratingChecked.map(
@@ -486,7 +489,8 @@ function Community() {
                                             );
 
                                             const resRating = review.rating;
-                                            const resPriceRange = review.priceRange;
+                                            const resPriceRange =
+                                                review.priceRange;
 
                                             if (
                                                 filterInputRating.some(
@@ -505,10 +509,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputPriceRange.some(
@@ -519,10 +525,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputRating.some(
@@ -536,7 +544,8 @@ function Community() {
                                                             resRating === rating
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             }
                                             return (
@@ -554,8 +563,7 @@ function Community() {
                                                     <div className="line3"></div>
                                                 </div>
                                             );
-                                        })
-                                    }
+                                        })}
                                 </List>
                             </div>
                         </span>
@@ -582,7 +590,9 @@ function Community() {
                                 >
                                     {listLikes
                                         .filter(review => {
-                                            const postcodeInput = Number(location);
+                                            const postcodeInput = Number(
+                                                location
+                                            );
                                             const reviewPostcode =
                                                 review.address.postcode;
                                             const filterInputRating = ratingChecked.map(
@@ -605,7 +615,8 @@ function Community() {
                                             );
 
                                             const resRating = review.rating;
-                                            const resPriceRange = review.priceRange;
+                                            const resPriceRange =
+                                                review.priceRange;
 
                                             if (
                                                 filterInputRating.some(
@@ -624,10 +635,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputPriceRange.some(
@@ -638,10 +651,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputRating.some(
@@ -655,7 +670,8 @@ function Community() {
                                                             resRating === rating
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             }
                                             return (
@@ -679,14 +695,14 @@ function Community() {
                     </>
                 ) : (
                     // If the info can"t be loaded, then display a message
-                    !isLoading && <h2>Found no orders</h2>
+                    !isLoadingLikes && <h2>Found no orders</h2>
                 )}
             </div>
             <div className="line4" />
             <div className="recent">
                 <h2>RECENT</h2>
-                {isLoading && <CircularProgress className="spinner"/>}
-                {listReviewsRecent ? (
+                {isLoadingRecent && <CircularProgress className="spinner" />}
+                {!isLoadingRecent && listReviewsRecent ? (
                     <>
                         <span className="smallScreen-Community">
                             <div className="recent-content">
@@ -709,100 +725,107 @@ function Community() {
                                     }}
                                 >
                                     {/* review parameter contains the whole review document */}
-                                        {listReviewsRecent
-                                            .filter(review => {
-                                                const postcodeInput = Number(location);
-                                                const reviewPostcode =
-                                                    review.address.postcode;
-                                                const filterInputRating = ratingChecked.map(
-                                                    item => {
-                                                        if (item.check) {
-                                                            return item.id;
-                                                        } else {
-                                                            return null;
-                                                        }
+                                    {listReviewsRecent
+                                        .filter(review => {
+                                            const postcodeInput = Number(
+                                                location
+                                            );
+                                            const reviewPostcode =
+                                                review.address.postcode;
+                                            const filterInputRating = ratingChecked.map(
+                                                item => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
                                                     }
-                                                );
-                                                const filterInputPriceRange = priceChecked.map(
-                                                    item => {
-                                                        if (item.check) {
-                                                            return item.id;
-                                                        } else {
-                                                            return null;
-                                                        }
-                                                    }
-                                                );
-
-                                                const resRating = review.rating;
-                                                const resPriceRange = review.priceRange;
-
-                                                if (
-                                                    filterInputRating.some(
-                                                        item => item !== null
-                                                    ) &&
-                                                    filterInputPriceRange.some(
-                                                        item => item !== null
-                                                    )
-                                                ) {
-                                                    return (
-                                                        filterInputRating &&
-                                                        filterInputRating.some(
-                                                            rating =>
-                                                                resRating === rating
-                                                        ) &&
-                                                        filterInputPriceRange &&
-                                                        filterInputPriceRange.some(
-                                                            price =>
-                                                                resPriceRange === price
-                                                        ) &&
-                                                        postcodeInput &&
-                                                        reviewPostcode === postcodeInput
-                                                    );
-                                                } else if (
-                                                    filterInputPriceRange.some(
-                                                        item => item !== null
-                                                    )
-                                                ) {
-                                                    return (
-                                                        filterInputPriceRange &&
-                                                        filterInputPriceRange.some(
-                                                            price =>
-                                                                resPriceRange === price
-                                                        ) &&
-                                                        postcodeInput &&
-                                                        reviewPostcode === postcodeInput
-                                                    );
-                                                } else if (
-                                                    filterInputRating.some(
-                                                        item => item !== null
-                                                    )
-                                                ) {
-                                                    return (
-                                                        filterInputRating &&
-                                                        filterInputRating.some(
-                                                            rating =>
-                                                                resRating === rating
-                                                        ) &&
-                                                        postcodeInput &&
-                                                        reviewPostcode === postcodeInput
-                                                    );
                                                 }
+                                            );
+                                            const filterInputPriceRange = priceChecked.map(
+                                                item => {
+                                                    if (item.check) {
+                                                        return item.id;
+                                                    } else {
+                                                        return null;
+                                                    }
+                                                }
+                                            );
+
+                                            const resRating = review.rating;
+                                            const resPriceRange =
+                                                review.priceRange;
+
+                                            if (
+                                                filterInputRating.some(
+                                                    item => item !== null
+                                                ) &&
+                                                filterInputPriceRange.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
                                                 return (
+                                                    filterInputRating &&
+                                                    filterInputRating.some(
+                                                        rating =>
+                                                            resRating === rating
+                                                    ) &&
+                                                    filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
-                                            })
-                                            .map(review => {
+                                            } else if (
+                                                filterInputPriceRange.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
                                                 return (
-                                                    <div>
-                                                        <ReviewPeek
-                                                            reviewData={review}
-                                                        />
-                                                        <div className="line3"></div>
-                                                    </div>
+                                                    filterInputPriceRange &&
+                                                    filterInputPriceRange.some(
+                                                        price =>
+                                                            resPriceRange ===
+                                                            price
+                                                    ) &&
+                                                    postcodeInput &&
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
-                                            })
-                                        }
+                                            } else if (
+                                                filterInputRating.some(
+                                                    item => item !== null
+                                                )
+                                            ) {
+                                                return (
+                                                    filterInputRating &&
+                                                    filterInputRating.some(
+                                                        rating =>
+                                                            resRating === rating
+                                                    ) &&
+                                                    postcodeInput &&
+                                                    reviewPostcode ===
+                                                        postcodeInput
+                                                );
+                                            }
+                                            return (
+                                                postcodeInput &&
+                                                reviewPostcode === postcodeInput
+                                            );
+                                        })
+                                        .map(review => {
+                                            return (
+                                                <div>
+                                                    <ReviewPeek
+                                                        reviewData={review}
+                                                    />
+                                                    <div className="line3"></div>
+                                                </div>
+                                            );
+                                        })}
                                 </List>
                             </div>
                         </span>
@@ -829,7 +852,9 @@ function Community() {
                                 >
                                     {listReviewsRecent
                                         .filter(review => {
-                                            const postcodeInput = Number(location);
+                                            const postcodeInput = Number(
+                                                location
+                                            );
                                             const reviewPostcode =
                                                 review.address.postcode;
                                             const filterInputRating = ratingChecked.map(
@@ -852,7 +877,8 @@ function Community() {
                                             );
 
                                             const resRating = review.rating;
-                                            const resPriceRange = review.priceRange;
+                                            const resPriceRange =
+                                                review.priceRange;
 
                                             if (
                                                 filterInputRating.some(
@@ -871,10 +897,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputPriceRange.some(
@@ -885,10 +913,12 @@ function Community() {
                                                     filterInputPriceRange &&
                                                     filterInputPriceRange.some(
                                                         price =>
-                                                            resPriceRange === price
+                                                            resPriceRange ===
+                                                            price
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             } else if (
                                                 filterInputRating.some(
@@ -902,7 +932,8 @@ function Community() {
                                                             resRating === rating
                                                     ) &&
                                                     postcodeInput &&
-                                                    reviewPostcode === postcodeInput
+                                                    reviewPostcode ===
+                                                        postcodeInput
                                                 );
                                             }
                                             return (
@@ -912,7 +943,9 @@ function Community() {
                                         })
                                         .map(review => (
                                             <Grid item xs={4} key={review}>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                             </Grid>
                                         ))}
                                 </Grid>
@@ -921,7 +954,7 @@ function Community() {
                     </>
                 ) : (
                     // If the info can"t be loaded, then display a message
-                    !isLoading && <h2>Found no orders</h2>
+                    !isLoadingRecent && <h2>Found no orders</h2>
                 )}
             </div>
             <Post />

@@ -79,8 +79,9 @@ function Sidebar(props) {
     return (
         <div className="sidebar-content">
             <div id="current">
-                <a onClick={() => {
-                    navigate(`/profile/${userProfile.username}/reviews`);
+                <a
+                    onClick={() => {
+                        navigate(`/profile/${userProfile.username}/reviews`);
                     }}
                 >
                     reviews
@@ -92,9 +93,7 @@ function Sidebar(props) {
 
 function ReviewsSmallScreen(props) {
     const user = props.user;
-    const { data: listReviews, isLoading } = useQuery(
-        "reviews", 
-        () =>
+    const { data: listReviews, isLoading } = useQuery("reviews", () =>
         getOtherReviews(user?._id)
     );
     const [input, setInput] = useState("");
@@ -109,9 +108,7 @@ function ReviewsSmallScreen(props) {
                         placeholder="Search"
                         name="search"
                         id="search"
-                        onChange={(e) =>
-                            setInput(e.target.value)
-                        }
+                        onChange={e => setInput(e.target.value)}
                     />
                     <FilterAltIcon />
                 </div>
@@ -142,14 +139,19 @@ function ReviewsSmallScreen(props) {
                                 {listReviews.length > 0 ? (
                                     <div>
                                         {listReviews
-                                                .filter(review => {
+                                            .filter(review => {
                                                 const searchInput = input.toLowerCase();
                                                 const resName = review.restaurantName.toLowerCase();
 
-                                                return resName.startsWith(searchInput)
-                                            }).map(review => {
+                                                return resName.startsWith(
+                                                    searchInput
+                                                );
+                                            })
+                                            .map(review => {
                                                 return (
-                                                    <ReviewPeek reviewData={review} />
+                                                    <ReviewPeek
+                                                        reviewData={review}
+                                                    />
                                                 );
                                             })}
                                     </div>
@@ -189,9 +191,7 @@ function ReviewsBigScreen(props) {
                             placeholder="Search"
                             name="search"
                             id="search"
-                            onChange={(e) =>
-                                setInput(e.target.value)
-                            }
+                            onChange={e => setInput(e.target.value)}
                         />
                         <FilterAltIcon />
                     </div>
@@ -226,12 +226,17 @@ function ReviewsBigScreen(props) {
                                             const searchInput = input.toLowerCase();
                                             const resName = review.restaurantName.toLowerCase();
 
-                                            return resName.startsWith(searchInput)
-                                        }).map(review => (
+                                            return resName.startsWith(
+                                                searchInput
+                                            );
+                                        })
+                                        .map(review => (
                                             <Grid item xs={6} key={review}>
-                                                <ReviewPeek reviewData={review} />
+                                                <ReviewPeek
+                                                    reviewData={review}
+                                                />
                                             </Grid>
-                                    ))}
+                                        ))}
                                 </Grid>
                             </div>
                         ) : (

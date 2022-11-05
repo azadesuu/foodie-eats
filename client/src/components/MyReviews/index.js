@@ -69,8 +69,7 @@ function Sidebar() {
 
 function ReviewsSmallScreen(props) {
     const user = props.user;
-    const { data: listReviews, isLoading } = useQuery(
-        "my-reviews", () =>
+    const { data: listReviews, isLoading } = useQuery("my-reviews", () =>
         getMyReviews(user?._id)
     );
     const [input, setInput] = useState("");
@@ -921,12 +920,7 @@ function MyReviews() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-    const { data: listReviews } = useQuery(
-        "my-reviews",
-        () => getMyReviews(user?._id),
-        { enabled: !!user }
-    );
-    
+
     return (
         <>
             {userProfile ? (
@@ -938,7 +932,7 @@ function MyReviews() {
                         <Post />
                     </span>
                     <span className="bigScreen-MyReviews">
-                        <TopUser user={userProfile} listReviews={listReviews} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />

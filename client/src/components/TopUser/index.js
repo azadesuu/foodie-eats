@@ -6,7 +6,10 @@ import {
     deleteProfileImage,
     uploadNewImage,
     uploadProfileImage,
+    getMyReviews
 } from "../../api";
+import { useQuery } from "react-query";
+import { useEffect } from "react";
 
 const ProfileImageUpload = props => {
     const userProfile = props.user;
@@ -76,7 +79,7 @@ const ProfileImageUpload = props => {
             await setPreviewImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-    
+
     return (
         <div className="image-edit">
             <label>
@@ -118,10 +121,29 @@ const ProfileImageUpload = props => {
 function TopUser(props) {
     const userProfile = props.user;
     const [showUpload, setShowUpload] = useState(false);
-    let no_reviews = 0;
-    for (let key in props.listReviews) {
-        no_reviews++;
-    }
+    const [numReviews, setNumReviews] = useState("..");
+    const [numLikes, setNumLikes] = useState("..");
+    let i = 0;
+    let total = 0;
+
+    const { data: listReviews, isLoading } = useQuery(
+        "my-reviews",
+        () => getMyReviews(userProfile?._id),
+        {
+            enabled: !!userProfile
+        }
+    );
+
+    useEffect(() => {
+        if (isLoading === false) {
+            setNumReviews(listReviews.length);
+            total = 0;
+            for (i = 0; i < listReviews.length; i++) {
+                total += listReviews[i].likeCount;
+            }
+            setNumLikes(total);
+        }
+    }, [isLoading]);
 
     return (
         <div className="top-user">
@@ -164,10 +186,16 @@ function TopUser(props) {
             </div>
             <div className="top-user-rev">
                 <p>
-                    <span className="detail">{no_reviews}</span> reviews
+                    <span className="detail">
+                        {!isLoading ? numReviews : `..`}
+                    </span>{" "}
+                    reviews
                 </p>
                 <p>
-                    <span className="detail">10k</span> likes
+                    <span className="detail">
+                        {!isLoading ? numLikes : `..`}
+                    </span>{" "}
+                    likes
                 </p>
             </div>
         </div>
