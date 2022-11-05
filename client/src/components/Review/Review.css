@@ -348,7 +348,6 @@ textarea::placeholder {
     flex-direction: row;
     align-items: center;
     gap: 20px;
-    max-width: 130px;
 }
 .content-Review .resName-price .price-range .input {
     border-radius: 10px;
