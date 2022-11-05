@@ -920,7 +920,6 @@ function MyReviews() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-    
 
     return (
         <>
