@@ -18,12 +18,8 @@ const strongPassword = new RegExp(
 );
 
 function ChangePwDetails(props) {
-    const user = props.user;
-    const { data: userProfile, isLoading } = useQuery(
-        "my-profile",
-        () => getProfile(user?.username),
-        { enabled: !!user }
-    );
+    const userProfile = props.user;
+    const isLoading = props.isLoading;
     const navigate = useNavigate();
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -64,7 +60,8 @@ function ChangePwDetails(props) {
             <span className="smallScreen-ChangePassword">
                 <h1>CHANGE PASSWORD</h1>
             </span>
-            {userProfile ? (
+            {isLoading && <CircularProgress class="spinner" />}
+            {!isLoading && userProfile ? (
                 <div className="user-container">
                     <form>
                         {/* current password field */}
@@ -119,7 +116,7 @@ function ChangePwDetails(props) {
                     </div>
                 </div>
             ) : (
-                !isLoading && <h1>No user found</h1>
+                <h1>No user found</h1>
             )}
         </div>
     );
@@ -138,13 +135,13 @@ function Sidebar() {
 }
 
 function ChangePassword() {
-    const [user, setUser] = useContext(UserContext);
-    const { data: userProfile } = useQuery(
+    const [user] = useContext(UserContext);
+    const { data: userProfile, isLoading } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-    const { data: listReviews } = useQuery(
+    const { data: listReviews, isLoading: isLoading2 } = useQuery(
         "my-reviews",
         () => getMyReviews(user?._id),
         { enabled: !!user }
@@ -153,10 +150,10 @@ function ChangePassword() {
     return (
         <>
             <SEO data={allSEO.changepassword} />
-            {user ? (
+            {user && userProfile && listReviews ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">
-                        <ChangePwDetails user={user} />
+                        <ChangePwDetails isLoading={isLoading} user={user} />
                     </span>
                     <span className="bigScreen-ChangePassword">
                         <TopUser user={userProfile} listReviews={listReviews} />
@@ -164,7 +161,10 @@ function ChangePassword() {
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            <ChangePwDetails user={user} />
+                            <ChangePwDetails
+                                isLoading={isLoading}
+                                user={userProfile}
+                            />
                         </div>
                     </span>
                 </div>

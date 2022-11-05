@@ -7,6 +7,7 @@ import {
     uploadNewImage,
     uploadProfileImage
 } from "../../api";
+import { useEffect } from "react";
 
 const ProfileImageUpload = props => {
     const userProfile = props.user;
@@ -117,11 +118,12 @@ const ProfileImageUpload = props => {
 
 function TopUser(props) {
     const userProfile = props.user;
+    const listReviews = props.listReviews;
     const [showUpload, setShowUpload] = useState(false);
     let no_reviews = 0;
-    for (let key in props.listReviews) {
-        no_reviews++;
-    }
+    useEffect(() => {
+        no_reviews = listReviews.length;
+    }, [listReviews]);
 
     return (
         <div className="top-user">

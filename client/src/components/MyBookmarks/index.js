@@ -878,13 +878,16 @@ function ReviewsBigScreen(props) {
 function MyBookmarks() {
     const [user] = useContext(UserContext);
 
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile, isLoading: isLoading } = useQuery(
         "bookmarks",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
 
-    const { data: bookmarks, isLoading2 } = useQuery(
+    const {
+        data: bookmarks,
+        isLoading: isLoading2
+    } = useQuery(
         "bookmarked-reviews",
         () => getBookmarks({ bookmarks: userProfile.bookmarks }),
         { enabled: !!userProfile }

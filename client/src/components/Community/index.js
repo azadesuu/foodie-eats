@@ -323,14 +323,15 @@ function Post() {
 
 function Community() {
     const [location, setLocation] = useState("3000");
-    const { data: listReviewsRecent, isLoading } = useQuery(
-        "listReviewsRecent",
-        () => getCommunityRecent()
-    );
-    const { data: listLikes, isLoading2 } = useQuery(
-        "listOfReviewsByLikes",
-        () => getCommunityMostLiked()
-    );
+    const {
+        data: listLikes,
+        isLoading: isLoadingLikes
+    } = useQuery("listOfReviewsByLikes", () => getCommunityMostLiked());
+    const {
+        data: listReviewsRecent,
+        isLoading: isLoadingRecent
+    } = useQuery("listReviewsRecent", () => getCommunityRecent());
+    console.log(isLoadingRecent);
     const [ratingChecked, setRatingChecked] = useState([
         {
             id: 1,
@@ -437,8 +438,8 @@ function Community() {
             <div className="line4" />
             <div className="toprecom">
                 <h2>TOP RECOMMENDATIONS</h2>
-                {isLoading && <CircularProgress className="spinner" />}
-                {listLikes ? (
+                {isLoadingLikes && <CircularProgress className="spinner" />}
+                {!isLoadingLikes && listLikes ? (
                     <>
                         <span className="smallScreen-Community">
                             <div className="toprecom-content">
@@ -694,14 +695,14 @@ function Community() {
                     </>
                 ) : (
                     // If the info can"t be loaded, then display a message
-                    !isLoading && <h2>Found no orders</h2>
+                    !isLoadingLikes && <h2>Found no orders</h2>
                 )}
             </div>
             <div className="line4" />
             <div className="recent">
                 <h2>RECENT</h2>
-                {isLoading && <CircularProgress className="spinner" />}
-                {listReviewsRecent ? (
+                {isLoadingRecent && <CircularProgress className="spinner" />}
+                {!isLoadingRecent && listReviewsRecent ? (
                     <>
                         <span className="smallScreen-Community">
                             <div className="recent-content">
@@ -953,7 +954,7 @@ function Community() {
                     </>
                 ) : (
                     // If the info can"t be loaded, then display a message
-                    !isLoading && <h2>Found no orders</h2>
+                    !isLoadingRecent && <h2>Found no orders</h2>
                 )}
             </div>
             <Post />
