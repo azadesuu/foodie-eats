@@ -192,9 +192,7 @@ function ReviewsSmallScreen(props) {
                             color: "#000000"
                         }}
                         ref={anchorRef}
-                        aria-controls={
-                            open ? "composition-menu" : undefined
-                        }
+                        aria-controls={open ? "composition-menu" : undefined}
                         aria-expanded={open ? "true" : undefined}
                         aria-haspopup="true"
                         onClick={handleToggle}
@@ -266,9 +264,7 @@ function ReviewsSmallScreen(props) {
                                                             }) => {
                                                                 return (
                                                                     <div
-                                                                        key={
-                                                                            id
-                                                                        }
+                                                                        key={id}
                                                                     >
                                                                         <li>
                                                                             <input
@@ -319,9 +315,7 @@ function ReviewsSmallScreen(props) {
                                                             }) => {
                                                                 return (
                                                                     <div
-                                                                        key={
-                                                                            id
-                                                                        }
+                                                                        key={id}
                                                                     >
                                                                         <li>
                                                                             <input
@@ -422,7 +416,8 @@ function ReviewsSmallScreen(props) {
                                                         filterInputRating &&
                                                         filterInputRating.some(
                                                             rating =>
-                                                                resRating === rating
+                                                                resRating ===
+                                                                rating
                                                         ) &&
                                                         filterInputPriceRange &&
                                                         filterInputPriceRange.some(
@@ -453,7 +448,8 @@ function ReviewsSmallScreen(props) {
                                                         filterInputRating &&
                                                         filterInputRating.some(
                                                             rating =>
-                                                                resRating === rating
+                                                                resRating ===
+                                                                rating
                                                         )
                                                     );
                                                 }
