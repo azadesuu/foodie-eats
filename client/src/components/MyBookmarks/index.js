@@ -892,11 +892,6 @@ function MyBookmarks() {
         () => getBookmarks({ bookmarks: userProfile.bookmarks }),
         { enabled: !!userProfile }
     );
-    const { data: listReviews } = useQuery(
-        "my-reviews",
-        () => getMyReviews(user?._id),
-        { enabled: !!user }
-    );
 
     return (
         <>
@@ -913,7 +908,7 @@ function MyBookmarks() {
                         <Post />
                     </span>
                     <span className="bigScreen-MyBookmarks">
-                        <TopUser user={userProfile} listReviews={listReviews} />
+                        <TopUser user={userProfile} />
 
                         <div className="line5" />
                         <div className="r1">

@@ -298,21 +298,16 @@ function MyProfile() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-    const { data: listReviews } = useQuery(
-        "my-reviews",
-        () => getMyReviews(user?._id),
-        { enabled: !!user }
-    );
     return (
         <>
-            {userProfile && !isLoading ? (
+            {userProfile ? (
                 <div className="content-MyProfile">
                     <SEO data={allSEO.myprofile} />
                     <span className="smallScreen-MyProfile">
                         <ProfileDetails user={userProfile} />
                     </span>
                     <span className="bigScreen-MyProfile">
-                        <TopUser user={userProfile} listReviews={listReviews} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />

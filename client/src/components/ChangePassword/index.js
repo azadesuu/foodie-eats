@@ -141,22 +141,17 @@ function ChangePassword() {
         () => getProfile(user?.username),
         { enabled: !!user }
     );
-    const { data: listReviews, isLoading: isLoading2 } = useQuery(
-        "my-reviews",
-        () => getMyReviews(user?._id),
-        { enabled: !!user }
-    );
 
     return (
         <>
             <SEO data={allSEO.changepassword} />
-            {user && userProfile && listReviews ? (
+            {user && userProfile ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">
                         <ChangePwDetails isLoading={isLoading} user={user} />
                     </span>
                     <span className="bigScreen-ChangePassword">
-                        <TopUser user={userProfile} listReviews={listReviews} />
+                        <TopUser user={userProfile} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
