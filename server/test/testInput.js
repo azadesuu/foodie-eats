@@ -1,40 +1,40 @@
 const mongoose = require("mongoose");
 
 // Unit tests
-//Register
+// Register
 exports.newUser = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserDupEmail = {
   username: "azadesuu2",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserDupUsername = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserNoEmail = {
-  username: "azadesuu",
-  password: "testing123@"
+  username: "azadesuu22",
+  password: "Testing123@"
 };
 
 exports.newUserInvalidUname = {
   username: "azadesuu?!",
   email: "sawy@student.unimelb.edu.au",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserInvalidEmail = {
-  username: "azadesuu",
+  username: "azadesuu22",
   email: "sawystudent.unimelb.edu.au",
-  password: "testing123@"
+  password: "Testing123@"
 };
 
 exports.newUserNoPassword = {
@@ -45,7 +45,7 @@ exports.newUserNoPassword = {
 //login
 exports.loginValidEmail = {
   email: "azadesuu@gmail.com",
-  password: "test123@"
+  password: "Testing123@"
 };
 
 // integration tests
@@ -55,7 +55,7 @@ exports.userTests = [
     _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
     username: "celenesaw",
     email: "azadesuu@gmail.com",
-    password: "$2b$10$Q24bQEVo3HUTzbshMaAvVutFFfz8wwzSdFPtPU2t6kCqHV5tAPh2W"
+    password: "$2b$10$Mg/B.0mOBAEUY5lsu1wa2ujKUywGPy2HB5.li45RCRYm.mcCDs1Cy"
   },
   {
     _id: mongoose.Types.ObjectId("6354ee5fd7bf245d8940dd69"),
@@ -73,33 +73,217 @@ exports.userTests = [
 
 exports.reviewTests = [
   {
-    _id: mongoose.Types.ObjectId("6354f048d7bf245d8940dd8e"),
+    _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
     userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
-    dateVisited: new Date("1665792000000"),
-    restaurantName: "Florentino",
-    address: {
-      streetAddress: "80 Bourke St",
-      postcode: 3000,
-      state: "VIC",
-      suburb: "Melbourne CBD",
-      country: "Australia",
-      _id: mongoose.Types.ObjectId("6354f048d7bf245d8940dd8f")
-    },
-    priceRange: 4,
-    rating: 3,
-    description: "Restaurant test 5",
+    restaurantName: "Restaurant",
     reviewImage: "",
     isPublic: true,
-    tags: []
+    priceRange: 3,
+    rating: 5,
+    address: {
+      _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd73"),
+      streetAddress: "test",
+      postcode: 3000,
+      state: "VIC",
+      suburb: "test",
+      country: "Australia"
+    },
+    tags: [],
+    description: "description"
+  },
+  {
+    _id: mongoose.Types.ObjectId("6354efb3d7bf245d8940dd79"),
+    userId: mongoose.Types.ObjectId("6354f876d7bf245d8940e058"),
+    restaurantName: "Restaurant",
+    reviewImage: "",
+    isPublic: true,
+    priceRange: 3,
+    rating: 5,
+    address: {
+      _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd73"),
+      streetAddress: "test",
+      postcode: 3000,
+      state: "VIC",
+      suburb: "test",
+      country: "Australia"
+    },
+    tags: [],
+    description: "description other"
   }
 ];
 
 // login tests
 exports.integrationUser = {
   email: "azadesuu@gmail.com",
-  password: "test123@"
+  password: "Testing123@"
 };
 exports.wrongIntegrationUser = {
   email: "azadesuu@gmail.com",
   password: "wrongpassword"
 };
+exports.wrongIntegrationUser2 = {
+  email: "azadesuu.wrong@gmail.com",
+  password: "wrongpassword"
+};
+
+//REVIEW METHODS
+//create review1
+exports.createReview1 = {
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Resto",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: true,
+  priceRange: 3,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description "
+};
+//create review2
+exports.createReview2 = {
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Resto2",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: true,
+  priceRange: 3,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description "
+};
+exports.createReviewWrongUserId = {
+  restaurantName: "Resto2",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: true,
+  priceRange: 3,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description "
+};
+exports.createReviewWrongDateVisited = {
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Resto2",
+  reviewImage: "",
+  isPublic: true,
+  priceRange: 3,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description "
+};
+
+//update review
+exports.updateReviewPriceRange = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Restaurant",
+  reviewImage: "",
+  isPublic: true,
+  dateVisited: "20220812",
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description"
+};
+
+exports.updateReviewDescription = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Restaurant",
+  reviewImage: "",
+  dateVisited: "20220812",
+  isPublic: true,
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
+exports.updateReviewNoId = {
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Restaurant",
+  reviewImage: "",
+  isPublic: true,
+  priceRange: 4,
+  dateVisited: "20220812",
+  rating: 5,
+  address: {
+    streetAddress: "test",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "test",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
+exports.bookmarksList = {
+  bookmarks: [mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72")]
+};
+
+exports.updateUser1 = {
+  bio: "Let's change this user's bio.",
+  username: "celenesaw1",
+  email: "sawcelene2001@gmail.com"
+};
+
+exports.updateUser1Password = {
+  _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  oldPassword: "Testing123@",
+  password: "Testing123@@"
+};
+exports.updateUser1PasswordWeak = {
+  _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  oldPassword: "Testing123@",
+  password: "lol"
+};
+// change theme
+exports.changeThemeUser1 = { newTheme: "blueberry" };
+exports.changeThemeUser1wrong = { newTheme: "error" };
+
+// MANUAL TESTS:
+//  - reset/forgot password (requires external email access)
+//  - change image

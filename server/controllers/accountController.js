@@ -6,7 +6,7 @@ const { cloudinary } = require("../config/cloudinary");
 //regexs
 const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
 const validUsername = new RegExp(
-  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){4,14}[a-zA-Z0-9]$"
 );
 const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -246,7 +246,10 @@ const bookmarkReview = async (req, res, next) => {
 };
 
 const checkUpdateUser = async (req, res, next) => {
-  const { username, email, bio } = req.body;
+  let { username, email, bio } = req.body;
+  if (username) username = username.toLowerCase().trim();
+  if (email) email = email.toLowerCase().trim();
+
   //check if username and email is valid
   if (!username && !email && !bio) {
     res.status(204).json({
@@ -257,7 +260,7 @@ const checkUpdateUser = async (req, res, next) => {
     return;
   } else if (username || email) {
     if (username) {
-      if (!validUsername.test(username?.toLowerCase().trim())) {
+      if (!validUsername.test(username)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -268,7 +271,7 @@ const checkUpdateUser = async (req, res, next) => {
     }
 
     if (email) {
-      if (!validEmail.test(email?.toLowerCase().trim())) {
+      if (!validEmail.test(email)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -291,13 +294,17 @@ const checkUpdateUser = async (req, res, next) => {
   } else {
     // check if there is an existing user with the email
     if (username || email) {
-      const oneUser = await User.findOne({
-        $or: [
-          { username: username.toLowerCase() },
-          { email: email.toLowerCase() }
-        ]
-      });
-      if (oneUser) {
+      let user1;
+      let user2;
+      if (username) {
+        user1 = await User.findOne({ username: username });
+      }
+      if (email) {
+        user2 = await User.findOne({
+          email: email
+        });
+      }
+      if (user1 || user2) {
         res.status(400).json({
           success: false,
           message: `Existing user with entered username/email.`,
@@ -315,13 +322,17 @@ const updateUser = async (req, res, next) => {
   const { username, email, bio } = req.body;
 
   try {
-    const newUser = await User.findByIdAndUpdate(_id, {
-      $set: {
-        username: username,
-        email: email,
-        bio: bio
-      }
-    });
+    const newUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          username: username,
+          email: email,
+          bio: bio
+        }
+      },
+      { new: true }
+    );
     if (!newUser) {
       res.status(204).json({
         success: true,
@@ -346,45 +357,65 @@ const updateUser = async (req, res, next) => {
 };
 
 const checkUpdatePassword = async (req, res, next) => {
-  const { id, password } = req.body;
-  if (!id || !password) {
+  const { _id, oldPassword, password } = req.body;
+  if (!_id || !password || !oldPassword) {
     res.status(400).json({
       success: false,
       message: "User/password is not defined.",
       data: undefined
     });
-  } else if (!strongPassword.match(password)) {
+    return;
+  } else if (!strongPassword.test(password)) {
     res.status(400).json({
       success: false,
       message: "Password is not strong enough.",
       data: undefined
     });
+    return;
   }
   next();
 };
 
 const updatePassword = async (req, res, next) => {
   const _id = req.body._id;
+  const oldPassword = req.body.oldPassword;
   const newPassword = req.body.password;
 
   try {
-    const result = await User.findByIdAndUpdate(_id, {
-      password: User.generateHash(newPassword)
-    });
-    if (!newUser) {
+    const user = await User.findById(_id);
+    if (!user) {
       res.status(204).json({
         success: true,
-        message: "No user found, password not updated.",
-        data: {}
+        message: "No user found, password not updated."
       });
+      return;
+    }
+    // if the users password match
+    if (user.validPassword(oldPassword)) {
+      const result = await User.findByIdAndUpdate(_id, {
+        password: user.generateHash(newPassword)
+      });
+      if (!result) {
+        res.status(204).json({
+          success: true,
+          message: "Password wasn't updated.",
+          data: {}
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "Successfully updated password.",
+          data: result
+        });
+      }
     } else {
-      res.status(200).json({
-        success: true,
-        message: "Successfully updated password.",
-        data: result
+      res.status(400).json({
+        success: false,
+        message: "Passwords don't match."
       });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating password.",
@@ -394,11 +425,19 @@ const updatePassword = async (req, res, next) => {
 };
 
 const checkChangeTheme = async (req, res, next) => {
+  const themes = ["blueberry", "shokupan", "honeydew", "boring", "dragonfruit"];
   const { newTheme } = req.body;
   if (!newTheme) {
     res.status(400).json({
       success: false,
       message: "New theme is not defined.",
+      data: undefined
+    });
+    return;
+  } else if (!themes.includes(newTheme)) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not available.",
       data: undefined
     });
     return;
