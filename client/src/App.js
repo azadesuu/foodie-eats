@@ -42,7 +42,7 @@ function App() {
             if (newUser) {
                 setUser(newUser);
                 if (!currTheme) {
-                    localStorage.setItem("theme", newUser.body.theme);
+                    localStorage.setItem("theme", newUser.theme);
                 }
             }
         };
