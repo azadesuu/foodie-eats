@@ -100,7 +100,7 @@ span.smallScreen-Theme {
 }
 .honeydew #current,
 .honeydew .footer,
-.honeydew #btn,
+
 .honeydew .image-edit,
 .honeydew #navbar-login,
 .honeydew #top-recom-big::-webkit-scrollbar-thumb,
@@ -127,7 +127,8 @@ span.smallScreen-Theme {
 .honeydew input[type="checkbox"]:checked {
     accent-color: #e4f3d3;
 }
-.honeydew #navbar-login {
+.honeydew #navbar-login,
+.honeydew #btn {
     background-color: #bee5b0;
 }
 .honeydew .searchResult .line5 {
