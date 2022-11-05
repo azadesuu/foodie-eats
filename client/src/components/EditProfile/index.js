@@ -4,7 +4,7 @@ import { useState } from "react";
 import { updateUser } from "../../api";
 
 const EditProfile = data => {
-    const { _id, username, email, bio, profileImage, navigation } = data;
+    const { _id, username, email, bio, navigation } = data;
 
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);

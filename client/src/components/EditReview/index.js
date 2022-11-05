@@ -2,7 +2,7 @@ import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./EditReview.css";
 import "@fontsource/martel-sans";
-import addImage from "../../assets/images/addImage.png";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -19,12 +19,10 @@ import Moment from "moment";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import {
     FormControl,
-    InputLabel,
     Select,
     MenuItem,
     CircularProgress
 } from "@mui/material";
-import NavLoggedIn from "../LoggedInNavBar";
 import { deleteNewImage, uploadNewImage } from "../../api";
 
 function EditReview() {

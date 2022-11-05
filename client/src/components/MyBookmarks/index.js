@@ -3,9 +3,9 @@ import SEO from "../SEO";
 import React from "react"; // required
 import "./MyBookmarks.css";
 
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { getBookmarks, getProfile, getMyReviews } from "../../api";
+import { getBookmarks, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
 
 import "@fontsource/martel-sans";

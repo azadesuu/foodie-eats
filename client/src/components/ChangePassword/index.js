@@ -7,7 +7,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
-import { updatePassword, getProfile, getMyReviews } from "../../api";
+import { updatePassword, getProfile } from "../../api";
 import { CircularProgress } from "@mui/material";
 
 import "@fontsource/martel-sans";

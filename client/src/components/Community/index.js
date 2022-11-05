@@ -24,7 +24,6 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import ReviewPeek from "../ReviewPeek";
-import { resolveComponentProps } from "@mui/base";
 
 function SearchBar(props) {
     const ratingChecked = props.ratingChecked;

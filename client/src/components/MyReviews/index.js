@@ -5,9 +5,8 @@ import "./MyReviews.css";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
-import { getMyReviews } from "../../api";
+import { getMyReviews, getProfile } from "../../api";
 import { useQuery } from "react-query";
-import { getProfile } from "../../api";
 
 import "@fontsource/martel-sans";
 

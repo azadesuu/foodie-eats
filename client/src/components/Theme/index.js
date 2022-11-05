@@ -15,8 +15,6 @@ import Dragonfruit from "../../assets/images/Dragonfruit.svg";
 import HoneyDew from "../../assets/images/HoneyDew.svg";
 import Shokupan from "../../assets/images/Shokupan.svg";
 
-import Avatar from "@mui/material/Avatar";
-
 function Sidebar() {
     return (
         <div className="sidebar-content">

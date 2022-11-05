@@ -4,7 +4,6 @@ import "./PostReview.css";
 
 import "@fontsource/martel-sans";
 
-import addImage from "../../assets/images/addImage.png";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
