@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 axios.interceptors.request.use(
     config => {
         const { origin } = new URL(config.url);
         const allowedOrigins = [SERVER_URL];
         const token = localStorage.getItem("token");
-        console.log(origin);
         if (allowedOrigins.includes(origin) && token) {
             config.headers["authorization"] = `${token}`;
         }
@@ -53,13 +52,12 @@ export const loginUser = async user => {
 };
 
 // Get user associated with stored token
-export const getUser = async jwt => {
-    const headers = {
-        headers: { "x-auth-token": jwt }
-    };
+export const getUser = async () => {
     return await axios
-        .get(`${SERVER_URL}/findTokenUser`, headers)
-        .then(res => res?.data?.data)
+        .get(`${SERVER_URL}/findTokenUser`)
+        .then(res => {
+            return res?.data?.data;
+        })
         .catch(err => console.log(err));
 };
 

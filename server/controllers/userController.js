@@ -101,7 +101,7 @@ const signupUser = async (req, res, next) => {
 const getTokenUser = async (req, res) => {
   try {
     const token = req.headers["authorization"];
-    if (!token) return res.json(false);
+    if (!token) return res.status(204).json(false);
     const decoded = jwt.verify(token, process.env.PASSPORT_KEY);
 
     res.status(200).json({
