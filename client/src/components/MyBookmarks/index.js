@@ -3,7 +3,7 @@ import SEO from "../SEO";
 import React from "react"; // required
 import "./MyBookmarks.css";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getBookmarks, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
@@ -11,7 +11,6 @@ import { UserContext } from "../../actions/UserContext";
 import "@fontsource/martel-sans";
 
 import ReviewPeek from "../ReviewPeek";
-import TopUser from "../TopUser";
 
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -22,6 +21,7 @@ import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
+import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -47,6 +47,37 @@ function Post() {
                     }}
                 />
             </IconButton>
+        </div>
+    );
+}
+
+function TopUser(props) {
+    const userProfile = props.user;
+    return (
+        <div className="top-user">
+            <div className="top-user-r1">
+                <Avatar
+                    alt="user-profile-image"
+                    src={
+                        userProfile.profileImage !== ""
+                            ? userProfile.profileImage
+                            : null
+                    }
+                    sx={{ height: 130, width: 130 }}
+                />
+                <div className="top-user-info">
+                    <h2>{userProfile.username}</h2>
+                    <p>{userProfile.bio}</p>
+                </div>
+            </div>
+            <div className="top-user-rev">
+                <p>
+                    <span className="detail">7</span> reviews
+                </p>
+                <p>
+                    <span className="detail">10k</span> likes
+                </p>
+            </div>
         </div>
     );
 }
@@ -878,21 +909,17 @@ function ReviewsBigScreen(props) {
 function MyBookmarks() {
     const [user] = useContext(UserContext);
 
-    const { data: userProfile, isLoading: isLoading } = useQuery(
+    const { data: userProfile, isLoading } = useQuery(
         "bookmarks",
         () => getProfile(user?.username),
         { enabled: !!user }
     );
 
-    const {
-        data: bookmarks,
-        isLoading: isLoading2
-    } = useQuery(
+    const { data: bookmarks, isLoading2 } = useQuery(
         "bookmarked-reviews",
         () => getBookmarks({ bookmarks: userProfile.bookmarks }),
         { enabled: !!userProfile }
     );
-
     return (
         <>
             {(isLoading2 || isLoading) && (

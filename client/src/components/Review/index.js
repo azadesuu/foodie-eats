@@ -4,10 +4,12 @@ import "./Review.css";
 import "@fontsource/martel-sans";
 
 import { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
 import { useQuery } from "react-query";
+import { TagsInput } from "react-tag-input-component";
 
+import addImage from "../../assets/images/addImage.png";
 import { getReview, toggleLike, toggleBookmark, getProfile } from "../../api";
 
 import { CircularProgress } from "@mui/material";
@@ -17,6 +19,7 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Moment from "moment";
 
+import ImageIcon from "@mui/icons-material/Image";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
@@ -106,9 +109,7 @@ function Review(props) {
 
     return (
         <div className="content-Review">
-            {isLoading && !review && (
-                <CircularProgress className="spinner" sx={{ ml: 0 }} />
-            )}
+            {isLoading && !review && <CircularProgress className="spinner" />}
             {review ? (
                 <div className="user-container">
                     <SEO
@@ -537,7 +538,9 @@ function Review(props) {
                     </span>
                 </div>
             ) : (
-                !isLoading && <h1>Review Not Found.</h1>
+                <div>
+                    <h1>Review Not Found.</h1>
+                </div>
             )}
         </div>
     );

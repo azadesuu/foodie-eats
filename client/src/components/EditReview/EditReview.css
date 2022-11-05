@@ -112,6 +112,7 @@ span.smallScreen-EditReview {
     outline: none;
     width: 100%;
     padding: 10px 15px;
+    background-color: #ffffff;
     border-radius: 10px;
     border: 1px solid #000000;
     height: 140px;
@@ -120,7 +121,7 @@ span.smallScreen-EditReview {
 .content-EditReview textarea {
     resize: none;
 }
-textarea .content-EditReview .r1 {
+.content-EditReview .r1 {
     display: flex;
     flex-direction: row;
     width: 100%;

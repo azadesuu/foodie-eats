@@ -4,6 +4,7 @@ import "./PostReview.css";
 
 import "@fontsource/martel-sans";
 
+import addImage from "../../assets/images/addImage.png";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -155,9 +156,7 @@ function PostReview() {
         <div className="content-PostReview">
             <SEO data={allSEO.postreview} />
 
-            {isLoading && (
-                <CircularProgress className="spinner" sx={{ ml: 0 }} />
-            )}
+            {isLoading && <CircularProgress className="spinner" />}
             {!isLoading && userProfile && (
                 <div className="user-container">
                     <h1>POST</h1>
@@ -392,7 +391,6 @@ function PostReview() {
                                     <textarea
                                         type="text"
                                         placeholder="description..."
-                                        maxLength={150}
                                         onChange={e => {
                                             setDescription(e.target.value);
                                         }}
@@ -404,13 +402,9 @@ function PostReview() {
                                         name="tags"
                                         value={tags}
                                         placeHolder="#tags"
-                                        maxLength={20}
                                         onChange={setTags}
                                     />
                                 </div>
-                                <span className="helper-text-post">
-                                    maximum of 150 characters
-                                </span>
                             </div>
                             <div className="add-image">
                                 <label>
@@ -612,7 +606,6 @@ function PostReview() {
                                             <textarea
                                                 type="text"
                                                 placeholder="description..."
-                                                maxLength={150}
                                                 onChange={e => {
                                                     setDescription(
                                                         e.target.value
@@ -626,13 +619,9 @@ function PostReview() {
                                                 name="tags"
                                                 value={tags}
                                                 placeHolder="#tags"
-                                                maxLength={20}
                                                 onChange={setTags}
                                             />
                                         </div>
-                                        <span className="helper-text-post">
-                                            Maximum of 150 characters
-                                        </span>
                                     </div>
                                 </div>
                                 <div className="r3-content2">

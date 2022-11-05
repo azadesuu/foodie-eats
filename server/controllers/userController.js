@@ -24,9 +24,8 @@ const loginUser = async (req, res, next) => {
         });
         return;
       } else if (!user) {
-        return res.status(400).json({
-          message: "No user was found with the given user/email"
-        });
+        const error = new Error("No user was found with the given user/email");
+        return res.status(400).json({ err: error });
       } else {
         req.logIn(user, { session: false }, async error => {
           if (error) return next(error);
@@ -129,7 +128,7 @@ const resetPassword = async (req, res) => {
       return res.status(400).send({ message: "Invalid userId in link" });
 
     const token = await Token.findOne({
-      userId: user._id,
+      _id: user._id,
       token: req.params.token
     });
     if (!token)
@@ -175,7 +174,7 @@ const forgotPassword = async (req, res) => {
       }).save();
     }
 
-    const link = `${process.env.SERVER_URL}reset-password/${user._id}/${token.token}`;
+    const link = `${process.env.SERVER_URL}password-reset/${user._id}/${token.token}`;
     await sendEmail(user.email, "Password reset", link);
     console.log(link);
 
