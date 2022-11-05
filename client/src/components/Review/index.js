@@ -109,7 +109,9 @@ function Review(props) {
 
     return (
         <div className="content-Review">
-            {isLoading && !review && <CircularProgress className="spinner" sx={{ml: 0}}/>}
+            {isLoading && !review && (
+                <CircularProgress className="spinner" sx={{ ml: 0 }} />
+            )}
             {review ? (
                 <div className="user-container">
                     <SEO

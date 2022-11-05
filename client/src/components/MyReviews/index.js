@@ -69,8 +69,7 @@ function Sidebar() {
 
 function ReviewsSmallScreen(props) {
     const user = props.user;
-    const { data: listReviews, isLoading } = useQuery(
-        "my-reviews", () =>
+    const { data: listReviews, isLoading } = useQuery("my-reviews", () =>
         getMyReviews(user?._id)
     );
     const [input, setInput] = useState("");
@@ -926,7 +925,7 @@ function MyReviews() {
         () => getMyReviews(user?._id),
         { enabled: !!user }
     );
-    
+
     return (
         <>
             {userProfile ? (

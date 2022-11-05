@@ -149,22 +149,22 @@ function ChangePassword() {
         () => getMyReviews(user?._id),
         { enabled: !!user }
     );
-    
+
     return (
         <>
             <SEO data={allSEO.changepassword} />
             {user ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">
-                        <ChangePwDetails user={user}/>
+                        <ChangePwDetails user={user} />
                     </span>
                     <span className="bigScreen-ChangePassword">
-                        <TopUser user={userProfile} listReviews={listReviews}/>
+                        <TopUser user={userProfile} listReviews={listReviews} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            <ChangePwDetails user={user}/>
+                            <ChangePwDetails user={user} />
                         </div>
                     </span>
                 </div>

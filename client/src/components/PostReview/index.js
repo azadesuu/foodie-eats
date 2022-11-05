@@ -156,7 +156,9 @@ function PostReview() {
         <div className="content-PostReview">
             <SEO data={allSEO.postreview} />
 
-            {isLoading && <CircularProgress className="spinner" sx={{ml: 0}}/>}
+            {isLoading && (
+                <CircularProgress className="spinner" sx={{ ml: 0 }} />
+            )}
             {!isLoading && userProfile && (
                 <div className="user-container">
                     <h1>POST</h1>

@@ -5,7 +5,7 @@ import {
     deleteNewImage,
     deleteProfileImage,
     uploadNewImage,
-    uploadProfileImage,
+    uploadProfileImage
 } from "../../api";
 
 const ProfileImageUpload = props => {
@@ -76,7 +76,7 @@ const ProfileImageUpload = props => {
             await setPreviewImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-    
+
     return (
         <div className="image-edit">
             <label>
