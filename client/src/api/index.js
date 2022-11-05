@@ -4,10 +4,24 @@ const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 export const setAuthToken = async token => {
     if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios.defaults.headers.common["Authorization"] = `${token}`;
     } else delete axios.defaults.headers.common["Authorization"];
 };
 
+axios.interceptors.request.use(
+    config => {
+        const { origin } = new URL(config.url);
+        const allowedOrigins = [SERVER_URL];
+        const token = localStorage.getItem("token");
+        if (allowedOrigins.includes(origin) && token) {
+            config.headers.authorization = `${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export const loginUser = async user => {
     const { email, password } = user;

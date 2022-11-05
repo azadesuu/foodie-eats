@@ -337,9 +337,12 @@ describe("Integration tests: Review methods", () => {
     it("Valid access token provided", async function() {
       return await request(app)
         .get("/findTokenUser")
-        .send("Authorization", "Bearer " + access_token)
+        .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
+          res.body.data.body.should.includes({
+            username: testInput.userTests[0].username
+          });
         });
     });
   });
