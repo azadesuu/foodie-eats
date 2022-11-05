@@ -23,7 +23,6 @@ import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
-import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
