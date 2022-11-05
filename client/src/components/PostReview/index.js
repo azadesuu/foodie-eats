@@ -615,7 +615,9 @@ function PostReview() {
                                                 placeholder="description..."
                                                 maxLength={150}
                                                 onChange={e => {
-                                                    setDescription(e.target.value);
+                                                    setDescription(
+                                                        e.target.value
+                                                    );
                                                 }}
                                                 required
                                             />

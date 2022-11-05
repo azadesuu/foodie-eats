@@ -75,7 +75,9 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <span className="helper-text">Maximum of 16 characters</span>
+                    <span className="helper-text">
+                        Maximum of 16 characters
+                    </span>
                     <div className="form-control-profile">
                         <label>Email </label>
                         <input
@@ -102,9 +104,11 @@ const EditProfile = data => {
                                 setBioEdit(event.target.value);
                             }}
                         />
-                        <span className="helper-text">Maximum of 100 characters</span>
+                        <span className="helper-text">
+                            Maximum of 100 characters
+                        </span>
                     </div>
-                    
+
                     <button
                         id="btn"
                         className="edit-profile-done"
