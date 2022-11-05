@@ -100,16 +100,20 @@ const signupUser = async (req, res, next) => {
 
 const getTokenUser = async (req, res) => {
   try {
-    const token = req.headers["x-auth-token"];
+    const token = req.headers["authorization"];
     if (!token) return res.json(false);
     const decoded = jwt.verify(token, process.env.PASSPORT_KEY);
 
     res.status(200).json({
       success: true,
-      data: decoded
+      data: decoded.body
     });
+    return;
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      message: "Error occured while validating token",
+      error: err.message
+    });
   }
 };
 

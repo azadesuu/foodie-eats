@@ -330,7 +330,6 @@ function Community() {
         data: listReviewsRecent,
         isLoading: isLoadingRecent
     } = useQuery("listReviewsRecent", () => getCommunityRecent());
-    console.log(isLoadingRecent);
     const [ratingChecked, setRatingChecked] = useState([
         {
             id: 1,

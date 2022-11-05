@@ -261,8 +261,8 @@ describe("Unit tests ", () => {
 // Integration Tests
 describe("Integration tests: Review methods", () => {
   let access_token;
-  let userId = "6354408a37d91973c1246a57";
-  let reviewId = "6354ef7ed7bf245d8940dd72";
+  let userId = testInput.userId;
+  let reviewId = testInput.reviewId;
 
   // before all tests
   before(async () => {
@@ -303,6 +303,7 @@ describe("Integration tests: Review methods", () => {
         .then(function(res) {
           assert.equal(200, res.statusCode);
           // setting tokens for user_auth
+          assert.equal(true, res.body !== undefined);
           access_token = res.body;
         });
     });
@@ -336,9 +337,12 @@ describe("Integration tests: Review methods", () => {
     it("Valid access token provided", async function() {
       return await request(app)
         .get("/findTokenUser")
-        .send("Authorization", "Bearer " + access_token)
+        .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
+          res.body.data.should.includes({
+            username: testInput.userTests[0].username
+          });
         });
     });
   });
@@ -407,6 +411,37 @@ describe("Integration tests: Review methods", () => {
           });
         });
     });
+
+    it("Updates a review: Review 1 (Private)", async function() {
+      return await request(app)
+        .patch("/review/updateReview")
+        .send(testInput.updateReviewPrivate)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review updated."
+          });
+          res.body.data.should.includes({
+            isPublic: false
+          });
+        });
+    });
+
+    it("Updates a review: Review 1 (Public)", async function() {
+      return await request(app)
+        .patch("/review/updateReview")
+        .send(testInput.updateReviewPublic)
+        .then(function(res) {
+          assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Review updated."
+          });
+          res.body.data.should.includes({
+            isPublic: true
+          });
+        });
+    });
+
     it("Doesn't update a review: Review (No Review Id) ", async function() {
       return await request(app)
         .patch("/review/updateReview")
@@ -447,6 +482,9 @@ describe("Integration tests: Review methods", () => {
         .send({ likeBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Like boolean was not received."
+          });
         });
     });
   });
@@ -473,10 +511,10 @@ describe("Integration tests: Review methods", () => {
 // Integration Tests
 describe("Integration tests: Account methods", () => {
   let access_token;
-  let userId = "6354408a37d91973c1246a57";
-  let userId2 = "6354ee5fd7bf245d8940dd69";
-  let userId3 = "6354f876d7bf245d8940e058";
-  let reviewId = "6354ef7ed7bf245d8940dd72";
+  let userId = testInput.userId;
+  let userId2 = testInput.userId2;
+  let userId3 = testInput.userId3;
+  let reviewId = testInput.reviewId;
 
   // before all tests
   before(async () => {
@@ -615,6 +653,9 @@ describe("Integration tests: Account methods", () => {
         .send({ bookmarkedBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "Bookmarked bool was not received."
+          });
         });
     });
   });
@@ -684,12 +725,26 @@ describe("Integration tests: Account methods", () => {
           });
         });
     });
+    it("Updates user theme: Undefined Theme", async function() {
+      return await request(app)
+        .patch(`/account/changeTheme/${userId}`)
+        .send(testInput.changeThemeUser1Undefined)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "New theme is not defined."
+          });
+        });
+    });
     it("Updates user theme: Invalid theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
         .send(testInput.changeThemeUser1wrong)
         .then(function(res) {
           assert.equal(400, res.statusCode);
+          res.body.should.includes({
+            message: "New theme is not available."
+          });
         });
     });
     it("Updates user details", async function() {
@@ -699,6 +754,24 @@ describe("Integration tests: Account methods", () => {
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.data.should.includes(testInput.updateUser1);
+        });
+    });
+    it("Updates user details: Invalid username", async function() {
+      return await request(app)
+        .patch(`/account/updateUser/${userId}`)
+        .send(testInput.updateUser1InvalidUsername)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({ message: "Username/Email is not valid." });
+        });
+    });
+    it("Updates user details: Invalid email", async function() {
+      return await request(app)
+        .patch(`/account/updateUser/${userId}`)
+        .send(testInput.updateUser1InvalidEmail)
+        .then(function(res) {
+          assert.equal(400, res.statusCode);
+          res.body.should.includes({ message: "Username/Email is not valid." });
         });
     });
   });

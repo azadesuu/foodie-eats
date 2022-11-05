@@ -1,7 +1,7 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import { useState } from "react";
-import { loginUser, setAuthToken } from "../../api";
+import { loginUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
@@ -59,7 +59,6 @@ function Login() {
                 password: password
             });
             var token = localStorage.getItem("token");
-            setAuthToken(token);
             token ? document.location.reload() : navigate("/login");
         } catch (err) {
             alert(err);

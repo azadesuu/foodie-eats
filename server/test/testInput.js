@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-// Unit tests
-// Register
+// -------------- UNIT TESTS --------------
+// Registration
 exports.newUser = {
   username: "azadesuu",
   email: "azadesuu@gmail.com",
@@ -42,14 +42,13 @@ exports.newUserNoPassword = {
   email: "azadesuu@gmail.com"
 };
 
-//login
-exports.loginValidEmail = {
-  email: "azadesuu@gmail.com",
-  password: "Testing123@"
-};
+// -------------- INTEGRATION TESTS --------------
+exports.userId = "6354408a37d91973c1246a57";
+exports.userId2 = "6354ee5fd7bf245d8940dd69";
+exports.userId3 = "6354f876d7bf245d8940e058";
+exports.reviewId = "6354ef7ed7bf245d8940dd72";
 
-// integration tests
-
+// initialising database data
 exports.userTests = [
   {
     _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
@@ -75,17 +74,17 @@ exports.reviewTests = [
   {
     _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
     userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
-    restaurantName: "Restaurant",
+    restaurantName: "Carl's Jr",
     reviewImage: "",
     isPublic: true,
     priceRange: 3,
     rating: 5,
     address: {
       _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd73"),
-      streetAddress: "test",
+      streetAddress: "17 Franklin St",
       postcode: 3000,
       state: "VIC",
-      suburb: "test",
+      suburb: "Melbourne",
       country: "Australia"
     },
     tags: [],
@@ -94,25 +93,24 @@ exports.reviewTests = [
   {
     _id: mongoose.Types.ObjectId("6354efb3d7bf245d8940dd79"),
     userId: mongoose.Types.ObjectId("6354f876d7bf245d8940e058"),
-    restaurantName: "Restaurant",
+    restaurantName: "Dragon Hot Pot",
     reviewImage: "",
     isPublic: true,
     priceRange: 3,
     rating: 5,
     address: {
       _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd73"),
-      streetAddress: "test",
+      streetAddress: "20 Franklin St",
       postcode: 3000,
       state: "VIC",
-      suburb: "test",
+      suburb: "Melbourne",
       country: "Australia"
     },
     tags: [],
     description: "description other"
   }
 ];
-
-// login tests
+// Login Tests
 exports.integrationUser = {
   email: "azadesuu@gmail.com",
   password: "Testing123@"
@@ -137,10 +135,10 @@ exports.createReview1 = {
   priceRange: 3,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "17 Resto St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
@@ -156,10 +154,10 @@ exports.createReview2 = {
   priceRange: 3,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "18 Resto St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
@@ -173,10 +171,10 @@ exports.createReviewWrongUserId = {
   priceRange: 3,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "18 Resto St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
@@ -190,7 +188,7 @@ exports.createReviewWrongDateVisited = {
   priceRange: 3,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "18 Resto St",
     postcode: 3000,
     state: "VIC",
     suburb: "test",
@@ -204,17 +202,17 @@ exports.createReviewWrongDateVisited = {
 exports.updateReviewPriceRange = {
   _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
   userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
-  restaurantName: "Restaurant",
+  restaurantName: "Carl's Jr",
   reviewImage: "",
-  isPublic: true,
   dateVisited: "20220812",
+  isPublic: true,
   priceRange: 4,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "17 Franklin St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
@@ -224,17 +222,57 @@ exports.updateReviewPriceRange = {
 exports.updateReviewDescription = {
   _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
   userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
-  restaurantName: "Restaurant",
-  reviewImage: "",
+  restaurantName: "Carl's Jr",
   dateVisited: "20220812",
+  reviewImage: "",
   isPublic: true,
   priceRange: 4,
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "17 Franklin St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
+exports.updateReviewPrivate = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Carl's Jr",
+  dateVisited: "20220812",
+  reviewImage: "",
+  isPublic: false,
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "17 Franklin St",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "Melbourne",
+    country: "Australia"
+  },
+  tags: [],
+  description: "description updated!"
+};
+
+exports.updateReviewPublic = {
+  _id: mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72"),
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
+  restaurantName: "Carl's Jr",
+  dateVisited: "20220812",
+  reviewImage: "",
+  isPublic: true,
+  priceRange: 4,
+  rating: 5,
+  address: {
+    streetAddress: "17 Franklin St",
+    postcode: 3000,
+    state: "VIC",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
@@ -243,33 +281,45 @@ exports.updateReviewDescription = {
 
 exports.updateReviewNoId = {
   userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
-  restaurantName: "Restaurant",
+  restaurantName: "Carl's Jr",
+  dateVisited: "20220812",
   reviewImage: "",
   isPublic: true,
   priceRange: 4,
-  dateVisited: "20220812",
   rating: 5,
   address: {
-    streetAddress: "test",
+    streetAddress: "17 Franklin St",
     postcode: 3000,
     state: "VIC",
-    suburb: "test",
+    suburb: "Melbourne",
     country: "Australia"
   },
   tags: [],
   description: "description updated!"
 };
 
+//get bookmarks
 exports.bookmarksList = {
   bookmarks: [mongoose.Types.ObjectId("6354ef7ed7bf245d8940dd72")]
 };
 
+//update user
 exports.updateUser1 = {
   bio: "Let's change this user's bio.",
   username: "celenesaw1",
   email: "sawcelene2001@gmail.com"
 };
-
+exports.updateUser1InvalidUsername = {
+  bio: "Let's change this user's bio.",
+  username: "ce???!",
+  email: "sawcelene2001@gmail.com"
+};
+exports.updateUser1InvalidEmail = {
+  bio: "Let's change this user's bio.",
+  username: "celenesaw1",
+  email: "sawcelene2gmail"
+};
+//update user password
 exports.updateUser1Password = {
   _id: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
   oldPassword: "Testing123@",
@@ -280,10 +330,12 @@ exports.updateUser1PasswordWeak = {
   oldPassword: "Testing123@",
   password: "lol"
 };
-// change theme
+
+//update user theme
 exports.changeThemeUser1 = { newTheme: "blueberry" };
+exports.changeThemeUser1Undefined = { newTheme: undefined };
 exports.changeThemeUser1wrong = { newTheme: "error" };
 
 // MANUAL TESTS:
 //  - reset/forgot password (requires external email access)
-//  - change image
+//  - image change
