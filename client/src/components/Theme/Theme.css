@@ -4,7 +4,7 @@ span.bigScreen-Theme {
 span.smallScreen-Theme {
     display: none;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 930px) {
     span.bigScreen-Theme {
         display: none;
     }
@@ -16,7 +16,7 @@ span.smallScreen-Theme {
         font-size: 50px;
     }
 }
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 930px) {
     .content-Theme h1 {
         font-size: 60px;
     }
@@ -109,7 +109,7 @@ span.smallScreen-Theme {
 .honeydew #top-recom-small::-webkit-scrollbar-thumb,
 .honeydew #myreviews-small::-webkit-scrollbar-thumb,
 .honeydew #myreviews-big::-webkit-scrollbar-thumb,
-.honeydew .tags-input::-webkit-scrollbar-thumb,
+.honeydew .tags-input .rti--container::-webkit-scrollbar-thumb,
 .honeydew .resName-price .price-range .input {
     background-color: #e4f3d3;
 }
@@ -120,14 +120,14 @@ span.smallScreen-Theme {
 .honeydew #edit-btn:hover {
     background-color: #fffeec;
 }
-.honeydew .searchResult,
-.honeydew #btn {
+.honeydew .searchResult {
     border: 2px solid #e4f3d3;
 }
 .honeydew input[type="checkbox"]:checked {
     accent-color: #e4f3d3;
 }
-.honeydew #navbar-login {
+.honeydew #navbar-login,
+.honeydew #btn {
     background-color: #bee5b0;
 }
 .honeydew .searchResult .line5 {
@@ -138,7 +138,8 @@ span.smallScreen-Theme {
 .honeydew #acc {
     color: #000000;
 }
-.honeydew #post-price .MuiSlider-thumb {
+.honeydew #post-price .MuiSlider-thumb,
+.honeydew .spinner {
     color: #e4f3d3;
 }
 .honeydew .nav1 a.active-link.active,
@@ -162,7 +163,7 @@ span.smallScreen-Theme {
 .dragonfruit #top-recom-small::-webkit-scrollbar-thumb,
 .dragonfruit #myreviews-small::-webkit-scrollbar-thumb,
 .dragonfruit #myreviews-big::-webkit-scrollbar-thumb,
-.dragonfruit .tags-input::-webkit-scrollbar-thumb,
+.dragonfruit .tags-input .rti--container::-webkit-scrollbar-thumb,
 .dragonfruit #btn,
 .dragonfruit .resName-price .price-range .input {
     background-color: #c55781;
@@ -193,7 +194,8 @@ span.smallScreen-Theme {
 .dragonfruit #acc {
     color: #000000;
 }
-.dragonfruit #post-price .MuiSlider-thumb {
+.dragonfruit #post-price .MuiSlider-thumb,
+.dragonfruit .spinner {
     color: #c55781;
 }
 .dragonfruit .nav1 a.active-link.active,
@@ -217,7 +219,7 @@ span.smallScreen-Theme {
 .shokupan #top-recom-small::-webkit-scrollbar-thumb,
 .shokupan #myreviews-small::-webkit-scrollbar-thumb,
 .shokupan #myreviews-big::-webkit-scrollbar-thumb,
-.shokupan .tags-input::-webkit-scrollbar-thumb,
+.shokupan .tags-input .rti--container::-webkit-scrollbar-thumb,
 .shokupan #btn,
 .shokupan .resName-price .price-range .input {
     background-color: #bd7d4e;
@@ -249,7 +251,8 @@ span.smallScreen-Theme {
 .shokupan #acc {
     color: #000000;
 }
-.shokupan #post-price .MuiSlider-thumb {
+.shokupan #post-price .MuiSlider-thumb,
+.shokupan .spinner {
     color: #bd7d4e;
 }
 .shokupan .nav1 a.active-link.active,
@@ -300,7 +303,8 @@ span.smallScreen-Theme {
 .boring #acc {
     color: #ffffff;
 }
-.boring #post-price .MuiSlider-thumb {
+.boring #post-price .MuiSlider-thumb,
+.boring .spinner {
     color: #2b2b2b;
 }
 .boring .nav1 a.active-link.active,
@@ -324,7 +328,7 @@ span.smallScreen-Theme {
 .blueberry #top-recom-small::-webkit-scrollbar-thumb,
 .blueberry #myreviews-small::-webkit-scrollbar-thumb,
 .blueberry #myreviews-big::-webkit-scrollbar-thumb,
-.blueberry .tags-input::-webkit-scrollbar-thumb,
+.blueberry .tags-input .rti--container::-webkit-scrollbar-thumb,
 .blueberry #btn,
 .blueberry .resName-price .price-range .input {
     background-color: #6698b7;
@@ -350,7 +354,8 @@ span.smallScreen-Theme {
 .blueberry #acc {
     color: #000000;
 }
-.blueberry #post-price .MuiSlider-thumb {
+.blueberry #post-price .MuiSlider-thumb,
+.blueberry .spinner {
     color: #6698b7;
 }
 .blueberry .nav1 a.active-link.active,

@@ -12,9 +12,6 @@ jobs:
       - name: Install MochaJS
         run: npm install mocha -g
         working-directory: server
-      - name: Generate Mocha test reports (json)
+      - name: Generate Mocha test reports (json/html)
         run: npm run test-awesome        
-        working-directory: server
-      - name: Generate Mocha test reports (html)
-        run: npm run generate-test-report
         working-directory: server

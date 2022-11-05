@@ -2,7 +2,7 @@ import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./EditReview.css";
 import "@fontsource/martel-sans";
-import addImage from "../../assets/images/addImage.png";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -19,12 +19,10 @@ import Moment from "moment";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import {
     FormControl,
-    InputLabel,
     Select,
     MenuItem,
     CircularProgress
 } from "@mui/material";
-import NavLoggedIn from "../LoggedInNavBar";
 import { deleteNewImage, uploadNewImage } from "../../api";
 
 function EditReview() {
@@ -430,6 +428,7 @@ function EditReview() {
                                 <div className="details-container">
                                     <textarea
                                         type="text"
+                                        maxLength={160}
                                         defaultValue={review.description}
                                         onChange={e => {
                                             review.description = e.target.value;
@@ -439,6 +438,7 @@ function EditReview() {
                                 <div className="tags-input">
                                     <TagsInput
                                         name="tags"
+                                        maxLength={20}
                                         value={review.tags}
                                         placeHolder="#tags"
                                         onChange={setTags}
@@ -661,6 +661,7 @@ function EditReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
+                                                maxLength={160}
                                                 defaultValue={
                                                     review.description
                                                 }
@@ -673,6 +674,7 @@ function EditReview() {
                                         <div className="tags-input">
                                             <TagsInput
                                                 name="tags"
+                                                maxLength={20}
                                                 value={review.tags}
                                                 placeHolder="#tags"
                                                 onChange={setTags}

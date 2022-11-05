@@ -248,6 +248,15 @@ span.smallScreen-CreateReview {
 }
 .tags-input .rti--container {
     border: none;
+    overflow: auto;
+    max-height: 30px;
+}
+.tags-input .rti--container::-webkit-scrollbar {
+    width: 0.3em;
+}
+.tags-input .rti--container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    max-height: 4px;
 }
 .tags-input .rti--container > input:focus {
     outline: none;
@@ -257,4 +266,11 @@ span.smallScreen-CreateReview {
     border: 1.5px solid rgba(0, 0, 0, 0.42);
     border-radius: 10px;
     text-align: center;
+}
+span.helper-text-post {
+    font-size: 12px;
+    color: gray;
+    margin-top: -20px;
+    display: flex;
+    justify-content: flex-end;
 }
