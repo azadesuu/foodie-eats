@@ -98,7 +98,7 @@ const ProfileImageUpload = props => {
                 setAlertStatus("error");
                 setAlertMessage("Error occured, image was not deleted.");
                 setTimeout(function() {
-                    window.location.reload();
+                    setDeleteImg(false);
                 }, 1000);
             }
         }
