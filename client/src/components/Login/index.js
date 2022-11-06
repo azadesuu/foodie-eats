@@ -4,7 +4,7 @@ import { useState } from "react";
 import { loginUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { checkProfileFields } from "../../utils";
-
+import Alert from "@mui/material/Alert";
 import "./Login.css";
 
 import "@fontsource/martel-sans";
@@ -34,6 +34,9 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [loginAlert, setLoginAlert] = useState(false);
 
     // submit form
     const submitHandler = async () => {
@@ -44,7 +47,18 @@ function Login() {
                 password: password
             };
             if (!checkProfileFields({ password: password })) return;
-            await loginUser(data);
+            const message = await loginUser(data);
+            if (message) {
+                if (!message.success){
+                    setLoginAlert(!loginAlert);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                    setTimeout(function() {
+                        setLoginAlert(false);
+                    }, 2000);
+                }
+            }
+            
             var token = localStorage.getItem("token");
             token ? document.location.reload() : navigate("/login");
         } catch (err) {
@@ -57,6 +71,18 @@ function Login() {
     return (
         <div className="content-Login">
             <SEO data={allSEO.login} />
+            {loginAlert ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
             <Title />
             <form action="#" method="post" className="form" id="form">
                 <div className="form-control">

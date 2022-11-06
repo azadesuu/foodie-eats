@@ -47,6 +47,14 @@ function Register() {
                     setTimeout(function() {
                         setUpdateSignUp(false);
                     }, 2000);
+                    if (!user.success){
+                        setUpdateSignUp(!updateSignUp);
+                        setAlertStatus(user.status);
+                        setAlertMessage(user.message);
+                        setTimeout(function() {
+                            setUpdateSignUp(false);
+                        }, 2000);
+                    }
                 }
             } catch (err) {
                 alert(err);
