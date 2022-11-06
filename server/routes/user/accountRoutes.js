@@ -6,10 +6,10 @@ const passport = require("passport");
 const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {get} /profile/:username Gets the specified profile by username from MongoDB database
+ * @api {get} /profile/:username Gets profile by username 
  * @apiName GetProfile
- * @apiGroup Users
- * @apiSuccess {User} user info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -38,10 +38,10 @@ accountRouter.get("/profile/:username", accountController.checkUsernameParams);
 accountRouter.get("/profile/:username", accountController.getProfile);
 
 /**
- * @api {get} /my-reviews/:userId Gets my list of reviews with the associated user ID from MongoDB database
+ * @api {get} /my-reviews/:userId Gets my list of reviews 
  * @apiName GetMyReviews
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -135,10 +135,10 @@ accountRouter.use("/my-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
 /**
- * @api {get} /other-reviews/:userId Gets a list of reviews for the associated user ID from MongoDB database
+ * @api {get} /other-reviews/:userId Gets list of reviews for the associated user ID 
  * @apiName GetReviews
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -231,10 +231,10 @@ accountRouter.use("/other-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 
 /**
- * @api {post} /my-bookmarks/get Gets a list of reviews from the bookmarks from MongoDB database
+ * @api {post} /my-bookmarks/get Gets a list of reviews for my bookmarks
  * @apiName GetMyBookmarks
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -295,10 +295,10 @@ accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
 accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
 
 /**
- * @api {patch} /bookmark/:reviewId/:userId bookmarks the review by adding to array if boolean is true in MongoDB database
+ * @api {patch} /bookmark/:reviewId/:userId Add review to my bookmarks
  * @apiName BookmarkReview
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -345,11 +345,11 @@ accountRouter
   .patch(accountController.bookmarkReview);
 
 /**
- * @api {patch} /updateUser/:userId Updates the user profile with new data in the MongoDB database
+ * @api {patch} /updateUser/:userId Update user profile
  * @apiName Updateuser
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -384,11 +384,11 @@ accountRouter.use("/updateUser/:userId", accountController.checkUpdateUser);
 accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
 
 /**
- * @api {PUT} /updatePassword Updates the user password in the MongoDB database
+ * @api {PUT} /updatePassword Update password 
  * @apiName UpdatePassword
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -422,11 +422,11 @@ accountRouter.use("/updatePassword", accountController.checkUpdatePassword);
 accountRouter.route("/updatePassword").put(accountController.updatePassword);
 
 /**
- * @api {PATCH} /changeTheme/:userId Updates the user theme in the MongoDB database
+ * @api {PATCH} /changeTheme/:userId Update user's theme 
  * @apiName ChangeTheme
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -464,8 +464,8 @@ accountRouter
 /**
  * @api {POST} /uploadNewImage Uploads an image to cloudinary
  * @apiName Upload Image
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -489,8 +489,8 @@ accountRouter.post(
 /**
  * @api {POST} /deleteNewImage Deletes an image from cloudinary
  * @apiName Delete Image
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {string} status result
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -509,10 +509,10 @@ accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
 /**
- * @api {POST} /uploadProfileImage/:userId updates the profile image link of the user in the database
+ * @api {POST} /uploadProfileImage/:userId Update profile image of user 
  * @apiName Upload Profile Image
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -559,10 +559,10 @@ accountRouter
   .post(accountController.uploadProfileImage);
 
 /**
- * @api {POST} /deleteProfileImage/:userId deletes the profile image link of the user in the database
+ * @api {POST} /deleteProfileImage/:userId Delete profile image of user 
  * @apiName Delete Profile Image
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
