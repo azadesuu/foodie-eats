@@ -33,7 +33,7 @@ function ChangePwDetails(props) {
     ) => {
         if (!newPassword.match(strongPassword)) {
             alert(
-                "Must have min 8 characters, 1 alphabetical character and 1 numerical digit"
+                "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
             );
         } else if (newPassword != confirmNewPassword) {
             alert("New passwords does not match");

@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 const ProfileImageUpload = props => {
     const userProfile = props.user;
-    const [image, setImage] = useState({});
+    const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [imageURL, setImageURL] = useState(
         userProfile?.profileImage ? userProfile.profileImage : null

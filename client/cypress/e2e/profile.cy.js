@@ -1,3 +1,12 @@
+
+// Prevent Cypress from cancelling XHR request
+/*function preventFormSubmitDefault(selector) {
+    cy.get(selector).then(form$ => {
+      form$.on("submit", e => {
+        e.preventDefault();
+      });
+    });
+  }
 describe('The Profile Page', () => {
     before(() => {
         cy.viewport(1280, 800); // Macbook 13 dimensions
@@ -65,23 +74,16 @@ describe('The Profile Page', () => {
 
         // Revert back
         cy.get('.r3 > .profile-details > .profile-title > :nth-child(3) > .MuiButtonBase-root > [data-testid="EditIcon"]').click();
-        cy.get('#usernameEdit').type('{selectall}{backspace}', { force: true });
-        cy.get('#usernameEdit').type('profile-test', { force: true });
-        cy.get('#emailEdit').type('{selectall}{backspace}', { force: true });
-        cy.get('#emailEdit').type('profile-test@mail.com', { force: true });
-        cy.get('#bioEdit').type('{selectall}{backspace}', { force: true });
-        cy.get('#bioEdit').type('Bio back to original.', { force: true });
-        cy.get('.edit-profile-done').click();
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`Successfully updated. Re-login to see changes.`);
-        })
-        cy.get('.content-MyProfile > .nav > .bigScreen-nav > .css-e8h9ec > .MuiPaper-root > .MuiToolbar-root > .MuiGrid-root > .nav2 > :nth-child(1) > .active-link').click();
-        cy.get(':nth-child(2) > div > button').click();*/
-    })
-})
+        cy.get('#usernameEdit').type('profile-test');
+        cy.get('#emailEdit').type('profile-test@mail.com');
+        cy.get('#bioEdit').type('Original bio');
+        cy.get('.edit-profile-done').click();*/
+    //})
+//})
 
-/*describe('The Change Password Page', () => {
-    before(() => {
+describe('The Change Password Page', () => {
+    it('successfully displays alert when current password incorrect', () => {
+        // Login with original credentials
         cy.viewport(1280, 800); // Macbook 13 dimensions
         cy.visit('/login');
         cy.get('#email').type('profile-test@mail.com');
@@ -125,4 +127,5 @@ describe('The Profile Page', () => {
             expect(str).to.equal(`password changed.`);
         })
     })
-})*/
+})
+
