@@ -6,10 +6,10 @@ const passport = require("passport");
 const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {get} /profile/:username Gets the specified profile by username from MongoDB database
+ * @api {get} /profile/:username Gets profile by username 
  * @apiName GetProfile
- * @apiGroup Users
- * @apiSuccess {User} user info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -38,10 +38,10 @@ accountRouter.get("/profile/:username", accountController.checkUsernameParams);
 accountRouter.get("/profile/:username", accountController.getProfile);
 
 /**
- * @api {get} /my-reviews/:userId Gets my list of reviews with the associated user ID from MongoDB database
+ * @api {get} /my-reviews/:userId Gets my list of reviews 
  * @apiName GetMyReviews
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -135,10 +135,10 @@ accountRouter.use("/my-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
 /**
- * @api {get} /other-reviews/:userId Gets a list of reviews for the associated user ID from MongoDB database
+ * @api {get} /other-reviews/:userId Gets list of reviews for the associated user ID 
  * @apiName GetReviews
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -231,10 +231,10 @@ accountRouter.use("/other-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 
 /**
- * @api {post} /my-bookmarks/get Gets a list of reviews from the bookmarks from MongoDB database
+ * @api {post} /my-bookmarks/get Gets a list of reviews for my bookmarks
  * @apiName GetMyBookmarks
- * @apiGroup Users
- * @apiSuccess {Reviews[]} Review list
+ * @apiGroup Account
+ * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -295,10 +295,10 @@ accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
 accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
 
 /**
- * @api {patch} /bookmark/:reviewId/:userId bookmarks the review by adding to array if boolean is true in MongoDB database
+ * @api {patch} /bookmark/:reviewId/:userId Add review to my bookmarks
  * @apiName BookmarkReview
- * @apiGroup Users
- * @apiSuccess User Info
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
@@ -345,11 +345,11 @@ accountRouter
   .patch(accountController.bookmarkReview);
 
 /**
- * @api {patch} /updateUser/:userId Updates the user profile with new data in the MongoDB database
+ * @api {patch} /updateUser/:userId Update user profile
  * @apiName Updateuser
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -384,11 +384,11 @@ accountRouter.use("/updateUser/:userId", accountController.checkUpdateUser);
 accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
 
 /**
- * @api {PUT} /updatePassword Updates the user password in the MongoDB database
+ * @api {PUT} /updatePassword Update password 
  * @apiName UpdatePassword
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -422,11 +422,11 @@ accountRouter.use("/updatePassword", accountController.checkUpdatePassword);
 accountRouter.route("/updatePassword").put(accountController.updatePassword);
 
 /**
- * @api {PATCH} /changeTheme/:userId Updates the user theme in the MongoDB database
+ * @api {PATCH} /changeTheme/:userId Update user's theme 
  * @apiName ChangeTheme
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
   "success": true,
@@ -462,28 +462,90 @@ accountRouter
   .patch(accountController.changeTheme);
 
 /**
- * @api {POST} /changeTheme/:userId Updates the user theme in the MongoDB database
- * @apiName ChangeTheme
- * @apiGroup Users
- * @apiSuccess User Info
- * @apiSuccessExample Successful Respone:
+ * @api {POST} /uploadNewImage Uploads an image to cloudinary
+ * @apiName Upload Image
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
- *
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message": "Image was uploaded successfully",
+    "data": "https://res.cloudinary.com/dp32jvnit/image/upload/v1666602193/e71e8bf7a37e27570df3b1f74748a006_xwwc8j.jpg"
+  }
+}
  *
  *
  */
-
-// images
 accountRouter.post(
   "/uploadNewImage",
   upload.single("image"),
   accountController.uploadNewImage
 );
 
+/**
+ * @api {POST} /deleteNewImage Deletes an image from cloudinary
+ * @apiName Delete Image
+ * @apiGroup Account
+ * @apiSuccess {string} status result
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"Image deleted from cloudinary.",
+    "data": { "result": "ok" }
+  }
+}
+ *
+ *
+ */
 accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
-// user auth
+/**
+ * @api {POST} /uploadProfileImage/:userId Update profile image of user 
+ * @apiName Upload Profile Image
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"Image was uploaded successfully",
+    "data": {
+              "_id": {
+                  "$oid": "6355e36d6066b42befa7ba04"
+                },
+                "profileImage": "https://res.cloudinary.com/dp32jvnit/image/upload/v1666602193/e71e8bf7a37e27570df3b1f74748a006_xwwc8j.jpg",
+                "bio": "This person loves food too much to think of a bio right now!",
+                "theme": "shokupan",
+                "bookmarks": [
+                  {
+                    "$oid": "63645f2baae2cb6048adf0d9"
+                  }
+                ],
+                "admin": false,
+                "date": {
+                  "$date": {
+                    "$numberLong": "1666573165168"
+                  }
+                },
+                "username": "joeannnc",
+                "email": "chongjoeann02@gmail.com",
+                "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
+            }
+ *
+ *
+ */
 accountRouter.use(
   "/uploadProfileImage/:userId",
   accountController.checkUserParams
@@ -496,7 +558,44 @@ accountRouter
   .route("/uploadProfileImage/:userId")
   .post(accountController.uploadProfileImage);
 
-// user auth
+/**
+ * @api {POST} /deleteProfileImage/:userId Delete profile image of user 
+ * @apiName Delete Profile Image
+ * @apiGroup Account
+ * @apiSuccess {User} profileInfo user's Information
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+  "success": true,
+  "message": "Successfully updated theme.",
+  "data": {
+    "success": true,
+    "message":"User image was deleted successfully",
+    "data": {
+              "_id": {
+                  "$oid": "6355e36d6066b42befa7ba04"
+                },
+                "profileImage": "",
+                "bio": "This person loves food too much to think of a bio right now!",
+                "theme": "shokupan",
+                "bookmarks": [
+                  {
+                    "$oid": "63645f2baae2cb6048adf0d9"
+                  }
+                ],
+                "admin": false,
+                "date": {
+                  "$date": {
+                    "$numberLong": "1666573165168"
+                  }
+                },
+                "username": "joeannnc",
+                "email": "chongjoeann02@gmail.com",
+                "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
+            }
+ *
+ *
+ */
 accountRouter.use(
   "/deleteProfileImage/:userId",
   accountController.checkUserParams

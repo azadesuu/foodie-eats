@@ -6,7 +6,7 @@ const { cloudinary } = require("../config/cloudinary");
 //regexs
 const strongPassword = new RegExp("(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})");
 const validUsername = new RegExp(
-  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+  "^[a-zA-Z](_(?!(.|_))|.(?![_.])|[a-zA-Z0-9]){4,14}[a-zA-Z0-9]$"
 );
 const validEmail = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
 
@@ -246,18 +246,31 @@ const bookmarkReview = async (req, res, next) => {
 };
 
 const checkUpdateUser = async (req, res, next) => {
-  const { username, email, bio } = req.body;
+  let { username, email, bio } = req.body;
+  let usernameEdit;
+  let emailEdit;
+  if (username) usernameEdit = username.toLowerCase().trim();
+  if (email) emailEdit = email.toLowerCase().trim();
+
+  if (username === "" || email === "") {
+    res.status(400).json({
+      success: false,
+      message: "Username/Email cannot be empty.",
+      data: undefined
+    });
+    return;
+  }
   //check if username and email is valid
-  if (!username && !email && !bio) {
+  else if (!username && !email && !bio) {
     res.status(204).json({
       success: true,
       message: "Nothing to update.",
       data: undefined
     });
     return;
-  } else if (username || email) {
-    if (username) {
-      if (!validUsername.test(username?.toLowerCase().trim())) {
+  } else if (usernameEdit || emailEdit) {
+    if (usernameEdit) {
+      if (!validUsername.test(usernameEdit)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -268,7 +281,7 @@ const checkUpdateUser = async (req, res, next) => {
     }
 
     if (email) {
-      if (!validEmail.test(email?.toLowerCase().trim())) {
+      if (!validEmail.test(emailEdit)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -280,7 +293,7 @@ const checkUpdateUser = async (req, res, next) => {
   }
   // check if bio is over the limit
   else if (bio) {
-    if (bio.length > 150) {
+    if (bio.length > 100) {
       res.status(400).json({
         success: false,
         message: `Bio is over the character limit at ${bio.length}.`,
@@ -290,14 +303,11 @@ const checkUpdateUser = async (req, res, next) => {
     }
   } else {
     // check if there is an existing user with the email
-    if (username || email) {
-      const oneUser = await User.findOne({
-        $or: [
-          { username: username.toLowerCase() },
-          { email: email.toLowerCase() }
-        ]
+    if (usernameEdit || emailEdit) {
+      const user = await User.findOne({
+        $or: [{ username: usernameEdit }, { email: emailEdit }]
       });
-      if (oneUser) {
+      if (user) {
         res.status(400).json({
           success: false,
           message: `Existing user with entered username/email.`,
@@ -313,7 +323,6 @@ const checkUpdateUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const _id = req.params.userId;
   const { username, email, bio } = req.body;
-
   try {
     const newUser = await User.findByIdAndUpdate(
       _id,
@@ -418,11 +427,19 @@ const updatePassword = async (req, res, next) => {
 };
 
 const checkChangeTheme = async (req, res, next) => {
+  const themes = ["blueberry", "shokupan", "honeydew", "boring", "dragonfruit"];
   const { newTheme } = req.body;
   if (!newTheme) {
     res.status(400).json({
       success: false,
       message: "New theme is not defined.",
+      data: undefined
+    });
+    return;
+  } else if (!themes.includes(newTheme)) {
+    res.status(400).json({
+      success: false,
+      message: "New theme is not available.",
       data: undefined
     });
     return;

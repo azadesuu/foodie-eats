@@ -2,12 +2,20 @@ import axios from "axios";
 
 const SERVER_URL = "https://foodie-eats.herokuapp.com";
 
-export const setAuthToken = async token => {
-    if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else delete axios.defaults.headers.common["Authorization"];
-};
-
+axios.interceptors.request.use(
+    config => {
+        const { origin } = new URL(config.url);
+        const allowedOrigins = [SERVER_URL];
+        const token = localStorage.getItem("token");
+        if (allowedOrigins.includes(origin) && token) {
+            config.headers["authorization"] = `${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export const loginUser = async user => {
     const { email, password } = user;
@@ -44,12 +52,9 @@ export const loginUser = async user => {
 };
 
 // Get user associated with stored token
-export const getUser = async jwt => {
-    const headers = {
-        headers: { "x-auth-token": jwt }
-    };
+export const getUser = async () => {
     return await axios
-        .get(`${SERVER_URL}/findTokenUser`, headers)
+        .get(`${SERVER_URL}/findTokenUser`)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
@@ -85,10 +90,9 @@ export const signupUser = async user => {
         });
 };
 
-export const forgotPassword = async email => {
-    const user_email = { email: email };
+export const forgotPassword = async data => {
     return await axios
-        .post(`${SERVER_URL}/forgotPassword`, user_email)
+        .post(`${SERVER_URL}/forgotPassword`, data)
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };

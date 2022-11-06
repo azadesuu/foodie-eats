@@ -40,9 +40,9 @@ function App() {
         const getUserWithJwt = async () => {
             const newUser = await getUser(jwt);
             if (newUser) {
-                setUser(newUser?.body);
+                setUser(newUser);
                 if (!currTheme) {
-                    localStorage.setItem("theme", newUser.body.theme);
+                    localStorage.setItem("theme", newUser.theme);
                 }
             }
         };
