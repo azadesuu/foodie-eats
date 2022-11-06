@@ -201,6 +201,7 @@ const forgotPassword = async (req, res) => {
     // Change password in database
     const updatedUser = await User.findOneAndUpdate({ email: req.body.email }, {password: user.generateHash(password)});
 
+    // (email, subject, text)
     await sendEmail(user.email, "Temporary password", password);
 
     res.status(200).send({
