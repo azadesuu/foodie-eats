@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const SERVER_URL = "https://foodie-eats.herokuapp.com";
+<<<<<<< Updated upstream
 
 axios.interceptors.request.use(
     config => {
@@ -16,6 +17,16 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+=======
+//const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
+
+export const setAuthToken = async token => {
+    if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else delete axios.defaults.headers.common["Authorization"];
+};
+
+>>>>>>> Stashed changes
 // ----------AUTHENTICATION: login/signup/forgotpassword
 export const loginUser = async user => {
     const { email, password } = user;
