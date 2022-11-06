@@ -103,6 +103,7 @@ function EditReview() {
 
     const submitUpdatedReview = async (
         _id,
+        userId,
         restaurantName,
         isPublic,
         priceRange,
@@ -137,6 +138,7 @@ function EditReview() {
 
             const updatedReviewRecord = await updateReview({
                 _id: _id,
+                userId: userId,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
                 reviewImage: url,
@@ -853,6 +855,7 @@ function EditReview() {
                                     onClick={() => {
                                         submitUpdatedReview(
                                             review._id,
+                                            review.userId._id,
                                             review.restaurantName,
                                             review.isPublic,
                                             review.priceRange,

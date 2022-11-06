@@ -2,11 +2,10 @@ const express = require("express");
 const accountRouter = express.Router();
 const accountController = require("../../controllers/accountController");
 const upload = require("../../config/multer");
-const passport = require("passport");
 const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {get} /profile/:username Gets profile by username 
+ * @api {get} /profile/:username Gets profile by username (public route)
  * @apiName GetProfile
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -130,12 +129,13 @@ accountRouter.get("/profile/:username", accountController.getProfile);
  */
 
 // GET reviews by Id --- returns list of reviews with the associated user ID
-// need user auth
+accountRouter.use("/my-reviews/:userId", authMiddleware.authenticateJWT);
+accountRouter.use("/my-reviews/:userId", authMiddleware.authenticateUser);
 accountRouter.use("/my-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
 /**
- * @api {get} /other-reviews/:userId Gets list of reviews for the associated user ID 
+ * @api {get} /other-reviews/:userId Gets list of reviews for the associated user ID  (public route)
  * @apiName GetReviews
  * @apiGroup Account
  * @apiSuccess {Review[]} Review array of Review's info
@@ -225,8 +225,6 @@ accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
  * 
  * 
  */
-
-// GET reviews by Id --- returns list of reviews with the associated user ID
 accountRouter.use("/other-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 
@@ -289,8 +287,6 @@ accountRouter.get("/other-reviews/:userId", accountController.getReviews);
  * 
  */
 
-// GET reviews from bookmarks list -- returns a list of reviews from the bookmarks
-// need user auth
 accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
 accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
 
@@ -327,7 +323,14 @@ accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
  */
 
 // PATCH user to add bookmarks to array if boolean is true
-// need user auth
+accountRouter.use(
+  "/bookmark/:reviewId/:userId",
+  authMiddleware.authenticateJWT
+);
+accountRouter.use(
+  "/bookmark/:reviewId/:userId",
+  authMiddleware.authenticateUser
+);
 accountRouter.use(
   "/bookmark/:reviewId/:userId",
   accountController.checkUserParams
@@ -378,7 +381,8 @@ accountRouter
  */
 
 // PATCH profile by userId -- Updates the user profile with new data and returns updated profile
-// needs user auth
+accountRouter.use("/updateUser/:userId", authMiddleware.authenticateJWT);
+accountRouter.use("/updateUser/:userId", authMiddleware.authenticateUser);
 accountRouter.use("/updateUser/:userId", accountController.checkUserParams);
 accountRouter.use("/updateUser/:userId", accountController.checkUpdateUser);
 accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
@@ -417,8 +421,9 @@ accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
  */
 
 // PUT new password into profile -- returns user with updated password if they exist
-// user auth
 accountRouter.use("/updatePassword", accountController.checkUpdatePassword);
+accountRouter.use("/updatePassword", authMiddleware.authenticateJWT);
+accountRouter.use("/updatePassword", authMiddleware.authenticateUser);
 accountRouter.route("/updatePassword").put(accountController.updatePassword);
 
 /**
@@ -455,7 +460,8 @@ accountRouter.route("/updatePassword").put(accountController.updatePassword);
  */
 
 // PATCH profile by userId -- Updates the user profile with new theme  and returns updated profile
-// user auth
+accountRouter.use("/changeTheme/:userId", authMiddleware.authenticateJWT);
+accountRouter.use("/changeTheme/:userId", authMiddleware.authenticateUser);
 accountRouter.use("/changeTheme/:userId", accountController.checkChangeTheme);
 accountRouter
   .route("/changeTheme/:userId")
@@ -505,6 +511,7 @@ accountRouter.post(
  *
  *
  */
+
 accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
@@ -546,6 +553,14 @@ accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
  *
  *
  */
+accountRouter.use(
+  "/uploadProfileImage/:userId",
+  authMiddleware.authenticateJWT
+);
+accountRouter.use(
+  "/uploadProfileImage/:userId",
+  authMiddleware.authenticateUser
+);
 accountRouter.use(
   "/uploadProfileImage/:userId",
   accountController.checkUserParams
@@ -596,6 +611,14 @@ accountRouter
  *
  *
  */
+accountRouter.use(
+  "/deleteProfileImage/:userId",
+  authMiddleware.authenticateJWT
+);
+accountRouter.use(
+  "/deleteProfileImage/:userId",
+  authMiddleware.authenticateUser
+);
 accountRouter.use(
   "/deleteProfileImage/:userId",
   accountController.checkUserParams

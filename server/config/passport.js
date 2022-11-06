@@ -88,10 +88,7 @@ module.exports = function(passport) {
         process.nextTick(function() {
           User.findOne(
             {
-              $or: [
-                { username: req.body.username },
-                { email: req.body.email }
-              ]
+              $or: [{ username: req.body.username }, { email: req.body.email }]
             },
             function(err, existingUser) {
               const username = req.body.username;
@@ -182,10 +179,7 @@ module.exports = function(passport) {
           // find the user associated with the email provided
           await User.findOne(
             {
-              $or: [
-                { username: email },
-                { email: email }
-              ]
+              $or: [{ username: email }, { email: email }]
             },
             function(err, user) {
               // if user is not found or there are other errors

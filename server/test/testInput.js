@@ -48,6 +48,16 @@ exports.userId2 = "6354ee5fd7bf245d8940dd69";
 exports.userId3 = "6354f876d7bf245d8940e058";
 exports.reviewId = "6354ef7ed7bf245d8940dd72";
 
+exports.invalid_token = "invalid";
+exports.wrong_token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+  "eyJib2R5Ijp7Il9pZCI6IjYzNTRlZTVmZDdiZ" +
+  "jI0NWQ4OTQwZGQ2OSIsImVtYWlsIjoiY2xhdW" +
+  "R5YUBtYWlsLmNvbSIsInVzZXJuYW1lIjoiY2x" +
+  "hdWR5YSIsInRoZW1lIjoiZHJhZ29uZnJ1aXQi" +
+  "fSwiaWF0IjoxNjY3NzUwOTI3fQ.hEmeYAkZfY" +
+  "fpC3umgcgHqROz_ajD2NW1OKJPV56lXkY";
+
 // initialising database data
 exports.userTests = [
   {
@@ -163,20 +173,14 @@ exports.createReview2 = {
   tags: [],
   description: "description "
 };
-exports.createReviewWrongUserId = {
+exports.createReviewWrongAddress = {
+  userId: mongoose.Types.ObjectId("6354408a37d91973c1246a57"),
   restaurantName: "Resto2",
   reviewImage: "",
   dateVisited: "20220812",
   isPublic: true,
   priceRange: 3,
   rating: 5,
-  address: {
-    streetAddress: "18 Resto St",
-    postcode: 3000,
-    state: "VIC",
-    suburb: "Melbourne",
-    country: "Australia"
-  },
   tags: [],
   description: "description "
 };

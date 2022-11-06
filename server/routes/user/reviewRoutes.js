@@ -2,9 +2,10 @@ const express = require("express");
 // const reviewController = require("../../controllers/reviewController");
 const reviewRouter = express.Router();
 const reviewController = require("../../controllers/reviewController");
+const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {GET} /getReviewsByRecent Get Reviews sorted by most recent
+ * @api {GET} /getReviewsByRecent Get Reviews sorted by most recent (public route)
  * @apiName GetReviewsByRecent
  * @apiGroup Reviews
  * @apiSuccess {Review[]} Review array of Review's info
@@ -58,20 +59,20 @@ const reviewController = require("../../controllers/reviewController");
  *   }
  * }
  * ]
- * 
- * 
+ *
+ *
  */
 
 //GET reviews by recent
 reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
 
 /**
- * @api {GET} /getReviewsByLikes Get Reviews sorted by most likes
+ * @api {GET} /getReviewsByLikes Get Reviews sorted by most likes (public route)
  * @apiName GetReviewsByLikes
  * @apiGroup Reviews
  * @apiSuccess {Review[]} Review array of Review's info
  * @apiSuccessExample Successful Response:
- * HTTP/1.1 200 OK  
+ * HTTP/1.1 200 OK
  * {
  * "success": true,
  * "message": "Most liked reviews found.",
@@ -120,15 +121,15 @@ reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
  *   }
  * }
  * ]
- * 
- * 
+ *
+ *
  */
 
 //GET reviews by most liked
 reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
 
 /**
- * @api {GET} /getReview/:reviewIds Get review by the ID 
+ * @api {GET} /getReview/:reviewIds Get review by the ID (public route)
  * @apiName GetOneReview
  * @apiGroup Reviews
  * @apiSuccess {Object} review Details
@@ -179,7 +180,6 @@ reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
  * 
  * 
  */
-
 //GET one review by reviewId
 reviewRouter.use("/getReview/:reviewId", reviewController.checkReviewParams);
 reviewRouter.route("/getReview/:reviewId").get(reviewController.getOneReview);
@@ -238,12 +238,13 @@ reviewRouter.route("/getReview/:reviewId").get(reviewController.getOneReview);
  */
 
 //PUT review upon creation
-// need user auth
+reviewRouter.use("/createReview", authMiddleware.authenticateJWT);
+reviewRouter.use("/createReview", authMiddleware.authenticateUser);
 reviewRouter.use("/createReview", reviewController.checkCreateReview);
 reviewRouter.route("/createReview").put(reviewController.createReview);
 
 /**
- * @api {Patch} /updateReview Update or Edit review 
+ * @api {Patch} /updateReview Update or Edit review
  * @apiName UpdateReview
  * @apiGroup Reviews
  * @apiSuccess {Object} Updated review's info
@@ -291,17 +292,19 @@ reviewRouter.route("/createReview").put(reviewController.createReview);
  *   "__v": 0
  * }
  * }
- * 
- * 
+ *
+ *
  */
 
 // PATCH a review by id upon edit
 // need user auth
+reviewRouter.use("/updateReview", authMiddleware.authenticateJWT);
+reviewRouter.use("/updateReview", authMiddleware.authenticateUser);
 reviewRouter.use("/updateReview", reviewController.checkUpdateReview);
 reviewRouter.route("/updateReview").patch(reviewController.updateReview);
 
 /**
- * @api {PUT} /like/:userId/:reviewId Like review 
+ * @api {PUT} /like/:userId/:reviewId Like review
  * @apiName CheckToggleLike
  * @apiGroup Reviews
  * @apiSuccess {Object} Liked review info
@@ -337,12 +340,14 @@ reviewRouter.route("/updateReview").patch(reviewController.updateReview);
  *   "__v": 0
  * }
  * }
- * 
- * 
+ *
+ *
  */
 
 //PATCH review according to like boolean -- toggle like
 // need user auth
+reviewRouter.use("/like/:userId/:reviewId", authMiddleware.authenticateJWT);
+reviewRouter.use("/like/:userId/:reviewId", authMiddleware.authenticateUser);
 reviewRouter.use("/like/:userId/:reviewId", reviewController.checkUserParams);
 reviewRouter.use("/like/:userId/:reviewId", reviewController.checkReviewParams);
 reviewRouter.use("/like/:userId/:reviewId", reviewController.checkToggleLike);
@@ -387,13 +392,16 @@ reviewRouter
  *   "__v": 0
  * }
  * }
- * 
- * 
+ *
+ *
  */
 
 // delete review
 // need user auth
+
 reviewRouter.use("/delete/:reviewId", reviewController.checkReviewParams);
+reviewRouter.use("/delete/:reviewId", authMiddleware.authenticateJWT);
+reviewRouter.use("/delete/:reviewId", authMiddleware.authenticateUser);
 reviewRouter.route("/delete/:reviewId").delete(reviewController.deleteReview);
 
 module.exports = reviewRouter;

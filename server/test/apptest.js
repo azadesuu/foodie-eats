@@ -139,6 +139,7 @@ describe("Unit tests ", () => {
 
   describe("Registration ", () => {
     it("Registers the user", async function() {
+      this.timeout(3000);
       return await request(app)
         .post("/signup")
         .send(testInput.newUser)
@@ -277,7 +278,169 @@ describe("Integration tests: Review methods", () => {
     await clearCollections();
   });
 
-  describe("Get inserted User/Review", () => {
+  describe("Testing Authenticated Review Routes: (All should have error+message)", () => {
+    let invalid_token = testInput.invalid_token;
+    let wrong_token = testInput.wrong_token;
+    before(async () => {
+      console.log("-------------- START OF REVIEW AUTH TESTS --------------");
+    });
+    after(async () => {
+      console.log("-------------- END OF REVIEW AUTH TESTS --------------");
+    });
+
+    describe("Authenticate: Create Review", () => {
+      it("(Fail) Create One Review: without token", async function() {
+        return await request(app)
+          .put("/review/createReview")
+          .send(testInput.createReview1)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+
+      it("(Fail) Create One Review: with invalid token", async function() {
+        return await request(app)
+          .put("/review/createReview")
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .send(testInput.createReview1)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Create One Review: with wrong token", async function() {
+        return await request(app)
+          .put("/review/createReview")
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .send(testInput.createReview1)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+    describe("Authenticate: Update Review", () => {
+      it("(Fail) Update One Review: without token", async function() {
+        return await request(app)
+          .patch("/review/updateReview")
+          .send(testInput.updateReviewPriceRange)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update One Review: with invalid token ", async function() {
+        return await request(app)
+          .patch("/review/updateReview")
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .send(testInput.updateReviewPriceRange)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update One Review: with wrong token ", async function() {
+        return await request(app)
+          .patch("/review/updateReview")
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .send(testInput.updateReviewPriceRange)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+    describe("Authenticate: Like Review", () => {
+      it("(Fail) Like One Review: without token", async function() {
+        return await request(app)
+          .patch(`/review/like/${userId}/${reviewId}`)
+          .set({ Authorization: `Bearer ${""}` })
+          .send({ likeBool: false })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Like One Review: with invalid token", async function() {
+        return await request(app)
+          .patch(`/review/like/${userId}/${reviewId}`)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .send({ likeBool: false })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Like One Review: with wrong token", async function() {
+        return await request(app)
+          .patch(`/review/like/${userId}/${reviewId}`)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .send({ likeBool: false })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+    describe("Authenticate: Delete Review", () => {
+      it("(Fail) Delete One Review: without token", async function() {
+        return await request(app)
+          .delete(`/review/delete/${reviewId}`)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Delete One Review: with invalid token ", async function() {
+        return await request(app)
+          .delete(`/review/delete/${reviewId}`)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Delete One Review: with wrong token ", async function() {
+        return await request(app)
+          .delete(`/review/delete/${reviewId}`)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+  });
+
+  describe("(CHECK) Get inserted User/Review", () => {
     it("Get one review", async function() {
       return await request(app)
         .get("/review/getReview/6354ef7ed7bf245d8940dd72")
@@ -337,7 +500,7 @@ describe("Integration tests: Review methods", () => {
     it("Valid access token provided", async function() {
       return await request(app)
         .get("/findTokenUser")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.data.should.includes({
@@ -351,7 +514,7 @@ describe("Integration tests: Review methods", () => {
     it("Creates a review: Review 1", async function() {
       return await request(app)
         .put("/review/createReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.createReview1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -363,7 +526,7 @@ describe("Integration tests: Review methods", () => {
     it("Creates a review: Review 2", async function() {
       return await request(app)
         .put("/review/createReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.createReview2)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -372,11 +535,11 @@ describe("Integration tests: Review methods", () => {
           });
         });
     });
-    it("Doesn't create review: missing fields (userId)", async function() {
+    it("Doesn't create review: missing fields (address)", async function() {
       return await request(app)
         .put("/review/createReview")
-        .set({ Authorization: `${access_token}` })
-        .send(testInput.createReviewWrongUserId)
+        .set({ Authorization: `Bearer ${access_token}` })
+        .send(testInput.createReviewWrongAddress)
         .then(function(res) {
           assert.equal(400, res.statusCode);
         });
@@ -384,7 +547,7 @@ describe("Integration tests: Review methods", () => {
     it("Doesn't create review: missing fields (dateVisited)", async function() {
       return await request(app)
         .put("/review/createReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.createReviewWrongDateVisited)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -396,7 +559,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Price Range)", async function() {
       return await request(app)
         .patch("/review/updateReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateReviewPriceRange)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -408,7 +571,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Description)", async function() {
       return await request(app)
         .patch("/review/updateReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateReviewDescription)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -421,7 +584,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Private)", async function() {
       return await request(app)
         .patch("/review/updateReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateReviewPrivate)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -437,7 +600,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Public)", async function() {
       return await request(app)
         .patch("/review/updateReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateReviewPublic)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -453,7 +616,7 @@ describe("Integration tests: Review methods", () => {
     it("Doesn't update a review: Review (No Review Id) ", async function() {
       return await request(app)
         .patch("/review/updateReview")
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateReviewNoId)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -465,7 +628,7 @@ describe("Integration tests: Review methods", () => {
     it("Likes a review: Review 1", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ likeBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -477,7 +640,7 @@ describe("Integration tests: Review methods", () => {
     it("Un-likes a review: Review 1", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ likeBool: true })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -490,7 +653,7 @@ describe("Integration tests: Review methods", () => {
     it("Failed to like a review: Review 1 (likeBool undefined)", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ likeBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -504,7 +667,7 @@ describe("Integration tests: Review methods", () => {
     it("Deletes a review: Review 1", async function() {
       return await request(app)
         .delete(`/review/delete/${reviewId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.should.includes({
@@ -515,7 +678,7 @@ describe("Integration tests: Review methods", () => {
     it("Fails to delete a review: Review 1 (already deleted) ", async function() {
       return await request(app)
         .delete(`/review/delete/${reviewId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .then(function(res) {
           assert.equal(204, res.statusCode);
         });
@@ -543,7 +706,203 @@ describe("Integration tests: Account methods", () => {
     await clearCollections();
   });
 
-  describe("Get inserted User/Review", () => {
+  describe("Testing Authenticated Account Routes: (All should have error+message)", () => {
+    let invalid_token = testInput.invalid_token;
+    let wrong_token = testInput.wrong_token;
+    before(async () => {
+      console.log("-------------- START OF ACCOUNT AUTH TESTS --------------");
+    });
+    after(async () => {
+      console.log("-------------- END OF ACCOUNT AUTH TESTS --------------");
+    });
+
+    describe("Authenticate: Get My Reviews", () => {
+      it("(Fail) Get My Reviews: without token", async function() {
+        return await request(app)
+          .get(`/account/my-reviews/${userId}`)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+
+      it("(Fail) Get My Reviews: with invalid token", async function() {
+        return await request(app)
+          .get(`/account/my-reviews/${userId}`)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Get My Reviews: with wrong token", async function() {
+        return await request(app)
+          .get(`/account/my-reviews/${userId}`)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+    describe("Authenticate: Bookmark Review", () => {
+      it("(Fail) Bookmark One Review: without token", async function() {
+        return await request(app)
+          .patch(`/account/bookmark/${reviewId}/${userId}`)
+          .send({ bookmarkedBool: false })
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Bookmark One Review: with invalid token ", async function() {
+        return await request(app)
+          .patch(`/account/bookmark/${reviewId}/${userId}`)
+          .send({ bookmarkedBool: false })
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Bookmark One Review: with wrong token ", async function() {
+        return await request(app)
+          .patch(`/account/bookmark/${reviewId}/${userId}`)
+          .send({ bookmarkedBool: false })
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+    describe("Authenticate: Update User Methods", () => {
+      it("(Fail) Update Password: without token", async function() {
+        return await request(app)
+          .put(`/account/updatePassword`)
+          .set({ Authorization: `Bearer ${""}` })
+          .send(testInput.updateUser1Password)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update Password: with invalid token", async function() {
+        return await request(app)
+          .put(`/account/updatePassword`)
+          .send(testInput.updateUser1Password)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update Password: with wrong token", async function() {
+        return await request(app)
+          .put(`/account/updatePassword`)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .send(testInput.updateUser1Password)
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+      it("(Fail) Update User Theme: without token", async function() {
+        return await request(app)
+          .patch(`/account/changeTheme/${userId}`)
+          .send(testInput.changeThemeUser1)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update User Theme: with invalid token ", async function() {
+        return await request(app)
+          .patch(`/account/changeTheme/${userId}`)
+          .send(testInput.changeThemeUser1)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update User Theme: with wrong token ", async function() {
+        return await request(app)
+          .patch(`/account/changeTheme/${userId}`)
+          .send(testInput.changeThemeUser1)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+      it("(Fail) Update User Details: without token", async function() {
+        return await request(app)
+          .patch(`/account/updateUser/${userId}`)
+          .send(testInput.updateUser1)
+          .set({ Authorization: `Bearer ${""}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update User Details: with invalid token ", async function() {
+        return await request(app)
+          .patch(`/account/updateUser/${userId}`)
+          .send(testInput.updateUser1)
+          .set({ Authorization: `Bearer ${invalid_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Token provided is invalid"
+            });
+          });
+      });
+      it("(Fail) Update User Details: with wrong token ", async function() {
+        return await request(app)
+          .patch(`/account/updateUser/${userId}`)
+          .send(testInput.updateUser1)
+          .set({ Authorization: `Bearer ${wrong_token}` })
+          .then(function(res) {
+            assert.equal(401, res.statusCode);
+            res.body.should.includes({
+              message: "Request is invalid for current user"
+            });
+          });
+      });
+    });
+  });
+
+  describe("(CHECK) Get inserted User/Review", () => {
     it("Get one review", async function() {
       return await request(app)
         .get("/review/getReview/6354ef7ed7bf245d8940dd72")
@@ -602,7 +961,7 @@ describe("Integration tests: Account methods", () => {
     it("Get my reviews: User 1", async function() {
       return await request(app)
         .get(`/account/my-reviews/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.should.includes({
@@ -642,7 +1001,7 @@ describe("Integration tests: Account methods", () => {
     it("Bookmarks a review: Review 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ bookmarkedBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -654,7 +1013,7 @@ describe("Integration tests: Account methods", () => {
     it("Un-bookmarks a review: Review 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ bookmarkedBool: true })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -667,7 +1026,7 @@ describe("Integration tests: Account methods", () => {
     it("Failed to bookmark a review: Review 1 (bookmarkedBool undefined)", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ bookmarkedBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -682,7 +1041,7 @@ describe("Integration tests: Account methods", () => {
     it("Bookmarks a review: Review 1, User 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send({ bookmarkedBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -717,7 +1076,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user password", async function() {
       return await request(app)
         .put(`/account/updatePassword`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateUser1Password)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -729,7 +1088,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user password: weak password", async function() {
       return await request(app)
         .put(`/account/updatePassword`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateUser1PasswordWeak)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -738,7 +1097,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.changeThemeUser1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -750,7 +1109,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme: Undefined Theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.changeThemeUser1Undefined)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -762,7 +1121,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme: Invalid theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.changeThemeUser1wrong)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -774,7 +1133,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateUser1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -784,7 +1143,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details: Invalid username", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateUser1InvalidUsername)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -794,7 +1153,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details: Invalid email", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
-        .set({ Authorization: `${access_token}` })
+        .set({ Authorization: `Bearer ${access_token}` })
         .send(testInput.updateUser1InvalidEmail)
         .then(function(res) {
           assert.equal(400, res.statusCode);
