@@ -161,7 +161,7 @@ const ProfileImageUpload = props => {
             >
                 Remove profile picture
             </button>
-            {deleteImg ? 
+            {deleteImg ? (
                 <Alert 
                     severity={alertStatus}
                     sx={{
@@ -170,10 +170,10 @@ const ProfileImageUpload = props => {
                 >
                     {alertMessage}
                 </Alert>
-            :
+            ) : (
                 <></>
-            }
-            {uploadImg ? 
+            )}
+            {uploadImg ? (
                 <Alert 
                     severity={alertStatus}
                     sx={{
@@ -182,9 +182,9 @@ const ProfileImageUpload = props => {
                 >
                     {alertMessage}
                 </Alert>
-            :
+            ) : (
                 <></>
-            }
+            )}
         </div>
     );
 };
