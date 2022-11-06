@@ -3,8 +3,8 @@ import SEO from "../SEO";
 import "./SignUp.css";
 import React from "react";
 import { useState } from "react";
+import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
-import { useNavigate } from "react-router-dom";
 
 import "@fontsource/martel-sans";
 
@@ -15,19 +15,23 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
-    const navigate = useNavigate();
 
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const user = await signupUser({
+                let data = {
                     username: username,
                     email: email,
                     password: password
-                });
+                };
+                if (username === "" || email === "" || password === "") {
+                    alert("Please fill in the missing fields.");
+                    return;
+                }
+                if (!checkProfileFields(data)) return;
+                const user = await signupUser(data);
                 if (user) {
                     alert("Signup successful. Please Login.");
-                    navigate("/login");
                 }
             } catch (err) {
                 alert(err);
@@ -41,7 +45,7 @@ function Register() {
         <div className="content-register">
             <Login />
             <SEO data={allSEO.signup} />
-            <form action="#" method="post" class="form" id="form">
+            <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Email</label>
                     <input

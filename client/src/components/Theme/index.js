@@ -38,7 +38,7 @@ function MyTheme(props) {
             setUserId(user._id);
             setCurrTheme(user.theme);
         }
-    }, [user]);
+    }, [user, userId]);
     useEffect(() => {
         document.documentElement.className = currTheme;
     }, [currTheme]);
@@ -77,7 +77,7 @@ function MyTheme(props) {
                         value="honeydew"
                         onClick={() => updateTheme("honeydew")}
                     >
-                        <img id="honeydew" src={HoneyDew} />
+                        <img id="honeydew" src={HoneyDew} alt="honeydew" />
                     </div>
                     <div
                         id="dragonfruit"
@@ -85,7 +85,11 @@ function MyTheme(props) {
                         value="dragonfruit"
                         onClick={() => updateTheme("dragonfruit")}
                     >
-                        <img id="dragonfruit" src={Dragonfruit} />
+                        <img
+                            id="dragonfruit"
+                            src={Dragonfruit}
+                            alt="dragonfruit"
+                        />
                     </div>
                     <div
                         id="shokupan"
@@ -93,7 +97,7 @@ function MyTheme(props) {
                         value="shokupan"
                         onClick={() => updateTheme("shokupan")}
                     >
-                        <img id="shokupan" src={Shokupan} />
+                        <img id="shokupan" src={Shokupan} alt="shokupan" />
                     </div>
                     <div
                         id="boring"
@@ -101,7 +105,7 @@ function MyTheme(props) {
                         value="boring"
                         onClick={() => updateTheme("boring")}
                     >
-                        <img id="boring" src={Boring} />
+                        <img id="boring" src={Boring} alt="boring" />
                     </div>
                     <div
                         id="blueberry"
@@ -109,7 +113,7 @@ function MyTheme(props) {
                         value="blueberry"
                         onClick={() => updateTheme("blueberry")}
                     >
-                        <img id="blueberry" src={Blueberry} />
+                        <img id="blueberry" src={Blueberry} alt="blueberry" />
                     </div>
                 </div>
             ) : (
@@ -121,7 +125,7 @@ function MyTheme(props) {
 
 export default function Theme() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "profile-theme",
         () => getProfile(user?.username),
         { enabled: !!user }

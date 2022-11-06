@@ -878,7 +878,7 @@ function ReviewsBigScreen(props) {
 function MyBookmarks() {
     const [user] = useContext(UserContext);
 
-    const { data: userProfile, isLoading: isLoading } = useQuery(
+    const { data: userProfile, isLoading } = useQuery(
         "bookmarks",
         () => getProfile(user?.username),
         { enabled: !!user }

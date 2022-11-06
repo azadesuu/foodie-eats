@@ -19,7 +19,7 @@ import {
     deleteNewImage,
     deleteProfileImage,
     uploadNewImage,
-    uploadProfileImage,
+    uploadProfileImage
 } from "../../api";
 import { useNavigate } from "react-router";
 
@@ -59,23 +59,22 @@ const ProfileImageUpload = props => {
                 await uploadNewImage({
                     file: formData
                 })
-                .then(result => {
-                    setImageURL(result);
-                    uploadProfileImage({
-                        userId: userProfile?._id,
-                        url: result
+                    .then(result => {
+                        setImageURL(result);
+                        uploadProfileImage({
+                            userId: userProfile?._id,
+                            url: result
+                        });
+                        setUploadImg(!uploadImg);
+                        setAlertStatus("success");
+                        setAlertMessage("Image was uploaded!");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    })
+                    .catch(err => {
+                        alert(err);
                     });
-                    setUploadImg(!uploadImg);
-                    setAlertStatus("success");
-                    setAlertMessage("Image was uploaded!");
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 1000);
-                    
-                })
-                .catch(err => {
-                    alert(err);
-                });
             }
         } catch (err) {
             alert(err);
@@ -104,7 +103,7 @@ const ProfileImageUpload = props => {
         }
     }
     async function deleteProfileImageHandler() {
-        const deleted = await deleteHandler(userProfile.profileImage);
+        await deleteHandler(userProfile.profileImage);
         const removedProfileImage = await deleteProfileImage({
             userId: userProfile._id
         });
@@ -144,7 +143,7 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img src={previewImage} height={150} />
+                    <img src={previewImage} height={150} alt="preview" />
                 </label>
             ) : (
                 <p>Upload your image now!</p>
@@ -162,7 +161,7 @@ const ProfileImageUpload = props => {
                 Remove profile picture
             </button>
             {deleteImg ? (
-                <Alert 
+                <Alert
                     severity={alertStatus}
                     sx={{
                         mt: "5px"
@@ -174,7 +173,7 @@ const ProfileImageUpload = props => {
                 <></>
             )}
             {uploadImg ? (
-                <Alert 
+                <Alert
                     severity={alertStatus}
                     sx={{
                         mt: "5px"
@@ -225,7 +224,7 @@ function ProfileDetails(props) {
                             onClick={updateUser}
                             sx={{
                                 left: "30px",
-                                bottom: "40px",
+                                bottom: "40px"
                             }}
                         >
                             <EditIcon
@@ -236,9 +235,7 @@ function ProfileDetails(props) {
                             />
                         </IconButton>
                     </div>
-                    <IconButton
-                        disableRipple={true}
-                    >
+                    <IconButton disableRipple={true}>
                         <Avatar
                             alt="user-profile-image"
                             src={
@@ -346,7 +343,7 @@ function ProfileDetails(props) {
 
 function MyProfile() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }

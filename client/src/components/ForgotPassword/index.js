@@ -4,17 +4,15 @@ import "./ForgotPassword.css";
 import { checkProfileFields } from "../../utils";
 import React, { useState } from "react";
 import { forgotPassword } from "../../api";
-import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
     // state hook functions
     const [email, setEmail] = useState("");
-    const navigate = useNavigate();
 
     // submit form
     async function submitHandler(email) {
         try {
-            if (!checkProfileFields({ email: email })) return;
+            if (!checkProfileFields(email)) return;
             const sent = await forgotPassword(email);
             if (sent) {
                 alert(

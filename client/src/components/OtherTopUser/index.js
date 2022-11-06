@@ -8,8 +8,6 @@ export default function TopUser(props) {
     const userProfile = props.user;
     const [numReviews, setNumReviews] = useState("..");
     const [numLikes, setNumLikes] = useState("..");
-    let i = 0;
-    let total = 0;
 
     const { data: listReviews, isLoading } = useQuery(
         "reviews",
@@ -19,13 +17,14 @@ export default function TopUser(props) {
     useEffect(() => {
         if (isLoading === false) {
             setNumReviews(listReviews.length);
-            total = 0;
+            let i = 0;
+            let total = 0;
             for (i = 0; i < listReviews.length; i++) {
                 total += listReviews[i].likeCount;
             }
             setNumLikes(total);
         }
-    }, [isLoading]);
+    }, [isLoading, listReviews]);
 
     return (
         <div className="top-user">

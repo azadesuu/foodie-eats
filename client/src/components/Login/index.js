@@ -74,7 +74,7 @@ function Login() {
         <div className="content-Login">
             <SEO data={allSEO.login} />
             <Title />
-            <form action="#" method="post" class="form" id="form">
+            <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Username </label>
                     <input
