@@ -1,9 +1,8 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
-import React from "react";
 import "./MyReviews.css";
 
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
 import { getMyReviews, getProfile } from "../../api";
 import { useQuery } from "react-query";

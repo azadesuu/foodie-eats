@@ -1,20 +1,15 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./Profile.css";
-
-import React from "react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../actions/UserContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProfile, getOtherReviews } from "../../api";
 import { useQuery } from "react-query";
-
 import "@fontsource/martel-sans";
-
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -22,7 +17,6 @@ import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuList from "@mui/material/MenuList";
-
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -488,7 +482,7 @@ function Profile() {
                 navigate("/my-profile");
             }
         }
-    }, [user]);
+    }, [user, navigate, username]);
 
     // if its the  logged in user, load the myprofile component
     const { data: userProfile, isLoading } = useQuery(

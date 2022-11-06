@@ -17,12 +17,7 @@ import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
 import Moment from "moment";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {
-    FormControl,
-    Select,
-    MenuItem,
-    CircularProgress
-} from "@mui/material";
+import { FormControl, Select, MenuItem, CircularProgress } from "@mui/material";
 import { deleteNewImage, uploadNewImage } from "../../api";
 
 function EditReview() {
@@ -30,7 +25,7 @@ function EditReview() {
     const [user] = useContext(UserContext);
 
     const { reviewId } = useParams();
-    const { data: review, isLoading, refetch } = useQuery(
+    const { data: review, isLoading } = useQuery(
         "view-review",
         () => getReview(reviewId),
         { enabled: !!reviewId }
@@ -54,7 +49,7 @@ function EditReview() {
         setPublicity(review?.isPublic);
         setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
         setPreviewImage(review?.reviewImage ? review?.reviewImage : "");
-    }, [review && user]);
+    }, [review, user, navigate]);
 
     const imageHandler = async () => {
         try {
@@ -470,7 +465,7 @@ function EditReview() {
                                         <label>
                                             <img
                                                 src={previewImage}
-                                                alt="preview image"
+                                                alt="preview"
                                                 width={100}
                                                 height={100}
                                             />
@@ -821,7 +816,7 @@ function EditReview() {
                                                 <label>
                                                     <img
                                                         src={previewImage}
-                                                        alt="preview image"
+                                                        alt="preview"
                                                         width={100}
                                                         height={100}
                                                     />

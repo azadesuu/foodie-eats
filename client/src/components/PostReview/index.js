@@ -5,7 +5,7 @@ import "./PostReview.css";
 import "@fontsource/martel-sans";
 
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { TagsInput } from "react-tag-input-component";
 import { UserContext } from "../../actions/UserContext";
@@ -433,7 +433,7 @@ function PostReview() {
                                     <label>
                                         <img
                                             src={previewImage}
-                                            alt="preview image"
+                                            alt="preview"
                                             width={100}
                                             height={100}
                                         />
@@ -773,7 +773,7 @@ function PostReview() {
                                             <label>
                                                 <img
                                                     src={previewImage}
-                                                    alt="preview image"
+                                                    alt="preview"
                                                     width={100}
                                                     height={100}
                                                 />

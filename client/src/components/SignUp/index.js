@@ -5,7 +5,6 @@ import React from "react";
 import { useState } from "react";
 import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
-import { useNavigate } from "react-router-dom";
 
 import "@fontsource/martel-sans";
 
@@ -25,6 +24,10 @@ function Register() {
                     email: email,
                     password: password
                 };
+                if (username === "" || email === "" || password === "") {
+                    alert("Please fill in the missing fields.");
+                    return;
+                }
                 if (!checkProfileFields(data)) return;
                 const user = await signupUser(data);
                 if (user) {
@@ -42,7 +45,7 @@ function Register() {
         <div className="content-register">
             <Login />
             <SEO data={allSEO.signup} />
-            <form action="#" method="post" class="form" id="form">
+            <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Email</label>
                     <input

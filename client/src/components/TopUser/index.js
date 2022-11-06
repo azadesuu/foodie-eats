@@ -17,7 +17,10 @@ const ProfileImageUpload = props => {
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [imageURL, setImageURL] = useState(
-        userProfile?.profileImage ? userProfile.profileImage : null
+        userProfile?.profileImage !== "" ||
+            userProfile?.profileImage !== undefined
+            ? userProfile.profileImage
+            : null
     );
     const [alertStatus, setAlertStatus] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
@@ -27,7 +30,7 @@ const ProfileImageUpload = props => {
         try {
             const formData = new FormData();
             formData.set("image", image);
-            if (!formData.get("image")) {
+            if (!image || !formData.get("image")) {
                 setUploadImg(!uploadImg);
                 setAlertStatus("error");
                 setAlertMessage("Image exceeds upload limit!");
@@ -139,7 +142,7 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img src={previewImage} />
+                    <img src={previewImage} alt="preview" />
                 </label>
             ) : (
                 <p>Upload your image now!</p>
@@ -191,8 +194,6 @@ function TopUser(props) {
     const [showUpload, setShowUpload] = useState(false);
     const [numReviews, setNumReviews] = useState("..");
     const [numLikes, setNumLikes] = useState("..");
-    let i = 0;
-    let total = 0;
 
     const { data: listReviews, isLoading } = useQuery(
         "my-reviews",
@@ -205,13 +206,14 @@ function TopUser(props) {
     useEffect(() => {
         if (isLoading === false) {
             setNumReviews(listReviews.length);
-            total = 0;
+            let total = 0;
+            let i = 0;
             for (i = 0; i < listReviews.length; i++) {
                 total += listReviews[i].likeCount;
             }
             setNumLikes(total);
         }
-    }, [isLoading]);
+    }, [isLoading, listReviews]);
 
     return (
         <div className="top-user">
@@ -223,6 +225,7 @@ function TopUser(props) {
                             boxShadow: "0 0 10px 15px rgba(0, 0, 0, 0.25) inset"
                         }
                     }}
+                    onClick={() => setShowUpload(!showUpload)}
                 >
                     <Avatar
                         alt="user-profile-image"
@@ -235,7 +238,6 @@ function TopUser(props) {
                             height: 130,
                             width: 130
                         }}
-                        onClick={() => setShowUpload(!showUpload)}
                     />
                 </IconButton>
                 {showUpload && <ProfileImageUpload user={userProfile} />}
