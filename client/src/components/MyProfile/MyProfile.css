@@ -257,7 +257,7 @@ input[type="file"]::file-selector-button {
     justify-content: center;
     align-items: center;
 }
-span.bigScreen-MyProfile .top-user #image-cancel {
+.top-user #image-cancel {
     top: 255px;
     left: 515px;
     width: 10px;
