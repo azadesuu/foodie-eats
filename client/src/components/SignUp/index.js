@@ -4,6 +4,7 @@ import "./SignUp.css";
 import React from "react";
 import { useState } from "react";
 import { checkProfileFields } from "../../utils";
+import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
 
 import "@fontsource/martel-sans";
