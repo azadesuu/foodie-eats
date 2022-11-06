@@ -1,7 +1,6 @@
 import axios from "axios";
 
-//const SERVER_URL = "https://foodie-eats.herokuapp.com";
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = "https://foodie-eats.herokuapp.com";
 
 axios.interceptors.request.use(
     config => {
