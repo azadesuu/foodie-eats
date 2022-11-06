@@ -5,7 +5,7 @@ const upload = require("../../config/multer");
 const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {get} /profile/:username Gets profile by username (public route)
+ * @api {get} /account/profile/:username Gets profile by username (public route)
  * @apiName GetProfile
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -37,7 +37,7 @@ accountRouter.get("/profile/:username", accountController.checkUsernameParams);
 accountRouter.get("/profile/:username", accountController.getProfile);
 
 /**
- * @api {get} /my-reviews/:userId Gets my list of reviews 
+ * @api {get} /account/my-reviews/:userId Gets my list of reviews 
  * @apiName GetMyReviews
  * @apiGroup Account
  * @apiSuccess {Review[]} Review array of Review's info
@@ -135,7 +135,7 @@ accountRouter.use("/my-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/my-reviews/:userId", accountController.getMyReviews);
 
 /**
- * @api {get} /other-reviews/:userId Gets list of reviews for the associated user ID  (public route)
+ * @api {get} /account/other-reviews/:userId Gets list of public reviews for the associated user ID  (public route)
  * @apiName GetReviews
  * @apiGroup Account
  * @apiSuccess {Review[]} Review array of Review's info
@@ -229,7 +229,7 @@ accountRouter.use("/other-reviews/:userId", accountController.checkUserParams);
 accountRouter.get("/other-reviews/:userId", accountController.getReviews);
 
 /**
- * @api {post} /my-bookmarks/get Gets a list of reviews for my bookmarks
+ * @api {post} /account/my-bookmarks/get Gets a list of reviews for my bookmarks
  * @apiName GetMyBookmarks
  * @apiGroup Account
  * @apiSuccess {Review[]} Review array of Review's info
@@ -291,7 +291,7 @@ accountRouter.use("/my-bookmarks/get", accountController.checkBookmarks);
 accountRouter.route("/my-bookmarks/get").post(accountController.getMyBookmarks);
 
 /**
- * @api {patch} /bookmark/:reviewId/:userId Add review to my bookmarks
+ * @api {patch} /account/bookmark/:reviewId/:userId Add review to my bookmarks
  * @apiName BookmarkReview
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -348,8 +348,8 @@ accountRouter
   .patch(accountController.bookmarkReview);
 
 /**
- * @api {patch} /updateUser/:userId Update user profile
- * @apiName Updateuser
+ * @api {patch} /account/updateUser/:userId Update user profile
+ * @apiName UpdateUser
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
  * @apiSuccessExample Successful Response:
@@ -388,7 +388,7 @@ accountRouter.use("/updateUser/:userId", accountController.checkUpdateUser);
 accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
 
 /**
- * @api {PUT} /updatePassword Update password 
+ * @api {PUT} /account/updatePassword Update password 
  * @apiName UpdatePassword
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -419,7 +419,6 @@ accountRouter.route("/updateUser/:userId").patch(accountController.updateUser);
  * 
  * 
  */
-
 // PUT new password into profile -- returns user with updated password if they exist
 accountRouter.use("/updatePassword", accountController.checkUpdatePassword);
 accountRouter.use("/updatePassword", authMiddleware.authenticateJWT);
@@ -427,7 +426,7 @@ accountRouter.use("/updatePassword", authMiddleware.authenticateUser);
 accountRouter.route("/updatePassword").put(accountController.updatePassword);
 
 /**
- * @api {PATCH} /changeTheme/:userId Update user's theme 
+ * @api {PATCH} /account/changeTheme/:userId Update user's theme 
  * @apiName ChangeTheme
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -468,7 +467,7 @@ accountRouter
   .patch(accountController.changeTheme);
 
 /**
- * @api {POST} /uploadNewImage Uploads an image to cloudinary
+ * @api {POST} /account/uploadNewImage Uploads an image to cloudinary
  * @apiName Upload Image
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -489,7 +488,7 @@ accountRouter.post(
 );
 
 /**
- * @api {POST} /deleteNewImage Deletes an image from cloudinary
+ * @api {POST} /account/deleteNewImage Deletes an image from cloudinary
  * @apiName Delete Image
  * @apiGroup Account
  * @apiSuccess {string} status result
@@ -508,7 +507,7 @@ accountRouter.use("/deleteNewImage", accountController.checkImageURL);
 accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
 
 /**
- * @api {POST} /uploadProfileImage/:userId Update profile image of user 
+ * @api {POST} /account/uploadProfileImage/:userId Update profile image of user 
  * @apiName Upload Profile Image
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information
@@ -564,7 +563,7 @@ accountRouter
   .post(accountController.uploadProfileImage);
 
 /**
- * @api {POST} /deleteProfileImage/:userId Delete profile image of user 
+ * @api {POST} /account/deleteProfileImage/:userId Delete profile image of user 
  * @apiName Delete Profile Image
  * @apiGroup Account
  * @apiSuccess {User} profileInfo user's Information

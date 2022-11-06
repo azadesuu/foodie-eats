@@ -5,7 +5,7 @@ const reviewController = require("../../controllers/reviewController");
 const authMiddleware = require("../../config/auth.js");
 
 /**
- * @api {GET} /getReviewsByRecent Get Reviews sorted by most recent (public route)
+ * @api {GET} /review/getReviewsByRecent Get Reviews sorted by most recent (public route)
  * @apiName GetReviewsByRecent
  * @apiGroup Reviews
  * @apiSuccess {Review[]} Review array of Review's info
@@ -67,7 +67,7 @@ const authMiddleware = require("../../config/auth.js");
 reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
 
 /**
- * @api {GET} /getReviewsByLikes Get Reviews sorted by most likes (public route)
+ * @api {GET} /review/getReviewsByLikes Get Reviews sorted by most likes (public route)
  * @apiName GetReviewsByLikes
  * @apiGroup Reviews
  * @apiSuccess {Review[]} Review array of Review's info
@@ -129,7 +129,7 @@ reviewRouter.get("/getReviewsByRecent", reviewController.getReviewsByRecent);
 reviewRouter.get("/getReviewsByLikes", reviewController.getReviewsByLikes);
 
 /**
- * @api {GET} /getReview/:reviewIds Get review by the ID (public route)
+ * @api {GET} /review/getReview/:reviewIds Get review by the ID (public route)
  * @apiName GetOneReview
  * @apiGroup Reviews
  * @apiSuccess {Object} review Details
@@ -185,7 +185,7 @@ reviewRouter.use("/getReview/:reviewId", reviewController.checkReviewParams);
 reviewRouter.route("/getReview/:reviewId").get(reviewController.getOneReview);
 
 /**
- * @api {PUT} /createReview Create Review
+ * @api {PUT} /review/createReview Create Review
  * @apiName CreateReview
  * @apiGroup Reviews
  * @apiSuccess {Object} Created review's info
@@ -244,7 +244,7 @@ reviewRouter.use("/createReview", reviewController.checkCreateReview);
 reviewRouter.route("/createReview").put(reviewController.createReview);
 
 /**
- * @api {Patch} /updateReview Update or Edit review
+ * @api {PATCH} /review/updateReview Update or Edit review
  * @apiName UpdateReview
  * @apiGroup Reviews
  * @apiSuccess {Object} Updated review's info
@@ -304,7 +304,7 @@ reviewRouter.use("/updateReview", reviewController.checkUpdateReview);
 reviewRouter.route("/updateReview").patch(reviewController.updateReview);
 
 /**
- * @api {PUT} /like/:userId/:reviewId Like review
+ * @api {PUT} /review/like/:userId/:reviewId Like review
  * @apiName CheckToggleLike
  * @apiGroup Reviews
  * @apiSuccess {Object} Liked review info
@@ -345,7 +345,6 @@ reviewRouter.route("/updateReview").patch(reviewController.updateReview);
  */
 
 //PATCH review according to like boolean -- toggle like
-// need user auth
 reviewRouter.use("/like/:userId/:reviewId", authMiddleware.authenticateJWT);
 reviewRouter.use("/like/:userId/:reviewId", authMiddleware.authenticateUser);
 reviewRouter.use("/like/:userId/:reviewId", reviewController.checkUserParams);
@@ -356,7 +355,7 @@ reviewRouter
   .patch(reviewController.toggleLike);
 
 /**
- * @api {PUT} /delete/:reviewId Delete review
+ * @api {DELETE} /review/delete/:reviewId Delete review
  * @apiName DeleteReview
  * @apiGroup Reviews
  * @apiSuccess {Object} Deleted review info
