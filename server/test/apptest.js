@@ -351,6 +351,7 @@ describe("Integration tests: Review methods", () => {
     it("Creates a review: Review 1", async function() {
       return await request(app)
         .put("/review/createReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.createReview1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -362,6 +363,7 @@ describe("Integration tests: Review methods", () => {
     it("Creates a review: Review 2", async function() {
       return await request(app)
         .put("/review/createReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.createReview2)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -373,6 +375,7 @@ describe("Integration tests: Review methods", () => {
     it("Doesn't create review: missing fields (userId)", async function() {
       return await request(app)
         .put("/review/createReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.createReviewWrongUserId)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -381,6 +384,7 @@ describe("Integration tests: Review methods", () => {
     it("Doesn't create review: missing fields (dateVisited)", async function() {
       return await request(app)
         .put("/review/createReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.createReviewWrongDateVisited)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -392,6 +396,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Price Range)", async function() {
       return await request(app)
         .patch("/review/updateReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateReviewPriceRange)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -403,6 +408,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Description)", async function() {
       return await request(app)
         .patch("/review/updateReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateReviewDescription)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -415,6 +421,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Private)", async function() {
       return await request(app)
         .patch("/review/updateReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateReviewPrivate)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -430,6 +437,7 @@ describe("Integration tests: Review methods", () => {
     it("Updates a review: Review 1 (Public)", async function() {
       return await request(app)
         .patch("/review/updateReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateReviewPublic)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -445,6 +453,7 @@ describe("Integration tests: Review methods", () => {
     it("Doesn't update a review: Review (No Review Id) ", async function() {
       return await request(app)
         .patch("/review/updateReview")
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateReviewNoId)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -456,6 +465,7 @@ describe("Integration tests: Review methods", () => {
     it("Likes a review: Review 1", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ likeBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -467,6 +477,7 @@ describe("Integration tests: Review methods", () => {
     it("Un-likes a review: Review 1", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ likeBool: true })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -479,6 +490,7 @@ describe("Integration tests: Review methods", () => {
     it("Failed to like a review: Review 1 (likeBool undefined)", async function() {
       return await request(app)
         .patch(`/review/like/${userId}/${reviewId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ likeBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -492,6 +504,7 @@ describe("Integration tests: Review methods", () => {
     it("Deletes a review: Review 1", async function() {
       return await request(app)
         .delete(`/review/delete/${reviewId}`)
+        .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.should.includes({
@@ -502,6 +515,7 @@ describe("Integration tests: Review methods", () => {
     it("Fails to delete a review: Review 1 (already deleted) ", async function() {
       return await request(app)
         .delete(`/review/delete/${reviewId}`)
+        .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(204, res.statusCode);
         });
@@ -588,6 +602,7 @@ describe("Integration tests: Account methods", () => {
     it("Get my reviews: User 1", async function() {
       return await request(app)
         .get(`/account/my-reviews/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .then(function(res) {
           assert.equal(200, res.statusCode);
           res.body.should.includes({
@@ -627,6 +642,7 @@ describe("Integration tests: Account methods", () => {
     it("Bookmarks a review: Review 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ bookmarkedBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -638,6 +654,7 @@ describe("Integration tests: Account methods", () => {
     it("Un-bookmarks a review: Review 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ bookmarkedBool: true })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -650,6 +667,7 @@ describe("Integration tests: Account methods", () => {
     it("Failed to bookmark a review: Review 1 (bookmarkedBool undefined)", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ bookmarkedBool: undefined })
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -664,6 +682,7 @@ describe("Integration tests: Account methods", () => {
     it("Bookmarks a review: Review 1, User 1", async function() {
       return await request(app)
         .patch(`/account/bookmark/${reviewId}/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send({ bookmarkedBool: false })
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -698,6 +717,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user password", async function() {
       return await request(app)
         .put(`/account/updatePassword`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateUser1Password)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -709,6 +729,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user password: weak password", async function() {
       return await request(app)
         .put(`/account/updatePassword`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateUser1PasswordWeak)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -717,6 +738,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.changeThemeUser1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -728,6 +750,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme: Undefined Theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.changeThemeUser1Undefined)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -739,6 +762,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user theme: Invalid theme", async function() {
       return await request(app)
         .patch(`/account/changeTheme/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.changeThemeUser1wrong)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -750,6 +774,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateUser1)
         .then(function(res) {
           assert.equal(200, res.statusCode);
@@ -759,6 +784,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details: Invalid username", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateUser1InvalidUsername)
         .then(function(res) {
           assert.equal(400, res.statusCode);
@@ -768,6 +794,7 @@ describe("Integration tests: Account methods", () => {
     it("Updates user details: Invalid email", async function() {
       return await request(app)
         .patch(`/account/updateUser/${userId}`)
+        .set({ Authorization: `${access_token}` })
         .send(testInput.updateUser1InvalidEmail)
         .then(function(res) {
           assert.equal(400, res.statusCode);
