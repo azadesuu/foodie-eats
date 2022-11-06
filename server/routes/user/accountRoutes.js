@@ -475,14 +475,10 @@ accountRouter
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
-  "success": true,
-  "message": "Successfully updated theme.",
-  "data": {
     "success": true,
     "message": "Image was uploaded successfully",
     "data": "https://res.cloudinary.com/dp32jvnit/image/upload/v1666602193/e71e8bf7a37e27570df3b1f74748a006_xwwc8j.jpg"
-  }
-}
+ }
  *
  *
  */
@@ -500,13 +496,9 @@ accountRouter.post(
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
-  "success": true,
-  "message": "Successfully updated theme.",
-  "data": {
     "success": true,
     "message":"Image deleted from cloudinary.",
     "data": { "result": "ok" }
-  }
 }
  *
  *
@@ -523,9 +515,6 @@ accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
-  "success": true,
-  "message": "Successfully updated theme.",
-  "data": {
     "success": true,
     "message":"Image was uploaded successfully",
     "data": {
@@ -549,7 +538,8 @@ accountRouter.post("/deleteNewImage", accountController.deleteNewImage);
                 "username": "joeannnc",
                 "email": "chongjoeann02@gmail.com",
                 "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
-            }
+              }
+}
  *
  *
  */
@@ -581,9 +571,6 @@ accountRouter
  * @apiSuccessExample Successful Response:
  * HTTP/1.1 200 OK
  * {
-  "success": true,
-  "message": "Successfully updated theme.",
-  "data": {
     "success": true,
     "message":"User image was deleted successfully",
     "data": {
@@ -607,6 +594,7 @@ accountRouter
                 "username": "joeannnc",
                 "email": "chongjoeann02@gmail.com",
                 "password": "$2b$10$wUkUKCH3yJgrz.IZdcRWD.UQE6Zv9TkX8Kl4myoEcfOaWozsapcKK"
+              }
             }
  *
  *
