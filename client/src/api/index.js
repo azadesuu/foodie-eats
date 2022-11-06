@@ -44,7 +44,7 @@ export const loginUser = async user => {
         )
     })
         .then(res => res.data)
-        .catch((e) => {
+        .catch(() => {
             // return ({ 
             //     success: false, 
             //     status: "info", 
