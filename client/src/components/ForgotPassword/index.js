@@ -1,8 +1,8 @@
 import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 import "./ForgotPassword.css";
-import { useState } from "react";
-import React from "react";
+import { checkProfileFields } from "../../utils";
+import React, { useState } from "react";
 import { forgotPassword } from "../../api";
 import { useNavigate } from "react-router-dom";
 
@@ -12,16 +12,20 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     // submit form
-    async function onSubmit() {
+    async function submitHandler(email) {
         try {
-            console.log("test");
+            if (!checkProfileFields({ email: email })) return;
             const sent = await forgotPassword(email);
             if (sent) {
                 alert(
-                    "Email sent successfully. Please wait for token to reset password"
+                    "Email sent successfully. Please wait for token to reset password."
                 );
-                navigate("/login");
+            } else {
+                alert("There was an error while requesting to reset password.");
             }
+            setTimeout(function() {
+                window.location.reload();
+            }, 10000);
         } catch (err) {
             console.log(err);
         }
@@ -31,7 +35,7 @@ function ForgotPassword() {
         <div className="content-ForgotPassword">
             <SEO data={allSEO.forgotpassword} />
             <h1>FORGOT PASSWORD</h1>
-            <form className="form-control-forgotpassword">
+            <div className="form-control-forgotpassword">
                 <input
                     type="text"
                     name="email"
@@ -42,10 +46,13 @@ function ForgotPassword() {
                         setEmail(event.target.value);
                     }}
                 />
-                <button id="submit-btn" onClick={onSubmit}>
+                <button
+                    id="submit-btn"
+                    onClick={() => submitHandler({ email: email })}
+                >
                     SUBMIT
                 </button>
-            </form>
+            </div>
         </div>
     );
 }
