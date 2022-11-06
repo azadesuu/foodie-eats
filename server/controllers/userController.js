@@ -14,6 +14,8 @@ const crypto = require("crypto");
 const passwordComplexity = require("joi-password-complexity");
 const bcrypt = require("bcrypt");
 
+const generatePassword = require('genepass');
+
 const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
@@ -187,20 +189,24 @@ const forgotPassword = async (req, res) => {
         data: undefined
       });
 
-    let token = await Token.findOne({ userId: user._id });
-    if (!token) {
-      token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex")
-      }).save();
-    }
+    // Generate random password
+    const password = generatePassword.build({
+      length: 10,
+      lowercase: true,
+      uppercase: true,
+      number: true,
+      special: true,
+    });
 
-    const link = `${process.env.SERVER_URL}/reset-password/${user._id}/${token.token}`;
-    await sendEmail(user.email, "Password reset", link);
+    // Change password in database
+    const updatedUser = await User.findOneAndUpdate({ email: req.body.email }, {password: user.generateHash(password)});
+
+    await sendEmail(user.email, "Temporary password", password);
+
     res.status(200).send({
       success: true,
-      message: "password reset link sent to your email account",
-      data: link
+      message: "Temporary password sent to your email account",
+      data: password
     });
   } catch (error) {
     res.status(500).send({

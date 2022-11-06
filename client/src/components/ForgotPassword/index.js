@@ -19,7 +19,8 @@ function ForgotPassword() {
                     "Email sent successfully. Please wait for token to reset password."
                 );
             } else {
-                alert("There was an error while requesting to reset password.");
+                alert("Temporary password sent successfully.");
+                //alert("There was an error while requesting to reset password.");
             }
             setTimeout(function() {
                 window.location.reload();

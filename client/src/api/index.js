@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
+//const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "http://localhost:5000";
 
 axios.interceptors.request.use(
     config => {
@@ -96,6 +97,14 @@ export const forgotPassword = async data => {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
+
+export const resetPassword = async data => {
+    return await axios
+        .post(`${SERVER_URL}/forgotPassword`, data)
+        .then(res => res?.data?.data)
+        .catch(err => console.log(err));
+};
+
 // COMMUNITY
 
 export const getCommunityRecent = async () => {
