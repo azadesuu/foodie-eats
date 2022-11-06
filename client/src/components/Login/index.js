@@ -10,9 +10,7 @@ import "./Login.css";
 import "@fontsource/martel-sans";
 
 import LoginIcon from "@mui/icons-material/Login";
-
 import IconButton from "@mui/material/IconButton";
-import { createTheme } from "@mui/material/styles";
 
 function Title() {
     return (
@@ -31,21 +29,6 @@ function ForgetPassword() {
         </div>
     );
 }
-
-const theme = createTheme({
-    palette: {
-        background: {
-            green: "#BEE5B0",
-            grey: "#ECE7E5"
-        },
-        text: {
-            main: "#000000"
-        },
-        img: {
-            main: "#000000"
-        }
-    }
-});
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -69,6 +52,7 @@ function Login() {
             document.location.reload();
         }
     };
+
     document.documentElement.className = "honeydew";
     return (
         <div className="content-Login">

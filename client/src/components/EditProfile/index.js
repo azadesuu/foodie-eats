@@ -2,6 +2,7 @@ import "./EditProfile.css";
 import { checkProfileFields } from "../../utils";
 import { useState } from "react";
 import { updateUser } from "../../api";
+import Alert from "@mui/material/Alert";
 
 const EditProfile = data => {
     const { _id, username, email, bio, navigation } = data;
@@ -9,7 +10,9 @@ const EditProfile = data => {
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);
     const [bioEdit, setBioEdit] = useState(bio);
-
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [updateProfile, setUpdateProfile] = useState(false);
     const handleLogOut = async () => {
         // remove token from the local storage
         localStorage.removeItem("token");
@@ -39,24 +42,49 @@ const EditProfile = data => {
                 delete data["bio"];
             }
             if (data["username"] === "" || data["email"] === "") {
-                alert("Username/Email cannot be empty.");
+                setUpdateProfile(!updateProfile);
+                setAlertStatus("error");
+                setAlertMessage("Username/Email cannot be empty.");
+                setTimeout(function() {
+                    setUpdateProfile(false);
+                }, 5000);
             } else if (Object.keys(data).length === 1) {
-                alert("Nothing was updated.");
+                setUpdateProfile(!updateProfile);
+                setAlertStatus("info");
+                setAlertMessage("Nothing was updated.");
+                setTimeout(function() {
+                    setUpdateProfile(false);
+                }, 5000);
             } else {
                 if (!checkProfileFields(data)) return;
                 const user = await updateUser(data);
                 if (user) {
                     if (user.username === username && user.email === email) {
                         // if username and email are not changed
-                        alert("Successfully updated.");
+                        setUpdateProfile(!updateProfile);
+                        setAlertStatus("success");
+                        setAlertMessage("Successfully updated.");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000);
                     } else {
-                        alert(
-                            "Successfully updated, please re-enter your login credentials."
-                        );
-                        await handleLogOut(); //must logout and login to reset token
+                        setUpdateProfile(!updateProfile);
+                        setAlertStatus("success");
+                        setAlertMessage("Successfully updated, please re-enter your login credentials.");
+                        setTimeout(function() {
+                            setUpdateProfile(false);
+                            handleLogOut(); //must logout and login to reset token
+                            window.location.reload();
+                        }, 5000);
+                        
                     }
                 } else {
-                    alert("Username/Email is taken.");
+                    setUpdateProfile(!updateProfile);
+                    setAlertStatus("warning");
+                    setAlertMessage("Username/Email is taken.");
+                    setTimeout(function() {
+                        setUpdateProfile(false);
+                    }, 5000);
                 }
             }
         } catch (err) {
@@ -127,6 +155,18 @@ const EditProfile = data => {
                 </div>
             ) : (
                 <h1>User not found.</h1>
+            )}
+            {updateProfile ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );

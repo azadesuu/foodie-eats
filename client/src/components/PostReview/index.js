@@ -15,6 +15,7 @@ import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Alert from "@mui/material/Alert";
 
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { createReview, getProfile } from "../../api";
@@ -49,6 +50,10 @@ function PostReview() {
     //images
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
+
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [post, setPost] = useState(false);
 
     const imageHandler = async () => {
         try {
@@ -86,23 +91,68 @@ function PostReview() {
         tags
     ) => {
         if (!restaurantName) {
-            alert("restaurant name is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Restaurant name is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!dateVisited) {
-            alert("date is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Date is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!streetAddress) {
-            alert("street address is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Street address is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!suburb) {
-            alert("suburb is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Suburb is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!state) {
-            alert("state is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("State is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!postcode) {
-            alert("postcode is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Postcode is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(postcode)) {
-            alert("Postcode is invalid.");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Postcode is invalid.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (!description) {
-            alert("description is missing");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Description is missing.");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else if (image?.size / 1024 / 1024 > 10) {
-            alert("image is too big!");
+            setPost(!post);
+            setAlertStatus("error");
+            setAlertMessage("Image is too big!");
+            setTimeout(function() {
+                setPost(false);
+            }, 1000);
         } else {
             const address = {
                 streetAddress: streetAddress,
@@ -126,9 +176,16 @@ function PostReview() {
                 tags: tags
             });
             if (!review) {
-                alert("creation unsuccessful.");
+                setPost(!post);
+                setAlertStatus("error");
+                setAlertMessage("Creation unsuccessful!");
+                setTimeout(function() {
+                    setPost(false);
+                }, 2000);
+            } else {
+                navigate(`/review/${review?._id}`);
             }
-            navigate(`/review/${review?._id}`);
+            
         }
     };
 
@@ -813,6 +870,18 @@ function PostReview() {
                         </form>
                     </span>
                 </div>
+            )}
+            {post ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );
