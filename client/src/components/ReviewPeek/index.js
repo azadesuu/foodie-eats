@@ -37,7 +37,7 @@ const ReviewPeek = props => {
         likeCount,
         dateVisited,
         description,
-        reviewImage
+        images
     } = props.reviewData;
     const [username, setUsername] = useState(userId.username);
 
@@ -154,12 +154,8 @@ const ReviewPeek = props => {
                                     justifyContent="flex-end"
                                     mb="0px"
                                 >
-                                    {reviewImage !== "" &&
-                                    reviewImage !== undefined ? (
-                                        <>+1 Image</>
-                                    ) : (
-                                        <></>
-                                    )}
+                                    {/* +{images.length} images */}
+                                    +2 images
                                 </Typography>
                             </React.Fragment>
                         }

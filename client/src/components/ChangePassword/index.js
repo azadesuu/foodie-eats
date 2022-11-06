@@ -2,13 +2,13 @@ import { allSEO } from "../../utils/allSEO";
 import SEO from "../SEO";
 
 import "./ChangePassword.css";
-import TopUser from "../TopUser";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updatePassword, getProfile } from "../../api";
 import { CircularProgress } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import "@fontsource/martel-sans";
 
@@ -17,10 +17,43 @@ const strongPassword = new RegExp(
     "^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{8,}$"
 );
 
-function ChangePwDetails(props) {
+function TopUser(props) {
     const userProfile = props.user;
-    const isLoading = props.isLoading;
+
+    return (
+        <div className="top-user">
+            <div className="top-user-r1">
+                <Avatar
+                    alt="user-profile-image"
+                    src={userProfile.profileImage}
+                    sx={{ height: 130, width: 130 }}
+                />
+                <div className="top-user-info">
+                    <h2>{userProfile.username}</h2>
+                    <p>{userProfile.bio}</p>
+                </div>
+            </div>
+            <div className="top-user-rev">
+                <p>
+                    <span className="detail">7</span> reviews
+                </p>
+                <p>
+                    <span className="detail">10k</span> likes
+                </p>
+            </div>
+        </div>
+    );
+}
+
+function ChangePwDetails(props) {
+    const user = props.user;
     const navigate = useNavigate();
+
+    const { data: userProfile, isLoading } = useQuery(
+        "my-profile",
+        () => getProfile(user?.username),
+        { enabled: !!user }
+    );
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -60,8 +93,10 @@ function ChangePwDetails(props) {
             <span className="smallScreen-ChangePassword">
                 <h1>CHANGE PASSWORD</h1>
             </span>
-            {isLoading && <CircularProgress class="spinner" />}
-            {!isLoading && userProfile ? (
+            {isLoading && !userProfile && (
+                <CircularProgress className="spinner" />
+            )}
+            {userProfile ? (
                 <div className="user-container">
                     <form>
                         {/* current password field */}
@@ -74,10 +109,7 @@ function ChangePwDetails(props) {
                                 }}
                             />
                         </div>
-                        <span className="helper-text-pw">
-                            at least 1 lowercase, 1 uppercase letter, and 1
-                            number
-                        </span>
+
                         {/* new password field */}
                         <div className="details-container">
                             <label>new password</label>
@@ -127,42 +159,34 @@ function ChangePwDetails(props) {
 function Sidebar() {
     return (
         <div className="sidebar-content">
-            <div id="current">
-                <a href="my-profile">profile</a>
-            </div>
+            <a href="my-profile">profile</a>
             <a href="my-reviews">reviews</a>
-            <a href="my-bookmarks">bookmarks</a>
+            <div id="current">
+                <a href="my-bookmarks">bookmarks</a>
+            </div>
             <a href="my-theme">theme</a>
         </div>
     );
 }
 
 function ChangePassword() {
-    const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
-        "my-profile",
-        () => getProfile(user?.username),
-        { enabled: !!user }
-    );
+    const [user, setUser] = useContext(UserContext);
 
     return (
         <>
             <SEO data={allSEO.changepassword} />
-            {user && userProfile ? (
+            {user ? (
                 <div className="content-ChangePassword">
                     <span className="smallScreen-ChangePassword">
-                        <ChangePwDetails isLoading={isLoading} user={user} />
+                        <ChangePwDetails user={user} />
                     </span>
                     <span className="bigScreen-ChangePassword">
-                        <TopUser user={userProfile} />
+                        <TopUser user={user} />
                         <div className="line5" />
                         <div className="r1">
                             <Sidebar />
                             <div className="line6" />
-                            <ChangePwDetails
-                                isLoading={isLoading}
-                                user={userProfile}
-                            />
+                            <ChangePwDetails user={user} />
                         </div>
                     </span>
                 </div>

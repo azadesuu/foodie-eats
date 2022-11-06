@@ -151,7 +151,7 @@ module.exports = function(passport) {
       },
       (req, jwt_payload, done) => {
         // passport will put the decrypted token in jwt_payload variable
-        User.findOne({ _id: jwt_payload.body._id }, (err, user) => {
+        User.findOne({ email: jwt_payload.body._id }, (err, user) => {
           if (err) {
             return done(err, false);
           }

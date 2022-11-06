@@ -5,7 +5,7 @@ import { updateUser } from "../../api";
 import { Navigate } from "react-router";
 
 const EditProfile = data => {
-    const { _id, username, email, bio, navigation } = data;
+    const { _id, username, email, bio, profileImage, navigation } = data;
 
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);
@@ -67,8 +67,6 @@ const EditProfile = data => {
                             type="text"
                             name="usernameEdit"
                             id="usernameEdit"
-                            minLength={6}
-                            maxLength={16}
                             value={usernameEdit}
                             placeholder="Edit your username here"
                             onChange={event => {
@@ -76,9 +74,6 @@ const EditProfile = data => {
                             }}
                         />
                     </div>
-                    <span className="helper-text">
-                        Maximum of 16 characters
-                    </span>
                     <div className="form-control-profile">
                         <label>Email </label>
                         <input
@@ -98,18 +93,13 @@ const EditProfile = data => {
                             type="text"
                             name="bioEdit"
                             id="bioEdit"
-                            maxLength={100}
                             value={bioEdit}
                             placeholder="Edit your bio here"
                             onChange={event => {
                                 setBioEdit(event.target.value);
                             }}
                         />
-                        <span className="helper-text">
-                            Maximum of 100 characters
-                        </span>
                     </div>
-
                     <button
                         id="btn"
                         className="edit-profile-done"

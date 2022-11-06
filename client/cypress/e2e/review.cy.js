@@ -165,7 +165,7 @@ describe('Create a Review', () => {
     it('successfully edits a review', () => {
         cy.visit('/my-reviews');
         cy.wait(10000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root > .MuiListItemText-root > .MuiListItemText-secondary > .css-1lckfwf-MuiTypography-root > #link').click(); // cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').should('be.visible').click({ multiple: true }, {force:true}); // click specific review
+        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click({ multiple: true }); // click specific review
         cy.wait(10000);
         cy.get(':nth-child(4) > .editReviewButton').click();
         cy.get('#outer > .switchContainer > .MuiFormControlLabel-root > .MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click(); // private
@@ -190,7 +190,7 @@ describe('Create a Review', () => {
     it('successfully deletes a review', () => {
         cy.visit('/my-reviews');
         cy.wait(1000);
-        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root > .MuiListItemText-root > .MuiListItemText-secondary > .css-1lckfwf-MuiTypography-root > #link').click(); // cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click({ multiple: true });
+        cy.get('.MuiGrid-root > .MuiList-root > .MuiButtonBase-root').click({ multiple: true });
         cy.wait(1000);
         cy.get(':nth-child(4) > .editReviewButton').click();
         cy.get('[data-testid="DeleteIcon"]').click();
