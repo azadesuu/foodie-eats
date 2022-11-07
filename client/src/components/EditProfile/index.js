@@ -18,7 +18,6 @@ const EditProfile = data => {
         localStorage.removeItem("token");
         navigation("/login");
     };
-
     const editProfile = async e => {
         try {
             let usernameTransform = usernameEdit.trim().toLowerCase();
@@ -54,12 +53,13 @@ const EditProfile = data => {
                 // if (!checkProfileFields(data)) return;
                 const message = checkProfileFields(data);
                 if (!message.success) {
+                    setUpdateProfile(true);
                     setUpdateProfile(!updateProfile);
                     setAlertStatus(message.status);
                     setAlertMessage(message.message);
-                    setTimeout(function() {
-                        setUpdateProfile(false);
-                    }, 5000);
+                    // setTimeout(function() {
+                    //     setUpdateProfile(false);
+                    // }, 5000);
                 } else {
                     const user = await updateUser(data);
                     if (user) {
@@ -68,14 +68,15 @@ const EditProfile = data => {
                             user.email === email
                         ) {
                             // if username and email are not changed
-                            setUpdateProfile(!updateProfile);
+                            setUpdateProfile(true);
                             setAlertStatus("success");
                             setAlertMessage("Successfully updated.");
                             setTimeout(function() {
                                 window.location.reload();
+                                setUpdateProfile(false);
                             }, 2000);
                         } else {
-                            setUpdateProfile(!updateProfile);
+                            setUpdateProfile(true);
                             setAlertStatus("success");
                             setAlertMessage(
                                 "Successfully updated, please re-enter your login credentials."
@@ -87,12 +88,9 @@ const EditProfile = data => {
                             }, 5000);
                         }
                     } else {
-                        setUpdateProfile(!updateProfile);
+                        setUpdateProfile(true);
                         setAlertStatus("warning");
                         setAlertMessage("Username/Email is taken.");
-                        setTimeout(function() {
-                            setUpdateProfile(false);
-                        }, 2000);
                     }
                 }
             }
