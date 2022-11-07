@@ -70,7 +70,7 @@ function MyTheme(props) {
                 localStorage.setItem("theme", theme);
             }
         } catch (err) {
-            console.log(err);
+            alert(err);
         }
     };
     function toggleActiveTheme(theme) {
