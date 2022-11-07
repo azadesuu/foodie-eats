@@ -136,6 +136,7 @@ function EditReview() {
 
     const submitUpdatedReview = async (
         _id,
+        userId,
         restaurantName,
         isPublic,
         priceRange,
@@ -156,6 +157,13 @@ function EditReview() {
             setEditReview(!editReview);
             setAlertStatus("error");
             setAlertMessage("Date is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
+        } else if (!userId) {
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("User doesn't exist.");
             setTimeout(function() {
                 setEditReview(false);
             }, 1000);
@@ -402,6 +410,7 @@ function EditReview() {
                             <div className="details-container">
                                 <input
                                     type="text"
+                                    placeholder="restaurant name"
                                     defaultValue={review.restaurantName}
                                     onChange={e => {
                                         review.restaurantName = e.target.value;
@@ -424,6 +433,7 @@ function EditReview() {
                             <div className="details-container">
                                 <input
                                     type="text"
+                                    placeholder="street address"
                                     defaultValue={review.address.streetAddress}
                                     onChange={e => {
                                         review.address.streetAddress =
@@ -436,6 +446,7 @@ function EditReview() {
                                 <div className="suburb-container">
                                     <input
                                         type="text"
+                                        placeholder="suburb"
                                         defaultValue={review.address.suburb}
                                         onChange={e => {
                                             review.address.suburb =
@@ -482,6 +493,7 @@ function EditReview() {
                                     <input
                                         type="text"
                                         maxLength="4"
+                                        placeholder="postcode"
                                         defaultValue={review.address.postcode}
                                         onKeyPress={event => {
                                             if (!/[0-9]/.test(event.key)) {
@@ -508,6 +520,7 @@ function EditReview() {
                                     <textarea
                                         type="text"
                                         maxLength={160}
+                                        placeholder="description..."
                                         defaultValue={review.description}
                                         onChange={e => {
                                             review.description = e.target.value;
@@ -529,8 +542,8 @@ function EditReview() {
                                     <>
                                         <label>
                                             Add your images here
-                                            <br /> Click upload again to remove
-                                            image.
+                                            <br /> 
+                                            Click upload again to remove image.
                                             <input
                                                 type="file"
                                                 name="myImage"
@@ -584,6 +597,7 @@ function EditReview() {
                                     onClick={() => {
                                         submitUpdatedReview(
                                             review._id,
+                                            review.userId._id,
                                             review.restaurantName,
                                             review.isPublic,
                                             review.priceRange,
@@ -715,7 +729,7 @@ function EditReview() {
                                 <div className="r3-content1">
                                     <div className="details-container">
                                         <input
-                                            type="text"
+                                            type="text"placeholder="restaurant name"
                                             defaultValue={review.restaurantName}
                                             onChange={e => {
                                                 review.restaurantName =
@@ -740,6 +754,7 @@ function EditReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
+                                                placeholder="description..."
                                                 maxLength={160}
                                                 defaultValue={
                                                     review.description
@@ -765,6 +780,7 @@ function EditReview() {
                                     <div className="details-container">
                                         <input
                                             type="text"
+                                            placeholder="street address"
                                             defaultValue={
                                                 review.address.streetAddress
                                             }
@@ -779,6 +795,7 @@ function EditReview() {
                                         <div className="suburb-container">
                                             <input
                                                 type="text"
+                                                placeholder="suburb"
                                                 defaultValue={
                                                     review.address.suburb
                                                 }
@@ -845,6 +862,7 @@ function EditReview() {
                                             <input
                                                 type="text"
                                                 maxLength="4"
+                                                placeholder="postcode"
                                                 defaultValue={
                                                     review.address.postcode
                                                 }
@@ -937,6 +955,7 @@ function EditReview() {
                                     onClick={() => {
                                         submitUpdatedReview(
                                             review._id,
+                                            review.userId._id,
                                             review.restaurantName,
                                             review.isPublic,
                                             review.priceRange,

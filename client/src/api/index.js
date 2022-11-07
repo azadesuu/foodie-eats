@@ -45,11 +45,11 @@ export const loginUser = async user => {
     })
         .then(res => res.data)
         .catch(() => {
-            // return ({ 
-            //     success: false, 
-            //     status: "info", 
-            //     message: "Email not found or password doesn't match."
-            // });
+                // return ({ 
+                //     success: false, 
+                //     status: "info", 
+                //     message: "Email not found or password doesn't match."
+                // }); 
             alert("Email not found or password doesn't match.");
         });
 

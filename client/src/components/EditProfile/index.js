@@ -54,9 +54,19 @@ const EditProfile = data => {
                 setAlertMessage("Nothing was updated.");
                 setTimeout(function() {
                     setUpdateProfile(false);
-                }, 5000);
+                }, 2000);
             } else {
-                if (!checkProfileFields(data)) return;
+                // if (!checkProfileFields(data)) return;
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateProfile(!updateProfile);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                    setTimeout(function() {
+                        setUpdateProfile(false);
+                    }, 2000);
+                }
+                console.log(checkProfileFields(data))
                 const user = await updateUser(data);
                 if (user) {
                     if (user.username === username && user.email === email) {
@@ -84,7 +94,7 @@ const EditProfile = data => {
                     setAlertMessage("Username/Email is taken.");
                     setTimeout(function() {
                         setUpdateProfile(false);
-                    }, 5000);
+                    }, 2000);
                 }
             }
         } catch (err) {
@@ -160,7 +170,8 @@ const EditProfile = data => {
                 <Alert
                     severity={alertStatus}
                     sx={{
-                        mt: "5px"
+                        mt: "5px",
+                        width: "326px"
                     }}
                 >
                     {alertMessage}
