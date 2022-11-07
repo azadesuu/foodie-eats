@@ -15,6 +15,7 @@ import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Alert from "@mui/material/Alert";
 import Moment from "moment";
 
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -30,6 +31,10 @@ function Review(props) {
     const [bookmarked, setBookmark] = useState(false);
     const [liked, setLiked] = useState(false);
 
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [like, setLike] = useState(false);
+    
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
         "view-review",
@@ -37,7 +42,7 @@ function Review(props) {
         { enabled: !!reviewId }
     );
 
-    const { data: userProfile, isLoadingUser } = useQuery(
+    const { data: userProfile } = useQuery(
         "view-profile",
         () => getProfile(user?.username),
         { enabled: !!user }
@@ -51,14 +56,20 @@ function Review(props) {
                 setLiked(true);
             }
         }
-    }, [review && userProfile]);
+    }, [isLoading, review, userProfile, user?._id]);
+
 
     async function likeButton() {
         if (!userProfile) {
-            alert("Please log in to give a like!");
+            setLike(!like);
+            setAlertStatus("info");
+            setAlertMessage("Please log in to give a like!");
+            setTimeout(function() {
+                setLike(false);
+            }, 2000);
         } else {
             try {
-                const likeReview = await toggleLike({
+                await toggleLike({
                     reviewId: review?._id,
                     userId: userProfile?._id,
                     likeBool: liked
@@ -108,6 +119,18 @@ function Review(props) {
         <div className="content-Review">
             {isLoading && !review && (
                 <CircularProgress className="spinner" sx={{ ml: 0 }} />
+            )}
+            {like ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
             {review ? (
                 <div className="user-container">
@@ -356,7 +379,10 @@ function Review(props) {
                             <div className="add-image">
                                 {review.reviewImage &&
                                     review.reviewImage !== "" && (
-                                        <img src={review.reviewImage} />
+                                        <img
+                                            src={review.reviewImage}
+                                            alt="review"
+                                        />
                                     )}
                             </div>
                             <div className="line" />
@@ -491,7 +517,10 @@ function Review(props) {
                                 <div className="add-image">
                                     {review.reviewImage &&
                                         review.reviewImage !== "" && (
-                                            <img src={review.reviewImage} />
+                                            <img
+                                                src={review.reviewImage}
+                                                alt="review"
+                                            />
                                         )}
                                 </div>
                             </div>

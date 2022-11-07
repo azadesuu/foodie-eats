@@ -62,7 +62,7 @@ function MenuSideBar() {
                 onClose={() => setIsOpen(!isOpen)}
             >
                 <div className="content-MenuSideBar">
-                    <img src={WebLogo} width="107px" />
+                    <img src={WebLogo} width="107px" alt="web logo" />
                     <div className="MenuSideBar-r1">
                         <div className="MenuSideBar-c1">
                             <NavLink
@@ -215,7 +215,11 @@ function NavPublic() {
                                         }
                                     }}
                                 >
-                                    <img src={WebLogo} width="70px" />
+                                    <img
+                                        src={WebLogo}
+                                        width="70px"
+                                        alt="web logo"
+                                    />
                                 </Button>
                                 <Grid container justifyContent="space-between">
                                     <Box

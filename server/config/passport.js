@@ -179,10 +179,7 @@ module.exports = function(passport) {
           // find the user associated with the email provided
           await User.findOne(
             {
-              $or: [
-                { username: email.toLowerCase() },
-                { email: email.toLowerCase() }
-              ]
+              $or: [{ username: email }, { email: email }]
             },
             function(err, user) {
               // if user is not found or there are other errors

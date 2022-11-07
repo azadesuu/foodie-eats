@@ -461,12 +461,12 @@ function Community() {
                                 >
                                     {/* review parameter contains the whole review document */}
                                     {listLikes
-                                        .filter(review => {
+                                        .filter(review1 => {
                                             const postcodeInput = Number(
                                                 location
                                             );
                                             const reviewPostcode =
-                                                review.address.postcode;
+                                                review1.address.postcode;
                                             const filterInputRating = ratingChecked.map(
                                                 item => {
                                                     if (item.check) {
@@ -486,9 +486,9 @@ function Community() {
                                                 }
                                             );
 
-                                            const resRating = review.rating;
+                                            const resRating = review1.rating;
                                             const resPriceRange =
-                                                review.priceRange;
+                                                review1.priceRange;
 
                                             if (
                                                 filterInputRating.some(
@@ -587,12 +587,12 @@ function Community() {
                                     columns={{ xs: 4, sm: 8, md: 12 }}
                                 >
                                     {listLikes
-                                        .filter(review => {
+                                        .filter(review2 => {
                                             const postcodeInput = Number(
                                                 location
                                             );
                                             const reviewPostcode =
-                                                review.address.postcode;
+                                                review2.address.postcode;
                                             const filterInputRating = ratingChecked.map(
                                                 item => {
                                                     if (item.check) {
@@ -612,9 +612,9 @@ function Community() {
                                                 }
                                             );
 
-                                            const resRating = review.rating;
+                                            const resRating = review2.rating;
                                             const resPriceRange =
-                                                review.priceRange;
+                                                review2.priceRange;
 
                                             if (
                                                 filterInputRating.some(

@@ -247,20 +247,30 @@ const bookmarkReview = async (req, res, next) => {
 
 const checkUpdateUser = async (req, res, next) => {
   let { username, email, bio } = req.body;
-  if (username) username = username.toLowerCase().trim();
-  if (email) email = email.toLowerCase().trim();
+  let usernameEdit;
+  let emailEdit;
+  if (username) usernameEdit = username.toLowerCase().trim();
+  if (email) emailEdit = email.toLowerCase().trim();
 
+  if (username === "" || email === "") {
+    res.status(400).json({
+      success: false,
+      message: "Username/Email cannot be empty.",
+      data: undefined
+    });
+    return;
+  }
   //check if username and email is valid
-  if (!username && !email && !bio) {
+  else if (!username && !email && !bio) {
     res.status(204).json({
       success: true,
       message: "Nothing to update.",
       data: undefined
     });
     return;
-  } else if (username || email) {
-    if (username) {
-      if (!validUsername.test(username)) {
+  } else if (usernameEdit || emailEdit) {
+    if (usernameEdit) {
+      if (!validUsername.test(usernameEdit)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -271,7 +281,7 @@ const checkUpdateUser = async (req, res, next) => {
     }
 
     if (email) {
-      if (!validEmail.test(email)) {
+      if (!validEmail.test(emailEdit)) {
         res.status(400).json({
           success: false,
           message: "Username/Email is not valid.",
@@ -283,7 +293,7 @@ const checkUpdateUser = async (req, res, next) => {
   }
   // check if bio is over the limit
   else if (bio) {
-    if (bio.length > 150) {
+    if (bio.length > 100) {
       res.status(400).json({
         success: false,
         message: `Bio is over the character limit at ${bio.length}.`,
@@ -293,18 +303,11 @@ const checkUpdateUser = async (req, res, next) => {
     }
   } else {
     // check if there is an existing user with the email
-    if (username || email) {
-      let user1;
-      let user2;
-      if (username) {
-        user1 = await User.findOne({ username: username });
-      }
-      if (email) {
-        user2 = await User.findOne({
-          email: email
-        });
-      }
-      if (user1 || user2) {
+    if (usernameEdit || emailEdit) {
+      const user = await User.findOne({
+        $or: [{ username: usernameEdit }, { email: emailEdit }]
+      });
+      if (user) {
         res.status(400).json({
           success: false,
           message: `Existing user with entered username/email.`,
@@ -320,7 +323,6 @@ const checkUpdateUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const _id = req.params.userId;
   const { username, email, bio } = req.body;
-
   try {
     const newUser = await User.findByIdAndUpdate(
       _id,
@@ -347,7 +349,6 @@ const updateUser = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating user.",
@@ -415,7 +416,6 @@ const updatePassword = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating password.",
@@ -502,7 +502,6 @@ const uploadNewImage = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while uploading image.",

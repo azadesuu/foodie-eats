@@ -3,8 +3,9 @@ import SEO from "../SEO";
 import "./SignUp.css";
 import React from "react";
 import { useState } from "react";
+import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
-import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 import "@fontsource/martel-sans";
 
@@ -15,25 +16,50 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
-    const navigate = useNavigate();
+
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [updateSignUp, setUpdateSignUp] = useState(false);
 
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const user = await signupUser({
+                let data = {
                     username: username,
                     email: email,
                     password: password
-                });
-                if (user) {
-                    alert("Signup successful. Please Login.");
-                    navigate("/login");
+                };
+                if (username === "" || email === "" || password === "") {
+                    setUpdateSignUp(true);
+                    setAlertStatus("info");
+                    setAlertMessage("Please fill in the missing fields.");
+                    return;
+                }
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                    return;
+                }
+                const user = await signupUser(data);
+                if (user?.success === false) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(user.status);
+                    setAlertMessage(user.message);
+                    return;
+                } else if (user) {
+                    setUpdateSignUp(true);
+                    setAlertStatus("success");
+                    setAlertMessage("Signup successful. Please Login.");
                 }
             } catch (err) {
                 alert(err);
             }
         } else {
-            alert("Please re-confirm your password.");
+            setUpdateSignUp(true);
+            setAlertStatus("error");
+            setAlertMessage("Please re-confirm your password.");
         }
     }
 
@@ -41,7 +67,7 @@ function Register() {
         <div className="content-register">
             <Login />
             <SEO data={allSEO.signup} />
-            <form action="#" method="post" class="form" id="form">
+            <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Email</label>
                     <input
@@ -127,6 +153,18 @@ function Register() {
                     DONE
                 </a>
             </div>
+            {updateSignUp ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

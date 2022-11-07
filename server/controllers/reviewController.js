@@ -22,8 +22,18 @@ const checkReviewParams = async (req, res, next) => {
       data: undefined
     });
     return;
+  } else {
+    const exist = await Review.findById(req.params.reviewId);
+    if (!exist) {
+      res.status(204).json({
+        success: false,
+        message: "Review doesn't exist in the database",
+        data: undefined
+      });
+      return;
+    }
+    next();
   }
-  next();
 };
 
 const getReviewsByRecent = async (req, res, next) => {
@@ -195,6 +205,7 @@ const createReview = async (req, res, next) => {
 const checkUpdateReview = async (req, res, next) => {
   const {
     _id,
+    userId,
     restaurantName,
     isPublic,
     priceRange,
@@ -205,7 +216,15 @@ const checkUpdateReview = async (req, res, next) => {
 
   if (
     isPublic == undefined ||
-    !(_id && restaurantName && priceRange && rating && dateVisited && address)
+    !(
+      _id &&
+      userId &&
+      restaurantName &&
+      priceRange &&
+      rating &&
+      dateVisited &&
+      address
+    )
   ) {
     res.status(400).json({
       success: false,

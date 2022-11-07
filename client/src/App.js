@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Navigate, Outlet } from "react-router-dom";
-import { createReview, getUser } from "./api";
+import { Navigate } from "react-router-dom";
+import { getUser } from "./api";
 import { UserContext } from "./actions/UserContext";
 import Community from "./components/Community";
 import Login from "./components/Login";
@@ -47,9 +47,9 @@ function App() {
             }
         };
         getUserWithJwt();
-    }, [setUser]);
+    }, [setUser, currTheme]);
 
-    const NavigationBar = props => {
+    const NavigationBar = () => {
         if (isLoggedIn()) {
             return <LoggedInNavBar />;
         } else {

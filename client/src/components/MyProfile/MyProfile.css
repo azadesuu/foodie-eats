@@ -233,7 +233,7 @@ span.detail {
     padding: 2%;
 }
 .top-user .image-edit {
-    top: 25%;
+    top: 250px;
     left: 250px;
 }
 span.smallScreen-MyProfile .image-edit {
@@ -257,9 +257,9 @@ input[type="file"]::file-selector-button {
     justify-content: center;
     align-items: center;
 }
-span.bigScreen-MyProfile .top-user #image-cancel {
-    top: 270px;
-    left: 520px;
+.top-user #image-cancel {
+    top: 255px;
+    left: 515px;
     width: 10px;
 }
 span.smallScreen-MyProfile #image-cancel {

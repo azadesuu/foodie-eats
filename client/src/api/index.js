@@ -8,7 +8,7 @@ axios.interceptors.request.use(
         const allowedOrigins = [SERVER_URL];
         const token = localStorage.getItem("token");
         if (allowedOrigins.includes(origin) && token) {
-            config.headers["authorization"] = `${token}`;
+            config.headers["authorization"] = `Bearer ${token}`;
         }
         return config;
     },
@@ -21,8 +21,11 @@ export const loginUser = async user => {
     const { email, password } = user;
 
     if (!email || !password) {
-        alert("Must provide email and a password");
-        return;
+        return {
+            success: false,
+            status: "info",
+            message: "Must provide email and a password."
+        };
     }
     const endpoint = SERVER_URL + `/login`;
 
@@ -66,8 +69,11 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        alert("Must provide an email, a password, and a username.");
-        return;
+        return {
+            success: false,
+            status: "info",
+            message: "Must provide an email, a password, and a username."
+        };
     }
 
     const endpoint = SERVER_URL + "/signup";
@@ -96,6 +102,7 @@ export const forgotPassword = async data => {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
+
 // COMMUNITY
 
 export const getCommunityRecent = async () => {

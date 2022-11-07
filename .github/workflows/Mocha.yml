@@ -3,15 +3,17 @@ on: [push]
 jobs:
   test:
     name: 'Node.js v${{ matrix.node }}'
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: npm install
         working-directory: server
       - name: Install MochaJS
         run: npm install mocha -g
         working-directory: server
-      - name: Generate Mocha test reports (json/html)
-        run: npm run test-awesome        
+      - name: Run Mocha Tests (mochaJS)
+        run: npm test
         working-directory: server

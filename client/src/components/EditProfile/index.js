@@ -1,8 +1,8 @@
 import "./EditProfile.css";
-
+import { checkProfileFields } from "../../utils";
 import { useState } from "react";
 import { updateUser } from "../../api";
-import { Navigate } from "react-router";
+import Alert from "@mui/material/Alert";
 
 const EditProfile = data => {
     const { _id, username, email, bio, navigation } = data;
@@ -10,46 +10,74 @@ const EditProfile = data => {
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);
     const [bioEdit, setBioEdit] = useState(bio);
-
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [updateProfile, setUpdateProfile] = useState(false);
     const handleLogOut = async () => {
         // remove token from the local storage
         localStorage.removeItem("token");
         navigation("/login");
     };
-
     const editProfile = async e => {
         try {
-            const data = {
+            let usernameTransform = usernameEdit.trim().toLowerCase();
+            let emailTransform = emailEdit.trim().toLowerCase();
+            setUsernameEdit(usernameTransform);
+            setEmailEdit(emailTransform);
+
+            let data = {
                 userId: _id,
-                username: usernameEdit,
-                email: emailEdit,
+                username: usernameTransform,
+                email: emailTransform,
                 bio: bioEdit
             };
-            if (username === usernameEdit) {
-                delete data["username"];
-            }
-            if (email === emailEdit) {
-                delete data["email"];
-            }
-            if (bio === bioEdit) {
-                delete data["bio"];
-            }
-            if (Object.keys(data).length == 1) {
-                alert("Nothing was updated.");
+            // removing field from json if unchanged
+            if (username === usernameTransform) delete data["username"];
+            if (email === emailTransform) delete data["email"];
+            if (bio === bioEdit) delete data["bio"];
+            if (data["username"] === "" || data["email"] === "") {
+                setUpdateProfile(true);
+                setAlertStatus("error");
+                setAlertMessage("Username/Email cannot be empty.");
+            } else if (Object.keys(data).length === 1) {
+                setUpdateProfile(true);
+                setAlertStatus("info");
+                setAlertMessage("Nothing was updated.");
             } else {
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateProfile(true);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                    return;
+                }
                 const user = await updateUser(data);
                 if (user) {
                     if (user.username === username && user.email === email) {
                         // if username and email are not changed
-                        console.log("Successfully updated.");
+                        setUpdateProfile(true);
+                        setAlertStatus("success");
+                        setAlertMessage("Successfully updated.");
+                        setTimeout(function() {
+                            window.location.reload();
+                            setUpdateProfile(false);
+                        }, 2000);
                     } else {
-                        alert(
+                        setUpdateProfile(true);
+                        setAlertStatus("success");
+                        setAlertMessage(
                             "Successfully updated, please re-enter your login credentials."
                         );
-                        await handleLogOut(); //must logout and login to reset token (temp)
+                        setTimeout(function() {
+                            setUpdateProfile(false);
+                            handleLogOut(); //must logout and login to reset token
+                            window.location.reload();
+                        }, 5000);
                     }
                 } else {
-                    alert("Username/Email is taken.");
+                    setUpdateProfile(true);
+                    setAlertStatus("warning");
+                    setAlertMessage("Username/Email is taken.");
                 }
             }
         } catch (err) {
@@ -120,6 +148,19 @@ const EditProfile = data => {
                 </div>
             ) : (
                 <h1>User not found.</h1>
+            )}
+            {updateProfile ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px",
+                        width: "326px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );

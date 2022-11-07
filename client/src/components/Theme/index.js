@@ -6,7 +6,7 @@ import TopUser from "../TopUser";
 import { useContext, useEffect, useState } from "react";
 import { changeTheme, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Alert } from "@mui/material";
 import { useQuery } from "react-query";
 
 import Blueberry from "../../assets/images/Blueberry.svg";
@@ -33,12 +33,16 @@ function MyTheme(props) {
     const [userId, setUserId] = useState();
     const [currTheme, setCurrTheme] = useState();
 
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [themeUpload, setUThemeUpload] = useState(false);
+
     useEffect(() => {
         if (user && !userId) {
             setUserId(user._id);
             setCurrTheme(user.theme);
         }
-    }, [user]);
+    }, [user, userId]);
     useEffect(() => {
         document.documentElement.className = currTheme;
     }, [currTheme]);
@@ -49,9 +53,19 @@ function MyTheme(props) {
                 newTheme: theme
             });
             if (!oldUser) {
-                alert("An error occured. Please try again.");
+                setUThemeUpload(!themeUpload);
+                setAlertStatus("error");
+                setAlertMessage("An error occured. Please try again.");
+                setTimeout(function() {
+                    setUThemeUpload(false);
+                }, 2000);
             } else {
-                alert(`Theme changed from ${oldUser.theme} to ${theme}.`);
+                setUThemeUpload(!themeUpload);
+                setAlertStatus("success");
+                setAlertMessage(`Theme changed from ${oldUser.theme} to ${theme}.`);
+                setTimeout(function() {
+                    setUThemeUpload(false);
+                }, 2000);
                 setCurrTheme(theme);
                 localStorage.setItem("theme", theme);
             }
@@ -77,7 +91,7 @@ function MyTheme(props) {
                         value="honeydew"
                         onClick={() => updateTheme("honeydew")}
                     >
-                        <img id="honeydew" src={HoneyDew} />
+                        <img id="honeydew" src={HoneyDew} alt="honeydew" />
                     </div>
                     <div
                         id="dragonfruit"
@@ -85,7 +99,11 @@ function MyTheme(props) {
                         value="dragonfruit"
                         onClick={() => updateTheme("dragonfruit")}
                     >
-                        <img id="dragonfruit" src={Dragonfruit} />
+                        <img
+                            id="dragonfruit"
+                            src={Dragonfruit}
+                            alt="dragonfruit"
+                        />
                     </div>
                     <div
                         id="shokupan"
@@ -93,7 +111,7 @@ function MyTheme(props) {
                         value="shokupan"
                         onClick={() => updateTheme("shokupan")}
                     >
-                        <img id="shokupan" src={Shokupan} />
+                        <img id="shokupan" src={Shokupan} alt="shokupan" />
                     </div>
                     <div
                         id="boring"
@@ -101,7 +119,7 @@ function MyTheme(props) {
                         value="boring"
                         onClick={() => updateTheme("boring")}
                     >
-                        <img id="boring" src={Boring} />
+                        <img id="boring" src={Boring} alt="boring" />
                     </div>
                     <div
                         id="blueberry"
@@ -109,11 +127,23 @@ function MyTheme(props) {
                         value="blueberry"
                         onClick={() => updateTheme("blueberry")}
                     >
-                        <img id="blueberry" src={Blueberry} />
+                        <img id="blueberry" src={Blueberry} alt="blueberry" />
                     </div>
                 </div>
             ) : (
                 <h1>Loading...</h1>
+            )}
+            {themeUpload ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );
@@ -121,7 +151,7 @@ function MyTheme(props) {
 
 export default function Theme() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "profile-theme",
         () => getProfile(user?.username),
         { enabled: !!user }

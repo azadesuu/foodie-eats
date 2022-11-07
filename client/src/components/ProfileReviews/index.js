@@ -928,10 +928,10 @@ function ProfileReviews() {
         if (isUser) {
             navigate("/my-profile");
         }
-    }, [user]);
+    }, [user, loggedUsername, navigate, username]);
 
     // if its the logged in user, load the myprofile component
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "profile",
         () => getProfile(username),
         { enabled: !!username }

@@ -2,6 +2,7 @@ const { defineConfig } = require("cypress");
 const mongo = require('cypress-mongodb');
 
 module.exports = defineConfig({
+  projectId: 'g58y8w',
   e2e: {
     setupNodeEvents(on, config) {
       mongo.configurePlugin(on);

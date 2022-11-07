@@ -11,7 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-
+import Alert from "@mui/material/Alert";
 import EditProfile from "../EditProfile";
 import TopUser from "../TopUser";
 import {
@@ -19,7 +19,7 @@ import {
     deleteNewImage,
     deleteProfileImage,
     uploadNewImage,
-    uploadProfileImage,
+    uploadProfileImage
 } from "../../api";
 import { useNavigate } from "react-router";
 
@@ -30,17 +30,30 @@ const ProfileImageUpload = props => {
     const [imageURL, setImageURL] = useState(
         userProfile?.profileImage ? userProfile.profileImage : null
     );
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [deleteImg, setDeleteImg] = useState(false);
+    const [uploadImg, setUploadImg] = useState(false);
     async function submitHandler() {
         try {
             const formData = new FormData();
             formData.set("image", image);
             if (!formData.get("image")) {
-                alert("Image not selected!");
+                setUploadImg(!uploadImg);
+                setAlertStatus("error");
+                setAlertMessage("Image exceeds upload limit!");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             } else if (image.size / 1024 / 1024 > 10) {
-                alert("Image exceeds upload limit!");
+                setUploadImg(!uploadImg);
+                setAlertStatus("error");
+                setAlertMessage("Image exceeds upload limit!");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             } else if (image) {
                 if (imageURL) {
-                    await deleteHandler(imageURL);
                     setImageURL(null);
                 }
                 await uploadNewImage({
@@ -52,7 +65,12 @@ const ProfileImageUpload = props => {
                             userId: userProfile?._id,
                             url: result
                         });
-                        alert("Image was uploaded!");
+                        setUploadImg(!uploadImg);
+                        setAlertStatus("success");
+                        setAlertMessage("Image was uploaded!");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
                     })
                     .catch(err => {
                         alert(err);
@@ -67,21 +85,44 @@ const ProfileImageUpload = props => {
         if (url !== "" || url !== undefined) {
             const deleted = await deleteNewImage({ url: url });
             if (deleted) {
+                setDeleteImg(!deleteImg);
+                setAlertStatus("success");
+                setAlertMessage("Image successfully deleted.");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
                 return true;
             } else {
-                alert("Error occured, image was not deleted.");
+                setDeleteImg(!deleteImg);
+                setAlertStatus("error");
+                setAlertMessage("Error occured, image was not deleted.");
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             }
+        } else {
+            setDeleteImg(!deleteImg);
+            setAlertStatus("error");
+            setAlertMessage("Image does not exist");
+            setTimeout(function() {
+                setDeleteImg(false);
+            }, 5000);
         }
     }
     async function deleteProfileImageHandler() {
-        const deleted = await deleteHandler(userProfile.profileImage);
+        await deleteHandler(userProfile.profileImage);
         const removedProfileImage = await deleteProfileImage({
             userId: userProfile._id
         });
         if (removedProfileImage) {
             return true;
         } else {
-            alert("Error occured, image was not deleted.");
+            setDeleteImg(!deleteImg);
+            setAlertStatus("error");
+            setAlertMessage("Error occured, image was not deleted.");
+            setTimeout(function() {
+                window.location.reload();
+            }, 1000);
         }
     }
 
@@ -109,7 +150,7 @@ const ProfileImageUpload = props => {
             </label>
             {previewImage ? (
                 <label>
-                    <img src={previewImage} height={150} />
+                    <img src={previewImage} height={150} alt="preview" />
                 </label>
             ) : (
                 <p>Upload your image now!</p>
@@ -126,6 +167,30 @@ const ProfileImageUpload = props => {
             >
                 Remove profile picture
             </button>
+            {deleteImg ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
+            {uploadImg ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
         </div>
     );
 };
@@ -162,11 +227,12 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            disableRipple={true}
                             value={editButton}
                             onClick={updateUser}
                             sx={{
                                 left: "30px",
-                                bottom: "40px",
+                                bottom: "40px"
                             }}
                         >
                             <EditIcon
@@ -177,9 +243,7 @@ function ProfileDetails(props) {
                             />
                         </IconButton>
                     </div>
-                    <IconButton
-                        disableRipple={true}
-                    >
+                    <IconButton disableRipple={true}>
                         <Avatar
                             alt="user-profile-image"
                             src={
@@ -287,7 +351,7 @@ function ProfileDetails(props) {
 
 function MyProfile() {
     const [user] = useContext(UserContext);
-    const { data: userProfile, isLoading } = useQuery(
+    const { data: userProfile } = useQuery(
         "my-profile",
         () => getProfile(user?.username),
         { enabled: !!user }

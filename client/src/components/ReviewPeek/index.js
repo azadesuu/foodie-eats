@@ -39,7 +39,7 @@ const ReviewPeek = props => {
         description,
         reviewImage
     } = props.reviewData;
-    const [username, setUsername] = useState(userId.username);
+    const [username] = useState(userId.username);
 
     function viewReview() {
         navigate(`/review/${_id}`);
