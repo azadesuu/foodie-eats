@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
+const SERVER_URL = "https://foodie-eats.herokuapp.com";
 
 axios.interceptors.request.use(
     config => {
@@ -8,7 +8,7 @@ axios.interceptors.request.use(
         const allowedOrigins = [SERVER_URL];
         const token = localStorage.getItem("token");
         if (allowedOrigins.includes(origin) && token) {
-            config.headers["authorization"] = `${token}`;
+            config.headers["authorization"] = `Bearer ${token}`;
         }
         return config;
     },

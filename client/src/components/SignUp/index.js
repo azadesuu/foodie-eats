@@ -40,6 +40,7 @@ function Register() {
                     setUpdateSignUp(true);
                     setAlertStatus(message.status);
                     setAlertMessage(message.message);
+                    return;
                 }
                 const user = await signupUser(data);
                 if (user?.success === false) {

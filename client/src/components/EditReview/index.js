@@ -55,12 +55,11 @@ function EditReview() {
                 setEditReview(false);
                 navigate(-1);
             }, 2000);
-            
         }
         setPublicity(review?.isPublic);
         setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
         setPreviewImage(review?.reviewImage ? review?.reviewImage : "");
-    }, [review, user, navigate]);
+    }, [review, user, navigate, editReview]);
 
     const imageHandler = async () => {
         try {
@@ -123,7 +122,6 @@ function EditReview() {
                 setEditReview(false);
                 navigate("/my-reviews");
             }, 2000);
-            
         } else {
             setEditReview(!editReview);
             setAlertStatus("error");
@@ -543,7 +541,7 @@ function EditReview() {
                                     <>
                                         <label>
                                             Add your images here
-                                            <br /> 
+                                            <br />
                                             Click upload again to remove image.
                                             <input
                                                 type="file"
@@ -730,7 +728,8 @@ function EditReview() {
                                 <div className="r3-content1">
                                     <div className="details-container">
                                         <input
-                                            type="text"placeholder="restaurant name"
+                                            type="text"
+                                            placeholder="restaurant name"
                                             defaultValue={review.restaurantName}
                                             onChange={e => {
                                                 review.restaurantName =
