@@ -349,7 +349,6 @@ const updateUser = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating user.",
@@ -417,7 +416,6 @@ const updatePassword = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while updating password.",
@@ -504,7 +502,6 @@ const uploadNewImage = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       message: "Error occured while uploading image.",

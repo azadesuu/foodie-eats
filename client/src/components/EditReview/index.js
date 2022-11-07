@@ -223,6 +223,7 @@ function EditReview() {
 
             const updatedReviewRecord = await updateReview({
                 _id: _id,
+                userId: userId,
                 restaurantName: restaurantName,
                 isPublic: isPublic,
                 reviewImage: url,

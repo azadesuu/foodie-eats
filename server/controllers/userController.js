@@ -3,7 +3,6 @@ const User = require("../models/user");
 const Token = require("../models/token");
 
 // get express-validator, to validate user data in forms
-const expressValidator = require("express-validator");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("../config/passport")(passport);
@@ -100,23 +99,37 @@ const signupUser = async (req, res, next) => {
   })(req, res, next);
 };
 
-const getTokenUser = async (req, res) => {
-  try {
-    const token = req.headers["authorization"];
-    if (!token) return res.status(204).json(false);
-    const decoded = jwt.verify(token, process.env.PASSPORT_KEY);
+const getTokenUser = async (req, res, next) => {
+  passport.authenticate("jwt", async (err, user, info) => {
+    // if some error has been encountered while verifying JWT
+    try {
+      if (err) {
+        return res.status(401).json({
+          message: "Authentication unsuccessful",
+          status: false,
+          error: err
+        });
+      }
 
-    res.status(200).json({
-      success: true,
-      data: decoded.body
-    });
-    return;
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error occured while validating token",
-      error: err.message
-    });
-  }
+      // if JWT isn't valid, return back error
+      if (!user) {
+        return res.status(401).json({
+          message: "Token provided is invalid",
+          status: false
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: user
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: "Error occured while validating token",
+        error: err.message
+      });
+    }
+  })(req, res, next);
 };
 
 const forgotPassword = async (req, res) => {
