@@ -99,10 +99,6 @@ function App() {
 
                         {/* must be private */}
                         <Route
-                            path="/logout"
-                            element={<Private Component={Logout} />}
-                        />
-                        <Route
                             path="/my-theme"
                             element={<Private Component={Theme} />}
                         />
