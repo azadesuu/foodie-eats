@@ -227,6 +227,7 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            disableRipple={true}
                             value={editButton}
                             onClick={updateUser}
                             sx={{
