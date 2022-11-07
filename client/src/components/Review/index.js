@@ -56,7 +56,7 @@ function Review(props) {
                 setLiked(true);
             }
         }
-    }, [isLoading, review, userProfile, user._id]);
+    }, [isLoading, review, userProfile, user?._id]);
 
     async function likeButton() {
         if (!userProfile) {
