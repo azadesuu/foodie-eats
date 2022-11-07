@@ -348,7 +348,6 @@ function PostReview() {
                             <div className="details-container">
                                 <input
                                     type="date"
-                                    placeholder="date you visited DD/MM/YY"
                                     value={new Date()}
                                     onChange={e => {
                                         setDate(e.target.value);
@@ -656,7 +655,6 @@ function PostReview() {
                                     <div className="details-container">
                                         <input
                                             type="date"
-                                            placeholder="date you visited DD/MM/YY"
                                             onChange={e => {
                                                 setDate(e.target.value);
                                             }}
