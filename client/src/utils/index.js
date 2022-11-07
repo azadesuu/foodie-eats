@@ -18,31 +18,39 @@ export const checkProfileFields = data => {
     const { username, email, password, bio } = data;
     if (username) {
         if (!validUsername.test(username)) {
-            alert(
-                "Username is not valid. Username must be 6-16 characters and alphanumeric (or with underscores/periods)"
-            );
-            return false;
+            return ({
+                success: false,
+                status: "info",
+                message: "Username is not valid. Username must be 6-16 characters and alphanumeric (or with underscores/periods)."
+            });
         }
     }
     if (email) {
         if (!validEmail.test(email)) {
-            alert("Email is not valid. Please try again");
-            return false;
+            return ({
+                success: false,
+                status: "info",
+                message: "Email is not valid. Please try again."
+            });
         }
     }
     if (password) {
         if (!strongPassword.test(password)) {
-            alert(
-                "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
-            );
-            return false;
+            return ({
+                success: false,
+                status: "info",
+                message: "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
+            });
         }
     }
     if (bio) {
         if (bio.length > 100) {
-            alert("Length of bio exceeds the maximum of 100.");
-            return false;
+            return ({
+                success: false,
+                status: "info",
+                message: "Length of bio exceeds the maximum of 100."
+            });
         }
     }
-    return true;
+    return {success: true};
 };

@@ -100,6 +100,13 @@ const ProfileImageUpload = props => {
                     window.location.reload();
                 }, 1000);
             }
+        } else {
+            setDeleteImg(!deleteImg);
+            setAlertStatus("error");
+            setAlertMessage("Image does not exist");
+            setTimeout(function() {
+                setDeleteImg(false);
+            }, 5000);
         }
     }
     async function deleteProfileImageHandler() {
@@ -220,6 +227,7 @@ function ProfileDetails(props) {
                     <div className="r2">
                         <h1>{userProfile.username}</h1>
                         <IconButton
+                            disableRipple={true}
                             value={editButton}
                             onClick={updateUser}
                             sx={{

@@ -4,27 +4,36 @@ import "./ForgotPassword.css";
 import { checkProfileFields } from "../../utils";
 import React, { useState } from "react";
 import { forgotPassword } from "../../api";
+import Alert from "@mui/material/Alert";
 
 function ForgotPassword() {
     // state hook functions
     const [email, setEmail] = useState("");
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [forgotpw, setForgotpw] = useState(false);
 
     // submit form
     async function submitHandler(email) {
         try {
-            if (!checkProfileFields(email)) return;
+            // if (!checkProfileFields(email)) return;
+            const message = checkProfileFields(email);
+            if (!message.success) {
+                setForgotpw(true);
+                setAlertStatus(message.status);
+                setAlertMessage(message.message);
+                return;
+            }
             const sent = await forgotPassword(email);
             if (sent) {
-                alert(
-                    "Email sent successfully. Please wait for token to reset password."
-                );
+                setForgotpw(true);
+                setAlertStatus("success");
+                setAlertMessage("Email sent successfully. Please wait for token to reset password.");
             } else {
-                alert("Temporary password sent successfully.");
-                //alert("There was an error while requesting to reset password.");
+                setForgotpw(true);
+                setAlertStatus("error");
+                setAlertMessage("There was an error while requesting to reset password.");
             }
-            setTimeout(function() {
-                window.location.reload();
-            }, 10000);
         } catch (err) {
             console.log(err);
         }
@@ -52,6 +61,18 @@ function ForgotPassword() {
                     SUBMIT
                 </button>
             </div>
+            {forgotpw ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

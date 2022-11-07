@@ -5,6 +5,7 @@ import React from "react";
 import { useState } from "react";
 import { checkProfileFields } from "../../utils";
 import { signupUser } from "../../api";
+import Alert from "@mui/material/Alert";
 
 import "@fontsource/martel-sans";
 
@@ -16,6 +17,10 @@ function Register() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
 
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [updateSignUp, setUpdateSignUp] = useState(false);
+
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
@@ -25,19 +30,35 @@ function Register() {
                     password: password
                 };
                 if (username === "" || email === "" || password === "") {
-                    alert("Please fill in the missing fields.");
+                    setUpdateSignUp(true);
+                    setAlertStatus("info");
+                    setAlertMessage("Please fill in the missing fields.");
                     return;
                 }
-                if (!checkProfileFields(data)) return;
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                }
                 const user = await signupUser(data);
-                if (user) {
-                    alert("Signup successful. Please Login.");
+                if (user?.success === false) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(user.status);
+                    setAlertMessage(user.message);
+                    return;
+                } else if (user) {
+                    setUpdateSignUp(true);
+                    setAlertStatus("success");
+                    setAlertMessage("Signup successful. Please Login.");
                 }
             } catch (err) {
                 alert(err);
             }
         } else {
-            alert("Please re-confirm your password.");
+            setUpdateSignUp(true);
+            setAlertStatus("error");
+            setAlertMessage("Please re-confirm your password.");
         }
     }
 
@@ -131,6 +152,18 @@ function Register() {
                     DONE
                 </a>
             </div>
+            {updateSignUp ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

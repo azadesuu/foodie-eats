@@ -4,23 +4,13 @@ import { useState } from "react";
 import { loginUser } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { checkProfileFields } from "../../utils";
-
+import Alert from "@mui/material/Alert";
 import "./Login.css";
 
 import "@fontsource/martel-sans";
 
 import LoginIcon from "@mui/icons-material/Login";
-
 import IconButton from "@mui/material/IconButton";
-import { createTheme } from "@mui/material/styles";
-
-function Title() {
-    return (
-        <div>
-            <h1>LOGIN</h1>
-        </div>
-    );
-}
 
 function ForgetPassword() {
     return (
@@ -32,25 +22,13 @@ function ForgetPassword() {
     );
 }
 
-const theme = createTheme({
-    palette: {
-        background: {
-            green: "#BEE5B0",
-            grey: "#ECE7E5"
-        },
-        text: {
-            main: "#000000"
-        },
-        img: {
-            main: "#000000"
-        }
-    }
-});
-
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [loginAlert, setLoginAlert] = useState(false);
 
     // submit form
     const submitHandler = async () => {
@@ -60,8 +38,20 @@ function Login() {
                 email: email,
                 password: password
             };
-            if (!checkProfileFields({ password: password })) return;
-            await loginUser(data);
+            const message1 = checkProfileFields({ password: password });
+            if (!message1.success) {
+                setLoginAlert(true);
+                setAlertStatus(message1.status);
+                setAlertMessage(message1.message);
+            }
+            const message2 = await loginUser(data);
+            if (message2) {
+                if (!message2.success){
+                    setLoginAlert(true);
+                    setAlertStatus(message2.status);
+                    setAlertMessage(message2.message);
+                }
+            }
             var token = localStorage.getItem("token");
             token ? document.location.reload() : navigate("/login");
         } catch (err) {
@@ -69,11 +59,24 @@ function Login() {
             document.location.reload();
         }
     };
+
     document.documentElement.className = "honeydew";
     return (
         <div className="content-Login">
             <SEO data={allSEO.login} />
-            <Title />
+            {loginAlert ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
+            )}
+            <h1>LOGIN</h1>
             <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Username </label>

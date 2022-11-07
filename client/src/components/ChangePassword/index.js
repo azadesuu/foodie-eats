@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { UserContext } from "../../actions/UserContext";
 import { updatePassword, getProfile } from "../../api";
 import { CircularProgress } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 import "@fontsource/martel-sans";
 
@@ -24,6 +25,9 @@ function ChangePwDetails(props) {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [passwordMatch, setPasswordMatch] = useState(false);
 
     const checkPassword = async (
         _id,
@@ -32,11 +36,19 @@ function ChangePwDetails(props) {
         confirmNewPassword
     ) => {
         if (!newPassword.match(strongPassword)) {
-            alert(
-                "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
-            );
+            setPasswordMatch(!passwordMatch);
+            setAlertStatus("error");
+            setAlertMessage("Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit.");
+            setTimeout(function() {
+                setPasswordMatch(false);
+            }, 5000);
         } else if (newPassword !== confirmNewPassword) {
-            alert("New passwords does not match");
+            setPasswordMatch(!passwordMatch);
+            setAlertStatus("error");
+            setAlertMessage("New passwords does not match.");
+            setTimeout(function() {
+                setPasswordMatch(false);
+            }, 5000);
         } else {
             // passwords seems fine
             const updatedUser = await updatePassword({
@@ -44,10 +56,17 @@ function ChangePwDetails(props) {
                 password: newPassword,
                 oldPassword: oldPassword
             });
-            if (!updatedUser)
-                alert("Current password was incorrect, change unsuccessful.");
-            else {
-                alert("password changed.");
+            if (!updatedUser) {
+                setPasswordMatch(!passwordMatch);
+                setAlertStatus("error");
+                setAlertMessage("Current password was incorrect, change unsuccessful.");
+                setTimeout(function() {
+                    setPasswordMatch(false);
+                }, 5000);
+            } else {
+                setPasswordMatch(!passwordMatch);
+                setAlertStatus("success");
+                setAlertMessage("password changed.");
                 navigate("/my-profile");
             }
         }
@@ -120,6 +139,18 @@ function ChangePwDetails(props) {
                 </div>
             ) : (
                 <h1>No user found</h1>
+            )}
+            {passwordMatch ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );

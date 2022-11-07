@@ -15,6 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Slider from "@mui/material/Slider";
 import Rating from "@mui/material/Rating";
 import Switch from "@mui/material/Switch";
+import Alert from "@mui/material/Alert";
 import Moment from "moment";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { FormControl, Select, MenuItem, CircularProgress } from "@mui/material";
@@ -39,12 +40,22 @@ function EditReview() {
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
 
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [editReview, setEditReview] = useState(false);
+
     useEffect(() => {
         if (!review || !user) {
             navigate(-1);
         } else if (review?.userId._id !== user?._id) {
-            alert("You have no permission to edit this review.");
-            navigate(-1);
+            setEditReview(!editReview);
+            setAlertStatus("warning");
+            setAlertMessage("You have no permission to edit this review.");
+            setTimeout(function() {
+                setEditReview(false);
+                navigate(-1);
+            }, 2000);
+            
         }
         setPublicity(review?.isPublic);
         setPreviousImage(review?.reviewImage ? review?.reviewImage : "");
@@ -74,9 +85,20 @@ function EditReview() {
             try {
                 const deleted = await deleteNewImage({ url: url });
                 if (deleted) {
+                    setEditReview(!editReview);
+                    setAlertStatus("success");
+                    setAlertMessage("Image deleted.");
+                    setTimeout(function() {
+                        setEditReview(false);
+                    }, 2000);
                     return true;
                 } else {
-                    alert("Error occured, image was not deleted.");
+                    setEditReview(!editReview);
+                    setAlertStatus("error");
+                    setAlertMessage("Error occured, image was not deleted.");
+                    setTimeout(function() {
+                        setEditReview(false);
+                    }, 1000);
                 }
             } catch (err) {
                 alert(err);
@@ -94,15 +116,27 @@ function EditReview() {
     const confirmDelete = async () => {
         const review = await deleteReview(reviewId);
         if (review) {
-            alert("Review deleted.");
-            navigate("/my-reviews");
+            setEditReview(!editReview);
+            setAlertStatus("success");
+            setAlertMessage("Review deleted.");
+            setTimeout(function() {
+                setEditReview(false);
+                navigate("/my-reviews");
+            }, 2000);
+            
         } else {
-            alert("An error occured, please try again later.");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("An error occured, please try again later.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         }
     };
 
     const submitUpdatedReview = async (
         _id,
+        userId,
         restaurantName,
         isPublic,
         priceRange,
@@ -113,25 +147,77 @@ function EditReview() {
         tags
     ) => {
         if (!restaurantName) {
-            alert("restaurant name is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Restaurant name is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!dateVisited) {
-            alert("date is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Date is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
+        } else if (!userId) {
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("User doesn't exist.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!address.streetAddress) {
-            alert("street address is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Street address is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!address.suburb) {
-            alert("suburb is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Suburb is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!address.state) {
-            alert("state is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("State is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!address.postcode) {
-            alert("postcode is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Postcode is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (!description) {
-            alert("description is missing");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Description is missing.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (
             !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
-            alert("Postcode is invalid.");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Postcode is invalid.");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else if (image?.size / 1024 / 1024 > 10) {
-            alert("image is too big!");
+            setEditReview(!editReview);
+            setAlertStatus("error");
+            setAlertMessage("Image is too big!");
+            setTimeout(function() {
+                setEditReview(false);
+            }, 1000);
         } else {
             const url = await imageHandler();
 
@@ -148,7 +234,12 @@ function EditReview() {
                 tags: tags
             });
             if (!updatedReviewRecord) {
-                alert("Update unsuccessful.");
+                setEditReview(!editReview);
+                setAlertStatus("error");
+                setAlertMessage("Update unsuccessful!");
+                setTimeout(function() {
+                    setEditReview(false);
+                }, 1000);
             } else {
                 navigate(`/review/${review?._id}`);
             }
@@ -187,7 +278,8 @@ function EditReview() {
                                 fontSize: "35px",
                                 textAlign: "end",
                                 marginBottom: "10px",
-                                marginLeft: "40px"
+                                marginLeft: "40px",
+                                cursor: "pointer"
                             }}
                             onClick={e => {
                                 if (
@@ -318,6 +410,7 @@ function EditReview() {
                             <div className="details-container">
                                 <input
                                     type="text"
+                                    placeholder="restaurant name"
                                     defaultValue={review.restaurantName}
                                     onChange={e => {
                                         review.restaurantName = e.target.value;
@@ -340,6 +433,7 @@ function EditReview() {
                             <div className="details-container">
                                 <input
                                     type="text"
+                                    placeholder="street address"
                                     defaultValue={review.address.streetAddress}
                                     onChange={e => {
                                         review.address.streetAddress =
@@ -352,6 +446,7 @@ function EditReview() {
                                 <div className="suburb-container">
                                     <input
                                         type="text"
+                                        placeholder="suburb"
                                         defaultValue={review.address.suburb}
                                         onChange={e => {
                                             review.address.suburb =
@@ -398,6 +493,7 @@ function EditReview() {
                                     <input
                                         type="text"
                                         maxLength="4"
+                                        placeholder="postcode"
                                         defaultValue={review.address.postcode}
                                         onKeyPress={event => {
                                             if (!/[0-9]/.test(event.key)) {
@@ -424,6 +520,7 @@ function EditReview() {
                                     <textarea
                                         type="text"
                                         maxLength={160}
+                                        placeholder="description..."
                                         defaultValue={review.description}
                                         onChange={e => {
                                             review.description = e.target.value;
@@ -445,8 +542,8 @@ function EditReview() {
                                     <>
                                         <label>
                                             Add your images here
-                                            <br /> Click upload again to remove
-                                            image.
+                                            <br /> 
+                                            Click upload again to remove image.
                                             <input
                                                 type="file"
                                                 name="myImage"
@@ -500,6 +597,7 @@ function EditReview() {
                                     onClick={() => {
                                         submitUpdatedReview(
                                             review._id,
+                                            review.userId._id,
                                             review.restaurantName,
                                             review.isPublic,
                                             review.priceRange,
@@ -631,7 +729,7 @@ function EditReview() {
                                 <div className="r3-content1">
                                     <div className="details-container">
                                         <input
-                                            type="text"
+                                            type="text"placeholder="restaurant name"
                                             defaultValue={review.restaurantName}
                                             onChange={e => {
                                                 review.restaurantName =
@@ -656,6 +754,7 @@ function EditReview() {
                                         <div className="details-container">
                                             <textarea
                                                 type="text"
+                                                placeholder="description..."
                                                 maxLength={160}
                                                 defaultValue={
                                                     review.description
@@ -681,6 +780,7 @@ function EditReview() {
                                     <div className="details-container">
                                         <input
                                             type="text"
+                                            placeholder="street address"
                                             defaultValue={
                                                 review.address.streetAddress
                                             }
@@ -695,6 +795,7 @@ function EditReview() {
                                         <div className="suburb-container">
                                             <input
                                                 type="text"
+                                                placeholder="suburb"
                                                 defaultValue={
                                                     review.address.suburb
                                                 }
@@ -761,6 +862,7 @@ function EditReview() {
                                             <input
                                                 type="text"
                                                 maxLength="4"
+                                                placeholder="postcode"
                                                 defaultValue={
                                                     review.address.postcode
                                                 }
@@ -853,6 +955,7 @@ function EditReview() {
                                     onClick={() => {
                                         submitUpdatedReview(
                                             review._id,
+                                            review.userId._id,
                                             review.restaurantName,
                                             review.isPublic,
                                             review.priceRange,
@@ -870,6 +973,18 @@ function EditReview() {
                         </form>
                     </span>
                 </div>
+            )}
+            {editReview ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );
