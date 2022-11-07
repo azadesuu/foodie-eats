@@ -32,15 +32,10 @@ const EditProfile = data => {
                 email: emailTransform,
                 bio: bioEdit
             };
-            if (username === usernameTransform) {
-                delete data["username"];
-            }
-            if (email === emailTransform) {
-                delete data["email"];
-            }
-            if (bio === bioEdit) {
-                delete data["bio"];
-            }
+            // removing field from json if unchanged
+            if (username === usernameTransform) delete data["username"];
+            if (email === emailTransform) delete data["email"];
+            if (bio === bioEdit) delete data["bio"];
             if (data["username"] === "" || data["email"] === "") {
                 setUpdateProfile(!updateProfile);
                 setAlertStatus("error");
@@ -64,37 +59,41 @@ const EditProfile = data => {
                     setAlertMessage(message.message);
                     setTimeout(function() {
                         setUpdateProfile(false);
-                    }, 2000);
-                }
-                console.log(checkProfileFields(data))
-                const user = await updateUser(data);
-                if (user) {
-                    if (user.username === username && user.email === email) {
-                        // if username and email are not changed
-                        setUpdateProfile(!updateProfile);
-                        setAlertStatus("success");
-                        setAlertMessage("Successfully updated.");
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 2000);
+                    }, 5000);
+                } else {
+                    const user = await updateUser(data);
+                    if (user) {
+                        if (
+                            user.username === username &&
+                            user.email === email
+                        ) {
+                            // if username and email are not changed
+                            setUpdateProfile(!updateProfile);
+                            setAlertStatus("success");
+                            setAlertMessage("Successfully updated.");
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            setUpdateProfile(!updateProfile);
+                            setAlertStatus("success");
+                            setAlertMessage(
+                                "Successfully updated, please re-enter your login credentials."
+                            );
+                            setTimeout(function() {
+                                setUpdateProfile(false);
+                                handleLogOut(); //must logout and login to reset token
+                                window.location.reload();
+                            }, 5000);
+                        }
                     } else {
                         setUpdateProfile(!updateProfile);
-                        setAlertStatus("success");
-                        setAlertMessage("Successfully updated, please re-enter your login credentials.");
+                        setAlertStatus("warning");
+                        setAlertMessage("Username/Email is taken.");
                         setTimeout(function() {
                             setUpdateProfile(false);
-                            handleLogOut(); //must logout and login to reset token
-                            window.location.reload();
-                        }, 5000);
-                        
+                        }, 2000);
                     }
-                } else {
-                    setUpdateProfile(!updateProfile);
-                    setAlertStatus("warning");
-                    setAlertMessage("Username/Email is taken.");
-                    setTimeout(function() {
-                        setUpdateProfile(false);
-                    }, 2000);
                 }
             }
         } catch (err) {
