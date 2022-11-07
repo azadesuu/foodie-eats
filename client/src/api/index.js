@@ -102,6 +102,7 @@ export const forgotPassword = async data => {
         .then(res => res?.data?.data)
         .catch(err => console.log(err));
 };
+
 // COMMUNITY
 
 export const getCommunityRecent = async () => {
