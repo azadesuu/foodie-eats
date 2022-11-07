@@ -97,13 +97,6 @@ export const forgotPassword = async data => {
         .catch(err => console.log(err));
 };
 
-export const resetPassword = async data => {
-    return await axios
-        .post(`${SERVER_URL}/forgotPassword`, data)
-        .then(res => res?.data?.data)
-        .catch(err => console.log(err));
-};
-
 // COMMUNITY
 
 export const getCommunityRecent = async () => {

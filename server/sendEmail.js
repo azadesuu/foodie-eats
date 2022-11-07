@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
+//var smtpTransport = require('nodemailer-smtp-transport');
 var handlebars = require('handlebars');
 var fs = require('fs');
 
@@ -15,7 +15,7 @@ module.exports = async (email, subject, text) => {
       });
   };
 
-  smtpTransport = nodemailer.createTransport(smtpTransport({
+  transporter = nodemailer.createTransport(({
       service: "gmail",
       secure: true,
       port: 465,
@@ -41,7 +41,7 @@ module.exports = async (email, subject, text) => {
           subject : `FoodieEats: ${subject}`,
           html : htmlToSend
       };
-      smtpTransport.sendMail(mailOptions, function (error, response) {
+      transporter.sendMail(mailOptions, function (error, response) {
           if (error) {
               console.log(error);
           }

@@ -119,54 +119,6 @@ const getTokenUser = async (req, res) => {
   }
 };
 
-const resetPassword = async (req, res) => {
-  try {
-    const passwordSchema = Joi.object({
-      password: passwordComplexity()
-        .required()
-        .label("Password")
-    });
-    const { error } = passwordSchema.validate(req.body);
-    if (error)
-      return res
-        .status(400)
-        .send({ success: false, message: error.details[0].message });
-
-    const user = await User.findOne({ _id: req.params.id });
-    if (!user)
-      return res
-        .status(400)
-        .send({ success: false, message: "Invalid userId in link" });
-
-    const token = await Token.findOne({
-      userId: user._id,
-      token: req.params.token
-    });
-    if (!token)
-      return res
-        .status(400)
-        .send({ success: false, message: "Invalid token in link" });
-
-    if (!user.verified) user.verified = true;
-
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-    user.password = hashPassword;
-    await user.save();
-
-    res
-      .status(200)
-      .send({ success: true, message: "Password reset successfully" });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "An error has occurred trying to reset password.",
-      err: error
-    });
-  }
-};
-
 const forgotPassword = async (req, res) => {
   try {
     const schema = Joi.object({
@@ -221,6 +173,5 @@ module.exports = {
   loginUser,
   signupUser,
   getTokenUser,
-  resetPassword,
   forgotPassword
 };
