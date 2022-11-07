@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "https://foodie-eats.herokuapp.com";
+const SERVER_URL = "https://foodie-eats-server.herokuapp.com";
 
 axios.interceptors.request.use(
     config => {
@@ -21,9 +21,9 @@ export const loginUser = async user => {
     const { email, password } = user;
 
     if (!email || !password) {
-        return { 
-            success: false, 
-            status: "info", 
+        return {
+            success: false,
+            status: "info",
             message: "Must provide email and a password."
         };
     }
@@ -69,9 +69,9 @@ export const signupUser = async user => {
     const { username, email, password } = user;
 
     if (!username || !password || !email) {
-        return { 
-            success: false, 
-            status: "info", 
+        return {
+            success: false,
+            status: "info",
             message: "Must provide an email, a password, and a username."
         };
     }

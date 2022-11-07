@@ -3,18 +3,10 @@ on: [push]
 jobs:
   run-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install dependencies in server
-        run: npm install
-        working-directory: server
-      - name: Run server
-        run: |
-          npm run start &
-          sleep 5 &&
-          curl http://localhost:5000 -I
-        working-directory: server
       - name: Install dependencies in client
         run: npm install
         working-directory: client
@@ -23,5 +15,5 @@ jobs:
         with:
           working-directory: client
           start: npm start
-          wait-on: 'http://localhost:3000'
+          wait-on: "http://localhost:3000"
           browser: chrome
