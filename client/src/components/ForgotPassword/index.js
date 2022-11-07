@@ -16,26 +16,24 @@ function ForgotPassword() {
     // submit form
     async function submitHandler(email) {
         try {
-            if (!checkProfileFields(email)) return;
+            // if (!checkProfileFields(email)) return;
+            const message = checkProfileFields(email);
+            if (!message.success) {
+                setForgotpw(true);
+                setAlertStatus(message.status);
+                setAlertMessage(message.message);
+                return;
+            }
             const sent = await forgotPassword(email);
             if (sent) {
-                setForgotpw(!forgotpw);
+                setForgotpw(true);
                 setAlertStatus("success");
                 setAlertMessage("Email sent successfully. Please wait for token to reset password.");
-                setTimeout(function() {
-                    setForgotpw(false);
-                }, 1000);
             } else {
-                setForgotpw(!forgotpw);
+                setForgotpw(true);
                 setAlertStatus("error");
                 setAlertMessage("There was an error while requesting to reset password.");
-                setTimeout(function() {
-                    setForgotpw(false);
-                }, 5000);
             }
-            setTimeout(function() {
-                window.location.reload();
-            }, 10000);
         } catch (err) {
             console.log(err);
         }

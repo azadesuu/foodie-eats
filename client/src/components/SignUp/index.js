@@ -30,42 +30,35 @@ function Register() {
                     password: password
                 };
                 if (username === "" || email === "" || password === "") {
-                    setUpdateSignUp(!updateSignUp);
+                    setUpdateSignUp(true);
                     setAlertStatus("info");
                     setAlertMessage("Please fill in the missing fields.");
-                    setTimeout(function() {
-                        setUpdateSignUp(false);
-                    }, 2000);
                     return;
                 }
-                if (!checkProfileFields(data)) return;
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                }
                 const user = await signupUser(data);
                 if (user) {
-                    setUpdateSignUp(!updateSignUp);
+                    setUpdateSignUp(true);
                     setAlertStatus("success");
                     setAlertMessage("Signup successful. Please Login.");
-                    setTimeout(function() {
-                        setUpdateSignUp(false);
-                    }, 2000);
-                    if (!user.success){
-                        setUpdateSignUp(!updateSignUp);
-                        setAlertStatus(user.status);
-                        setAlertMessage(user.message);
-                        setTimeout(function() {
-                            setUpdateSignUp(false);
-                        }, 2000);
-                    }
+                    // if (!user.success){
+                    //     setUpdateSignUp(true);
+                    //     setAlertStatus(user.status);
+                    //     setAlertMessage(user.message);
+                    // }
                 }
             } catch (err) {
                 alert(err);
             }
         } else {
-            setUpdateSignUp(!updateSignUp);
+            setUpdateSignUp(true);
             setAlertStatus("error");
             setAlertMessage("Please re-confirm your password.");
-            setTimeout(function() {
-                setUpdateSignUp(false);
-            }, 2000);
         }
     }
 

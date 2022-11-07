@@ -36,30 +36,19 @@ const EditProfile = data => {
             if (email === emailTransform) delete data["email"];
             if (bio === bioEdit) delete data["bio"];
             if (data["username"] === "" || data["email"] === "") {
-                setUpdateProfile(!updateProfile);
+                setUpdateProfile(true);
                 setAlertStatus("error");
                 setAlertMessage("Username/Email cannot be empty.");
-                setTimeout(function() {
-                    setUpdateProfile(false);
-                }, 5000);
             } else if (Object.keys(data).length === 1) {
-                setUpdateProfile(!updateProfile);
+                setUpdateProfile(true);
                 setAlertStatus("info");
                 setAlertMessage("Nothing was updated.");
-                setTimeout(function() {
-                    setUpdateProfile(false);
-                }, 2000);
             } else {
-                // if (!checkProfileFields(data)) return;
                 const message = checkProfileFields(data);
                 if (!message.success) {
                     setUpdateProfile(true);
-                    setUpdateProfile(!updateProfile);
                     setAlertStatus(message.status);
                     setAlertMessage(message.message);
-                    // setTimeout(function() {
-                    //     setUpdateProfile(false);
-                    // }, 5000);
                 } else {
                     const user = await updateUser(data);
                     if (user) {

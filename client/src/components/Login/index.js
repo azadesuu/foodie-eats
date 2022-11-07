@@ -12,14 +12,6 @@ import "@fontsource/martel-sans";
 import LoginIcon from "@mui/icons-material/Login";
 import IconButton from "@mui/material/IconButton";
 
-function Title() {
-    return (
-        <div>
-            <h1>LOGIN</h1>
-        </div>
-    );
-}
-
 function ForgetPassword() {
     return (
         <div className="form-control">
@@ -46,19 +38,20 @@ function Login() {
                 email: email,
                 password: password
             };
-            if (!checkProfileFields({ password: password })) return;
-            const message = await loginUser(data);
-            if (message) {
-                if (!message.success){
-                    setLoginAlert(!loginAlert);
-                    setAlertStatus(message.status);
-                    setAlertMessage(message.message);
-                    setTimeout(function() {
-                        setLoginAlert(false);
-                    }, 2000);
+            const message1 = checkProfileFields({ password: password });
+            if (!message1.success) {
+                setLoginAlert(true);
+                setAlertStatus(message1.status);
+                setAlertMessage(message1.message);
+            }
+            const message2 = await loginUser(data);
+            if (message2) {
+                if (!message2.success){
+                    setLoginAlert(true);
+                    setAlertStatus(message2.status);
+                    setAlertMessage(message2.message);
                 }
             }
-            
             var token = localStorage.getItem("token");
             token ? document.location.reload() : navigate("/login");
         } catch (err) {
@@ -83,7 +76,7 @@ function Login() {
             ) : (
                 <></>
             )}
-            <Title />
+            <h1>LOGIN</h1>
             <form action="#" method="post" className="form" id="form">
                 <div className="form-control">
                     <label>Username </label>
