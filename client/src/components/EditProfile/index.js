@@ -49,38 +49,35 @@ const EditProfile = data => {
                     setUpdateProfile(true);
                     setAlertStatus(message.status);
                     setAlertMessage(message.message);
-                } else {
-                    const user = await updateUser(data);
-                    if (user) {
-                        if (
-                            user.username === username &&
-                            user.email === email
-                        ) {
-                            // if username and email are not changed
-                            setUpdateProfile(true);
-                            setAlertStatus("success");
-                            setAlertMessage("Successfully updated.");
-                            setTimeout(function() {
-                                window.location.reload();
-                                setUpdateProfile(false);
-                            }, 2000);
-                        } else {
-                            setUpdateProfile(true);
-                            setAlertStatus("success");
-                            setAlertMessage(
-                                "Successfully updated, please re-enter your login credentials."
-                            );
-                            setTimeout(function() {
-                                setUpdateProfile(false);
-                                handleLogOut(); //must logout and login to reset token
-                                window.location.reload();
-                            }, 5000);
-                        }
+                    return;
+                }
+                const user = await updateUser(data);
+                if (user) {
+                    if (user.username === username && user.email === email) {
+                        // if username and email are not changed
+                        setUpdateProfile(true);
+                        setAlertStatus("success");
+                        setAlertMessage("Successfully updated.");
+                        setTimeout(function() {
+                            window.location.reload();
+                            setUpdateProfile(false);
+                        }, 2000);
                     } else {
                         setUpdateProfile(true);
-                        setAlertStatus("warning");
-                        setAlertMessage("Username/Email is taken.");
+                        setAlertStatus("success");
+                        setAlertMessage(
+                            "Successfully updated, please re-enter your login credentials."
+                        );
+                        setTimeout(function() {
+                            setUpdateProfile(false);
+                            handleLogOut(); //must logout and login to reset token
+                            window.location.reload();
+                        }, 5000);
                     }
+                } else {
+                    setUpdateProfile(true);
+                    setAlertStatus("warning");
+                    setAlertMessage("Username/Email is taken.");
                 }
             }
         } catch (err) {

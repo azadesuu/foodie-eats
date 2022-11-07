@@ -42,15 +42,15 @@ function Register() {
                     setAlertMessage(message.message);
                 }
                 const user = await signupUser(data);
-                if (user) {
+                if (user?.success === false) {
+                    setUpdateSignUp(true);
+                    setAlertStatus(user.status);
+                    setAlertMessage(user.message);
+                    return;
+                } else if (user) {
                     setUpdateSignUp(true);
                     setAlertStatus("success");
                     setAlertMessage("Signup successful. Please Login.");
-                    // if (!user.success){
-                    //     setUpdateSignUp(true);
-                    //     setAlertStatus(user.status);
-                    //     setAlertMessage(user.message);
-                    // }
                 }
             } catch (err) {
                 alert(err);
