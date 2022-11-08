@@ -39,14 +39,14 @@ const ProfileImageUpload = props => {
             const formData = new FormData();
             formData.set("image", image);
             if (!formData.get("image")) {
-                setUploadImg(!uploadImg);
+                setUploadImg(true);
                 setAlertStatus("error");
                 setAlertMessage("Image exceeds upload limit!");
                 setTimeout(function() {
                     window.location.reload();
                 }, 1000);
             } else if (image.size / 1024 / 1024 > 10) {
-                setUploadImg(!uploadImg);
+                setUploadImg(true);
                 setAlertStatus("error");
                 setAlertMessage("Image exceeds upload limit!");
                 setTimeout(function() {
@@ -65,7 +65,7 @@ const ProfileImageUpload = props => {
                             userId: userProfile?._id,
                             url: result
                         });
-                        setUploadImg(!uploadImg);
+                        setUploadImg(true);
                         setAlertStatus("success");
                         setAlertMessage("Image was uploaded!");
                         setTimeout(function() {
@@ -85,7 +85,7 @@ const ProfileImageUpload = props => {
         if (url !== "" || url !== undefined) {
             const deleted = await deleteNewImage({ url: url });
             if (deleted) {
-                setDeleteImg(!deleteImg);
+                setDeleteImg(true);
                 setAlertStatus("success");
                 setAlertMessage("Image successfully deleted.");
                 setTimeout(function() {
@@ -93,7 +93,7 @@ const ProfileImageUpload = props => {
                 }, 1000);
                 return true;
             } else {
-                setDeleteImg(!deleteImg);
+                setDeleteImg(true);
                 setAlertStatus("error");
                 setAlertMessage("Error occured, image was not deleted.");
                 setTimeout(function() {
@@ -101,12 +101,9 @@ const ProfileImageUpload = props => {
                 }, 1000);
             }
         } else {
-            setDeleteImg(!deleteImg);
+            setDeleteImg(true);
             setAlertStatus("error");
             setAlertMessage("Image does not exist");
-            setTimeout(function() {
-                setDeleteImg(false);
-            }, 5000);
         }
     }
     async function deleteProfileImageHandler() {
@@ -117,7 +114,7 @@ const ProfileImageUpload = props => {
         if (removedProfileImage) {
             return true;
         } else {
-            setDeleteImg(!deleteImg);
+            setDeleteImg(true);
             setAlertStatus("error");
             setAlertMessage("Error occured, image was not deleted.");
             setTimeout(function() {

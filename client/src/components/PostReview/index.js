@@ -91,68 +91,41 @@ function PostReview() {
         tags
     ) => {
         if (!restaurantName) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Restaurant name is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!dateVisited) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Date is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!streetAddress) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Street address is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!suburb) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Suburb is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!state) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("State is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
-        } else if (!postcode) {
-            setPost(!post);
+        } else if (truecode) {
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Postcode is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(postcode)) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Postcode is invalid.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (!description) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Description is missing.");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else if (image?.size / 1024 / 1024 > 10) {
-            setPost(!post);
+            setPost(true);
             setAlertStatus("error");
             setAlertMessage("Image is too big!");
-            setTimeout(function() {
-                setPost(false);
-            }, 1000);
         } else {
             const address = {
                 streetAddress: streetAddress,
@@ -176,12 +149,9 @@ function PostReview() {
                 tags: tags
             });
             if (!review) {
-                setPost(!post);
+                setPost(true);
                 setAlertStatus("error");
                 setAlertMessage("Creation unsuccessful!");
-                setTimeout(function() {
-                    setPost(false);
-                }, 2000);
             } else {
                 navigate(`/review/${review?._id}`);
             }

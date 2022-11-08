@@ -60,12 +60,9 @@ function Review(props) {
 
     async function likeButton() {
         if (!userProfile) {
-            setLike(!like);
+            setLike(true);
             setAlertStatus("info");
             setAlertMessage("Please log in to give a like!");
-            setTimeout(function() {
-                setLike(false);
-            }, 2000);
         } else {
             try {
                 await toggleLike({

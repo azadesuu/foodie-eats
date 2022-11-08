@@ -53,21 +53,15 @@ function MyTheme(props) {
                 newTheme: theme
             });
             if (!oldUser) {
-                setUThemeUpload(!themeUpload);
+                setUThemeUpload(true);
                 setAlertStatus("error");
                 setAlertMessage("An error occured. Please try again.");
-                setTimeout(function() {
-                    setUThemeUpload(false);
-                }, 2000);
             } else {
-                setUThemeUpload(!themeUpload);
+                setUThemeUpload(true);
                 setAlertStatus("success");
                 setAlertMessage(
                     `Theme changed from ${oldUser.theme} to ${theme}.`
                 );
-                setTimeout(function() {
-                    setUThemeUpload(false);
-                }, 2000);
                 setCurrTheme(theme);
                 localStorage.setItem("theme", theme);
             }

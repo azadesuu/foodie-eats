@@ -36,21 +36,15 @@ function ChangePwDetails(props) {
         confirmNewPassword
     ) => {
         if (!newPassword.match(strongPassword)) {
-            setPasswordMatch(!passwordMatch);
+            setPasswordMatch(true);
             setAlertStatus("error");
             setAlertMessage(
                 "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
             );
-            setTimeout(function() {
-                setPasswordMatch(false);
-            }, 5000);
         } else if (newPassword !== confirmNewPassword) {
-            setPasswordMatch(!passwordMatch);
+            setPasswordMatch(true);
             setAlertStatus("error");
             setAlertMessage("New passwords does not match.");
-            setTimeout(function() {
-                setPasswordMatch(false);
-            }, 5000);
         } else {
             // passwords seems fine
             const updatedUser = await updatePassword({
@@ -59,16 +53,13 @@ function ChangePwDetails(props) {
                 oldPassword: oldPassword
             });
             if (!updatedUser) {
-                setPasswordMatch(!passwordMatch);
+                setPasswordMatch(true);
                 setAlertStatus("error");
                 setAlertMessage(
                     "Current password was incorrect, change unsuccessful."
                 );
-                setTimeout(function() {
-                    setPasswordMatch(false);
-                }, 5000);
             } else {
-                setPasswordMatch(!passwordMatch);
+                setPasswordMatch(true);
                 setAlertStatus("success");
                 setAlertMessage("password changed.");
                 navigate("/my-profile");
