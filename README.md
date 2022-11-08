@@ -77,9 +77,9 @@ npm run dev
 ```
 ## Cypress testing
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
-To run locally:
-- install server and client
-- run both server and client
+- To run locally:
+1. install server and client
+     - run both server and client
      - change the SERVER_URL in 
      - add the necessary environmental variables (listed in the handover document)
      - cd into client
