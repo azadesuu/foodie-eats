@@ -78,12 +78,12 @@ npm run dev
 ## Cypress testing
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 To run locally:
-     1. install server and client
-     2. run both server and client
-     3. change the SERVER_URL in 
-     4. add the necessary environmental variables (listed in the handover document)
-     5. cd into client
-     6. npm run cypress
+     - install server and client
+     - run both server and client
+     - change the SERVER_URL in 
+     - add the necessary environmental variables (listed in the handover document)
+     - cd into client
+     - npm run cypress
       
 ## MochaJS Backend testing
 - MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
