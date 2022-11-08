@@ -43,16 +43,44 @@ userRouter.post("/login", userController.loginUser);
 // POST signup form -- signup a new user
 userRouter.post("/signup", userController.signupUser);
 
+/**
+ * @api {GET} /findTokenUser Returns the user with the associated token
+ * @apiName FindTokenUser
+ * @apiGroup User
+ * @apiSuccess {String} return Status
+ * @apiSuccessExample Successful Response:
+ * HTTP/1.1 200 OK
+ * {
+      success: true,
+      data: {
+          "profileImage": "",
+          "bio": "This person loves food too much to think of a bio right now!",
+          "theme": "honeydew",
+          "bookmarks": [],
+          "admin": false,
+          "_id": "63633fe5967eb73c86df8cf2",
+          "date": "2022-11-03T04:13:25.121Z",
+          "username": "test321",
+          "email": "test3@gmail.com",
+          "password": "$2b$10$W6nNrnuKHmve.n/LfLYJzeyf/I04w3rst.4mULFt1eJYqA31KSuqG",
+          "__v": 0
+        }
+    }
+ */
 // GET user details associated with stored token
 userRouter.get("/findTokenUser", userController.getTokenUser);
 
 /**
- * @api {Post} /forgotPassword Send email with token to reset password
+ * @api {POST} /forgotPassword Send email with new temporary password to reset password
  * @apiName ForgotPassword
  * @apiGroup User
  * @apiSuccess {String} return Status
  * @apiSuccessExample Successful Response:
- * "password reset link sent to your email account"
+ * HTTP/1.1 200 OK
+ * {
+          success: true,
+          data: user
+        }
  */
 
 // POST email to receive email with token to reset password

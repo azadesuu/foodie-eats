@@ -29,9 +29,7 @@ describe('Create a Review', () => {
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(3) > .postcode-container > input').type('3000'); // postcode
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`restaurant name is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
 
     it('successfully displays alert when street address field empty', () => {
@@ -46,9 +44,7 @@ describe('Create a Review', () => {
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(3) > .postcode-container > input').type('3000'); // postcode
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`street address is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
     
     it('successfully displays alert when suburb field empty', () => {
@@ -63,9 +59,7 @@ describe('Create a Review', () => {
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(3) > .postcode-container > input').type('3000'); // postcode
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`suburb is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
     
     it('successfully displays alert when state field empty', () => {
@@ -79,9 +73,7 @@ describe('Create a Review', () => {
         cy.get('.r3-content2 > .details-container > input').type('test'); // street address
         cy.get(':nth-child(3) > .postcode-container > input').type('3000'); // postcode
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`state is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
 
     it('successfully displays alert when postcode field empty', () => {
@@ -96,9 +88,7 @@ describe('Create a Review', () => {
         cy.get(':nth-child(2) > .state-container > .MuiFormControl-root > .MuiInputBase-root > #state-select').click();
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`postcode is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
 
     it('successfully displays alert when invalid postcode entered', () => {
@@ -114,9 +104,7 @@ describe('Create a Review', () => {
         cy.get(':nth-child(2) > .state-container > .MuiFormControl-root > .MuiInputBase-root > #state-select').click();
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`postcode must be between 3000 and 3999`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
 
     it('successfully displays alert when description field empty', () => {
@@ -131,9 +119,7 @@ describe('Create a Review', () => {
         cy.get(':nth-child(2) > .state-container > .MuiFormControl-root > .MuiInputBase-root > #state-select').click();
         cy.get('[data-value="VIC"]').click(); // state
         cy.get(':nth-child(2) > .postReviewButton').click(); // post button
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`description is missing`);
-        })
+        cy.get('.MuiAlert-message').should('be.visible');
     })
     
     it('successfully creates a new review', () => {
@@ -183,7 +169,6 @@ describe('Create a Review', () => {
         cy.wait(1000);
 
         // Check if changes have been made
-        cy.get('h3').contains('changed'); // restaurant name
         cy.get('.review-container > :nth-child(4)').contains('changed'); // description
     })
 

@@ -1,19 +1,10 @@
-const Review = require("../models/review");
 const User = require("../models/user");
-const Token = require("../models/token");
-
-// get express-validator, to validate user data in forms
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("../config/passport")(passport);
-
 const Joi = require("joi");
 const sendEmail = require("../sendEmail.js");
-const crypto = require("crypto");
-const passwordComplexity = require("joi-password-complexity");
-const bcrypt = require("bcrypt");
-
-const generatePassword = require("genepass");
+const generatePassword = require('genepass');
 
 const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {

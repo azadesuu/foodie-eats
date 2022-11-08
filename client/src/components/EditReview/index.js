@@ -84,20 +84,11 @@ function EditReview() {
             try {
                 const deleted = await deleteNewImage({ url: url });
                 if (deleted) {
-                    setEditReview(!editReview);
-                    setAlertStatus("success");
-                    setAlertMessage("Image deleted.");
-                    setTimeout(function() {
-                        setEditReview(false);
-                    }, 2000);
                     return true;
                 } else {
-                    setEditReview(!editReview);
+                    setEditReview(true);
                     setAlertStatus("error");
                     setAlertMessage("Error occured, image was not deleted.");
-                    setTimeout(function() {
-                        setEditReview(false);
-                    }, 1000);
                 }
             } catch (err) {
                 alert(err);
