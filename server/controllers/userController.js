@@ -4,7 +4,7 @@ const passport = require("passport");
 require("../config/passport")(passport);
 const Joi = require("joi");
 const sendEmail = require("../sendEmail.js");
-const generatePassword = require('genepass');
+const generatePassword = require("genepass");
 
 const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {

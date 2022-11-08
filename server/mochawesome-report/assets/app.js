@@ -4056,7 +4056,9 @@
           null != e &&
           !o(e)
         ) ||
-        a.test(e) || !i.test(e) || (null != t && e in Object(t))
+        a.test(e) ||
+        !i.test(e) ||
+        (null != t && e in Object(t))
       );
     };
   },
@@ -8370,14 +8372,12 @@
                                 (w.y1 = Math.min(Math.max(w.y1, h.y2), h.y1)),
                                 (w.y2 = Math.min(Math.max(w.y2, h.y2), h.y1));
                               var x = n.getMetaData(r, c);
-                              (y = s
-                                .elem("line", w, e.classNames.bar)
-                                .attr({
-                                  "ct:value": [a.x, a.y]
-                                    .filter(n.isNumeric)
-                                    .join(","),
-                                  "ct:meta": n.serialize(x)
-                                })),
+                              (y = s.elem("line", w, e.classNames.bar).attr({
+                                "ct:value": [a.x, a.y]
+                                  .filter(n.isNumeric)
+                                  .join(","),
+                                "ct:meta": n.serialize(x)
+                              })),
                                 this.eventEmitter.emit(
                                   "draw",
                                   n.extend(
@@ -9300,8 +9300,8 @@
         ? 0 === o.type
         : !r &&
           2 < t.length &&
-            ("o" === t[0] || "O" === t[0]) &&
-            ("n" === t[1] || "N" === t[1])) ||
+          ("o" === t[0] || "O" === t[0]) &&
+          ("n" === t[1] || "N" === t[1])) ||
         ((function(e, t, n, r) {
           if (
             null == t ||
@@ -11870,7 +11870,8 @@
         (a = s),
           (i.shared.pending = null),
           null !== (l = e.alternate) &&
-            null !== (l = l.updateQueue) && (l.baseQueue = s);
+            null !== (l = l.updateQueue) &&
+            (l.baseQueue = s);
       }
       if (null !== a) {
         l = a.next;
@@ -12008,7 +12009,8 @@
         ? e.shouldComponentUpdate(r, i, a)
         : !t.prototype ||
             !t.prototype.isPureReactComponent ||
-            !Vr(n, r) || !Vr(o, i);
+            !Vr(n, r) ||
+            !Vr(o, i);
     }
     function xi(e, t, n) {
       var r = !1,
