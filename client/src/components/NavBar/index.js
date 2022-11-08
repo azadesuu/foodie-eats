@@ -18,7 +18,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
-import { Drawer } from "@mui/material";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const theme = createTheme({
     palette: {
@@ -37,7 +37,8 @@ const theme = createTheme({
 
 function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
-
+    const iOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
     return (
         <>
             <IconButton
@@ -56,7 +57,9 @@ function MenuSideBar() {
                     }}
                 />
             </IconButton>
-            <Drawer
+            <SwipeableDrawer
+                disableBackdropTranstition={!iOS}
+                disableDiscovery={iOS}
                 anchor="left"
                 open={isOpen}
                 onClose={() => setIsOpen(!isOpen)}
@@ -109,7 +112,7 @@ function MenuSideBar() {
                         </div>
                     </div>
                 </div>
-            </Drawer>
+            </SwipeableDrawer>
         </>
     );
 }
