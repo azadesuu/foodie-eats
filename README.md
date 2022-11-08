@@ -1,12 +1,12 @@
 # COMP30022 IT Project
 
-## Table of Contents
+## :four_leaf_clover: Table of Contents
 
 - [Contributors](#contributors)
-- [About our project](#about-our-project)
-- [Application preview](#application-preview)
+- [About Our project](#about-our-project)
+- [Application Preview](#application-preview)
 - [Built with](#built-with)
-- [Run application](#run-application)
+- [Run Application](#run-application)
 - [Cypress Testing](#cypress-testing)
 - [MochaJS Backend Testing](#mochajs-backend-testing)
 - [API Documentation](#api-documentation)
@@ -18,7 +18,7 @@
 
 
 
-## Contributors
+## :open_hands: Contributors
 
 | Name                     | GitHub ID   | Role                 |
 | ------------------------ | ----------- | -------------------- |
@@ -29,7 +29,7 @@
 | Sandeepa Andra Hennadige | Lakvinu     | Full-Stack Developer |
 
 
-## About our project
+## :information_source: About Our project
 
 <p align="center">
   <picture>
@@ -39,7 +39,7 @@
 
 FoodieEats is a web application that consolidates reviews of restaurants from users, mostly for personal use. After users log in using their email and password, they are able to create reviews, view other users' reviews, and bookmark specific reviews. Users can also visit the Community page, which displays the most recent reviews and the top recommended restaurants, based on the user’s current location. As an additional feature, users are also able to choose from a list of color themes for the website.
 
-## Application preview
+## :unlock: Application Preview
 <div align=center>
   <img src="github-images/community.png" width="500">
   <img src="github-images/my-reviews.png" width="500">
@@ -47,7 +47,7 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
   <img src="github-images/profile.png" width="500">
 </div>
 
-## Built with
+## :hammer: Built with
 
 | JS             | Database  | Deployment    |
 | -------------- | --------- | --------------|
@@ -56,7 +56,11 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 | Material UI    |           | Prettier      |
 |                |           | Heroku/Netlify|
 
-## Run Application
+## :white_check_mark: Run Application
+#### 1. Add the environmental variables stated in the Handover Document
+#### 2. Change the `SERVER_URL` constant in client/api/index.js to
+    `SERVER_URL = "http://localhost:5000"`
+#### Then:
 Install server:
 
 ```
@@ -79,13 +83,13 @@ Start the client and server:
 npm run dev
 ```
 
-## Cypress Testing
+## :red_circle: Cypress Testing
 
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 
 - To run locally:
   - Follow the steps above to install server and client
-  - Change the `SERVER_URL` constant in client/api/index.js
+  - Change the `SERVER_URL` constant in client/api/index.js to
     `SERVER_URL = "http://localhost:5000"`
   - add the necessary environmental variables (listed in the handover document/ in confluence)
     Then
@@ -95,7 +99,7 @@ Cypress for frontend (E2E) testing is automatically run in the CI/CD through Git
     npm run cypress
 ```
 
-## MochaJS Backend Testing
+## :large_blue_circle: MochaJS Backend Testing
 
 MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
 
@@ -111,7 +115,7 @@ MochaJS for backend testing is automatically run in the CI/CD through GitHub Act
 
 The final documents will be added to Confluence.
 
-## API Documentation
+## :white_circle: API Documentation
 
 - To generate the API Docs:
 
@@ -123,13 +127,13 @@ npm run docs
 - To view the documentation:
   - navigate to the /docs folder and open the `index.html` through a browser
 
-## Test Cases
+## :ballot_box_with_check: Test Cases
 
 - Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
 - Cypress test cases in client/cypress
 - MochaJS test cases in server/test
 
-## Project history
+## :office: Project history
 
 ### Sprint 1
 
