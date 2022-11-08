@@ -60,7 +60,7 @@ function MenuSideBar() {
                 />
             </IconButton>
             <SwipeableDrawer
-                disableBackdropTranstition={!iOS}
+                disableBackdropTransition={!iOS}
                 disableDiscovery={iOS}
                 anchor="left"
                 open={isOpen}

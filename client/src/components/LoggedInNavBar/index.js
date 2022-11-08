@@ -120,7 +120,7 @@ function NavLoggedIn() {
                                             />
                                         </IconButton>
                                         <SwipeableDrawer
-                                            disableBackdropTranstition={!iOS}
+                                            disableBackdropTransition={!iOS}
                                             disableDiscovery={iOS}
                                             anchor="left"
                                             open={isOpen}
