@@ -6,7 +6,7 @@
 - [Application preview](#application-preview)
 - [Built with](#built-with)
 - [Run project](#run-project)
-- [Run app](#run-application)
+- [Run application](#run-application)
 - [Api Documentation](#API-Documentation)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
@@ -47,34 +47,34 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 3. Go to client directory ('cd client'), install dependencies ('npm install'), run client ('npm run start')
 
 ## Run Application
-Install server
-    ```
-    cd server 
-    npm install
-    cd ..
-    ```
+Install server:
+```
+cd server 
+npm install
+cd ..
+```
 Install client
-    ```
-    cd client
-    npm install
-    cd ..
-    ```
+```
+cd client
+npm install
+cd ..
+```
 Start the server:
-    ```
-    cd server
-    npm start
-    cd ..
-    ```
+```
+cd server
+npm start
+cd ..
+```
 Start the client:
-    ```
-    cd client
-    npm start
-    cd ..
-    ```
+```
+cd client
+npm start
+cd ..
+```
 Start both:
-    ```
-    npm run dev
-    ```
+```
+npm run dev
+```
 ## Cypress testing
 - Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 - To run locally:
