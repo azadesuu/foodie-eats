@@ -3,7 +3,6 @@ const User = require("../models/user");
 const Token = require("../models/token");
 
 // get express-validator, to validate user data in forms
-const expressValidator = require("express-validator");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("../config/passport")(passport);
@@ -13,6 +12,8 @@ const sendEmail = require("../sendEmail.js");
 const crypto = require("crypto");
 const passwordComplexity = require("joi-password-complexity");
 const bcrypt = require("bcrypt");
+
+const generatePassword = require('genepass');
 
 const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
@@ -98,71 +99,37 @@ const signupUser = async (req, res, next) => {
   })(req, res, next);
 };
 
-const getTokenUser = async (req, res) => {
-  try {
-    const token = req.headers["authorization"];
-    if (!token) return res.status(204).json(false);
-    const decoded = jwt.verify(token, process.env.PASSPORT_KEY);
+const getTokenUser = async (req, res, next) => {
+  passport.authenticate("jwt", async (err, user, info) => {
+    // if some error has been encountered while verifying JWT
+    try {
+      if (err) {
+        return res.status(401).json({
+          message: "Authentication unsuccessful",
+          status: false,
+          error: err
+        });
+      }
 
-    res.status(200).json({
-      success: true,
-      data: decoded.body
-    });
-    return;
-  } catch (err) {
-    return res.status(500).json({
-      message: "Error occured while validating token",
-      error: err.message
-    });
-  }
-};
-
-const resetPassword = async (req, res) => {
-  try {
-    const passwordSchema = Joi.object({
-      password: passwordComplexity()
-        .required()
-        .label("Password")
-    });
-    const { error } = passwordSchema.validate(req.body);
-    if (error)
-      return res
-        .status(400)
-        .send({ success: false, message: error.details[0].message });
-
-    const user = await User.findOne({ _id: req.params.id });
-    if (!user)
-      return res
-        .status(400)
-        .send({ success: false, message: "Invalid userId in link" });
-
-    const token = await Token.findOne({
-      userId: user._id,
-      token: req.params.token
-    });
-    if (!token)
-      return res
-        .status(400)
-        .send({ success: false, message: "Invalid token in link" });
-
-    if (!user.verified) user.verified = true;
-
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-    user.password = hashPassword;
-    await user.save();
-
-    res
-      .status(200)
-      .send({ success: true, message: "Password reset successfully" });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "An error has occurred trying to reset password.",
-      err: error
-    });
-  }
+      // if JWT isn't valid, return back error
+      if (!user) {
+        return res.status(401).json({
+          message: "Token provided is invalid",
+          status: false
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: user
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: "Error occured while validating token",
+        error: err.message
+      });
+    }
+  })(req, res, next);
 };
 
 const forgotPassword = async (req, res) => {
@@ -187,20 +154,25 @@ const forgotPassword = async (req, res) => {
         data: undefined
       });
 
-    let token = await Token.findOne({ userId: user._id });
-    if (!token) {
-      token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex")
-      }).save();
-    }
+    // Generate random password
+    const password = generatePassword.build({
+      length: 10,
+      lowercase: true,
+      uppercase: true,
+      number: true,
+      special: true,
+    });
 
-    const link = `${process.env.SERVER_URL}/reset-password/${user._id}/${token.token}`;
-    await sendEmail(user.email, "Password reset", link);
+    // Change password in database
+    const updatedUser = await User.findOneAndUpdate({ email: req.body.email }, {password: user.generateHash(password)});
+
+    // (email, subject, text)
+    await sendEmail(user.email, "Temporary password", password);
+
     res.status(200).send({
       success: true,
-      message: "password reset link sent to your email account",
-      data: link
+      message: "Temporary password sent to your email account",
+      data: password
     });
   } catch (error) {
     res.status(500).send({
@@ -214,6 +186,5 @@ module.exports = {
   loginUser,
   signupUser,
   getTokenUser,
-  resetPassword,
   forgotPassword
 };

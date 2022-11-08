@@ -2,6 +2,7 @@ import "./EditProfile.css";
 import { checkProfileFields } from "../../utils";
 import { useState } from "react";
 import { updateUser } from "../../api";
+import Alert from "@mui/material/Alert";
 
 const EditProfile = data => {
     const { _id, username, email, bio, navigation } = data;
@@ -9,13 +10,14 @@ const EditProfile = data => {
     const [usernameEdit, setUsernameEdit] = useState(username);
     const [emailEdit, setEmailEdit] = useState(email);
     const [bioEdit, setBioEdit] = useState(bio);
-
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [updateProfile, setUpdateProfile] = useState(false);
     const handleLogOut = async () => {
         // remove token from the local storage
         localStorage.removeItem("token");
         navigation("/login");
     };
-
     const editProfile = async e => {
         try {
             let usernameTransform = usernameEdit.trim().toLowerCase();
@@ -29,34 +31,53 @@ const EditProfile = data => {
                 email: emailTransform,
                 bio: bioEdit
             };
-            if (username === usernameTransform) {
-                delete data["username"];
-            }
-            if (email === emailTransform) {
-                delete data["email"];
-            }
-            if (bio === bioEdit) {
-                delete data["bio"];
-            }
+            // removing field from json if unchanged
+            if (username === usernameTransform) delete data["username"];
+            if (email === emailTransform) delete data["email"];
+            if (bio === bioEdit) delete data["bio"];
             if (data["username"] === "" || data["email"] === "") {
-                alert("Username/Email cannot be empty.");
+                setUpdateProfile(true);
+                setAlertStatus("error");
+                setAlertMessage("Username/Email cannot be empty.");
             } else if (Object.keys(data).length === 1) {
-                alert("Nothing was updated.");
+                setUpdateProfile(true);
+                setAlertStatus("info");
+                setAlertMessage("Nothing was updated.");
             } else {
-                if (!checkProfileFields(data)) return;
+                const message = checkProfileFields(data);
+                if (!message.success) {
+                    setUpdateProfile(true);
+                    setAlertStatus(message.status);
+                    setAlertMessage(message.message);
+                    return;
+                }
                 const user = await updateUser(data);
                 if (user) {
                     if (user.username === username && user.email === email) {
                         // if username and email are not changed
-                        alert("Successfully updated.");
+                        setUpdateProfile(true);
+                        setAlertStatus("success");
+                        setAlertMessage("Successfully updated.");
+                        setTimeout(function() {
+                            window.location.reload();
+                            setUpdateProfile(false);
+                        }, 2000);
                     } else {
-                        alert(
+                        setUpdateProfile(true);
+                        setAlertStatus("success");
+                        setAlertMessage(
                             "Successfully updated, please re-enter your login credentials."
                         );
-                        await handleLogOut(); //must logout and login to reset token
+                        setTimeout(function() {
+                            setUpdateProfile(false);
+                            handleLogOut(); //must logout and login to reset token
+                            window.location.reload();
+                        }, 5000);
                     }
                 } else {
-                    alert("Username/Email is taken.");
+                    setUpdateProfile(true);
+                    setAlertStatus("warning");
+                    setAlertMessage("Username/Email is taken.");
                 }
             }
         } catch (err) {
@@ -127,6 +148,19 @@ const EditProfile = data => {
                 </div>
             ) : (
                 <h1>User not found.</h1>
+            )}
+            {updateProfile ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "5px",
+                        width: "326px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );

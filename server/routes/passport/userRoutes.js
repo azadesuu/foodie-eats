@@ -46,9 +46,6 @@ userRouter.post("/signup", userController.signupUser);
 // GET user details associated with stored token
 userRouter.get("/findTokenUser", userController.getTokenUser);
 
-// POST new password to reset password
-userRouter.post("/reset-password/:id/:token", userController.resetPassword);
-
 /**
  * @api {Post} /forgotPassword Send email with token to reset password
  * @apiName ForgotPassword

@@ -32,10 +32,10 @@ const ProfileImageUpload = props => {
             formData.set("image", image);
             if (!image || !formData.get("image")) {
                 setUploadImg(!uploadImg);
-                setAlertStatus("error");
-                setAlertMessage("Image exceeds upload limit!");
+                setAlertStatus("info");
+                setAlertMessage("No image selected!");
                 setTimeout(function() {
-                    window.location.reload();
+                    setUploadImg(false);
                 }, 1000);
             } else if (image.size / 1024 / 1024 > 10) {
                 setUploadImg(!uploadImg);
@@ -204,7 +204,7 @@ function TopUser(props) {
     );
 
     useEffect(() => {
-        if (isLoading === false) {
+        if (isLoading === false && listReviews) {
             setNumReviews(listReviews.length);
             let total = 0;
             let i = 0;

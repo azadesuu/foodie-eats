@@ -6,7 +6,7 @@ import TopUser from "../TopUser";
 import { useContext, useEffect, useState } from "react";
 import { changeTheme, getProfile } from "../../api";
 import { UserContext } from "../../actions/UserContext";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Alert } from "@mui/material";
 import { useQuery } from "react-query";
 
 import Blueberry from "../../assets/images/Blueberry.svg";
@@ -33,6 +33,10 @@ function MyTheme(props) {
     const [userId, setUserId] = useState();
     const [currTheme, setCurrTheme] = useState();
 
+    const [alertStatus, setAlertStatus] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [themeUpload, setUThemeUpload] = useState(false);
+
     useEffect(() => {
         if (user && !userId) {
             setUserId(user._id);
@@ -49,14 +53,24 @@ function MyTheme(props) {
                 newTheme: theme
             });
             if (!oldUser) {
-                alert("An error occured. Please try again.");
+                setUThemeUpload(!themeUpload);
+                setAlertStatus("error");
+                setAlertMessage("An error occured. Please try again.");
+                setTimeout(function() {
+                    setUThemeUpload(false);
+                }, 2000);
             } else {
-                alert(`Theme changed from ${oldUser.theme} to ${theme}.`);
+                setUThemeUpload(!themeUpload);
+                setAlertStatus("success");
+                setAlertMessage(`Theme changed from ${oldUser.theme} to ${theme}.`);
+                setTimeout(function() {
+                    setUThemeUpload(false);
+                }, 2000);
                 setCurrTheme(theme);
                 localStorage.setItem("theme", theme);
             }
         } catch (err) {
-            console.log(err);
+            alert(err);
         }
     };
     function toggleActiveTheme(theme) {
@@ -118,6 +132,18 @@ function MyTheme(props) {
                 </div>
             ) : (
                 <h1>Loading...</h1>
+            )}
+            {themeUpload ? (
+                <Alert
+                    severity={alertStatus}
+                    sx={{
+                        mt: "20px"
+                    }}
+                >
+                    {alertMessage}
+                </Alert>
+            ) : (
+                <></>
             )}
         </div>
     );
