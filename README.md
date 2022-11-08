@@ -9,7 +9,7 @@
 - [Run application](#run-application)
 - [Cypress Testing](#cypress-testing)
 - [MochaJS Backend Testing](#mochajs-backend-testing)
-- [API Documentation](#API-Documentation)
+- [API Documentation](#api-documentation)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
   - [Sprint 2](#sprint-2)
@@ -40,30 +40,23 @@
 FoodieEats is a web application that consolidates reviews of restaurants from users, mostly for personal use. After users log in using their email and password, they are able to create reviews, view other users' reviews, and bookmark specific reviews. Users can also visit the Community page, which displays the most recent reviews and the top recommended restaurants, based on the user’s current location. As an additional feature, users are also able to choose from a list of color themes for the website.
 
 ## Application preview
-
-![alt text](github-images/community.png)
-
-![alt text](github-images/my-reviews.png)
-
-![alt text](github-images/post-a-review.png)
-
-![alt text](github-images/profile.png)
+<div align=center>
+  <img src="github-images/community.png" width="500">
+  <img src="github-images/my-reviews.png" width="500">
+  <img src="github-images/post-a-review.png" width="500">
+  <img src="github-images/profile.png" width="500">
+</div>
 
 ## Built with
 
-- MongoDB
-- Cloudinary
-
-- Express.js
-- React
-- Node.js
-
-- Cypress
-- MochaJS
-- Heroku/ Netlify
+| JS             | Database  | Deployment    |
+| -------------- | --------- | --------------|
+| Node/Express   | MongoDB   | Cypress       |
+| React          | Cloudinary| MochaJS       |
+| Material UI    |           | Prettier      |
+|                |           | Heroku/Netlify|
 
 ## Run Application
-
 Install server:
 
 ```
@@ -91,11 +84,16 @@ npm run dev
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 
 - To run locally:
-  - Follow the steps above to install server and client - npm run dev - change the `SERVER_URL` constant in client/api/index.js to:
+  - Follow the steps above to install server and client
+  - Change the `SERVER_URL` constant in client/api/index.js
     `SERVER_URL = "http://localhost:5000"`
   - add the necessary environmental variables (listed in the handover document/ in confluence)
     Then
-    `cd client npm run cypress`
+```
+    npm run dev
+    cd client 
+    npm run cypress
+```
 
 ## MochaJS Backend Testing
 
@@ -108,9 +106,8 @@ MochaJS for backend testing is automatically run in the CI/CD through GitHub Act
     cd server
     npm test-awesome
 ```
-
-    - please wait for tests to finish generating json/html report
-    - report is available under `server/mochawesome-report/mochawesome.html`
+- please wait for tests to finish generating json/html report
+- report is available under `server/mochawesome-report/mochawesome.html`
 
 The final documents will be added to Confluence.
 
@@ -153,6 +150,9 @@ npm run docs
 
 ### Sprint 3
 
-- Focusing on CSS, unit/integration testing(MochaJS), front-end testing(Cypress)
-- Implementing last few features (toggleLike/Bookmark/flag, filter/search, deletereview, upload images)
+- Implementing last few features (toggleLike/Bookmark/flag, filter/search, delete review, upload images)
+- Implementing backend checks (input validation, JSON token authentication)
+- CSS cleanup (changing JS alerts to MUI alerts)
+- Unit/Integration testing (MochaJS), and documentation
+- Front-end testing(Cypress), and documentation
 
