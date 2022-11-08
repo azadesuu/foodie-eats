@@ -6,8 +6,8 @@
 - [Application preview](#application-preview)
 - [Built with](#built-with)
 - [Run project](#run-project)
-- [Run app](#run-app)
-- [Api Documentation](#Api-Documentation)
+- [Run app](#run-application)
+- [Api Documentation](#API-Documentation)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
   - [Sprint 2](#sprint-2)
@@ -46,32 +46,32 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 2. Go to server directory ('cd server'), install dependencies ('npm install'), run server ('npm run start')
 3. Go to client directory ('cd client'), install dependencies ('npm install'), run client ('npm run start')
 
-## Run app
-- install server
+## Run Application
+Install server
     ```
     cd server 
     npm install
     cd ..
     ```
-- install client
+Install client
     ```
     cd client
     npm install
     cd ..
     ```
-- start the server:
+Start the server:
     ```
     cd server
     npm start
     cd ..
     ```
-- start the client:
+Start the client:
     ```
     cd client
     npm start
     cd ..
     ```
-- start both:
+Start both:
     ```
     npm run dev
     ```
@@ -94,7 +94,7 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
     - report is available under server/mochawesome-report/mochawesome.html
 
 - The final documents will be added to Confluence.
-## Api Documentation
+## API Documentation
 - To generate the API Docs:
     - 'npm run docs' in the server directory
 
