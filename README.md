@@ -78,7 +78,7 @@ npm run dev
 ## Cypress testing
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 - To run locally:
-1. install server and client
+     - install server and client
      - run both server and client
      - change the SERVER_URL in 
      - add the necessary environmental variables (listed in the handover document)
@@ -86,14 +86,15 @@ Cypress for frontend (E2E) testing is automatically run in the CI/CD through Git
      - npm run cypress
       
 ## MochaJS Backend testing
-- MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
+MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
 - To run and generate backend tests report locally (html):
     - add the necessary environmental variables (listed in the handover document), then
     cd server
     npm test-awesome -- please wait for tests to finish generating json/html report
     - report is available under server/mochawesome-report/mochawesome.html
 
-- The final documents will be added to Confluence.
+The final documents will be added to Confluence.
+
 ## API Documentation
 - To generate the API Docs:
     - 'npm run docs' in the server directory
