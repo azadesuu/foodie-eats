@@ -1,26 +1,31 @@
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
-  Object.keys = (function () {
-    'use strict';
+  Object.keys = (function() {
+    "use strict";
     var hasOwnProperty = Object.prototype.hasOwnProperty,
-        hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
-        dontEnums = [
-          'toString',
-          'toLocaleString',
-          'valueOf',
-          'hasOwnProperty',
-          'isPrototypeOf',
-          'propertyIsEnumerable',
-          'constructor'
-        ],
-        dontEnumsLength = dontEnums.length;
+      hasDontEnumBug = !{ toString: null }.propertyIsEnumerable("toString"),
+      dontEnums = [
+        "toString",
+        "toLocaleString",
+        "valueOf",
+        "hasOwnProperty",
+        "isPrototypeOf",
+        "propertyIsEnumerable",
+        "constructor"
+      ],
+      dontEnumsLength = dontEnums.length;
 
-    return function (obj) {
-      if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
-        throw new TypeError('Object.keys called on non-object');
+    return function(obj) {
+      if (
+        typeof obj !== "object" &&
+        (typeof obj !== "function" || obj === null)
+      ) {
+        throw new TypeError("Object.keys called on non-object");
       }
 
-      var result = [], prop, i;
+      var result = [],
+        prop,
+        i;
 
       for (prop in obj) {
         if (hasOwnProperty.call(obj, prop)) {
@@ -37,17 +42,17 @@ if (!Object.keys) {
       }
       return result;
     };
-  }());
+  })();
 }
 
 //Production steps of ECMA-262, Edition 5, 15.4.4.18
 //Reference: http://es5.github.com/#x15.4.4.18
 if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function (callback, thisArg) {
+  Array.prototype.forEach = function(callback, thisArg) {
     var T, k;
 
     if (this == null) {
-      throw new TypeError(' this is null or not defined');
+      throw new TypeError(" this is null or not defined");
     }
 
     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.

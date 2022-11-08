@@ -38,7 +38,6 @@ span.smallScreen-MyProfile {
     .form-control-profile-bio textarea {
         width: 340px;
     }
-    
 }
 @media screen and (min-width: 1000px) {
     .content-MyProfile h1 {

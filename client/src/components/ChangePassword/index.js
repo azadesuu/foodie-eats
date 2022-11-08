@@ -38,7 +38,9 @@ function ChangePwDetails(props) {
         if (!newPassword.match(strongPassword)) {
             setPasswordMatch(!passwordMatch);
             setAlertStatus("error");
-            setAlertMessage("Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit.");
+            setAlertMessage(
+                "Password must have min 8 characters, 1 lower/uppercase character and 1 numerical digit."
+            );
             setTimeout(function() {
                 setPasswordMatch(false);
             }, 5000);
@@ -59,7 +61,9 @@ function ChangePwDetails(props) {
             if (!updatedUser) {
                 setPasswordMatch(!passwordMatch);
                 setAlertStatus("error");
-                setAlertMessage("Current password was incorrect, change unsuccessful.");
+                setAlertMessage(
+                    "Current password was incorrect, change unsuccessful."
+                );
                 setTimeout(function() {
                     setPasswordMatch(false);
                 }, 5000);

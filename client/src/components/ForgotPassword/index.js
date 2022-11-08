@@ -28,11 +28,15 @@ function ForgotPassword() {
             if (sent) {
                 setForgotpw(true);
                 setAlertStatus("success");
-                setAlertMessage("Email sent successfully. Please wait for token to reset password.");
+                setAlertMessage(
+                    "Email sent successfully. Please wait for token to reset password."
+                );
             } else {
                 setForgotpw(true);
                 setAlertStatus("error");
-                setAlertMessage("There was an error while requesting to reset password.");
+                setAlertMessage(
+                    "There was an error while requesting to reset password."
+                );
             }
         } catch (err) {
             console.log(err);

@@ -62,7 +62,9 @@ function MyTheme(props) {
             } else {
                 setUThemeUpload(!themeUpload);
                 setAlertStatus("success");
-                setAlertMessage(`Theme changed from ${oldUser.theme} to ${theme}.`);
+                setAlertMessage(
+                    `Theme changed from ${oldUser.theme} to ${theme}.`
+                );
                 setTimeout(function() {
                     setUThemeUpload(false);
                 }, 2000);

@@ -185,7 +185,6 @@ function PostReview() {
             } else {
                 navigate(`/review/${review?._id}`);
             }
-            
         }
     };
 

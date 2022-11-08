@@ -37,8 +37,10 @@ const theme = createTheme({
 
 function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
-    const iOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
-    
+    const iOS =
+        typeof navigator !== "undefined" &&
+        /iPad|iPhone|iPod/.test(navigator.userAgent);
+
     return (
         <>
             <IconButton

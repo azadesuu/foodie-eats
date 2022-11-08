@@ -53,7 +53,9 @@ function NavLoggedIn() {
         navigate("/login");
     }
     const activeTheme = localStorage.getItem("theme");
-    const iOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const iOS =
+        typeof navigator !== "undefined" &&
+        /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     useEffect(() => {
         if (

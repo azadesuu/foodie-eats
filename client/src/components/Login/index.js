@@ -46,7 +46,7 @@ function Login() {
             }
             const message2 = await loginUser(data);
             if (message2) {
-                if (!message2.success){
+                if (!message2.success) {
                     setLoginAlert(true);
                     setAlertStatus(message2.status);
                     setAlertMessage(message2.message);
