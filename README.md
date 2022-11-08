@@ -6,6 +6,8 @@
 - [Application preview](#application-preview)
 - [Built with](#built-with)
 - [Run project](#run-project)
+- [Run app](#run-app)
+- [Api Documentation](#Api-Documentation)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
   - [Sprint 2](#sprint-2)
@@ -14,7 +16,11 @@
 - [Contributors](#contributors)
 
 ## About our project
-
+<p align="center">
+  <picture>
+    <img src="github-images/logo192.png" height="128">
+  </picture>
+</p>
 FoodieEats is a web application that consolidates reviews of restaurants from users, mostly for personal use. After users log in using their email and password, they are able to create reviews, view other users' reviews, and bookmark specific reviews. Users can also visit the Community page, which displays the most recent reviews and the top recommended restaurants, based on the user’s current location. As an additional feature, users are also able to choose from a list of color themes for the website.
 
 ## Application preview
@@ -36,6 +42,62 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 1. Install Node.js and npm
 2. Go to server directory ('cd server'), install dependencies ('npm install'), run server ('npm run start')
 3. Go to client directory ('cd client'), install dependencies ('npm install'), run client ('npm run start')
+
+## Run app
+- install server
+    ```
+    cd server 
+    npm install
+    cd ..
+    ```
+- install client
+    ```
+    cd client
+    npm install
+    cd ..
+    ```
+- start the server:
+    ```
+    cd server
+    npm start
+    cd ..
+    ```
+- start the client:
+    ```
+    cd client
+    npm start
+    cd ..
+    ```
+- start both:
+    ```
+    npm run dev
+    ```
+## Cypress testing
+- Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
+- To run locally:
+     - install server and client
+     - run both server and client
+     - change the SERVER_URL in 
+     - add the necessary environmental variables (listed in the handover document)
+     - cd into client
+     - npm run cypress
+      
+## MochaJS Backend testing
+- MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
+- To run and generate backend tests report locally (html):
+    - add the necessary environmental variables (listed in the handover document), then
+    cd server
+    npm test-awesome -- please wait for tests to finish generating json/html report
+    - report is available under server/mochawesome-report/mochawesome.html
+
+- The final documents will be added to Confluence.
+## Api Documentation
+- To generate the API Docs:
+    - 'npm run docs' in the server directory
+
+- To view the documentation:
+    - navigate to the /docs folder and open the index.html through a browser
+
 
 ## Project history
 
