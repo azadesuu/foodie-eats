@@ -7,14 +7,17 @@
 - [Application Preview](#application-preview)
 - [Built with](#built-with)
 - [Run Application](#run-application)
-- [Cypress Testing](#cypress-testing)
-- [MochaJS Backend Testing](#mochajs-backend-testing)
-- [API Documentation](#api-documentation)
+- [Tests](#tests)
+  - [Cypress Testing](#cypress-testing)
+  - [MochaJS Backend Testing](#mochajs-backend-testing)
+  - [API Documentation](#api-documentation)
+  - [Test Cases](#test-cases)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
   - [Sprint 2](#sprint-2)
   - [Sprint 3](#sprint-3)
-- [Test Cases](#test-cases)
+- [Login Details](#login-details)
+- [Final Submission](#final-submission)
 
 
 
@@ -82,8 +85,8 @@ Start the client and server:
 ```
 npm run dev
 ```
-
-## :red_circle: Cypress Testing
+## :paper: Tests
+### :red_circle: Cypress Testing
 
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 
@@ -99,7 +102,7 @@ Cypress for frontend (E2E) testing is automatically run in the CI/CD through Git
     npm run cypress
 ```
 
-## :large_blue_circle: MochaJS Backend Testing
+### :large_blue_circle: MochaJS Backend Testing
 
 MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
 
@@ -115,7 +118,7 @@ MochaJS for backend testing is automatically run in the CI/CD through GitHub Act
 
 The final documents will be added to Confluence.
 
-## :white_circle: API Documentation
+### :white_circle: API Documentation
 
 - To generate the API Docs:
 
@@ -127,7 +130,7 @@ npm run docs
 - To view the documentation:
   - navigate to the /docs folder and open the `index.html` through a browser
 
-## :ballot_box_with_check: Test Cases
+### :ballot_box_with_check: Test Cases
 
 - Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
 - Cypress test cases in client/cypress
@@ -160,3 +163,11 @@ npm run docs
 - Unit/Integration testing (MochaJS), and documentation
 - Front-end testing(Cypress), and documentation
 
+## Login Details
+username: celenesaw
+password: Testing123@
+
+## Final Submission
+Commit ID:
+Application URL: https://foodie-eats.netlify.app/home
+Backend URL: https://foodie-eats-server.herokuapp.com/
