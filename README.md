@@ -5,13 +5,18 @@
 - [About our project](#about-our-project)
 - [Application preview](#application-preview)
 - [Built with](#built-with)
-- [Run project](#run-project)
+- [Run Application](#run-application)
+- [Tests](#tests)
+  - [Cypress Testing](#cypress-testing)
+  - [MochaJS Backend Testing](#mochajs-backend-testing)
+  - [API Documentation](#api-documentation)
+  - [Test Cases](#test-cases)
 - [Project history](#project-history)
   - [Sprint 1](#sprint-1)
   - [Sprint 2](#sprint-2)
   - [Sprint 3](#sprint-3)
-- [Test Cases](#test-cases)
-- [Contributors](#contributors)
+- [Login Details](#login-details)
+- [Final Submission](#final-submission)
 
 ## About our project
 
@@ -37,7 +42,69 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 2. Go to server directory ('cd server'), install dependencies ('npm install'), run server ('npm run start')
 3. Go to client directory ('cd client'), install dependencies ('npm install'), run client ('npm run start')
 
-## Project history
+```
+cd client
+npm install
+cd ..
+```
+
+Start the client and server:
+
+```
+npm run dev
+```
+## :ballot_box_with_check: Tests
+### Cypress Testing
+
+Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
+
+- To run locally:
+  - Follow the steps above to install server and client
+  - Change the `SERVER_URL` constant in client/api/index.js to
+    `SERVER_URL = "http://localhost:5000"`
+  - add the necessary environmental variables (listed in the handover document/ in confluence)
+    Then
+```
+    npm run dev
+    cd client 
+    npm run cypress
+```
+
+### MochaJS Backend Testing
+
+MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
+
+- To run and generate backend tests report locally (html):
+  - add the necessary environmental variables (listed in the handover document), then
+
+```
+    cd server
+    npm test-awesome
+```
+- please wait for tests to finish generating json/html report
+- report is available under `server/mochawesome-report/mochawesome.html`
+
+The final documents will be added to Confluence.
+
+### API Documentation
+
+- To generate the API Docs:
+
+```
+cd server
+npm run docs
+```
+
+- To view the documentation:
+  - navigate to the /docs folder and open the `index.html` through a browser
+
+### Test Cases
+
+- Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
+- Cypress test cases in client/cypress
+- MochaJS test cases in server/test
+
+## :office: Project history
 
 ### Sprint 1
 
@@ -61,19 +128,13 @@ FoodieEats is a web application that consolidates reviews of restaurants from us
 - Focusing on CSS, unit/integration testing(MochaJS), front-end testing(Cypress)
 - Implementing last few features (toggleLike/Bookmark/flag, filter/search, deletereview, upload images)
 
-## Test Cases
+## :newspaper: Login Details
+username: celenesaw
 
-- Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
-- Cypress test cases in client/cypress
-- MochaJS test cases in server/mochaawesome-report/testReport.html
-  - Final MochaJS report will be added to confluence
+password: Testing123@
 
-## Contributors
+## :file_folder: Final Submission
 
-| Name                     | GitHub ID   | Role                 |
-| ------------------------ | ----------- | -------------------- |
-| Ying Shan Saw (Celene)   | azadesuu    | Full-Stack Developer |
-| Joeann Chong             | joeannc     | Front-end Developer  |
-| Claudya Laurance Cahyadi | ccahyadi    | Back-end Developer   |
-| Anthony Ouch             | anthonyouch | Full-Stack Developer |
-| Sandeepa Andra Hennadige | Lakvinu     | Full-Stack Developer |
+Application URL: https://foodie-eats.netlify.app/home
+
+Server URL: https://foodie-eats-server.herokuapp.com/
