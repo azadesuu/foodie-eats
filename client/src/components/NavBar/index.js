@@ -38,8 +38,13 @@ const theme = createTheme({
 function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const iOS =
+        navigator &&
         typeof navigator !== "undefined" &&
-        /iPad|iPhone|iPod/.test(navigator.userAgent);
+        /iPad|iPhone|iPod/.test(navigator?.userAgent);
+
+    const toggleDrawer = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <>
@@ -50,7 +55,7 @@ function MenuSideBar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 sx={{ mr: 2 }}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={toggleDrawer}
             >
                 <MenuIcon
                     id="hamburger-menu"
@@ -64,7 +69,8 @@ function MenuSideBar() {
                 disableDiscovery={iOS}
                 anchor="left"
                 open={isOpen}
-                onClose={() => setIsOpen(!isOpen)}
+                onOpen={toggleDrawer}
+                onClose={toggleDrawer}
             >
                 <div className="content-MenuSideBar">
                     <img src={WebLogo} width="107px" alt="web logo" />
