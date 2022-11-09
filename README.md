@@ -165,9 +165,12 @@ npm run docs
 
 ## :newspaper: Login Details
 username: celenesaw
+
 password: Testing123@
 
 ## :file_folder: Final Submission
 Commit ID:
+
 Application URL: https://foodie-eats.netlify.app/home
+
 Server URL: https://foodie-eats-server.herokuapp.com/
