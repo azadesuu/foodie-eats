@@ -48,11 +48,10 @@ function EditReview() {
         if (!review || !user) {
             navigate(-1);
         } else if (review?.userId._id !== user?._id) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("warning");
             setAlertMessage("You have no permission to edit this review.");
             setTimeout(function() {
-                setEditReview(false);
                 navigate(-1);
             }, 2000);
         }
@@ -84,20 +83,11 @@ function EditReview() {
             try {
                 const deleted = await deleteNewImage({ url: url });
                 if (deleted) {
-                    setEditReview(!editReview);
-                    setAlertStatus("success");
-                    setAlertMessage("Image deleted.");
-                    setTimeout(function() {
-                        setEditReview(false);
-                    }, 2000);
                     return true;
                 } else {
-                    setEditReview(!editReview);
+                    setEditReview(true);
                     setAlertStatus("error");
                     setAlertMessage("Error occured, image was not deleted.");
-                    setTimeout(function() {
-                        setEditReview(false);
-                    }, 1000);
                 }
             } catch (err) {
                 alert(err);
@@ -115,20 +105,16 @@ function EditReview() {
     const confirmDelete = async () => {
         const review = await deleteReview(reviewId);
         if (review) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("success");
             setAlertMessage("Review deleted.");
             setTimeout(function() {
-                setEditReview(false);
                 navigate("/my-reviews");
             }, 2000);
         } else {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("An error occured, please try again later.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         }
     };
 
@@ -145,77 +131,47 @@ function EditReview() {
         tags
     ) => {
         if (!restaurantName) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Restaurant name is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!dateVisited) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Date is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!userId) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("User doesn't exist.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!address.streetAddress) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Street address is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!address.suburb) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Suburb is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!address.state) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("State is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!address.postcode) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Postcode is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (!description) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Description is missing.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (
             !/^(0[289][0-9]{2})|([1-9][0-9]{3})$/.test(address.postcode)
         ) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Postcode is invalid.");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else if (image?.size / 1024 / 1024 > 10) {
-            setEditReview(!editReview);
+            setEditReview(true);
             setAlertStatus("error");
             setAlertMessage("Image is too big!");
-            setTimeout(function() {
-                setEditReview(false);
-            }, 1000);
         } else {
             const url = await imageHandler();
 
@@ -233,12 +189,9 @@ function EditReview() {
                 tags: tags
             });
             if (!updatedReviewRecord) {
-                setEditReview(!editReview);
+                setEditReview(true);
                 setAlertStatus("error");
                 setAlertMessage("Update unsuccessful!");
-                setTimeout(function() {
-                    setEditReview(false);
-                }, 1000);
             } else {
                 navigate(`/review/${review?._id}`);
             }

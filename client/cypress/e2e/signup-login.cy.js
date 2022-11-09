@@ -12,9 +12,7 @@ describe('The Signup Page', () => {
     cy.get(':nth-child(5) > #password').type('LoginTest12345@');
     cy.get('.form-control-signup-pw-con > .form-control > #password').type('LoginTest12345@');
     cy.get('.done').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`must provide an email, a password, and a username.`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when email/username has been used', () => {
@@ -34,9 +32,7 @@ describe('The Signup Page', () => {
     cy.get(':nth-child(5) > #password').type('12345');
     cy.get('.form-control-signup-pw-con > .form-control > #password').type('12345');
     cy.get('.done').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Your password isn't strong enough.`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when confirm password field does not match password', () => {
@@ -45,9 +41,7 @@ describe('The Signup Page', () => {
     cy.get(':nth-child(5) > #password').type('LoginTest12345@');
     cy.get('.form-control-signup-pw-con > .form-control > #password').type('12345');
     cy.get('.done').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Please re-confirm your password`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 })
 
@@ -69,25 +63,19 @@ describe('The Login Page', () => {
 
   it('successfully displays alert when email and password not provided', function(){
     cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when email not provided', function(){
     cy.get('#password').type('LoginTest12345@');
     cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when password not provided', function(){
     cy.get('#email').type('login-test@mail.com');
     cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Must provide email and a password`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when email has not been registered', function(){
@@ -95,9 +83,7 @@ describe('The Login Page', () => {
     cy.get('#email').type('email-not-registered@mail.com');
     cy.get('#password').type('email-not-registered');
     cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Email not found or password doesn't match.`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully displays alert when wrong password entered', function(){
@@ -105,9 +91,7 @@ describe('The Login Page', () => {
     cy.get('#email').type('login-test@mail.com');
     cy.get('#password').type('wrong-password');
     cy.get('[data-testid="LoginIcon"]').click();
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal(`Email not found or password doesn't match.`);
-    })
+    cy.get('.MuiAlert-message').should('be.visible');
   })
 
   it('successfully logs out', function(){

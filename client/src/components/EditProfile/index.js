@@ -60,7 +60,6 @@ const EditProfile = data => {
                         setAlertMessage("Successfully updated.");
                         setTimeout(function() {
                             window.location.reload();
-                            setUpdateProfile(false);
                         }, 2000);
                     } else {
                         setUpdateProfile(true);
@@ -69,7 +68,6 @@ const EditProfile = data => {
                             "Successfully updated, please re-enter your login credentials."
                         );
                         setTimeout(function() {
-                            setUpdateProfile(false);
                             handleLogOut(); //must logout and login to reset token
                             window.location.reload();
                         }, 5000);

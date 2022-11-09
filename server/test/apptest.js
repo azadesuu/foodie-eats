@@ -137,14 +137,16 @@ describe("Unit tests ", () => {
     await clearCollections();
   });
 
-  describe("Registration ", () => {
+  describe("Registration", () => {
     it("Registers the user", async function() {
-      this.timeout(3000);
       return await request(app)
         .post("/signup")
         .send(testInput.newUser)
         .then(function(res) {
           assert.equal(200, res.statusCode);
+          res.body.should.includes({
+            message: "Successfully signed up"
+          });
         });
     });
     it("Doesn't register the duplicate user (email)", async function() {
@@ -478,7 +480,7 @@ describe("Integration tests: Review methods", () => {
         .then(function(res) {
           assert.equal(400, res.statusCode);
           res.body.should.includes({
-            message: "No user was found with the given user/email"
+            message: "Oops! Wrong password."
           });
         });
     });
@@ -939,7 +941,7 @@ describe("Integration tests: Account methods", () => {
         .then(function(res) {
           assert.equal(400, res.statusCode);
           res.body.should.includes({
-            message: "No user was found with the given user/email"
+            message: "Oops! Wrong password."
           });
         });
     });

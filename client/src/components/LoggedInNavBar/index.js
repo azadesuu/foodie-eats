@@ -18,7 +18,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
-import { Drawer } from "@mui/material";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../actions/UserContext";
@@ -53,6 +53,9 @@ function NavLoggedIn() {
         navigate("/login");
     }
     const activeTheme = localStorage.getItem("theme");
+    const iOS =
+        typeof navigator !== "undefined" &&
+        /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     useEffect(() => {
         if (
@@ -116,7 +119,9 @@ function NavLoggedIn() {
                                                 }}
                                             />
                                         </IconButton>
-                                        <Drawer
+                                        <SwipeableDrawer
+                                            disableBackdropTransition={!iOS}
+                                            disableDiscovery={iOS}
                                             anchor="left"
                                             open={isOpen}
                                             onClose={() => setIsOpen(!isOpen)}
@@ -262,7 +267,7 @@ function NavLoggedIn() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </Drawer>
+                                        </SwipeableDrawer>
                                     </Box>
                                     <Box
                                         sx={{

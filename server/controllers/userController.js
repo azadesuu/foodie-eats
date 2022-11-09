@@ -1,31 +1,27 @@
-const Review = require("../models/review");
 const User = require("../models/user");
-const Token = require("../models/token");
-
-// get express-validator, to validate user data in forms
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("../config/passport")(passport);
-
 const Joi = require("joi");
 const sendEmail = require("../sendEmail.js");
-const crypto = require("crypto");
-const passwordComplexity = require("joi-password-complexity");
-const bcrypt = require("bcrypt");
-
-const generatePassword = require('genepass');
+const generatePassword = require("genepass");
 
 const loginUser = async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           success: false,
-          message: "Error occured while logging in user."
+          message: "Error occured while logging in."
         });
-        return;
+      } else if (info?.message) {
+        return res.status(400).json({
+          success: false,
+          message: info.message
+        });
       } else if (!user) {
         return res.status(400).json({
+          success: false,
           message: "No user was found with the given user/email"
         });
       } else {
@@ -66,20 +62,12 @@ const signupUser = async (req, res, next) => {
           message: "Error occured while registering user."
         });
         return;
-      } else if (!user) {
-        const error = new Error("That email/username is already taken");
-        res.status(400).json({
-          success: false,
-          message: "That email/username is already taken",
-          err: error
-        });
-        return;
       }
       // if there is message describing error
-      else if (user.message) {
+      if (info?.message) {
         res.status(400).json({
           success: false,
-          message: user.message
+          message: info.message
         });
         return;
       } else {
@@ -160,11 +148,14 @@ const forgotPassword = async (req, res) => {
       lowercase: true,
       uppercase: true,
       number: true,
-      special: true,
+      special: true
     });
 
     // Change password in database
-    const updatedUser = await User.findOneAndUpdate({ email: req.body.email }, {password: user.generateHash(password)});
+    const updatedUser = await User.findOneAndUpdate(
+      { email: req.body.email },
+      { password: user.generateHash(password) }
+    );
 
     // (email, subject, text)
     await sendEmail(user.email, "Temporary password", password);

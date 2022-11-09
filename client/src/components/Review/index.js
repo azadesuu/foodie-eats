@@ -34,7 +34,7 @@ function Review(props) {
     const [alertStatus, setAlertStatus] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [like, setLike] = useState(false);
-    
+
     const { reviewId } = useParams();
     const { data: review, isLoading } = useQuery(
         "view-review",
@@ -58,15 +58,11 @@ function Review(props) {
         }
     }, [isLoading, review, userProfile, user?._id]);
 
-
     async function likeButton() {
         if (!userProfile) {
-            setLike(!like);
+            setLike(true);
             setAlertStatus("info");
             setAlertMessage("Please log in to give a like!");
-            setTimeout(function() {
-                setLike(false);
-            }, 2000);
         } else {
             try {
                 await toggleLike({
