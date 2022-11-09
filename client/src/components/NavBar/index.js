@@ -35,11 +35,91 @@ const theme = createTheme({
     }
 });
 
-function NavPublic() {
+function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const iOS =
         typeof navigator !== "undefined" &&
         /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    return (
+        <>
+            <IconButton
+                edge="start"
+                color="img"
+                aria-label="menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                sx={{ mr: 2 }}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <MenuIcon
+                    id="hamburger-menu"
+                    sx={{
+                        fontSize: "40px"
+                    }}
+                />
+            </IconButton>
+            <SwipeableDrawer
+                disableBackdropTransition={!iOS}
+                disableDiscovery={iOS}
+                anchor="left"
+                open={isOpen}
+                onClose={() => setIsOpen(!isOpen)}
+            >
+                <div className="content-MenuSideBar">
+                    <img src={WebLogo} width="107px" alt="web logo" />
+                    <div className="MenuSideBar-r1">
+                        <div className="MenuSideBar-c1">
+                            <NavLink
+                                tag={Link}
+                                to="/home"
+                                style={{
+                                    fontSize: "20px",
+                                    color: "#000000",
+                                    fontFamily: "Martel Sans"
+                                }}
+                            >
+                                community
+                            </NavLink>
+                            <NavLink
+                                to="/login"
+                                style={{
+                                    fontSize: "20px",
+                                    color: "#000000",
+                                    fontFamily: "Martel Sans"
+                                }}
+                            >
+                                login
+                            </NavLink>
+                        </div>
+                        <div className="MenuClose">
+                            <Button
+                                sx={{
+                                    display: "contents"
+                                }}
+                                onClick={() => {
+                                    setIsOpen(!isOpen);
+                                }}
+                            >
+                                <ArrowBackIosNewIcon
+                                    sx={{
+                                        color: "white",
+                                        bgcolor: "#514F4E",
+                                        height: "61px",
+                                        width: "17px",
+                                        borderRadius: "10px 0px 0px 10px"
+                                    }}
+                                />
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </SwipeableDrawer>
+        </>
+    );
+}
+
+function NavPublic() {
     document.documentElement.className = "honeydew";
     return (
         <div className="nav">
@@ -67,22 +147,14 @@ function NavPublic() {
                         >
                             <Toolbar>
                                 <Grid container justifyContent="space-between">
-                                    <IconButton
-                                        edge="start"
-                                        color="img"
-                                        aria-label="menu"
-                                        aria-controls="menu-appbar"
-                                        aria-haspopup="true"
-                                        sx={{ mr: 2 }}
-                                        onClick={() => setIsOpen(!isOpen)}
+                                    <Box
+                                        sx={{
+                                            alignItems: "center",
+                                            display: "flex"
+                                        }}
                                     >
-                                        <MenuIcon
-                                            id="hamburger-menu"
-                                            sx={{
-                                                fontSize: "40px"
-                                            }}
-                                        />
-                                    </IconButton>
+                                        <MenuSideBar />
+                                    </Box>
                                     <Box
                                         sx={{
                                             alignItems: "center",
@@ -112,68 +184,6 @@ function NavPublic() {
                                 </Grid>
                             </Toolbar>
                         </AppBar>
-
-                        <SwipeableDrawer
-                            disableBackdropTransition={!iOS}
-                            disableDiscovery={iOS}
-                            anchor="left"
-                            open={isOpen}
-                            onClose={() => setIsOpen(!isOpen)}
-                        >
-                            <div className="content-MenuSideBar">
-                                <img
-                                    src={WebLogo}
-                                    width="107px"
-                                    alt="web logo"
-                                />
-                                <div className="MenuSideBar-r1">
-                                    <div className="MenuSideBar-c1">
-                                        <NavLink
-                                            tag={Link}
-                                            to="/home"
-                                            style={{
-                                                fontSize: "20px",
-                                                color: "#000000",
-                                                fontFamily: "Martel Sans"
-                                            }}
-                                        >
-                                            community
-                                        </NavLink>
-                                        <NavLink
-                                            to="/login"
-                                            style={{
-                                                fontSize: "20px",
-                                                color: "#000000",
-                                                fontFamily: "Martel Sans"
-                                            }}
-                                        >
-                                            login
-                                        </NavLink>
-                                    </div>
-                                    <div className="MenuClose">
-                                        <Button
-                                            sx={{
-                                                display: "contents"
-                                            }}
-                                            onClick={() => {
-                                                setIsOpen(!isOpen);
-                                            }}
-                                        >
-                                            <ArrowBackIosNewIcon
-                                                sx={{
-                                                    color: "white",
-                                                    bgcolor: "#514F4E",
-                                                    height: "61px",
-                                                    width: "17px",
-                                                    borderRadius:
-                                                        "10px 0px 0px 10px"
-                                                }}
-                                            />
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </SwipeableDrawer>
                     </Box>
                 </ThemeProvider>
             </span>
