@@ -85,8 +85,8 @@ Start the client and server:
 ```
 npm run dev
 ```
-## :paper: Tests
-### :red_circle: Cypress Testing
+## :ballot_box_with_check: Tests
+### Cypress Testing
 
 Cypress for frontend (E2E) testing is automatically run in the CI/CD through GitHub Actions.
 
@@ -102,7 +102,7 @@ Cypress for frontend (E2E) testing is automatically run in the CI/CD through Git
     npm run cypress
 ```
 
-### :large_blue_circle: MochaJS Backend Testing
+### MochaJS Backend Testing
 
 MochaJS for backend testing is automatically run in the CI/CD through GitHub Actions.
 
@@ -118,7 +118,7 @@ MochaJS for backend testing is automatically run in the CI/CD through GitHub Act
 
 The final documents will be added to Confluence.
 
-### :white_circle: API Documentation
+### API Documentation
 
 - To generate the API Docs:
 
@@ -130,7 +130,7 @@ npm run docs
 - To view the documentation:
   - navigate to the /docs folder and open the `index.html` through a browser
 
-### :ballot_box_with_check: Test Cases
+### Test Cases
 
 - Frontend Cypress testing and backend MochaJS testing integrated in CI/CD through GitHub actions
 - Cypress test cases in client/cypress
@@ -163,11 +163,11 @@ npm run docs
 - Unit/Integration testing (MochaJS), and documentation
 - Front-end testing(Cypress), and documentation
 
-## Login Details
+## :newspaper: Login Details
 username: celenesaw
 password: Testing123@
 
-## Final Submission
+## :file_folder: Final Submission
 Commit ID:
 Application URL: https://foodie-eats.netlify.app/home
-Backend URL: https://foodie-eats-server.herokuapp.com/
+Server URL: https://foodie-eats-server.herokuapp.com/
