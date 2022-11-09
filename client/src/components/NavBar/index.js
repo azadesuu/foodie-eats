@@ -18,7 +18,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
-import Drawer from "@mui/material/SwipeableDrawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const theme = createTheme({
     palette: {
@@ -38,11 +38,8 @@ const theme = createTheme({
 function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const iOS =
-        process.browser && /iPad|iPhone|iPod/.test(navigator?.userAgent);
-
-    const toggleDrawer = () => {
-        setIsOpen(!isOpen);
-    };
+        typeof navigator !== "undefined" &&
+        /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     return (
         <>
@@ -53,7 +50,7 @@ function MenuSideBar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 sx={{ mr: 2 }}
-                onClick={toggleDrawer}
+                onClick={() => setIsOpen(!isOpen)}
             >
                 <MenuIcon
                     id="hamburger-menu"
@@ -62,14 +59,12 @@ function MenuSideBar() {
                     }}
                 />
             </IconButton>
-            <Drawer
+            <SwipeableDrawer
+                disableBackdropTransition={!iOS}
+                disableDiscovery={iOS}
                 anchor="left"
-                disableSwipeToOpen={true}
-                disableBackdropTransition={true}
-                disableDiscovery={true}
                 open={isOpen}
-                onOpen={toggleDrawer}
-                onClose={toggleDrawer}
+                onClose={() => setIsOpen(!isOpen)}
             >
                 <div className="content-MenuSideBar">
                     <img src={WebLogo} width="107px" alt="web logo" />
@@ -102,7 +97,9 @@ function MenuSideBar() {
                                 sx={{
                                     display: "contents"
                                 }}
-                                onClick={toggleDrawer}
+                                onClick={() => {
+                                    setIsOpen(!isOpen);
+                                }}
                             >
                                 <ArrowBackIosNewIcon
                                     sx={{
@@ -117,7 +114,7 @@ function MenuSideBar() {
                         </div>
                     </div>
                 </div>
-            </Drawer>
+            </SwipeableDrawer>
         </>
     );
 }
