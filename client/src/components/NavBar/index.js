@@ -18,7 +18,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Drawer from "@mui/material/SwipeableDrawer";
 
 const theme = createTheme({
     palette: {
@@ -64,7 +64,7 @@ function MenuSideBar() {
                     }}
                 />
             </IconButton>
-            <SwipeableDrawer
+            <Drawer
                 disableBackdropTransition={!iOS}
                 disableDiscovery={iOS}
                 anchor="left"
@@ -120,7 +120,7 @@ function MenuSideBar() {
                         </div>
                     </div>
                 </div>
-            </SwipeableDrawer>
+            </Drawer>
         </>
     );
 }
