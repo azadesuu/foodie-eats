@@ -29,7 +29,7 @@ function ForgotPassword() {
                 setForgotpw(true);
                 setAlertStatus("success");
                 setAlertMessage(
-                    "Email sent. Please check your inbox for further instructions."
+                    "Email sent successfully. Please wait for token to reset password."
                 );
             } else {
                 setForgotpw(true);
