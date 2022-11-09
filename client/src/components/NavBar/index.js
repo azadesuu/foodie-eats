@@ -38,9 +38,7 @@ const theme = createTheme({
 function MenuSideBar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const iOS =
-        navigator &&
-        typeof navigator !== "undefined" &&
-        /iPad|iPhone|iPod/.test(navigator?.userAgent);
+        process.browser && /iPad|iPhone|iPod/.test(navigator?.userAgent);
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
@@ -65,9 +63,10 @@ function MenuSideBar() {
                 />
             </IconButton>
             <Drawer
-                disableBackdropTransition={!iOS}
-                disableDiscovery={iOS}
                 anchor="left"
+                disableSwipeToOpen={true}
+                disableBackdropTransition={true}
+                disableDiscovery={true}
                 open={isOpen}
                 onOpen={toggleDrawer}
                 onClose={toggleDrawer}
@@ -103,9 +102,7 @@ function MenuSideBar() {
                                 sx={{
                                     display: "contents"
                                 }}
-                                onClick={() => {
-                                    setIsOpen(!isOpen);
-                                }}
+                                onClick={toggleDrawer}
                             >
                                 <ArrowBackIosNewIcon
                                     sx={{
