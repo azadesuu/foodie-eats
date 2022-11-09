@@ -110,7 +110,7 @@ function PostReview() {
             setPost(true);
             setAlertStatus("error");
             setAlertMessage("State is missing.");
-        } else if (!postcode) {
+        } else if (postcode) {
             setPost(true);
             setAlertStatus("error");
             setAlertMessage("Postcode is missing.");
