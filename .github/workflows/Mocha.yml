@@ -1,4 +1,14 @@
 name: MochaJS Testing
+env:
+  PORT: ${{secrets.PORT}}
+  CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
+  CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
+  CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
+  DATABASE_ACCESS: ${{secrets.DATABASE_ACCESS}}
+  PASSPORT_KEY: ${{secrets.PASSPORT_KEY}}
+  EMAIL: ${{secrets.EMAIL}}
+  EMAIL_PWD: ${{secrets.EMAIL_PWD}}
+  SERVER_URL: ${{secrets.SERVER_URL}}
 on: [push]
 jobs:
   test:
